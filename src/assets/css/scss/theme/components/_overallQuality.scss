@@ -1,0 +1,72 @@
+.overallQualityContainer{
+    border-radius: 7px;
+    background: $white;
+    box-shadow: 0px 4px 9px 0px rgba($primary, .08);
+    padding-bottom:30px;
+    margin-bottom: 35px;
+
+    .headingSection{
+        border-bottom:1px solid $gray;
+        padding:15px 20px;
+        h4{
+            color:$primary;
+            margin-bottom:0;
+        }
+        display:flex;
+        justify-content: space-between;
+        margin-bottom:25px; 
+        align-items: center;
+ 
+    }
+    .graphContainer{
+        margin-bottom:20px;
+    }
+    .commonErrorScoreContainer{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom:25px;
+        justify-content: center;
+
+        .score{
+            color: $primary;
+            font-size: 0.87rem;
+            font-weight: 700;
+            line-height: 18px;
+
+            span{
+                font-weight: 400;
+            }
+            
+        }
+        .message{
+            color: $primary;
+            font-size: 0.87rem;
+            font-weight: 400;
+            line-height: 18px;
+        }
+    }
+    .showHistoryContainer{
+        
+        a{
+            color: $linkColor;
+            text-align: center;
+            font-size: .81rem;
+            font-weight: 500;
+            line-height: 18px;
+            text-decoration: none;
+            border-radius: 60px;
+            border: 1px solid #B4B4B4;
+            padding:10px 0;
+            width: 80%;
+            display: block;
+            margin:auto;
+
+            &:hover{
+                background: $linkColor;
+                color: $white;
+            }
+    }
+
+}
+}

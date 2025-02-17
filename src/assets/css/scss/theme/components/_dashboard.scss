@@ -1,0 +1,465 @@
+.adaMainContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .dashGraphActivity{
+        margin-bottom:30px;
+    }
+
+    .dashboardControlContainer {
+        margin-top: 20px;
+        flex:1;
+    
+        .pageTitle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+
+            .dashLeft{
+                display: flex;
+                align-items: center;
+                
+                .dashboradTestedSiteContainer{
+                    border-left:1px solid $lightGrey;
+                    padding-left:12px;
+                    display: flex;
+                    
+                    .siteInformation{
+                        margin-left:5px;
+    
+                        .dropdown{
+                            .dropdown-toggle{
+                                &::after{
+                                    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2225%22 height%3D%2225%22 viewBox%3D%220 0 25 25%22 fill%3D%22none%22%3E%3Cpath d%3D%22M19.3652 7.8125L20.3125 8.82324L12.5 17.1875L4.6875 8.82324L5.62988 7.8125L12.5 15.1611L19.3652 7.8125Z%22 fill%3D%22black%22/%3E%3C/svg%3E');
+                                    background-repeat: no-repeat;
+                                    background-size: 25px 25px;
+                                    border:0;
+                                    width: 25px;
+                                    height:25px;
+                                    vertical-align: top;
+                                    margin-top:-3px;
+                                    margin-left:0px;
+                                }
+                            }
+    
+    
+                           
+                        }
+                        span{
+                            display: block;
+                        }
+                        .siteStatus{
+                            color: $darkGrey;
+                            font-size: .75rem;
+          
+                        }
+                        .custSiteReportName{
+                            color: $primary;
+                            font-size: 1.25rem;
+                             font-weight: 600;
+                            line-height: 18px;  
+                            text-decoration: none;
+    
+                            
+                        }
+                    }
+                }
+                h1 {
+                    margin-bottom: 0px;
+                    margin-right: 20px
+                }
+            }
+
+
+    
+           
+    
+            .buttonContainer {
+                .add {
+                    border-radius: 3px;
+                    background: #06C;
+                    padding: 12px 20px;
+                    color: $white;
+                    font-size: .87rem;
+                    font-weight: 500;
+                    text-decoration: none;
+                }
+
+            }
+    
+        }
+        .dashBoxContainer{
+            border-radius: 7px;
+            background: #FFF;
+            box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
+            padding:15px;
+            display: flex;
+            margin-bottom: 30px;
+
+            .dashIcon{
+                margin-right:15px;
+
+                .box{
+                    border-radius: 6px;
+                    padding:12px;
+                    width: 59px;
+                    height: 59px;
+                    display: flex;
+                    align-items: center;
+                   
+
+                    &.box-1{
+                        background: $purple;
+                    }
+                    &.box-2{
+                        background: $pink;
+                    }
+                    &.box-3{
+                        background: $darkBlue;
+                    }
+                }
+        
+            }
+
+            .dashContent{
+                .number{
+                    color: $navyblue;
+                    font-size: 2.12rem;
+                    font-weight: 700;
+                    line-height: normal;
+                }
+                .desc{
+                    color: #626F7F;
+                    font-size: .87rem;
+                    font-weight: 500;
+                    line-height: 21px;
+                }
+            }
+        }
+
+        .dashGraphicContainer{
+            border-radius: 7px;
+            background: $navyblue;
+            box-shadow: 0px 4px 9px 0px rgba($primary, .08);
+            padding: 40px 25px 25px 25px;
+            position: relative;
+            min-height: 250px;
+            height:100%;
+
+            .heading{
+                color: #FFF;
+                font-size: 1.31rem;
+                transform: rotate(-90deg);
+                position: absolute;
+                left:-75px;
+                top:170px;
+              }
+
+
+              .headingSection{
+                h3{
+                    color:$white;
+                }
+        
+                display:flex;
+                justify-content: space-between;
+                margin-bottom:20px;
+         
+            }
+            .accessibilityErrorScoreContainer{
+                display:flex;
+                align-items: center;
+                margin-bottom:30px;
+                .score{
+                    color: $white;
+                    font-size: 2.93rem;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 17px;
+                    margin-right:15px;
+                    
+                }
+                .message{
+                    color: $white;
+                    font-size: 1.25rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 23px; 
+                }
+            }
+            .accessibilityWCAGLevelContainer{
+        
+                .levelMessage{
+                    color: $white;
+                    font-weight: 400;
+                    line-height: 17px; 
+                    margin-bottom:20px;
+                }
+                .wcagLevelRepeat{
+                    display:flex;
+                    width:60%;
+                    border-bottom:1px solid $lightBlue;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
+        
+                    @include breakMinMax(1280px, 1536px) {
+                        width:100%;
+                    }
+        
+                    &:last-child{
+                        margin-bottom: 0px;
+                        border-bottom: 0;
+                    }
+                 
+        
+                    .wcagLevelName{
+                        color: $white;
+                        font-size: 1.12rem;
+                        font-weight: 700;
+                        line-height: 17px;
+                        min-width: 120px;
+                        display: flex;
+        
+                        img{
+                            margin-right:10px;
+                        }
+                       
+                    }
+                    .wcagLevelDesc{
+                        color: $white;
+                        font-size: 0.87rem;
+                        line-height: 15px;
+                        margin-left:35px;
+                    }
+                }
+        
+            }
+
+
+        }
+        .dashGraphicContainerWhite{
+            border-radius: 7px;
+            background: $white;
+            box-shadow: 0px 4px 9px 0px rgba($primary, .08); 
+            height: 100%;
+
+            .heading{
+                border-bottom:1px solid $gray;
+                padding:14px 20px;
+                font-weight: 500;
+                display:flex;
+                justify-content: space-between;
+            
+
+            }
+            .graphOuter{
+                display: flex;
+                justify-content: center;
+                padding:30px;
+            }
+            .activityContainer{
+                padding:8px 18px;
+                border-bottom:1px solid $gray;
+                display: flex;
+                
+
+                .activityLeft{
+                    flex:1;
+
+                    .actheading{
+                        color: $primary;
+                        font-size: .87rem;
+                        font-weight: 600;
+                       
+                      
+                    }
+                    .userAddStatus{
+                        width:8px;
+                        height:8px;
+                        display: inline-flex;
+                        border-radius: 50%;
+                        margin-right:10px;
+
+                        &.add{
+                            background:#22A06B;
+                        }
+                        &.update{
+                            background:#FFBA60;
+                        }
+                        &.delete{
+                            background:#D61821;
+                        }
+                        &.report{
+                            background:#06C;
+                        }
+                    }
+                    .activityRole{
+                        color:#626F7F;
+                        font-size:0.75rem;
+                        margin-left:19px;
+                    }
+                }
+                .activityRight{
+                    flex:1;
+                    
+                    .actDate{
+                        font-size:0.75rem;
+                        text-align: right;
+                        margin-top:3px;
+                    }
+                }
+                .scannedTitle{
+                    color: #06C;
+                    font-size: .87rem;
+                    margin-bottom:3px;
+
+                    a{
+                        color: #06C;
+                        text-decoration: none;
+
+                        &:hover{
+                            color: $navyblue;
+                        }
+                    }
+     
+                }
+                .scannedIssueTime{
+                    font-size: .75rem;
+                    line-height: 18px;
+                }
+
+            }
+            .gridContainer {
+                max-height: 300px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                position: relative;
+                
+    
+                table {
+                    background-color: $white;
+                    width: 100%;
+    
+                    thead th {
+                        position: sticky;
+                        top: 0;
+                        /* Sticks to the top */
+                        z-index: 1;
+                        /* Ensures it stays on top of other content */
+                        border-left: 1px solid $white;
+                        padding: 12px;
+                        background: $white;
+                        font-size:.81rem;
+                        font-weight:600;
+    
+                        &:first-child {
+                            border-left: 0;
+                        }
+                    }
+                     thead{
+                        tr{
+                            filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
+                        }
+                    }
+    
+                    tbody {
+                        tr { 
+                            border-bottom: 1px solid #dbe2eb;
+                            &:nth-child(odd){
+                                background:#e9f6ff;
+                            }
+                        }
+                        &:last-child{
+                            border-bottom:0;
+                        }
+                    }
+    
+                    td {
+                        padding: 12px;
+                        font-size:.85rem;
+                    }
+    
+    
+                    a {
+                        color: #06C;
+                        text-decoration: none;
+
+                        &:hover{
+                            color:$navyblue;
+                        }
+                    }
+    
+    
+                }
+    
+                
+    
+            }
+            .activityGrid {
+                 
+    
+                table {
+                    background-color: $white;
+                    width: 100%;
+    
+                    thead th {
+                        border-left: 1px solid $white;
+                        padding: 12px;
+                        background: $white;
+                        font-size:.87rem;
+                        font-weight:600;
+                        border-bottom:1px solid $gray;
+    
+                        &:first-child {
+                            border-left: 0;
+                        }
+                    }
+                     thead{
+                        tr{
+                            filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
+                        }
+                    }
+    
+                    tbody {
+                        tr { 
+                            border-bottom:1px solid $gray;
+
+                            &:last-child{
+                                border-bottom:0;
+                            }
+                            
+                        }
+                       
+                    }
+    
+                    td {
+                        padding: 6px 12px;
+                        font-size:.85rem;
+                    }
+    
+    
+                    a {
+                        color: #06C;
+                        text-decoration: none;
+
+                        &:hover{
+                            color:$navyblue;
+                        }
+                    }
+    
+    
+                }
+    
+                
+    
+            }
+            
+        }
+        
+
+
+      }
+    
+}

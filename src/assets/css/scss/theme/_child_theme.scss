@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+html,
+body {
+	font-family: $font-primary;
+	font-size: $font-base-size;
+	color: $primary;
+	background: $lightbg;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+
+}
+html .formbg ,body.formbg {
+	background: $navyblue;
+}
+.container {
+	@include breakMinOnly(992px) {
+		max-width: 88vw;
+	}
+
+	@include breakMaxOnly(991px) {
+		max-width: 94vw;
+	}
+}
+
+h1{
+	font-size: 1.5rem;
+	font-weight: 500;
+	line-height: normal;
+}
+
+h3{
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: normal;
+}
+h4{
+	font-size:1rem;
+	font-weight: 500;
+	line-height: normal;
+}

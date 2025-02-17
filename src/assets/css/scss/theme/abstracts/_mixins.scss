@@ -1,0 +1,17 @@
+@mixin breakMinMax($length, $length2) {
+  @media (min-width: $length) and  (max-width: $length2) {
+    @content;
+  }
+}
+
+@mixin breakMinOnly($length) {
+  @media (min-width: $length) {
+    @content;
+  }
+}
+
+@mixin breakMaxOnly($length) {
+  @media (max-width: $length) {
+    @content;
+  }
+}

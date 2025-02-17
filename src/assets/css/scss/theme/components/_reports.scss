@@ -1,0 +1,151 @@
+.myReportsGridContainer{
+    margin-top:20px;
+    flex:1;
+
+    h1{
+      margin-bottom: 20px;
+    }
+    .gridContainer{
+        max-height:520px;
+        overflow-x:hidden;
+        overflow-y: auto;
+        position: relative;
+        border-radius:7px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
+        table{
+            background-color: $white;
+            width: 100%;
+
+            thead th {
+                position: sticky;
+                top: 0; /* Sticks to the top */
+                z-index: 1; /* Ensures it stays on top of other content */
+                border-left: 1px solid $white;
+                padding: 12px;               
+                background: $white;
+                &:first-child{
+                    border-left:0; 
+                }
+              }
+              thead{
+                tr{
+                    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
+                }
+            }
+
+            tbody{
+                tr{
+                    border-bottom: 1px solid #dbe2eb;
+                    &:nth-child(odd){
+                        background:#e9f6ff;
+                    }
+                }
+            }
+            td{
+                padding:12px;
+                font-size:.85rem;
+            }
+          
+        
+            a{
+                color:$navyblue;
+            }
+            
+        
+    }
+    
+    }
+    .paginationContainer{
+        margin-top:30px;
+
+        .page-item {
+            &.active{
+                .page-link{
+                    background: $navyblue;
+                }
+            }
+        }
+    }
+
+    .reportListingGridContainer{
+        max-height:600px;
+        overflow-x:hidden;
+        overflow-y: auto;
+        .reportListingRepeat{
+            border-radius: 6px;
+            background: $white;
+            box-shadow: 0px 0px 12px 0px rgba($primary, .09);
+            display: flex;
+            justify-content: space-around;
+            margin-bottom:16px;
+          
+
+            .box{
+                flex:1;
+                display:flex;
+                border-left:1px solid $gray-1;
+                padding:25px 30px;
+                align-items: center;
+
+                &:first-child{
+                    border-left:0;
+                }
+
+                .siteName{
+                    color: $primary;
+                    font-size: 1.12rem;
+                    font-weight: 600;
+                    line-height: 18px;
+                    margin-left:10px;
+                }
+                .accessbilityDescription{
+                    padding-left:10px;
+                    .title{
+                        color:$primary;
+                        font-size: 0.87rem;
+                        font-weight: 600;
+                        line-height: normal;
+                        margin-bottom: 5px;
+                    }
+                    .desc{
+                        color: #393939;
+                        color:$primary;
+                        font-size: 0.75rem;
+                        line-height: 13px; 
+                    }
+                }
+                .changeOptionContainer{
+                    border-radius: 5px;
+                    border: 1px solid $gray-1;
+                    background: $white;
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
+
+                    .lable{
+                        padding:17px;
+                        border-right:1px solid $gray-1;
+                        font-size:.87rem;
+                        color:#7C7C7C;
+                    }
+                    .changeOptionDD{
+                        flex:1;
+
+                        .form-select{
+                            border:0;
+                            color: $navyblue;
+                            font-size: 0.87rem;
+                            line-height: 18px;
+                        }
+                    }
+                }
+            }
+            .navigateICon{
+                display: flex;
+                align-items:center;
+                padding-right:20px;
+            }
+        }
+    }
+}
+

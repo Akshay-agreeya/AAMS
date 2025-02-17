@@ -1,0 +1,87 @@
+.accessibilityContainer{
+    border-radius: 7px;
+    background: $navyblue;
+    box-shadow: 0px 4px 9px 0px rgba($primary, .08);
+    padding:25px 25px 40px 25px;
+    margin-bottom:35px;
+    height: calc(100% - 35px);
+
+    .headingSection{
+        h3{
+            color:$white;
+        }
+
+        display:flex;
+        justify-content: space-between;
+        margin-bottom:20px;
+ 
+    }
+    .accessibilityErrorScoreContainer{
+        display:flex;
+        align-items: center;
+        margin-bottom:30px;
+        .score{
+            color: $white;
+            font-size: 2.93rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 17px;
+            margin-right:15px;
+            
+        }
+        .message{
+            color: $white;
+            font-size: 1.25rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 23px; 
+        }
+    }
+    .accessibilityWCAGLevelContainer{
+
+        .levelMessage{
+            color: $white;
+            font-weight: 400;
+            line-height: 17px; 
+            margin-bottom:20px;
+        }
+        .wcagLevelRepeat{
+            display:flex;
+            width:60%;
+            border-bottom:1px solid $lightBlue;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+
+            @include breakMinMax(1280px, 1536px) {
+                width:100%;
+            }
+
+            &:last-child{
+                margin-bottom: 0px;
+                border-bottom: 0;
+            }
+         
+
+            .wcagLevelName{
+                color: $white;
+                font-size: 1.12rem;
+                font-weight: 700;
+                line-height: 17px;
+                min-width: 120px;
+                display: flex;
+
+                img{
+                    margin-right:10px;
+                }
+               
+            }
+            .wcagLevelDesc{
+                color: $white;
+                font-size: 0.87rem;
+                line-height: 15px;
+                margin-left:35px;
+            }
+        }
+
+    }
+}

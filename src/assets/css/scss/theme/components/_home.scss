@@ -1,0 +1,245 @@
+.breadcrumbsContainer{
+    padding:10px 0;
+    border-bottom:1px solid $lightGrey;
+    color: $primary;
+    font-size: .9rem;
+    
+
+    span{
+        color: $darkGrey;
+    }
+
+    a{
+        color: #06C;
+        font-weight: 500;
+        text-decoration: none;
+    }
+}
+.dashboardTitleContainer{
+    margin:15px 0;
+
+    .dashboardTitleOuter{
+        display:flex;
+        justify-content: space-between; 
+        align-content: center;
+        
+        
+        .dashboardLeft{
+            display: flex;
+            .title{
+                color: $primary;
+                font-size: 1.62rem;
+                font-weight: 600;
+                margin-right:20px;
+            }
+            .dashboradTestedSiteContainer{
+                border-left:1px solid $lightGrey;
+                padding-left:12px;
+                display: flex;
+                
+                .siteInformation{
+                    margin-left:5px;
+
+                    .dropdown{
+                        .dropdown-toggle{
+                            &::after{
+                                background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2225%22 height%3D%2225%22 viewBox%3D%220 0 25 25%22 fill%3D%22none%22%3E%3Cpath d%3D%22M19.3652 7.8125L20.3125 8.82324L12.5 17.1875L4.6875 8.82324L5.62988 7.8125L12.5 15.1611L19.3652 7.8125Z%22 fill%3D%22black%22/%3E%3C/svg%3E');
+                                background-repeat: no-repeat;
+                                background-size: 25px 25px;
+                                border:0;
+                                width: 25px;
+                                height:25px;
+                                vertical-align: top;
+                                margin-top:-3px;
+                                margin-left:0px;
+                            }
+                        }
+
+
+                       
+                    }
+                    span{
+                        display: block;
+                    }
+                    .siteStatus{
+                        color: $darkGrey;
+                        font-size: .75rem;
+      
+                    }
+                    .custSiteReportName{
+                        color: $primary;
+                        font-size: 1.25rem;
+                         font-weight: 600;
+                        line-height: 18px;  
+                        text-decoration: none;
+
+                        
+                    }
+                }
+            }
+
+            .reportArchiveContainer{
+                border-left:1px solid $lightGrey;
+                padding-left:20px;
+                margin-left:20px;
+                display: flex;
+                align-items: center;
+
+                .reportArchiveDD{
+                    margin-left:5px;
+
+                    .dropdown{
+                        .dropdown-toggle{
+                            &::after{
+                                background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2213%22 height%3D%228%22 viewBox%3D%220 0 13 8%22 fill%3D%22none%22%3E%3Cpath d%3D%22M11.8643 0L12.63 0.817003L6.315 7.578L0 0.817003L0.761747 0L6.315 5.94005L11.8643 0Z%22 fill%3D%22%23003D68%22/%3E%3C/svg%3E');
+                                background-repeat: no-repeat;
+                                border:0;
+                                width: 13px;
+                                height:8px;
+                                margin-top:0px;
+                                margin-left:10px;
+                                vertical-align: 0;
+                            }
+                        }
+
+
+                       
+                    }
+                    span{
+                        display: block;
+                    }
+                    
+                    .reportArchiveName{
+                        color: $navyblue;
+                        font-size: .87rem;
+                        font-weight: 600;
+                        text-decoration: none;
+                    }
+                }
+            }
+
+
+        }
+        .dashboardRight{
+            display: flex;
+            align-items: center;
+
+            .moveBackward{
+                margin-right:15px;
+                
+                img{
+                    margin-right:10px;
+                }
+                
+                a{
+                    color: $navyblue;
+                    font-size: .87rem;
+                    line-height: 18px; 
+                    text-decoration: none;
+                    display: flex;
+                    padding:8px 12px;
+                    font-weight: 500;
+                }
+            }
+        }
+        .filetypeContainer{
+            .custDDViewReport{
+                border-radius: 5px;
+                border: 1px solid $lightGrey;
+                background: $white;
+                color: $navyblue;
+                font-size: .87rem;
+                font-weight: 500;
+            }
+        }
+       
+    }
+}
+
+.popUpAccessibilityContainer{
+    .modal-header{
+        border-bottom:0;
+        padding-bottom: 0;
+    }
+    .modal-footer{
+        border-top:0;
+        justify-content: center;
+
+        a{
+            width: 45%;
+            text-align:center;
+            font-size: .87rem;
+            line-height: 15px;
+            padding: 15px 0;
+            text-decoration: none;
+            border-radius: 4px;
+            
+        }
+        .downloadReport{
+            background: #F6B662;
+            color:$primary;
+            margin-right:10px;
+
+            &:hover{
+                background:#FFAA39;
+            }
+        }
+        .viewDetails{
+            border: 1px solid $navyblue;
+            color: $navyblue;
+            margin-left:10px;
+            &:hover{
+                background:#f1f1f1;
+            }
+        }
+        
+    }
+    .modal-body{
+        padding-top: 0;
+    }
+    .heading{
+        color: $navyblue;
+        text-align: center;
+        font-size: 1.62rem;
+        font-weight: 500;
+        line-height: 35px; 
+        margin-bottom:10px;
+        span{
+            display: block;
+        }
+    }
+    .message{
+        color: $darkGrey;
+        text-align: center;
+        line-height: 23px; 
+        border-bottom:1px solid $lightGrey;
+        padding-bottom:10px;
+
+        span{
+            display: block;
+        }
+       
+    }
+    .reportNameContainer{
+        display: flex;
+        padding-top:20px;
+
+        .reportIcon{
+            margin-right:10px;
+        }
+        .reportDescription{
+
+            .name{
+                color: $navyblue;
+                font-size: .87rem;
+                font-weight: 600;
+            }
+            .date{
+                color: $darkGrey;
+                font-size: .87rem;
+                font-weight: 400;
+            }
+        }
+    }
+    
+}

@@ -1,0 +1,62 @@
+.mySitesGridContainer{
+    margin-top:20px;
+    flex:1;
+
+    h1{
+      margin-bottom: 20px;
+    }
+    .gridContainer{
+        max-height:520px;
+        overflow-x:hidden;
+        overflow-y: auto;
+        position: relative;
+        table{
+            background-color: $white;
+            width: 100%;
+
+            thead th {
+                position: sticky;
+                top: 0; /* Sticks to the top */
+                 z-index: 1; /* Ensures it stays on top of other content */
+                border-left:1px solid #D1D6E2;
+                padding:15px;                
+                border-bottom:2px solid $lightGrey;
+                background: $white;
+                &:first-child{
+                    border-left:0; 
+                }
+              }
+
+            tbody{
+                tr{
+                    border-bottom:1px solid $lightGrey;
+                    &:nth-child(odd){
+                        background:#F4F9FF;
+                    }
+                }
+            }
+            td{
+                padding:12px;
+            }
+          
+        
+            a{
+                color:$navyblue;
+            }
+            
+        
+    }
+    
+    }
+    .paginationContainer{
+        margin-top:30px;
+
+        .page-item {
+            &.active{
+                .page-link{
+                    background: $navyblue;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,76 @@
+.loginFormContainer{
+
+    display:flex;
+    align-items: center;
+
+    .formLogin {
+        background: $white;
+        padding:60px;
+        margin: auto;
+        border-radius:8px;
+
+
+	@include breakMinOnly(768px) {
+		width:600px; 
+        
+	}
+
+    }  
+    .loginLogo{
+        text-align: center;
+    }
+    .loginHeading{
+        font-weight: bold;
+        font-size: 1.25rem;
+        line-height: 24px;
+        color: $primary;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .loginSubHeading{
+        margin: 10px 0 20px !important;
+        font-size: 0.875rem;
+        line-height: 21px;
+        color: $primary;
+        text-align: center;
+    }
+
+    .formFieldborder {
+        border: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+        border-radius: 0;
+        
+    }
+    .btnContainer{
+        margin-top:20px;
+    }
+    .signInAdmin{
+        background: $navyblue;
+        border-radius: 4px;
+        width: 47%;
+        color: $white;
+        font-weight: 600;
+        font-size: 1.2rem;
+        text-decoration: none;
+        padding:12px 0;
+        margin-right:10px;
+    }
+    .signInCustomer{
+        background: $gray;
+        border-radius: 4px;
+        width: 47%;
+        color: $primary;
+        font-weight: 600;
+        font-size: 1.2rem;
+        text-decoration: none;
+        padding:12px 0;
+        margin-left:10px;
+    }
+    .forgotPassword {
+        margin-top:20px;
+    
+    a{
+        color:$navyblue;
+    }
+}
+}

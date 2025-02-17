@@ -1,0 +1,39 @@
+//Variable Files
+@import "theme/abstracts/variables";
+
+//Mixins(Functions)
+@import "theme/abstracts/mixins";
+
+//Base/Common CSSs
+@import "theme/child_theme";
+
+//header
+@import "theme/components/header";
+
+//Site Navigation
+@import "theme/components/navigation";
+@import "theme/components/home";
+
+//login,registration,forgotpassword or any other form
+@import "theme/components/form";
+
+//Page Content
+@import "theme/components/accessibility";
+@import "theme/components/otherError";
+@import "theme/components/overallQuality";
+@import "theme/components/mysites";
+@import "theme/components/reports";
+@import "theme/components/viewReportIframe";
+
+//admin pages
+@import "theme/components/admin";
+
+//admin dashboard
+@import "theme/components/dashboard";
+
+
+
+
+
+//footer
+@import "theme/components/footer"
