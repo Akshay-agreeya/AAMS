@@ -1,38 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
+import iconEdit from '../../assets/images/iconEditDeails.svg'
 import Layout from '../../component/Layout';
 
-const EditUser = () => {
-  const [user, setUser] = useState({
-    firstName: "Ajay",
-    lastName: "Sharma",
-    email: "ajay.sharma@gmail.com",
-    contactNo: "+91 9899432567",
-  });
-  const breadcrumbs = [{ url: "admin/edituser", label: "Home" },
-        {label:"Edit User"}
+const ViewUserDetails = () => {
+  const breadcrumbs = [{ url: "admin/viwuser", label: "Home" },
+        {label:"View User"}
     ];
-
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
   return (
     <Layout breadcrumbs={breadcrumbs}>
     <div className="adaMainContainer">
+      {/* Admin Panel site content */}
       <section className="adminControlContainer">
         <div className="container">
           <div className="row">
             <div className="col-12">
               <div className="pageTitle">
-                <h1>Edit User Details</h1>
+                <h1>View User Details</h1>
               </div>
             </div>
 
             <div className="col-12">
               <div className="roleContainer">
                 <div className="userrole">
-                  User Name: <span className="me-4">mukesh.kumar</span> Role:{" "}
-                  <span>Admin</span>
+                  User Name: <span className="me-4">ajay.sharma</span> Role:{" "}
+                  <span>User</span>
+                </div>
+                <div className="editDetails">
+                  <a href="/edituser">
+                    <img
+                      src={iconEdit}
+                      alt="Edit User Details"
+                    />
+                  </a>
                 </div>
               </div>
             </div>
@@ -50,13 +49,17 @@ const EditUser = () => {
                     <div className="col-12 col-lg-3">
                       <div className="userStaticInfo">
                         <div className="title">Organization Address</div>
-                        <div className="value">B-34, Sector 45, Noida, India</div>
+                        <div className="value">
+                          B-34, Sector 45, Noida, India
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-lg-3">
                       <div className="userStaticInfo">
                         <div className="title">Contact Person</div>
-                        <div className="value">Shiva Sharma - +91 9876545367</div>
+                        <div className="value">
+                          Shiva Sharma - +91 9876545367
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-lg-3">
@@ -82,8 +85,8 @@ const EditUser = () => {
                           id="firstName"
                           name="firstName"
                           placeholder="First Name"
-                          value={user.firstName}
-                          onChange={handleChange}
+                          value="Ajay"
+                          disabled
                         />
                       </div>
                     </div>
@@ -98,8 +101,8 @@ const EditUser = () => {
                           id="lastName"
                           name="lastName"
                           placeholder="Last Name"
-                          value={user.lastName}
-                          onChange={handleChange}
+                          value="Sharma"
+                          disabled
                         />
                       </div>
                     </div>
@@ -114,8 +117,8 @@ const EditUser = () => {
                           id="email"
                           name="email"
                           placeholder="name@example.com"
-                          value={user.email}
-                          onChange={handleChange}
+                          value="ajay.sharma@gmail.com"
+                          disabled
                         />
                       </div>
                     </div>
@@ -130,8 +133,8 @@ const EditUser = () => {
                           id="contactNo"
                           name="contactNo"
                           placeholder="Contact Number"
-                          value={user.contactNo}
-                          onChange={handleChange}
+                          value="+91 9899432567"
+                          disabled
                         />
                       </div>
                     </div>
@@ -140,15 +143,11 @@ const EditUser = () => {
 
                 <div className="col-12">
                   <div className="buttonBox">
-                    <a href="/admin/user-management" className="btnCancel">
-                      Cancel
+                    <a href="/admin/user-management" className="btnAddUser">
+                      <i className="fa-solid fa-arrow-left-long"></i> Back
                     </a>
-                    <button type="submit" className="btnAddUser">
-                      Save Details
-                    </button>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -159,4 +158,4 @@ const EditUser = () => {
   );
 };
 
-export default EditUser;
+export default ViewUserDetails;

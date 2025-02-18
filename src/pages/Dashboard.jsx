@@ -12,7 +12,7 @@ const Dashboard = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <img src={AdminLogo} className="w-100" alt="Dashboard" />
+                            <img src={AdminLogo} className="w-100" alt="Dashboard"/>
                         </div>
                     </div>
                 </div>

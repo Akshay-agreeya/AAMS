@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from '../../component/Layout';
 
 const EditOrganization = () => {
   const [organization, setOrganization] = useState({
@@ -15,23 +16,17 @@ const EditOrganization = () => {
     email: "mukesh.kumar@gmail.com",
     contactNo: "+91 9877662221",
   });
+  const breadcrumbs = [{ url: "/admin/editorg", label: "Home" },
+        {label:"Edit Organization"}
+    ];
 
   const handleChange = (e) => {
     setOrganization({ ...organization, [e.target.name]: e.target.value });
   };
 
   return (
+    <Layout breadcrumbs={breadcrumbs}>
     <div className="adaMainContainer">
-      <div className="breadcrumbsContainer">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <a href="dashboard.html">Home</a> &gt; <a href="userManagment.html">User Management</a> &gt; <span>Edit Organization</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <section className="adminControlContainer">
         <div className="container">
           <div className="row">
@@ -128,7 +123,7 @@ const EditOrganization = () => {
                   </div>
                   <div className="col-12">
                     <div className="buttonBox">
-                      <a href="/usermanagement" className="btnCancel">Cancel</a>
+                      <a href="/admin/user-management" className="btnCancel">Cancel</a>
                       <button type="submit" className="btnAddUser">Save Details</button>
                     </div>
                   </div>
@@ -139,6 +134,7 @@ const EditOrganization = () => {
         </div>
       </section>
     </div>
+    </Layout>
   );
 };
 

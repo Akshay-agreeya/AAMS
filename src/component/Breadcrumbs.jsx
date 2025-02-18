@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Breadcrumbs = ({ breadcrumbs = [{ url: "admin/dashboard", label: "Home" }] }) => {
+const Breadcrumbs = ({ breadcrumbs = [{ url: "admin/dashboard", label: "Home" },] }) => {
   return (
     <div className="breadcrumbsContainer">
       <div className="container">

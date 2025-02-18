@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Captcha from 'C:/Users/abhishek.joshi/Downloads/AAMS/src/assets/images/capcha.jpg'
+import Captcha from '../../assets/images/capcha.jpg';
+import Layout from '../../component/Layout';
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,9 @@ const AddUser = () => {
     confirmPassword: "",
     selStatus: "",
   });
+  const breadcrumbs = [{ url: "admin/adduser", label: "Home" },
+        {label:"Add User"}
+    ];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,20 +28,9 @@ const AddUser = () => {
   };
 
   return (
+    <Layout breadcrumbs={breadcrumbs}>
     <div className="adaMainContainer">
       {/* Breadcrumbs */}
-      <div className="breadcrumbsContainer">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <a href="dashboard.html">Home</a> &gt;{" "}
-              <a href="userManagment.html">User Management</a> &gt;
-              <span> Add User</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Admin Panel */}
       <section className="adminControlContainer">
         <div className="container">
@@ -157,7 +150,7 @@ const AddUser = () => {
 
                   <div className="col-12">
                     <div className="buttonBox">
-                      <a href="/usermanagement" className="btnCancel">
+                      <a href="/admin/user-management" className="btnCancel">
                         Cancel
                       </a>
                       <button type="submit" className="btnAddUser">
@@ -172,6 +165,7 @@ const AddUser = () => {
         </div>
       </section>
     </div>
+    </Layout>
   );
 };
 
