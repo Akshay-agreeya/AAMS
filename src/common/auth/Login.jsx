@@ -5,14 +5,14 @@ import Form from '../../component/form/Form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { postData } from '../../utils/CommonApi'; // Import API utility
+import { InputPassword } from '../../component/input/InputPassword';
+import { Input } from '../../component/input/Input';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,46 +26,37 @@ const LoginForm = () => {
         };
     }, []);
 
-    const handleEmailChange = (event) => setEmail(event.target.value);
-    const handlePasswordChange = (event) => setPassword(event.target.value);
     const handleRememberMeChange = () => setRememberMe(!rememberMe);
 
     const { login } = useAuth();
+
 
     const handleSubmit = async (formData) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await postData('http://localhost:8080/api/login', {
+            const reqData = {
                 email: formData.email,
                 password: formData.password
-            });
+            };
+            const response = await postData('/login',reqData);
             console.log("Login Response:", response);
 
-            if (response.success) {
+            if (response.success === true) {
+                login();
                 sessionStorage.setItem('token', response.data.token);
                 sessionStorage.setItem('user', JSON.stringify(response.data));
                 navigate("/admin/dashboard");
             } else {
                 setError(response.message || 'Login failed.');
+                setLoading(false);
             }
-        };
-    }, []);
-
-    const navigate = useNavigate();
-
-    const handleSubmit = (formData) => {
-        login();
-        console.log('Email:', formData);
-        console.log('Password:', password);
-        console.log('Remember Me:', rememberMe);
-        navigate("/admin/dashboard");
-        } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred.');
-        } finally {
+        }
+        catch (error) {
+            console.log(error);
             setLoading(false);
         }
-    };
+    }
 
     return (
         <div className="formLogin">
@@ -78,15 +69,15 @@ const LoginForm = () => {
             <div className="formFieldsContainer">
                 <Form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
-                        <FormItem name="email" rules={[{ required: true, message: "Please enter your email" }]}> 
-                            <input type="email" className="form-control" placeholder="name@example.com" onChange={handleEmailChange} />
+                        <FormItem name="email" rules={[{ required: true, message: "Please enter your email" }]}>
+                            <Input type="email" className="form-control" placeholder="name@example.com" />
                         </FormItem>
                         <label>Email address</label>
                     </div>
 
                     <div className="form-floating">
-                        <FormItem name="password" rules={[{ required: true, message: "Please enter your password" }]}> 
-                            <input type="password" className="form-control" placeholder="Password" onChange={handlePasswordChange} />
+                        <FormItem name="password" rules={[{ required: true, message: "Please enter your password" }]}>
+                            <InputPassword className="form-control" placeholder="Password" />
                         </FormItem>
                         <label>Password</label>
                     </div>
@@ -102,7 +93,7 @@ const LoginForm = () => {
                             {loading ? 'Logging in...' : 'Login as Admin'}
                         </button>
                         <button type="submit" className="btn signInCustomer" disabled={loading}>
-                            {loading ? 'Logging in...' : 'Login as Customer'}
+                            {'Login as Customer'}
                         </button>
                     </div>
                     <div className="forgotPassword">

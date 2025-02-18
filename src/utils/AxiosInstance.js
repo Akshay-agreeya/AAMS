@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { API_BASE_URL } from './Constants';
 
+console.log(API_BASE_URL); 
 // Create an Axios instance with default configuration
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,  // Your base API URL

@@ -9,20 +9,36 @@ export const getData = async (requestUrl) => {
         const response = await axiosInstance.get(requestUrl);
         return response.data; // You can return the data directly here or process it if needed
     } catch (error) {
-        console.error('Error during GET request', error);
-        throw error; // Rethrow the error to be handled in the calling component
+        console.error('Error during POST request', error);
+
+        // Check if the error has a response (in case of server-side errors)
+        if (error.response) {
+            // Return the response data from the error
+            return error.response.data;
+        }
+
+        // If there's no response (client-side or network error), return a general message
+        throw new Error('An error occurred, but no response was received.');
     }
 };
 
 // Create a function to make POST requests
 export const postData = async (requestUrl, data) => {
     try {
-        
+
         const response = await axiosInstance.post(requestUrl, data);
         return response.data;
     } catch (error) {
         console.error('Error during POST request', error);
-        throw error;
+
+        // Check if the error has a response (in case of server-side errors)
+        if (error.response) {
+            // Return the response data from the error
+            return error.response.data;
+        }
+
+        // If there's no response (client-side or network error), return a general message
+        throw new Error('An error occurred, but no response was received.');
     }
 };
 
@@ -32,8 +48,16 @@ export const putData = async (requestUrl, data) => {
         const response = await axiosInstance.put(requestUrl, data);
         return response.data;
     } catch (error) {
-        console.error('Error during PUT request', error);
-        throw error;
+        console.error('Error during POST request', error);
+
+        // Check if the error has a response (in case of server-side errors)
+        if (error.response) {
+            // Return the response data from the error
+            return error.response.data;
+        }
+
+        // If there's no response (client-side or network error), return a general message
+        throw new Error('An error occurred, but no response was received.');
     }
 };
 
@@ -53,8 +77,16 @@ export const patchData = async (requestUrl, data) => {
         const response = await axiosInstance.patch(requestUrl, data);
         return response.data; // Return the data from the response
     } catch (error) {
-        console.error('Error during PATCH request', error);
-        throw error; // Rethrow the error to be handled in the calling component
+        console.error('Error during POST request', error);
+
+        // Check if the error has a response (in case of server-side errors)
+        if (error.response) {
+            // Return the response data from the error
+            return error.response.data;
+        }
+
+        // If there's no response (client-side or network error), return a general message
+        throw new Error('An error occurred, but no response was received.');
     }
 };
 
@@ -80,7 +112,7 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
             case 'DELETE':
                 response = await axiosInstance.delete(requestUrl, config);
                 break;
-                case 'PATCH':
+            case 'PATCH':
                 response = await axiosInstance.patch(requestUrl, requestData, config);
                 break;
             default:
@@ -89,7 +121,15 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
 
         return response.data;
     } catch (error) {
-        console.error(`Error during ${method} request`, error);
-        throw error; // Rethrow error to be handled by calling component
+        console.error('Error during POST request', error);
+
+        // Check if the error has a response (in case of server-side errors)
+        if (error.response) {
+            // Return the response data from the error
+            return error.response.data;
+        }
+
+        // If there's no response (client-side or network error), return a general message
+        throw new Error('An error occurred, but no response was received.');
     }
 };
