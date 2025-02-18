@@ -3,6 +3,7 @@ import Years_Logo_Horizontal1 from "../../assets/images/Final_25-Years_Logo_Hori
 import { FormItem } from '../../component/form/FormItem';
 import Form from '../../component/form/Form';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ const LoginForm = () => {
     const handleEmailChange = (event) => setEmail(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
     const handleRememberMeChange = () => setRememberMe(!rememberMe);
+
+    const { login } = useAuth();
 
     useEffect(() => {
         // Add custom classes to body for styling purposes
@@ -39,6 +42,7 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     const handleSubmit = (formData) => {
+        login();
         console.log('Email:', formData);
         console.log('Password:', password);
         console.log('Remember Me:', rememberMe);
