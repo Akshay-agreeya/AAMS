@@ -3,136 +3,96 @@ import Years_Logo_Horizontal1 from "../../assets/images/Final_25-Years_Logo_Hori
 import { FormItem } from '../../component/form/FormItem';
 import Form from '../../component/form/Form';
 import { useNavigate } from 'react-router-dom';
+import { postData } from '../../utils/CommonApi'; // Import API utility
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        document.body.classList.add("formbg", "loginFormContainer");
+        const root = document.getElementById('root');
+        if (root) root.style.width = '100%';
+
+        return () => {
+            document.body.classList.remove("formbg", "loginFormContainer");
+            if (root) root.style.width = '';
+        };
+    }, []);
 
     const handleEmailChange = (event) => setEmail(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
     const handleRememberMeChange = () => setRememberMe(!rememberMe);
 
-    useEffect(() => {
-        // Add custom classes to body for styling purposes
-        document.body.classList.add("formbg");
-        document.body.classList.add("loginFormContainer");
+    const handleSubmit = async (formData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await postData('http://localhost:8080/api/login', {
+                email: formData.email,
+                password: formData.password
+            });
+            console.log("Login Response:", response);
 
-        // If you really need to change the width of #root (though usually not necessary):
-        const root = document.getElementById('root');
-        if (root) {
-            root.style.width = '100%'; // Modify the width of root (if really necessary)
-        }
-
-        // Cleanup function to reset styles when the component unmounts
-        return () => {
-            document.body.classList.remove("formbg");
-            document.body.classList.remove("loginFormContainer");
-
-            // Reset #root styles if modified
-            if (root) {
-                root.style.width = ''; // Reset width if it was modified
+            if (response.success) {
+                sessionStorage.setItem('token', response.data.token);
+                sessionStorage.setItem('user', JSON.stringify(response.data));
+                navigate("/admin/dashboard");
+            } else {
+                setError(response.message || 'Login failed.');
             }
-        };
-    }, []);
-
-    const navigate = useNavigate();
-
-    const handleSubmit = (formData) => {
-        console.log('Email:', formData);
-        console.log('Password:', password);
-        console.log('Remember Me:', rememberMe);
-        navigate("/admin/dashboard");
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="formLogin">
             <div className="loginLogo">
-                <img
-                    src={Years_Logo_Horizontal1}
-                    alt="Agreeya Logo"
-                    className="w-75"
-                />
+                <img src={Years_Logo_Horizontal1} alt="Agreeya Logo" className="w-75" />
             </div>
             <div className="loginHeading">ADA CMS Sign In</div>
             <div className="loginSubHeading">Sign in to your account to continue</div>
+            {error && <div className="error-message">{error}</div>}
             <div className="formFieldsContainer">
                 <Form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
-                        <FormItem
-                            name="email"
-                            rules={[
-                                { required: true, message: "Please fill email value" },
-                                { minLength: 3 },
-                            ]}
-                        >
-                            <input
-                                type="email"
-                                className="form-control formFieldborder"
-                                id="floatingInput"
-                                placeholder="name@example.com"
-                            />
+                        <FormItem name="email" rules={[{ required: true, message: "Please enter your email" }]}> 
+                            <input type="email" className="form-control" placeholder="name@example.com" onChange={handleEmailChange} />
                         </FormItem>
-                        <label htmlFor="floatingInput">Email address</label>
+                        <label>Email address</label>
                     </div>
 
                     <div className="form-floating">
-                        <FormItem
-                            name="password"
-                            rules={[
-                                { required: true,message: "Please fill email value" },
-                                { minLength: 3,message: "Password length is greater then or equal 3" },
-                            ]}
-                        >
-                            <input
-                                type="password"
-                                className="form-control formFieldborder"
-                                id="floatingPassword"
-                                placeholder="Password"
-                                value={password}
-                                onChange={handlePasswordChange}
-                            />
+                        <FormItem name="password" rules={[{ required: true, message: "Please enter your password" }]}> 
+                            <input type="password" className="form-control" placeholder="Password" onChange={handlePasswordChange} />
                         </FormItem>
-                        <label htmlFor="floatingPassword">Password</label>
+                        <label>Password</label>
                     </div>
 
                     <div className="checkbox mt-3 mb-2">
                         <label className="form-checkbox-txt">
-                            <FormItem
-                                name="rem"
-                                rules={[
-                                    { required: true },
-                                    { minLength: 3 },
-                                ]}
-                            >
-                                <input
-                                    type="checkbox"
-                                    value="remember-me"
-                                    className="form-check-input login-checkbox selected-checkbox"
-                                    checked={rememberMe}
-                                    onChange={handleRememberMeChange}
-                                />
-                            </FormItem>
-                            Remember me
+                            <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange} /> Remember me
                         </label>
                     </div>
 
                     <div className="btnContainer">
-                        <button
-                            type="submit"
-                            className="btn signInAdmin"
-                        >
-                            Login as Admin
+                        <button type="submit" className="btn signInAdmin" disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login as Admin'}
                         </button>
-                        <button
-                            type="submit"
-                            className="btn signInCustomer"
-                        >
-                            Login as Customer
+                        <button type="submit" className="btn signInCustomer" disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login as Customer'}
                         </button>
                     </div>
                     <div className="forgotPassword">
-                        <a href="forgotPassword.html">Forgot Password?</a>
+                        <a href="/forgotpassword">Forgot Password?</a>
                     </div>
                 </Form>
             </div>

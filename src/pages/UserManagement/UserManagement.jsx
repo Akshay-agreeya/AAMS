@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import editicon from "../../assets/images/iconEdit.svg";
-import deleteicon from "../../assets/images/iconDelete.svg";
+import deleteicon from "../../assets/images//iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
-import editOrgicon from "../../assets/images/iconWhiteEdit.svg";
+import editOrgicon from "../../assets/images//iconWhiteEdit.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
-import Layout from "../../component/Layout";
+import Layout from '../../component/Layout';
 
 const UserManagement = () => {
   const [openAccordion, setOpenAccordion] = useState(null);
@@ -12,6 +12,9 @@ const UserManagement = () => {
   const toggleAccordion = (id) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
+  const breadcrumbs = [{ url: "admin/user-management", label: "Home" },
+        {label:"User Management"}
+    ];
 
   const organizations = [
     {
@@ -32,7 +35,10 @@ const UserManagement = () => {
   ];
 
   return (
-    < Layout >
+    <Layout breadcrumbs={breadcrumbs}>
+    <div className="adaMainContainer">
+      {/* Breadcrumb */}
+      {/* Admin Panel Content */}
       <section className="adminControlContainer">
         <div className="container">
           <div className="row">
@@ -43,7 +49,7 @@ const UserManagement = () => {
                   <a href="#" className="delete" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
                     <i className="fa-regular fa-trash-can"></i> Delete
                   </a>
-                  <a href="/addorg" className="add">
+                  <a href="/admin/addorg" className="add">
                     <i className="fa-solid fa-plus"></i> Add New Organization
                   </a>
                 </div>
@@ -76,10 +82,10 @@ const UserManagement = () => {
                             </div>
                           </div>
                           <div className="addNewUserCont">
-                            <a href="/editorg" className="edit">
+                            <a href="/admin/editorg" className="edit">
                               <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                             </a>
-                            <a href="/adduser" className="add">
+                            <a href="/admin/adduser" className="add">
                               <i className="fa-solid fa-plus"></i> Add New User
                             </a>
                           </div>
@@ -123,10 +129,10 @@ const UserManagement = () => {
                                         </select>
                                       </td>
                                       <td className="text-center">
-                                        <a href="userManagmentView.html" className="me-3">
+                                        <a href="/admin/viewuser" className="me-3">
                                           <img src={viewicon} alt="View Details" />
                                         </a>
-                                        <a href="/edituser" className="me-3">
+                                        <a href="/admin/edituser" className="me-3">
                                           <img src={editicon} alt="Edit Details" />
                                         </a>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
@@ -145,14 +151,15 @@ const UserManagement = () => {
                   ))}
                 </div>
                 {/* Accordion Ends */}
-                {/* Delete Confirmation Modal - Reusable Component */}
-                <DeleteConfirmationModal modalId="deleteUserModal" />
+ {/* Delete Confirmation Modal - Reusable Component */}
+ <DeleteConfirmationModal modalId="deleteUserModal" />
               </div>
             </div>
           </div>
         </div>
       </section>
-    </Layout >
+    </div>
+    </Layout>
   );
 };
 

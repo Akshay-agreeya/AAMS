@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Layout from '../../component/Layout';
 
 const AddOrganization = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ const AddOrganization = () => {
     email: "",
     contactNo: "",
   });
+  const breadcrumbs = [{ url: "/admin/addorg", label: "Home" },
+        {label:"Add Organization"}
+    ];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,19 +29,8 @@ const AddOrganization = () => {
   };
 
   return (
+    <Layout breadcrumbs={breadcrumbs}>
     <div className="adaMainContainer">
-      <div className="breadcrumbsContainer">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <a href="dashboard.html">Home</a> &gt; 
-              <a href="userManagment.html">User Management</a> &gt; 
-              <span> Add New Organization</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <section className="adminControlContainer">
         <div className="container">
           <div className="row">
@@ -127,7 +120,7 @@ const AddOrganization = () => {
 
                   <div className="col-12">
                     <div className="buttonBox">
-                      <a href="/usermanagement" className="btnCancel">Cancel</a>
+                      <a href="/admin/user-management" className="btnCancel">Cancel</a>
                       <button type="submit" className="btnAddUser">Submit</button>
                     </div>
                   </div>
@@ -138,6 +131,7 @@ const AddOrganization = () => {
         </div>
       </section>
     </div>
+    </Layout>
   );
 };
 

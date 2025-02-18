@@ -1,23 +1,17 @@
 import React from "react";
-import editicon from "C:/Users/abhishek.joshi/Downloads/AAMS/src/assets/images/iconEdit.svg";
-import deleteicon from "C:/Users/abhishek.joshi/Downloads/AAMS/src/assets/images/iconDelete.svg";
-import DeleteConfirmationModal from "C:/Users/abhishek.joshi/Downloads/AAMS/src/component/DeleteConfirmation";
+import editicon from "../../assets/images/iconEdit.svg";
+import deleteicon from "../../assets/images//iconDelete.svg";
+import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
+import Layout from '../../component/Layout';
 
 const RoleManagement = () => {
+  const breadcrumbs = [{ url: "admin/role-management", label: "Home" },
+        {label:"Role Management"}
+    ];
   return (
-    <>
+    <Layout breadcrumbs={breadcrumbs}>
       <div className="adaMainContainer">
         {/* Breadcrumbs */}
-        <div className="breadcrumbsContainer">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <a href="dashboard.html">Home</a> &gt; <span>Role Management</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Admin Panel Content */}
         <section className="adminControlContainer">
           <div className="container">
@@ -26,7 +20,7 @@ const RoleManagement = () => {
                 <div className="pageTitle">
                   <h1>Role Management</h1>
                   <div className="buttonContainer">
-                    <a href="roleManagementAdd.html" className="add">
+                    <a href="/admin/addrole" className="add">
                       + New Role
                     </a>
                   </div>
@@ -56,7 +50,7 @@ const RoleManagement = () => {
                             <td>{role.description}</td>
                             <td>{role.created}</td>
                             <td className="text-center">
-                              <a href="roleManagementEdit.html" className="me-3">
+                              <a href="/admin/editrole" className="me-3">
                                 <img src={editicon} alt="Edit Role" />
                               </a>
                               <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
@@ -109,7 +103,7 @@ const RoleManagement = () => {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

@@ -2,6 +2,7 @@
 
 import axiosInstance from './AxiosInstance';
 
+
 // Create a function to make GET requests
 export const getData = async (requestUrl) => {
     try {
@@ -16,6 +17,7 @@ export const getData = async (requestUrl) => {
 // Create a function to make POST requests
 export const postData = async (requestUrl, data) => {
     try {
+        
         const response = await axiosInstance.post(requestUrl, data);
         return response.data;
     } catch (error) {
@@ -30,7 +32,7 @@ export const putData = async (requestUrl, data) => {
         const response = await axiosInstance.put(requestUrl, data);
         return response.data;
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during PUT request', error);
         throw error;
     }
 };
@@ -41,10 +43,21 @@ export const deleteData = async (requestUrl, data) => {
         const response = await axiosInstance.delete(requestUrl);
         return response.data;
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during DELETE request', error);
         throw error;
     }
 };
+// Create a function to make PATCH requests
+export const patchData = async (requestUrl, data) => {
+    try {
+        const response = await axiosInstance.patch(requestUrl, data);
+        return response.data; // Return the data from the response
+    } catch (error) {
+        console.error('Error during PATCH request', error);
+        throw error; // Rethrow the error to be handled in the calling component
+    }
+};
+
 
 export const apiRequest = async (requestUrl, method, requestData, configData) => {
     try {
@@ -66,6 +79,9 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
                 break;
             case 'DELETE':
                 response = await axiosInstance.delete(requestUrl, config);
+                break;
+                case 'PATCH':
+                response = await axiosInstance.patch(requestUrl, requestData, config);
                 break;
             default:
                 throw new Error(`Unsupported method: ${method}`);
