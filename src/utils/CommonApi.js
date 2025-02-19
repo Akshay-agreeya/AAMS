@@ -12,13 +12,7 @@ export const getData = async (requestUrl) => {
         console.error('Error during POST request', error);
 
         // Check if the error has a response (in case of server-side errors)
-        if (error.response) {
-            // Return the response data from the error
-            return error.response.data;
-        }
-
-        // If there's no response (client-side or network error), return a general message
-        throw new Error('An error occurred, but no response was received.');
+        throw handleError(error);
     }
 };
 
@@ -32,13 +26,7 @@ export const postData = async (requestUrl, data) => {
         console.error('Error during POST request', error);
 
         // Check if the error has a response (in case of server-side errors)
-        if (error.response) {
-            // Return the response data from the error
-            return error.response.data;
-        }
-
-        // If there's no response (client-side or network error), return a general message
-        throw new Error('An error occurred, but no response was received.');
+        throw handleError(error);
     }
 };
 
@@ -51,13 +39,7 @@ export const putData = async (requestUrl, data) => {
         console.error('Error during POST request', error);
 
         // Check if the error has a response (in case of server-side errors)
-        if (error.response) {
-            // Return the response data from the error
-            return error.response.data;
-        }
-
-        // If there's no response (client-side or network error), return a general message
-        throw new Error('An error occurred, but no response was received.');
+        throw handleError(error);
     }
 };
 
@@ -68,7 +50,7 @@ export const deleteData = async (requestUrl, data) => {
         return response.data;
     } catch (error) {
         console.error('Error during DELETE request', error);
-        throw error;
+        throw handleError(error);
     }
 };
 // Create a function to make PATCH requests
@@ -80,13 +62,7 @@ export const patchData = async (requestUrl, data) => {
         console.error('Error during POST request', error);
 
         // Check if the error has a response (in case of server-side errors)
-        if (error.response) {
-            // Return the response data from the error
-            return error.response.data;
-        }
-
-        // If there's no response (client-side or network error), return a general message
-        throw new Error('An error occurred, but no response was received.');
+        throw handleError(error);
     }
 };
 
@@ -124,12 +100,19 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
         console.error('Error during POST request', error);
 
         // Check if the error has a response (in case of server-side errors)
-        if (error.response) {
-            // Return the response data from the error
-            return error.response.data;
-        }
-
-        // If there's no response (client-side or network error), return a general message
-        throw new Error('An error occurred, but no response was received.');
+        throw handleError(error);
     }
 };
+const handleError = (error) => {
+    if (error.response) {
+        // Return the response data from the error
+        return {
+            message: 'Server error',
+            statusCode: error.response.status,
+            data: error.response.data
+        };
+    }
+
+    // If there's no response (client-side or network error), return a general message
+    throw new Error('An error occurred, but no response was received.');
+}

@@ -35,25 +35,16 @@ const LoginForm = () => {
         setLoading(true);
         setError(null);
         try {
-            const reqData = {
-                email: formData.email,
-                password: formData.password
-            };
-            const response = await postData('/login',reqData);
-            console.log("Login Response:", response);
+            const response = await postData('/login', formData);
+            login();
+            sessionStorage.setItem('token', response.data.token);
+            sessionStorage.setItem('user', JSON.stringify(response.data));
+            navigate("/admin/dashboard");
 
-            if (response.success === true) {
-                login();
-                sessionStorage.setItem('token', response.data.token);
-                sessionStorage.setItem('user', JSON.stringify(response.data));
-                navigate("/admin/dashboard");
-            } else {
-                setError(response.message || 'Login failed.');
-                setLoading(false);
-            }
         }
         catch (error) {
             console.log(error);
+            setError(error.data?.message || 'Login failed.');
             setLoading(false);
         }
     }
