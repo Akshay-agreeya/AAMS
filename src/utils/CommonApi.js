@@ -9,7 +9,7 @@ export const getData = async (requestUrl) => {
         const response = await axiosInstance.get(requestUrl);
         return response.data; // You can return the data directly here or process it if needed
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during GET request:', error);
 
         // Check if the error has a response (in case of server-side errors)
         throw handleError(error);
@@ -23,7 +23,7 @@ export const postData = async (requestUrl, data) => {
         const response = await axiosInstance.post(requestUrl, data);
         return response.data;
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during POST request:', error);
 
         // Check if the error has a response (in case of server-side errors)
         throw handleError(error);
@@ -36,7 +36,7 @@ export const putData = async (requestUrl, data) => {
         const response = await axiosInstance.put(requestUrl, data);
         return response.data;
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during PUT request"', error);
 
         // Check if the error has a response (in case of server-side errors)
         throw handleError(error);
@@ -49,7 +49,7 @@ export const deleteData = async (requestUrl, data) => {
         const response = await axiosInstance.delete(requestUrl);
         return response.data;
     } catch (error) {
-        console.error('Error during DELETE request', error);
+        console.error('Error during DELETE request:', error);
         throw handleError(error);
     }
 };
@@ -59,7 +59,7 @@ export const patchData = async (requestUrl, data) => {
         const response = await axiosInstance.patch(requestUrl, data);
         return response.data; // Return the data from the response
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during PATCH request:', error);
 
         // Check if the error has a response (in case of server-side errors)
         throw handleError(error);
@@ -97,7 +97,7 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
 
         return response.data;
     } catch (error) {
-        console.error('Error during POST request', error);
+        console.error('Error during API request', error);
 
         // Check if the error has a response (in case of server-side errors)
         throw handleError(error);
