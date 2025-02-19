@@ -4,9 +4,9 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../common/auth/AuthContext';
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
-  const { isAuthenticated } = useAuth(); // Retrieve the authentication status
-
-  if (!isAuthenticated) {
+ 
+  const token = sessionStorage.getItem("token");
+  if (!token) {
     // If not authenticated, redirect to login
     return <Navigate to="/login" />;
   }
