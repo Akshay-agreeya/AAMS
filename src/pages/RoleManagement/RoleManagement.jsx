@@ -3,6 +3,7 @@ import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images//iconDelete.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
+import ChangePasswordModal from '../../common/auth/ChangePassword'
 
 const RoleManagement = () => {
   const breadcrumbs = [{ url: "admin/role-management", label: "Home" },
@@ -72,36 +73,7 @@ const RoleManagement = () => {
  <DeleteConfirmationModal modalId="deleteUserModal" />
 
         {/* Change Password Modal */}
-        <div className="modal fade" id="changePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div className="modal-body">
-                <div className="heading">Change Password</div>
-                <div className="message">Please enter your current password and create a new one.</div>
-
-                <div className="formContainer">
-                  <div className="row">
-                    {["Current Password", "New Password", "Confirm New Password"].map((label, index) => (
-                      <div className="col-12" key={index}>
-                        <div className="mb-3 passwordContainer">
-                          <label className="form-label">{label}</label>
-                          <input type="password" className="form-control" placeholder={label} required />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <a href="#" className="btn btnpassword">Save Password</a>
-                <a href="#" className="btn btnCancel" data-bs-dismiss="modal">Cancel</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ChangePasswordModal Id="changepassword"/>
       </div>
     </Layout>
   );

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { patchData } from "../utils/CommonApi"; // Import patchData
 import Years_Logo_Horizontal1 from "../assets/images/Final_25-Years_Logo_Horizontal1.png";
+import { FormItem } from '../component/form/FormItem';
+import Form from '../component/form/Form';
+import { Input } from '../component/input/Input';
+import { InputPassword } from '../component/input/InputPassword';
+import { patchData } from "../utils/CommonApi";
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [retypePassword, setRetypePassword] = useState("");
-    const [error, setError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
     const navigate = useNavigate();
 
-    // Apply and clean up styles
     useEffect(() => {
         document.body.classList.add("formbg", "loginFormContainer");
         const root = document.getElementById('root');
@@ -23,95 +24,66 @@ const ForgotPassword = () => {
         };
     }, []);
 
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        // Basic validation
-        if (password !== retypePassword) {
+    const handleSubmit = async (formData) => {
+        if (formData.password !== formData.retypePassword) {
             setError("Passwords do not match");
             return;
         }
 
+        setLoading(true);
+        setError(null);
         try {
-            const response = await patchData(
-                "http://localhost:8080/api/user/reset-password", 
-                { email, password }
-            );
+            const response = await patchData("/user/reset-password", {
+                email: formData.email,
+                password: formData.password
+            });
 
-            if (response.success) {
-                setSuccessMessage("Password reset Successfully!");
-                setError(""); // Clear any previous error
-                navigate("/login");
-            }
+            setSuccessMessage("Password reset successfully!");
+            setTimeout(() => navigate("/login"), 2000);
         } catch (error) {
-            setError("Something went wrong, please try again.");
-            console.error("Error during password reset", error);
+            setError(error.data?.message || "Something went wrong, please try again.");
         }
+        setLoading(false);
     };
 
     return (
         <div className="formLogin">
             <div className="loginLogo">
-                <img
-                    src={Years_Logo_Horizontal1}
-                    alt="Agreeya Logo"
-                    className="w-75"
-                />
+                <img src={Years_Logo_Horizontal1} alt="Agreeya Logo" className="w-75" />
             </div>
             <div className="loginHeading">ADA CMS Forgot Password</div>
-
-            {/* Show error or success message */}
             {error && <div className="alert alert-danger">{error}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
 
             <div className="formFieldsContainer">
-                <form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
-                        <input
-                            type="email"
-                            className="form-control formFieldborder"
-                            id="floatingInput"
-                            placeholder="name@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <label htmlFor="floatingInput">Email address</label>
+                        <FormItem name="email" rules={[{ required: true, message: "Please enter your email" }]}> 
+                            <Input type="email" className="form-control" placeholder="name@example.com" />
+                        </FormItem>
+                        <label>Email address</label>
                     </div>
 
                     <div className="form-floating mb-3">
-                        <input
-                            type="password"
-                            className="form-control formFieldborder"
-                            id="floatingPassword"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <label htmlFor="floatingPassword">Password</label>
+                        <FormItem name="password" rules={[{ required: true, message: "Please enter your password" }]}> 
+                            <InputPassword className="form-control" placeholder="Password" />
+                        </FormItem>
+                        <label>Password</label>
                     </div>
 
                     <div className="form-floating mb-3">
-                        <input
-                            type="password"
-                            className="form-control formFieldborder"
-                            id="floatingRetypePassword"
-                            placeholder="Retype Password"
-                            value={retypePassword}
-                            onChange={(e) => setRetypePassword(e.target.value)}
-                            required
-                        />
-                        <label htmlFor="floatingRetypePassword">Retype-Password</label>
+                        <FormItem name="retypePassword" rules={[{ required: true, message: "Please re-enter your password" }]}> 
+                            <InputPassword className="form-control" placeholder="Retype Password" />
+                        </FormItem>
+                        <label>Retype Password</label>
                     </div>
 
                     <div className="btnContainer">
-                        <button type="submit" className="btn signInAdmin w-100">
-                            Submit
+                        <button type="submit" className="btn signInAdmin w-100" disabled={loading}>
+                            {loading ? "Submitting..." : "Submit"}
                         </button>
                     </div>
-                </form>
+                </Form>
             </div>
         </div>
     );
