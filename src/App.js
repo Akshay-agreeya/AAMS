@@ -18,6 +18,9 @@ import AddOrg from '../src/pages/Organization/AddOrg';
 import EditOrg from '../src/pages/Organization/EditOrg';
 import ProductPermission from './pages/ProductPermission';
 import ProductManagement from './pages/ProductManagement/ProductManagement';
+import ChangePassword from './common/auth/ChangePassword';
+import Reports from './pages/Report/Reports';
+import ReportListing from './pages/Report/ReportListing';
 
 
 function App() {
@@ -26,6 +29,8 @@ function App() {
             <ErrorBoundary>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/forgotpassword" element={<ForgotPassword />} />
+                    <Route path="/changepassword" element={<ChangePassword />} />
                     <Route
                         path="/admin/dashboard"
                         element={<PrivateRoute element={Dashboard} />}
@@ -78,6 +83,15 @@ function App() {
                         path="/admin/product-management"
                         element={<PrivateRoute element={ProductManagement} />}
                     />
+                    <Route
+                        path="/admin/reports"
+                        element={<PrivateRoute element={Reports} />}
+                    />
+                    <Route
+                        path="/admin/reportlisting"
+                        element={<PrivateRoute element={ReportListing} />}
+                    />
+                    
                     <Route
                         path="*"
                         element={<NotFound/>}

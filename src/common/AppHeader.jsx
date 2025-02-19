@@ -6,6 +6,7 @@ import dummyUserPic from "../assets/images/dummyUserPic.jpg";
 
 
 const AppHeader = () => {
+    const userID = JSON.parse(sessionStorage.getItem("user_id") || "{}");
     return (
         <div>
             <header className="headerContainer">
@@ -42,7 +43,7 @@ const AppHeader = () => {
                                                     </a>
 
                                                     <ul className="dropdown-menu">
-                                                        <li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</a></li>
+                                                        <li><a className="dropdown-item" href={`/forgotpassword?user_id=${userID}`} data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</a></li>
                                                         <li><a className="dropdown-item" href="#">Logout</a></li>
 
                                                     </ul>
