@@ -1,48 +1,24 @@
 import { useState, useEffect } from "react";
 import { patchData } from "../../utils/CommonApi";
 import { InputPassword } from "../../component/input/InputPassword";
-import { Input } from "../../component/input/Input";
 import { FormItem } from "../../component/form/FormItem";
 import Form from "../../component/form/Form";
+import { getUserIdFromSession } from "../../utils/Helper";
 
 const ChangePasswordModal = () => {
+
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
-    const [userId, setUserId] = useState(null);
 
-    // Retrieve user_id from sessionStorage on component mount
-    useEffect(() => {
-      const storedUser = sessionStorage.getItem("user");
-      if (storedUser) {
-          try {
-              const parsedUser = JSON.parse(storedUser);
-              const userId = parsedUser.id;
-              console.log("User ID:", userId);
-          } catch (error) {
-              console.error("Error parsing user data:", error);
-          }
-      }
-      
-    }, []);
-
-    console.log("User ID:", userId); // Debugging purpose
+    const userId = getUserIdFromSession();
 
     const handleSubmit = async (formData) => {
-        if (!userId) {
-            setMessage("User ID not found. Please log in again.");
-            return;
-        }
-
-        if (formData.newPassword !== formData.confirmPassword) {
-            setMessage("New passwords do not match!");
-            return;
-        }
 
         setLoading(true);
         setMessage("");
-
+        const reqData = { oldpassword: formData.oldPassword, newPassword: formData.password };
         try {
-            const response = await patchData(`/user/change-password/${userId}`, formData);
+            const response = await patchData(`/user/change-password/${userId}`, reqData);
 
             if (response.data.success) {
                 setMessage("Password changed successfully!");
@@ -75,13 +51,13 @@ const ChangePasswordModal = () => {
                                     </div>
 
                                     <div className="mb-3 passwordContainer">
-                                        <FormItem name="newPassword" rules={[{ required: true, message: "Please enter a new password" }]}>
+                                        <FormItem name="password" rules={[{ required: true, message: "Please enter a new password" }]}>
                                             <InputPassword className="form-control" placeholder="New Password" />
                                         </FormItem>
                                     </div>
 
                                     <div className="mb-3 passwordContainer">
-                                        <FormItem name="confirmPassword" rules={[{ required: true, message: "Please confirm your new password" ,}]}>
+                                        <FormItem name="confirmPassword" rules={[{ required: true, message: "Please confirm your new password", }]}>
                                             <InputPassword className="form-control" placeholder="Confirm New Password" />
                                         </FormItem>
                                     </div>

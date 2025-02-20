@@ -55,6 +55,15 @@ const Form = ({ children, onSubmit }) => {
                 } else if (rule.minLength && value.length < rule.minLength) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
                 }
+
+                // Password and confirm password validation
+                if (child.props.name === 'password' && formData['confirmPassword'] && formData['password'] !== formData['confirmPassword']) {
+                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+                }
+
+                if (child.props.name === 'confirmPassword' && formData['password'] && formData['password'] !== formData['confirmPassword']) {
+                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+                }
             });
         }
     }
