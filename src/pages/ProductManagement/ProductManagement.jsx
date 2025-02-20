@@ -105,10 +105,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="customerManagmentView.html" className="me-1">
+                                    <a href="/admin/viewservice" className="me-1">
                                       <img src={IconView} alt="View Details" />
                                     </a>
-                                    <a href="customerManagmentEdit.html" className="me-1">
+                                    <a href="/admin/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -205,10 +205,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="#" className="me-1">
+                                    <a href="/admin/viewservice" className="me-1">
                                       <img src={IconView} alt="View Details" />
                                     </a>
-                                    <a href="customerManagmentEdit.html" className="me-1">
+                                    <a href="/admin/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -305,10 +305,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="#" className="me-1">
+                                    <a href="/admin/viewservice" className="me-1">
                                       <img src={IconView}alt="View Details" />
                                     </a>
-                                    <a href="customerManagmentEdit.html" className="me-1">
+                                    <a href="/admin/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
