@@ -57,7 +57,7 @@ const Reports = () => {
                             </div>
                           </div>
                           <div className="navigateICon">
-                            <a href="/admin/reportlisting" target="_blank">
+                            <a href="/reportlisting" target="_blank">
                               <img src={iconMoveRight} alt="Click here to view Report" />
                             </a>
                           </div>

@@ -9,9 +9,6 @@ import ChangePasswordModal from '../../common/auth/ChangePassword'
 
 const UserManagement = () => {
   const [openAccordion, setOpenAccordion] = useState(null);
-  
-
-
   const toggleAccordion = (id) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };

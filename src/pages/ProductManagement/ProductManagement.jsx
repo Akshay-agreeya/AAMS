@@ -58,7 +58,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="customerManagmentAdd.html" className="add">
+                          <a href="/admin/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>
@@ -158,7 +158,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="customerManagmentAdd.html" className="add">
+                          <a href="/admin/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>
@@ -258,7 +258,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="customerManagmentAdd.html" className="add">
+                          <a href="/admin/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>

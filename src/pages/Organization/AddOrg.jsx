@@ -1,136 +1,103 @@
 import { useState } from "react";
 import Layout from '../../component/Layout';
+import Form from '../../component/form/Form';
+import { FormItem } from '../../component/form/FormItem';
+import { Input } from '../../component/input/Input';
+import { Select } from '../../component/input/Select';
 
 const AddOrganization = () => {
-  const [formData, setFormData] = useState({
-    userName: "",
-    role: "",
-    selIndustry: "",
-    selCountry: "",
-    selState: "",
-    address: "",
-    contractExpiry: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    contactNo: "",
-  });
-  const breadcrumbs = [{ url: "/admin/addorg", label: "Home" },
-        {label:"Add Organization"}
-    ];
+  const breadcrumbs = [{ url: "/admin/addorg", label: "Home" }, { label: "Add Organization" }];
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (formData) => {
     console.log("Form Submitted", formData);
   };
 
   return (
     <Layout breadcrumbs={breadcrumbs}>
-    <div className="adaMainContainer">
-      <section className="adminControlContainer">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="pageTitle">
-                <h1>Add New Organization</h1>
+      <div className="adaMainContainer">
+        <section className="adminControlContainer">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="pageTitle">
+                  <h1>Add New Organization</h1>
+                </div>
               </div>
-            </div>
-            <div className="col-12">
-              <div className="userManagmentContainer">
-                <form onSubmit={handleSubmit}>
-                  <h3>Organization Details</h3>
-                  <div className="formContainer">
-                    <div className="row">
-                      {[
-                        { label: "Organization Name", name: "userName", type: "text", placeholder: "Organization Name" },
-                        { label: "Organization Address", name: "address", type: "text", placeholder: "Organization Address" },
-                      ].map((field, index) => (
-                        <div className="col-12 col-lg-4" key={index}>
-                          <div className="mb-3">
-                            <label className="form-label">{field.label} <span className="required">*</span></label>
-                            <input
-                              type={field.type}
-                              className="form-control"
-                              name={field.name}
-                              placeholder={field.placeholder}
-                              required
-                              onChange={handleChange}
-                            />
-                          </div>
+              <div className="col-12">
+                <div className="userManagmentContainer">
+                  <Form onSubmit={handleSubmit}>
+                    <h3>Organization Details</h3>
+                    <div className="formContainer">
+                      <div className="row">
+                        {/* Organization Name */}
+                        <div className="col-12 col-lg-4">
+                          <FormItem name="userName" label="Organization Name" rules={[{ required: true, message: "Required" }]}>
+                            <Input type="text" placeholder="Organization Name" />
+                          </FormItem>
                         </div>
-                      ))}
-
-                      {[
-                        { label: "Type of Organization", name: "role", options: ["Private", "Government", "Non-Profit"] },
-                        { label: "Industry Type", name: "selIndustry", options: ["IT", "Healthcare", "Education"] },
-                        { label: "Country", name: "selCountry", options: ["United States", "India", "Japan"] },
-                        { label: "State", name: "selState", options: ["Noida", "Pune", "Mumbai"] },
-                      ].map((select, index) => (
-                        <div className="col-12 col-lg-4" key={index}>
-                          <div className="mb-3">
-                            <label className="form-label">{select.label} <span className="required">*</span></label>
-                            <select className="form-select" name={select.name} required onChange={handleChange}>
-                              <option value="" disabled selected>Select {select.label}</option>
-                              {select.options.map((option, idx) => (
-                                <option key={idx} value={option}>{option}</option>
-                              ))}
-                            </select>
+                         {/* Dropdowns */}
+                         {[
+                          { label: "Type of Organization", name: "role", options: [{ value: "Private", label: "Private" }, { value: "Government", label: "Government" }, { value: "Non-Profit", label: "Non-Profit" }] },
+                          { label: "Industry Type", name: "selIndustry", options: [{ value: "IT", label: "IT" }, { value: "Healthcare", label: "Healthcare" }, { value: "Education", label: "Education" }] },
+                          { label: "Country", name: "selCountry", options: [{ value: "United States", label: "United States" }, { value: "India", label: "India" }, { value: "Japan", label: "Japan" }] },
+                          { label: "State", name: "selState", options: [{ value: "Noida", label: "Noida" }, { value: "Pune", label: "Pune" }, { value: "Mumbai", label: "Mumbai" }] },
+                        ].map((select, index) => (
+                          <div className="col-12 col-lg-4" key={index}>
+                            <FormItem name={select.name} label={select.label} rules={[{ required: true, message: "Required" }]}>
+                              <Select options={select.options} />
+                            </FormItem>
                           </div>
-                        </div>
-                      ))}
+                        ))}
 
-                      <div className="col-12 col-lg-4">
-                        <div className="mb-3">
-                          <label className="form-label">Hub Contract Expiry Date <span className="required">*</span></label>
-                          <input type="date" className="form-control" name="contractExpiry" onChange={handleChange} />
+                        {/* Organization Address */}
+                        <div className="col-12 col-lg-4">
+                          <FormItem name="address" label="Organization Address" rules={[{ required: true, message: "Required" }]}>
+                            <Input type="text" placeholder="Organization Address" />
+                          </FormItem>
+                        </div>
+
+                       
+
+                        {/* Contract Expiry Date */}
+                        <div className="col-12 col-lg-4">
+                          <FormItem name="contractExpiry" label="Hub Contract Expiry Date" rules={[{ required: true, message: "Required" }]}>
+                            <Input type="date" />
+                          </FormItem>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <h3>Organization Contact Person Details</h3>
-                  <div className="formContainer">
-                    <div className="row">
-                      {[
-                        { label: "First Name", name: "firstName", type: "text", placeholder: "First Name" },
-                        { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name" },
-                        { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com" },
-                        { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number" },
-                      ].map((field, index) => (
-                        <div className="col-12 col-lg-4" key={index}>
-                          <div className="mb-3">
-                            <label className="form-label">{field.label}</label>
-                            <input
-                              type={field.type}
-                              className="form-control"
-                              name={field.name}
-                              placeholder={field.placeholder}
-                              required
-                              onChange={handleChange}
-                            />
+                    <h3>Organization Contact Person Details</h3>
+                    <div className="formContainer">
+                      <div className="row">
+                        {[
+                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name" },
+                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name" },
+                          { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com" },
+                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number" },
+                        ].map((field, index) => (
+                          <div className="col-12 col-lg-4" key={index}>
+                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: "Required" }]}>
+                              <Input type={field.type} placeholder={field.placeholder} />
+                            </FormItem>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="col-12">
-                    <div className="buttonBox">
-                      <a href="/admin/user-management" className="btnCancel">Cancel</a>
-                      <button type="submit" className="btnAddUser">Submit</button>
+                    <div className="col-12">
+                      <div className="buttonBox">
+                        <a href="/admin/user-management" className="btnCancel">Cancel</a>
+                        <button type="submit" className="btnAddUser">Submit</button>
+                      </div>
                     </div>
-                  </div>
-                </form>
+                  </Form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
     </Layout>
   );
 };

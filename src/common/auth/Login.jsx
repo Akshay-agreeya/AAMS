@@ -56,7 +56,8 @@ const LoginForm = () => {
             </div>
             <div className="loginHeading">ADA CMS Sign In</div>
             <div className="loginSubHeading">Sign in to your account to continue</div>
-            {error && <div className="error-message">{error}</div>}
+            {error && <div class="alert alert-danger" role="alert">{error}</div>
+ }
             <div className="formFieldsContainer">
                 <Form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
@@ -79,13 +80,11 @@ const LoginForm = () => {
                         </label>
                     </div>
 
-                    <div className="btnContainer">
+                    <div className="btnContainer text-center">
                         <button type="submit" className="btn signInAdmin" disabled={loading}>
-                            {loading ? 'Logging in...' : 'Login as Admin'}
+                            {loading ? 'Logging in...' : 'Login '}
                         </button>
-                        <button type="submit" className="btn signInCustomer" disabled={loading}>
-                            {'Login as Customer'}
-                        </button>
+                        
                     </div>
                     <div className="forgotPassword">
                         <a href="/forgotpassword">Forgot Password?</a>

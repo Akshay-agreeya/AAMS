@@ -23,6 +23,7 @@ import Reports from './pages/Report/Reports';
 import ReportListing from './pages/Report/ReportListing';
 import EditService from './pages/ProductManagement/EditService';
 import ViewService from './pages/ProductManagement/ViewService';
+import AddService from './pages/ProductManagement/AddService'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/forgotpassword" element={<ForgotPassword />} />
                     <Route path="/changepassword" element={<ChangePassword />} />
+                    <Route path="/reportlisting" element={<ReportListing />} />
                     <Route
                         path="/admin/dashboard"
                         element={<PrivateRoute element={Dashboard} />}
@@ -89,13 +91,17 @@ function App() {
                         path="/admin/reports"
                         element={<PrivateRoute element={Reports} />}
                     />
-                    <Route
+                    {/* <Route
                         path="/admin/reportlisting"
                         element={<PrivateRoute element={ReportListing} />}
-                    />
+                    /> */}
                     <Route
                         path="/admin/editservice"
                         element={<PrivateRoute element={EditService} />}
+                    />
+                    <Route
+                        path="/admin/addservice"
+                        element={<PrivateRoute element={AddService} />}
                     />
                     <Route
                         path="/admin/viewservice"
