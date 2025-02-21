@@ -3,10 +3,13 @@ import siteLogo from "../assets/images/siteLogo.svg";
 import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
 import dummyUserPic from "../assets/images/dummyUserPic.jpg";
+import { getUserFromSession } from '../utils/Helper';
 
 
 const AppHeader = () => {
     const userID = JSON.parse(sessionStorage.getItem("user_id") || "{}");
+    const user = getUserFromSession() || {};
+    
     return (
         <div>
             <header className="headerContainer">
@@ -39,7 +42,7 @@ const AppHeader = () => {
                                                 <div className="dropdown">
                                                     <a className="btn custProfileDropDown dropdown-toggle" href="#"
                                                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Jane Cooper
+                                                        {`${user.first_name} ${user.last_name}`}
                                                     </a>
 
                                                     <ul className="dropdown-menu">
@@ -48,7 +51,7 @@ const AppHeader = () => {
 
                                                     </ul>
                                                 </div>
-                                                <div className="userProfileType">Super Admin</div>
+                                                <div className="userProfileType">{user.user_role}</div>
                                             </div>
 
 

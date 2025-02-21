@@ -1,4 +1,9 @@
 
+export const getUserFromSession = () => {
+    const storedUser = sessionStorage.getItem("user");
+    return JSON.parse(storedUser)
+}
+
 export const getUserIdFromSession = () => {
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
