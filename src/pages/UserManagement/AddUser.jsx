@@ -7,7 +7,9 @@ import { Select } from "../../component/input/Select";
 import Captcha from "../../assets/images/capcha.jpg";
 
 const AddUser = () => {
-  const breadcrumbs = [{ url: "admin/adduser", label: "Home" }, { label: "Add User" }];
+  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
+    { url: "/admin/user-management", label: "User Management" }, 
+    { label: "Add User" }];
 
   const initialData = {
     selRole: "",

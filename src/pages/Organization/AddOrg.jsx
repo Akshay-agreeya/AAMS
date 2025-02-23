@@ -6,12 +6,31 @@ import { OrganizationTypeSelect } from "../../component/select/OrganizationTypeS
 import { StateSelect } from "../../component/select/StateSelect";
 import { IndustryTypeSelect } from "../../component/select/IndustryTypeSelect";
 import { CountrySelect } from "../../component/select/CountrySelect";
+import { postData } from '../../utils/CommonApi';
+import notification from '../../component/notification/Notification';
 
 const AddOrganization = () => {
-  const breadcrumbs = [{ url: "/admin/addorg", label: "Home" }, { label: "Add Organization" }];
+  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
+  { url: "/admin/user-management", label: "User Management" },
+  { label: "Add Organization" }];
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = async (formData) => {
+
     console.log("Form Submitted", formData);
+    try {
+      const resp = await postData("/org/add", formData); debugger
+      notification.success({
+        title: 'Add Organization',
+        message: resp.message
+      })
+    }
+    catch (error) {
+      console.log(error);
+      notification.error({
+        title: 'Add Organization',
+        message: error.data?.error
+      })
+    }
   };
 
   const initialValues = {
@@ -37,30 +56,18 @@ const AddOrganization = () => {
                         {/* Organization Name */}
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
-                            <FormItem name="userName" label="Organization Name"
+                            <FormItem name="org_name" label="Organization Name"
                               rules={[{ required: true, message: "Name is required" }]}
                               requiredMark={true}>
                               <Input type="text" placeholder="Organization Name" />
                             </FormItem>
                           </div>
                         </div>
-                        {/* Dropdowns */}
-                        {/* {[
-                          { label: "Type of Organization", name: "role", options: [{ value: "Private", label: "Private" }, { value: "Government", label: "Government" }, { value: "Non-Profit", label: "Non-Profit" }] },
-                          { label: "Industry Type", name: "selIndustry", options: [{ value: "IT", label: "IT" }, { value: "Healthcare", label: "Healthcare" }, { value: "Education", label: "Education" }] },
-                          { label: "Country", name: "selCountry", options: [{ value: "United States", label: "United States" }, { value: "India", label: "India" }, { value: "Japan", label: "Japan" }] },
-                          { label: "State", name: "selState", options: [{ value: "Noida", label: "Noida" }, { value: "Pune", label: "Pune" }, { value: "Mumbai", label: "Mumbai" }] },
-                        ].map((select, index) => (
-                          <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={select.name} label={select.label} rules={[{ required: true, message: "Required" }]}>
-                              <Select options={select.options} />
-                            </FormItem>
-                          </div>
-                        ))} */}
+
                         {/* Organization Type */}
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
-                            <FormItem name="org_type" label="Organization Type"
+                            <FormItem name="org_type_id" label="Organization Type"
                               rules={[{ required: true, message: "Organization type is required" }]}
                               requiredMark={true}>
                               <OrganizationTypeSelect />
@@ -70,7 +77,7 @@ const AddOrganization = () => {
                         {/* Industry Type */}
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
-                            <FormItem name="industry_type" label="Industry Type"
+                            <FormItem name="industry_id" label="Industry Type"
                               rules={[{ required: true, message: "Industry type is required" }]}
                               requiredMark={true}>
                               <IndustryTypeSelect />
@@ -101,7 +108,7 @@ const AddOrganization = () => {
                         {/* Organization Address */}
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
-                            <FormItem name="address" label="Organization Address"
+                            <FormItem name="address_line" label="Organization Address"
                               rules={[{ required: true, message: "Required" }]}
                               requiredMark={true}>
                               <Input type="text" placeholder="Organization Address" />
@@ -109,12 +116,10 @@ const AddOrganization = () => {
                           </div>
                         </div>
 
-
-
                         {/* Contract Expiry Date */}
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
-                            <FormItem name="contractExpiry" label="Hub Contract Expiry Date"
+                            <FormItem name="contract_expiry_date" label="Hub Contract Expiry Date"
                               rules={[{ required: true, message: "Required" }]}
                               requiredMark={true}>
                               <Input type="date" />
@@ -128,10 +133,10 @@ const AddOrganization = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name" },
-                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name" },
+                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
+                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
                           { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com" },
-                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number" },
+                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">

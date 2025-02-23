@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './assets/css/App.css';
 import { AuthProvider } from './common/auth/AuthContext';
 import Login from './common/auth/Login';
 import PrivateRoute from './route/PrivateRoute';
@@ -60,7 +59,7 @@ function App() {
                         element={<PrivateRoute element={EditRole} />}
                     />
                     <Route
-                        path="/admin/adduser"
+                        path="/admin/user-management/adduser"
                         element={<PrivateRoute element={AddUser} />}
                     />
                     <Route
@@ -72,7 +71,7 @@ function App() {
                         element={<PrivateRoute element={ViewUser} />}
                     />
                     <Route
-                        path="/admin/addorg"
+                        path="/admin/user-management/addorg"
                         element={<PrivateRoute element={AddOrg} />}
                     />
                     <Route

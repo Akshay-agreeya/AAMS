@@ -12,7 +12,7 @@ const UserManagement = () => {
   const toggleAccordion = (id) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
-  const breadcrumbs = [{ url: "admin/user-management", label: "Home" },
+  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
         {label:"User Management"}
     ];
 
@@ -46,10 +46,10 @@ const UserManagement = () => {
               <div className="pageTitle">
                 <h1>User Management - Organization ({organizations.length})</h1>
                 <div className="buttonContainer">
-                  <a href="#" className="delete" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                  <a href="#" className="delete me-1" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
                     <i className="fa-regular fa-trash-can"></i> Delete
                   </a>
-                  <a href="/admin/addorg" className="add">
+                  <a href="/admin/user-management/addorg" className="add">
                     <i className="fa-solid fa-plus"></i> Add New Organization
                   </a>
                 </div>
@@ -82,10 +82,10 @@ const UserManagement = () => {
                             </div>
                           </div>
                           <div className="addNewUserCont">
-                            <a href="/admin/editorg" className="edit">
+                            <a href="/admin/editorg" className="edit me-1">
                               <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                             </a>
-                            <a href="/admin/adduser" className="add">
+                            <a href="/admin/user-management/adduser" className="add">
                               <i className="fa-solid fa-plus"></i> Add New User
                             </a>
                           </div>
