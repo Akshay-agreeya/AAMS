@@ -56,7 +56,7 @@ const LoginForm = () => {
             </div>
             <div className="loginHeading">ADA CMS Sign In</div>
             <div className="loginSubHeading">Sign in to your account to continue</div>
-            {error && <div class="alert alert-danger" role="alert">{error}</div>
+            {error && <div className="alert alert-danger" role="alert">{error}</div>
  }
             <div className="formFieldsContainer">
                 <Form onSubmit={handleSubmit}>

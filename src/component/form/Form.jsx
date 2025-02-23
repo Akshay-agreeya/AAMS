@@ -1,15 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FormItem } from './FormItem';
 
 // Form Component
-const Form = ({ children, onSubmit }) => {
-    const [formData, setFormData] = useState({});
+const Form = ({ children, onSubmit, initialValues = {} }) => {
+    const [formData, setFormData] = useState(initialValues);
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        if (Object.keys(formData).length > 0)
-            validateForm();
+    
+    // Validate individual input field
+    const validateInput = useCallback((newErrors, child) => {
+        if (child.props.name) {
+            const rules = child.props.rules || [];
+    
+            rules.forEach((rule) => {
+                const value = formData[child.props.name] || '';
+    
+                if (rule.required && !value) {
+                    newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
+                } else if (rule.pattern && !rule.pattern.test(value)) {
+                    newErrors[child.props.name] = rule.message || `${child.props.name} is invalid`;
+                } else if (rule.minLength && value.length < rule.minLength) {
+                    newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
+                }
+    
+                if (child.props.name === 'password' && formData['confirmPassword'] && formData['password'] !== formData['confirmPassword']) {
+                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+                }
+    
+                if (child.props.name === 'confirmPassword' && formData['password'] && formData['password'] !== formData['confirmPassword']) {
+                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+                }
+            });
+        }
     }, [formData]);
+
+    // Memoize validateForm function to avoid unnecessary re-creations
+    const validateForm = useCallback(() => {
+        const newErrors = {};
+
+        const validateChildrenRecursively = (children) => {
+            React.Children.forEach(children, (child) => {
+                if (child.type?.name === "FormItem") {
+                    validateInput(newErrors, child);
+                } else if (child.props?.children) {
+                    validateChildrenRecursively(child.props.children); // Recurse if there are nested children
+                }
+            });
+        };
+
+        validateChildrenRecursively(children);
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    }, [children, validateInput]); // Include dependencies
+
+    useEffect(() => {
+        if (Object.keys(formData).length > 0) {
+            validateForm(); // Call validateForm when formData changes
+        }
+    }, [formData, validateForm]); // Include validateForm in the dependency array
 
     // Handle input change
     const handleChange = (e) => {
@@ -20,54 +69,6 @@ const Form = ({ children, onSubmit }) => {
         });
     };
 
-    // Validate all fields based on the rules
-    const validateForm = () => {
-        const newErrors = {};
-
-        React.Children.forEach(children, (child) => {
-            if (child.props.type === "FormItem")
-                validateInput(newErrors, child);
-            else {
-                React.Children.forEach(child.props.children, (cItem) => {
-                    if (cItem.type.name === "FormItem")
-                        validateInput(newErrors, cItem);
-                });
-            }
-
-        });
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const validateInput = (newErrors, child) => {
-        if (child.props.name) {
-            // Collect the validation rules and run them
-            const rules = child.props.rules || [];
-
-            rules.forEach((rule) => {
-                const value = formData[child.props.name] || '';
-
-                if (rule.required && !value) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
-                } else if (rule.pattern && !rule.pattern.test(value)) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} is invalid`;
-                } else if (rule.minLength && value.length < rule.minLength) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
-                }
-
-                // Password and confirm password validation
-                if (child.props.name === 'password' && formData['confirmPassword'] && formData['password'] !== formData['confirmPassword']) {
-                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
-                }
-
-                if (child.props.name === 'confirmPassword' && formData['password'] && formData['password'] !== formData['confirmPassword']) {
-                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
-                }
-            });
-        }
-    }
-
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -77,40 +78,27 @@ const Form = ({ children, onSubmit }) => {
         }
     };
 
+    const processChildren = (child) => {
+        if (child.type === FormItem) {
+            return React.cloneElement(child, {
+                value: formData[child.props.name] || '',
+                onChange: handleChange,
+                error: errors[child.props.name],
+            });
+        }
+
+        if (child.props && child.props.children) {
+            const nestedChildren = React.Children.map(child.props.children, processChildren);
+            return React.cloneElement(child, { children: nestedChildren });
+        }
+
+        return child;
+    };
+
     return (
         <form onSubmit={handleSubmit}>
-            {React.Children.map(children, (child) => {
-                // If the child is a FormItem, clone it and pass necessary props
-                if (child.type === FormItem) {
-                    return React.cloneElement(child, {
-                        value: formData[child.props.name] || '',  // Handle form data
-                        onChange: handleChange,                   // Wire up the onChange handler
-                        error: errors[child.props.name],          // Pass error for that field
-                    });
-                }
-
-                // If the child has nested elements, process them
-                if (child.props && child.props.children) {
-                    const nestedChildren = React.Children.map(child.props.children, (nestedChild) => {
-                        if (nestedChild.type === FormItem) {
-                            return React.cloneElement(nestedChild, {
-                                value: formData[nestedChild.props.name] || '',
-                                onChange: handleChange,
-                                error: errors[nestedChild.props.name],
-                            });
-                        }
-                        return nestedChild;  // Return non-FormItem elements unchanged
-                    });
-
-                    // Clone the parent child (e.g., a div) and pass the processed nested children
-                    return React.cloneElement(child, { children: nestedChildren });
-                }
-
-                // Return the child as is if it's not a FormItem or doesn't need processing
-                return child;
-            })}
+            {React.Children.map(children, processChildren)}
         </form>
-
     );
 };
 

@@ -9,33 +9,32 @@ const Navbar = () => {
           className="nav-link"
           to="/admin/dashboard"
           end // Ensure exact match for this route
-          activeClassName="active"
         >
           Dashboard
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/admin/user-management" activeClassName="active">
+        <NavLink className="nav-link" to="/admin/user-management">
           User Management
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/admin/role-management" activeClassName="active">
+        <NavLink className="nav-link" to="/admin/role-management">
           Role Management
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/admin/product-permission" activeClassName="active">
+        <NavLink className="nav-link" to="/admin/product-permission">
           Product Permission
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/admin/product-management" activeClassName="active">
+        <NavLink className="nav-link" to="/admin/product-management">
           Product Management
         </NavLink>
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" to="/admin/reports" activeClassName="active">
+        <NavLink className="nav-link" to="/admin/reports">
           Reports
         </NavLink>
       </li>
