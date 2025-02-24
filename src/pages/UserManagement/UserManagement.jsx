@@ -11,10 +11,7 @@ const UserManagement = () => {
   const [openAccordion, setOpenAccordion] = useState(null);
   const toggleAccordion = (id) => {
     setOpenAccordion(openAccordion === id ? null : id);
-  };
-  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
-        {label:"User Management"}
-    ];
+  };  
 
   const organizations = [
     {
@@ -35,7 +32,7 @@ const UserManagement = () => {
   ];
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
     <div className="adaMainContainer">
       {/* Breadcrumb */}
       {/* Admin Panel Content */}

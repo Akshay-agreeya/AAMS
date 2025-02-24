@@ -7,10 +7,7 @@ import { Select } from "../../component/input/Select";
 import Captcha from "../../assets/images/capcha.jpg";
 
 const AddUser = () => {
-  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
-    { url: "/admin/user-management", label: "User Management" }, 
-    { label: "Add User" }];
-
+ 
   const initialData = {
     selRole: "",
     firstName: "",
@@ -28,7 +25,7 @@ const AddUser = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">

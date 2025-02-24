@@ -3,9 +3,9 @@ import { Select } from '../input/Select';
 
 const organizationTypes = [
     { value: '', label: "Select Type of Organization", props: { defaultValue:'', disabled: true } },
-    { value: "Private", label: "Private" },
-    { value: "Government", label: "Government" },
-    { value: "Non-Profit", label: "Non-Profit" }
+    { value: 1, label: "Private" },
+    { value: 2, label: "Government" },
+    { value: 3, label: "Non-Profit" }
 ];
 
 export const OrganizationTypeSelect = ({ name = "role", ...rest }) => {
