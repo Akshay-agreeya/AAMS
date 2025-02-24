@@ -18,11 +18,7 @@ const AddService = () => {
     scheduleTime: "",
   });
 
-  const breadcrumbs = [
-    { url: "admin/AddService", label: "Home" },
-    { label: "Add Product" },
-  ];
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -34,7 +30,7 @@ const AddService = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">
@@ -79,6 +75,25 @@ const AddService = () => {
 
                     <h3>Product & Maintenance</h3>
                     <div className="formContainer">
+                    <div className="col-12 mb-4">
+        <h3>Select Your Product</h3>
+        <div className="checkBoxOptionContainer w-75">
+          <div className="form-check me-5">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="product"
+              id="websiteAccessibility"
+              value="websiteAccessibility"
+              checked
+              readOnly
+            />
+            <label className="form-check-label" htmlFor="websiteAccessibility">
+              Website Accessibility
+            </label>
+          </div>
+        </div>
+      </div>
                       <div className="row">
                         <div className="col-12 mb-4">
                           <h3>Product</h3>

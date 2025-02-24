@@ -6,7 +6,7 @@ import { Input } from "../../component/input/Input";
 import { Select } from "../../component/input/Select";
 
 const EditOrganization = () => {
-  const breadcrumbs = [{ url: "/admin/editorg", label: "Home" }, { label: "Edit Organization" }];
+  
 
   const initialData = {
     name: "Organization Name 1",
@@ -28,7 +28,7 @@ const EditOrganization = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout >
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">

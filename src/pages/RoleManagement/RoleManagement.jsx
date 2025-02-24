@@ -3,14 +3,11 @@ import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images//iconDelete.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
-import ChangePasswordModal from '../../common/auth/ChangePassword'
+
 
 const RoleManagement = () => {
-  const breadcrumbs = [{ url: "admin/role-management", label: "Home" },
-        {label:"Role Management"}
-    ];
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout >
       <div className="adaMainContainer">
         {/* Breadcrumbs */}
         {/* Admin Panel Content */}
@@ -21,7 +18,7 @@ const RoleManagement = () => {
                 <div className="pageTitle">
                   <h1>Role Management</h1>
                   <div className="buttonContainer">
-                    <a href="/admin/addrole" className="add">
+                    <a href="/admin/role-management/addrole" className="add">
                       + New Role
                     </a>
                   </div>
@@ -51,7 +48,7 @@ const RoleManagement = () => {
                             <td>{role.description}</td>
                             <td>{role.created}</td>
                             <td className="text-center">
-                              <a href="/admin/editrole" className="me-3">
+                              <a href="/admin/role-management/editrole" className="me-3">
                                 <img src={editicon} alt="Edit Role" />
                               </a>
                               <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
@@ -73,7 +70,7 @@ const RoleManagement = () => {
  <DeleteConfirmationModal modalId="deleteUserModal" />
 
         {/* Change Password Modal */}
-        <ChangePasswordModal Id="changepassword"/>
+        
       </div>
     </Layout>
   );

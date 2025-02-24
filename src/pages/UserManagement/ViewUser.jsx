@@ -6,8 +6,6 @@ import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 
 const ViewUserDetails = () => {
-  const breadcrumbs = [{ url: "admin/viewuser", label: "Home" }, { label: "View User" }];
-
   const userDetails = {
     firstName: "Ajay",
     lastName: "Sharma",
@@ -16,7 +14,7 @@ const ViewUserDetails = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         {/* Admin Panel site content */}
         <section className="adminControlContainer">
@@ -34,7 +32,7 @@ const ViewUserDetails = () => {
                     User Name: <span className="me-4">ajay.sharma</span> Role: <span>User</span>
                   </div>
                   <div className="editDetails">
-                    <a href="/edituser">
+                    <a href="/admin/user-management/edituser">
                       <img src={iconEdit} alt="Edit User Details" />
                     </a>
                   </div>

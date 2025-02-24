@@ -69,7 +69,7 @@ const LoginForm = () => {
 
                     <div className="form-floating">
                         <FormItem name="password" rules={[{ required: true, message: "Please enter your password" }]}>
-                            <InputPassword className="form-control" placeholder="Password" />
+                            <InputPassword className="form-control mb-2" placeholder="Password" />
                         </FormItem>
                         <label>Password</label>
                     </div>

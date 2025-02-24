@@ -10,9 +10,6 @@ import { postData } from '../../utils/CommonApi';
 import notification from '../../component/notification/Notification';
 
 const AddOrganization = () => {
-  const breadcrumbs = [{ url: "/admin/dashboard", label: "Home" },
-  { url: "/admin/user-management", label: "User Management" },
-  { label: "Add Organization" }];
 
   const handleSubmit = async (formData) => {
 
@@ -37,7 +34,7 @@ const AddOrganization = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout >
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">
