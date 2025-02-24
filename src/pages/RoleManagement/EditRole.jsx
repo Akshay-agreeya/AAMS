@@ -14,7 +14,6 @@ const EditRole = () => {
     "Product Management": { add: true, edit: true, view: true, delete: true },
     Reports: { add: true, edit: true, view: true, delete: true },
   });
-  const breadcrumbs = [{ url: "/admin/editrole", label: "Home" }, { label: "Edit Role" }];
 
   const handleCheckboxChange = (module, action) => {
     setPermissions((prev) => ({
@@ -24,7 +23,7 @@ const EditRole = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">

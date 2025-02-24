@@ -2,11 +2,8 @@ import React from 'react';
 import Layout from '../../component/Layout'
 
 const ViewService = () => {
-    const breadcrumbs = [{ url: "admin/viewservice", label: "Home" },
-  {label:"View Service"}
-];
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
     <div className="adaMainContainer">
       <section className="adminControlContainer">
         <div className="container">
