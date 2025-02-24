@@ -5,11 +5,8 @@ import smallAccessibilityNumber from '../../assets/images/smallAccessibilityNumb
 import iconMoveRight from '../../assets/images/iconMoveRight.svg'
 
 const Reports = () => {
-    const breadcrumbs = [{ url: "/admin/reports", label: "Home" },
-        {label:"Reports"}
-    ];
   return (
-      <Layout breadcrumbs={breadcrumbs}>
+      <Layout>
     <div className="adaMainContainer">
       <section className="adminControlContainer">
         <div className="container">

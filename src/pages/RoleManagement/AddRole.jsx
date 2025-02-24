@@ -5,13 +5,11 @@ import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 
 const AddRole = () => {
-  const breadcrumbs = [{ url: "/admin/editorg", label: "Home" }, { label: "Add Role" }];
-
   const modules = ["User Management", "Role Management", "Product Permission", "Product Management", "Reports"];
   const actions = ["Add", "Edit", "View", "Delete"];
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">

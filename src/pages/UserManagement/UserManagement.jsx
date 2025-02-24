@@ -79,7 +79,7 @@ const UserManagement = () => {
                             </div>
                           </div>
                           <div className="addNewUserCont">
-                            <a href="/admin/editorg" className="edit me-1">
+                            <a href="/admin/user-management/editorganization" className="edit me-1">
                               <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                             </a>
                             <a href="/admin/user-management/adduser" className="add">
@@ -126,10 +126,10 @@ const UserManagement = () => {
                                         </select>
                                       </td>
                                       <td className="text-center">
-                                        <a href="/admin/viewuser" className="me-3">
+                                        <a href="/admin/user-management/viewuser" className="me-3">
                                           <img src={viewicon} alt="View Details" />
                                         </a>
-                                        <a href="/admin/edituser" className="me-3">
+                                        <a href="/admin/user-management/edituser" className="me-3">
                                           <img src={editicon} alt="Edit Details" />
                                         </a>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">

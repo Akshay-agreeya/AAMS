@@ -5,11 +5,9 @@ import deleteicon from "../../assets/images//iconDelete.svg";
 import Layout from '../../component/Layout';
 
 const ProductManagement = () => {
-  const breadcrumbs = [{ url: "/admin/product-management", label: "Home" },
-        {label:"Product Management"}
-    ];
+  
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout >
     <div className="adaMainContainer">
       {/* Breadcrumbs */}
       {/* Admin Panel Content */}
@@ -58,7 +56,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="/admin/addservice" className="add">
+                          <a href="/admin/product-management/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>
@@ -105,10 +103,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="/admin/viewservice" className="me-1">
+                                    <a href="/admin/product-management/viewservice" className="me-1">
                                       <img src={IconView} alt="View Details" />
                                     </a>
-                                    <a href="/admin/editservice" className="me-1">
+                                    <a href="/admin/product-management/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -158,7 +156,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="/admin/addservice" className="add">
+                          <a href="/admin/product-management/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>
@@ -205,10 +203,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="/admin/viewservice" className="me-1">
+                                    <a href="/admin/product-management/viewservice" className="me-1">
                                       <img src={IconView} alt="View Details" />
                                     </a>
-                                    <a href="/admin/editservice" className="me-1">
+                                    <a href="/admin/product-management/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -258,7 +256,7 @@ const ProductManagement = () => {
                           </div>
                         </div>
                         <div className="addNewService">
-                          <a href="/admin/addservice" className="add">
+                          <a href="/admin/product-management/addservice" className="add">
                             <i className="fa-solid fa-plus"></i> Add Service
                           </a>
                         </div>
@@ -305,10 +303,10 @@ const ProductManagement = () => {
                                   <td className="text-center">01-19-2025</td>
                                   <td className="text-center">17:34</td>
                                   <td className="text-center text-nowrap">
-                                    <a href="/admin/viewservice" className="me-1">
+                                    <a href="/admin/product-management/viewservice" className="me-1">
                                       <img src={IconView}alt="View Details" />
                                     </a>
-                                    <a href="/admin/editservice" className="me-1">
+                                    <a href="/admin/product-management/editservice" className="me-1">
                                       <img src={editicon} alt="Edit Details" />
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

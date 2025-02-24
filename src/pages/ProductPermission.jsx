@@ -3,11 +3,9 @@ import Layout from '../component/Layout';
 
 
 const ProductPermission = () => {
-    const breadcrumbs = [{ url: "/admin/product-permission", label: "Home" },
-        {label:"Product Permission"}
-    ];
+    
     return (
-        <Layout breadcrumbs={breadcrumbs}>
+        <Layout >
         <div className="adaMainContainer">
             <section className="adminControlContainer">
                 <div className="container">

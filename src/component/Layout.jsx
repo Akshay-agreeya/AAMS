@@ -3,6 +3,7 @@ import AppHeader from '../common/AppHeader'
 import MenuHeader from '../common/MenuHeader'
 import AppFooter from '../common/AppFooter'
 import Breadcrumbs from './Breadcrumbs'
+import ChangePasswordModal from '../common/auth/ChangePassword'
 
 const Layout = ({ children, breadcrumbs }) => {
     return (
@@ -11,6 +12,7 @@ const Layout = ({ children, breadcrumbs }) => {
             <MenuHeader />
             <Breadcrumbs breadcrumbs={breadcrumbs} />
             <main>{children}</main>
+            <ChangePasswordModal/>
             <AppFooter />
         </div>
     )

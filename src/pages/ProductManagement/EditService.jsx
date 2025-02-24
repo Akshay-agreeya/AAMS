@@ -20,11 +20,6 @@ const EditService = () => {
     scheduleTime: "11:30",
   });
 
-  const breadcrumbs = [
-    { url: "admin/editservice", label: "Home" },
-    { label: "Edit Service" },
-  ];
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -36,7 +31,7 @@ const EditService = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">

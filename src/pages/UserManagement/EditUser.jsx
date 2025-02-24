@@ -5,8 +5,6 @@ import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 
 const EditUser = () => {
-  const breadcrumbs = [{ url: "admin/edituser", label: "Home" }, { label: "Edit User" }];
-
   const initialData = {
     firstName: "Ajay",
     lastName: "Sharma",
@@ -19,7 +17,7 @@ const EditUser = () => {
   };
 
   return (
-    <Layout breadcrumbs={breadcrumbs}>
+    <Layout>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">
