@@ -15,6 +15,8 @@ import AddRole from './pages/RoleManagement/AddRole';
 import EditRole from './pages/RoleManagement/EditRole';
 import EditOrganization from '../src/pages/Organization/EditOrg';
 // import Edit from '../src/pages/Organization/EditOrg';
+import EditOrganization from '../src/pages/Organization/EditOrg';
+// import Edit from '../src/pages/Organization/EditOrg';
 import ProductPermission from './pages/ProductPermission';
 import ProductManagement from './pages/ProductManagement/ProductManagement';
 import ChangePassword from './common/auth/ChangePassword';
@@ -48,16 +50,38 @@ export const routesMap = [
     { path: "/admin/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/admin/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
 ]
+import AddService from './pages/ProductManagement/AddService';
+import AddOrganization from '../src/pages/Organization/AddOrg';
+
+export const routesMap = [
+    { path: "/", element: <Login /> },
+    { path: "/login", element: <Login /> },
+    { path: "/forgotpassword", element: <ForgotPassword /> },
+    { path: "/changepassword", element: <ChangePassword /> },
+    { path: "/reportlisting", element: <ReportListing /> },
+    { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
+    { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
+    { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
+    { path: "/admin/user-management/editorganization", element: <PrivateRoute element={EditOrganization} />, breadcrumb: "Edit organization" },
+    { path: "/admin/user-management/adduser", element: <PrivateRoute element={AddUser} />, breadcrumb: "Add User" },
+    { path: "/admin/user-management/edituser", element: <PrivateRoute element={EditUser} />, breadcrumb: "Edit User" },
+    { path: "/admin/user-management/viewuser", element: <PrivateRoute element={ViewUser} />, breadcrumb: "View User" },
+    { path: "/admin/role-management", element: <PrivateRoute element={RoleManagement} />, breadcrumb: "Role Management" },
+    { path: "/admin/role-management/addrole", element: <PrivateRoute element={AddRole} />, breadcrumb: "Add Role " },
+    { path: "/admin/role-management/editrole", element: <PrivateRoute element={AddRole} />, breadcrumb: "Edit Role " },
+    { path: "/admin/product-permission", element: <PrivateRoute element={ProductPermission} />, breadcrumb: "ProductPermission" },
+    { path: "/admin/product-management", element: <PrivateRoute element={ProductManagement} />, breadcrumb: "Product Management" },
+    { path: "/admin/product-management/addservice", element: <PrivateRoute element={AddService} />, breadcrumb: "Add Product" },
+    { path: "/admin/product-management/editservice", element: <PrivateRoute element={AddService} />, breadcrumb: "Edit Product" },
+    { path: "/admin/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
+    { path: "/admin/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
+]
 
 function App() {
     return (<AuthProvider>
         <Router>
             <ErrorBoundary>
                 <Routes>
-                    {routesMap.map((item, index) => <Route path={item.path} element={item.element} key={index} />
-
-                    )}
-                    {/* <Route path="/" element={<Login />} />
                     {routesMap.map((item, index) => <Route path={item.path} element={item.element} key={index} />
 
                     )}
@@ -123,10 +147,8 @@ function App() {
                         element={<PrivateRoute element={Reports} />}
                     />
                      <Route
-                     <Route
                         path="/admin/reportlisting"
                         element={<PrivateRoute element={ReportListing} />}
-                    /> 
                     /> 
                     <Route
                         path="/admin/editservice"
@@ -141,11 +163,8 @@ function App() {
                         element={<PrivateRoute element={ViewService} />}
                     /> */}
 
-                    /> */}
-
                     <Route
                         path="*"
-                        element={<NotFound />}
                         element={<NotFound />}
                     />
                 </Routes>
