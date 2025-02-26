@@ -9,8 +9,11 @@ import { CountrySelect } from "../../component/select/CountrySelect";
 import { postData } from '../../utils/CommonApi';
 import notification from '../../component/notification/Notification';
 import DatePicker, { formattedDate } from '../../component/input/DatePicker';
+import { useNavigate } from 'react-router-dom';
 
 const AddOrganization = () => {
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (formData) => {
 
@@ -23,6 +26,7 @@ const AddOrganization = () => {
         title: 'Add Organization',
         message: resp.message
       });
+      navigate("/admin/user-management");
     }
     catch (error) {
       console.log(error);
