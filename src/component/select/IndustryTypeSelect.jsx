@@ -3,9 +3,9 @@ import { Select } from '../input/Select';
 
 const industryTypes = [
     { value: '', label: "Select Industry Type", props: { defaultValue:'', disabled: true } },
-    { value: "IT", label: "IT" },
-    { value: "Healthcare", label: "Healthcare" },
-    { value: "Education", label: "Education" }
+    { value: "1", label: "IT" },
+    { value: "2", label: "Healthcare" },
+    { value: "3", label: "Education" }
 ];
 
 export const IndustryTypeSelect = ({ name = "industry_type", ...rest }) => {

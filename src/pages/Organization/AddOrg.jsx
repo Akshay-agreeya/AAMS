@@ -8,18 +8,21 @@ import { IndustryTypeSelect } from "../../component/select/IndustryTypeSelect";
 import { CountrySelect } from "../../component/select/CountrySelect";
 import { postData } from '../../utils/CommonApi';
 import notification from '../../component/notification/Notification';
+import DatePicker, { formattedDate } from '../../component/input/DatePicker';
 
 const AddOrganization = () => {
 
   const handleSubmit = async (formData) => {
 
-    console.log("Form Submitted", formData);
+    console.log("Form Submitted", {formData});
     try {
-      const resp = await postData("/org/add", formData); debugger
+      const resp = await postData("/org/add", {...formData,
+        contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date),"dd/MM/yyyy")
+      });
       notification.success({
         title: 'Add Organization',
         message: resp.message
-      })
+      });
     }
     catch (error) {
       console.log(error);
@@ -119,7 +122,8 @@ const AddOrganization = () => {
                             <FormItem name="contract_expiry_date" label="Hub Contract Expiry Date"
                               rules={[{ required: true, message: "Required" }]}
                               requiredMark={true}>
-                              <Input type="date" />
+                              <DatePicker minDate={new Date()}
+                                onChange={(date) => { console.log(date) }} name="contract_expiry_date" />
                             </FormItem>
                           </div>
                         </div>

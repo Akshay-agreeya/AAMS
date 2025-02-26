@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FormItem } from './FormItem';
+import { formattedDate } from '../input/DatePicker';
 
 // Form Component
 const Form = ({ children, onSubmit, initialValues = {} }) => {
@@ -62,7 +63,7 @@ const Form = ({ children, onSubmit, initialValues = {} }) => {
 
     // Handle input change
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
