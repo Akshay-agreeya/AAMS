@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 
 const accordianId = Date.now() + '-' + Math.floor(Math.random() * 1000);
-
 const AccordianHeader = ({ showIcon = true, title, collapsed, handleToggle, extra,
     prefix }) => {
-
-
-
 
     return (
         <h2 className="accordion-header" id={`heading${accordianId}`}>
@@ -30,7 +26,6 @@ const AccordianHeader = ({ showIcon = true, title, collapsed, handleToggle, extr
 
     )
 }
-
 const Accordian = ({ children, title, prefix, extra,showIcon }) => {
 
     const [collapsed, setCollapsed] = useState(false);
@@ -60,5 +55,4 @@ const Accordian = ({ children, title, prefix, extra,showIcon }) => {
         </div>
     )
 }
-
 export default Accordian;

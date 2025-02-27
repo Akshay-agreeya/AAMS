@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 
 const UserManagement = () => {
-
   const [organizations, setOrganizations] = useState([]);
 
   const navigate = useNavigate();
@@ -84,11 +83,11 @@ const UserManagement = () => {
                         <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
                           <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                         </a>
-                        <a href="/admin/user-management/adduser" className="add">
+                        <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
                           <i className="fa-solid fa-plus"></i> Add New User
                         </a>
                       </div>}>
-                        <UserTable org_id={org.org_id} />
+                        <UserTable org_id={org.org_id}/>
                       </Accordian>
                     ))}
                   </div>

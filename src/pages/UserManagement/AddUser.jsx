@@ -4,25 +4,50 @@ import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 import { Select } from "../../component/input/Select";
-import Captcha from "../../assets/images/capcha.jpg";
+// import Captcha from "../../assets/images/capcha.jpg";
+import { postData } from "../../utils/CommonApi";
+import {useParams} from "react-router-dom"
 
 const AddUser = () => {
- 
+  const{org_id} = useParams()
+
   const initialData = {
-    selRole: "",
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
     contactNo: "",
-    username: "",
     password: "",
     confirmPassword: "",
+    selRole: "",
     selStatus: "",
   };
 
-  const handleSubmit = (formData) => {
-    console.log("Form Submitted", formData);
-  };
+  const handleSubmit = async (formData) => {
+    try {
+        const payload = {
+            username: formData.username,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone_number: formData.contactNo,
+            password: formData.password,
+            role_id: parseInt(formData.selRole), 
+        };
+
+        const response = await postData(`/user/add/${org_id}`, payload);
+
+        if (response.success) {
+            alert("User added successfully!");
+            
+        } else {
+            alert(response.message || "Failed to add user.");
+        }
+    } catch (error) {
+        console.error("Error adding user:", error);
+        alert("An error occurred while adding the user.");
+    }
+};
 
   return (
     <Layout>
@@ -62,7 +87,7 @@ const AddUser = () => {
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
-                          <FormItem name="selRole" label="Select Role" rules={[{ required: true, message: "Required" }]}>
+                          <FormItem name="selRole" label="Select Role" rules={[{ required: true, message: "Role is required" }]}requiredMark={true}>
                             <Select
                               options={[
                                 { value: "1", label: "Admin" },
@@ -73,13 +98,13 @@ const AddUser = () => {
                         </div>
 
                         {[
-                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name" },
-                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name" },
-                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com" },
-                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number" },
+                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name",messagerequired:"First Name is required" },
+                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name",messagerequired:"Last Name is required" },
+                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com",messagerequired:"Email is required" },
+                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number",messagerequired:"Contact No is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: "Required" }]}>
+                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: field.messagerequired }]}requiredMark={true}>
                               <Input type={field.type} placeholder={field.placeholder} />
                             </FormItem>
                           </div>
@@ -91,19 +116,19 @@ const AddUser = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
-                          { label: "Password", name: "password", type: "password", placeholder: "Password" },
-                          { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
+                          { label: "User Name", name: "username", type: "text", placeholder: "User Name",messagerequired:"User Name is required" },
+                          { label: "Password", name: "password", type: "password", placeholder: "Password",messagerequired:"Password is required" },
+                          { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password",messagerequired:"Confirm Password is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: "Required" }]}>
+                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message:field.messagerequired}]}requiredMark={true}>
                               <Input type={field.type} placeholder={field.placeholder} />
                             </FormItem>
                           </div>
                         ))}
 
                         <div className="col-12 col-lg-4">
-                          <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Required" }]}>
+                          <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}requiredMark={true}>
                             <Select
                               options={[
                                 { value: "1", label: "Active" },
@@ -113,11 +138,11 @@ const AddUser = () => {
                           </FormItem>
                         </div>
 
-                        <div className="col-12 col-lg-8">
+                        {/* <div className="col-12 col-lg-8">
                           <div className="captchaContainer text-end">
                             <img src={Captcha} alt="captcha" />
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 
