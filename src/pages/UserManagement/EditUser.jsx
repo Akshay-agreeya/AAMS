@@ -61,13 +61,13 @@ const EditUser = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name" },
-                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name" },
-                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com" },
-                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number" },
+                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name",messagerequired:"User Name is required" },
+                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name",messagerequired:"Password is required" },
+                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com",messagerequired:"Email is required" },
+                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number",messagerequired:"Contact No  is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: "Required" }]}>
+                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message:field.messagerequired }]}requiredMark={true}>
                               <Input type={field.type} placeholder={field.placeholder} />
                             </FormItem>
                           </div>

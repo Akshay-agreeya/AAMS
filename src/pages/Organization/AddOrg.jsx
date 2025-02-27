@@ -113,7 +113,7 @@ const AddOrganization = () => {
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
                             <FormItem name="address_line" label="Organization Address"
-                              rules={[{ required: true, message: "Required" }]}
+                              rules={[{ required: true, message: "Organization Address is required" }]}
                               requiredMark={true}>
                               <Input type="text" placeholder="Organization Address" />
                             </FormItem>
@@ -124,7 +124,7 @@ const AddOrganization = () => {
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
                             <FormItem name="contract_expiry_date" label="Hub Contract Expiry Date"
-                              rules={[{ required: true, message: "Required" }]}
+                              rules={[{ required: true, message: "Hub Contract Expiry Date is required" }]}
                               requiredMark={true}>
                               <DatePicker minDate={new Date()}
                                 onChange={(date) => { console.log(date) }} name="contract_expiry_date" />
@@ -138,15 +138,15 @@ const AddOrganization = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
-                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
-                          { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com" },
-                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
+                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name",messagerequired:"First Name is required" },
+                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name",messagerequired:"Last Name is required" },
+                          { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com",messagerequired:"Email is required" },
+                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number",messagerequired:"Contact No is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
-                                rules={[{ required: true, message: "Required" }]}>
+                                rules={[{ required: true, message: field.messagerequired }]}requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>
                             </div>

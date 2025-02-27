@@ -4,6 +4,11 @@ import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 import { Select } from "../../component/input/Select";
+import { OrganizationTypeSelect } from "../../component/select/OrganizationTypeSelect";
+import { IndustryTypeSelect } from "../../component/select/IndustryTypeSelect";
+import { CountrySelect } from "../../component/select/CountrySelect";
+import { StateSelect } from "../../component/select/StateSelect";
+import DatePicker from "../../component/input/DatePicker";
 
 const EditOrganization = () => {
   
@@ -52,62 +57,45 @@ const EditOrganization = () => {
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
-                          <FormItem name="name" label="Organization Name" rules={[{ required: true, message: "Required" }]}>
+                          <FormItem name="name" label="Organization Name" rules={[{ required: true, message: "Organization Name is equired" }]}requiredMark={true}>
                             <Input type="text" />
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="type" label="Type of Organization" rules={[{ required: true, message: "Required" }]}>
-                            <Select
-                              options={[
-                                { value: "1", label: "Private" },
-                                { value: "2", label: "Government" },
-                                { value: "3", label: "Non-Profit" },
-                              ]}
-                            />
+                        <div className="mb-3">
+                          <FormItem name="type" label="Type of Organization" rules={[{ required: true, message: "Organization Type required" }]}requiredMark={true}>
+                            <OrganizationTypeSelect/>
+                          </FormItem>
+                        </div>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                        <div className="mb-3">
+                          <FormItem name="industry" label="Industry Type" rules={[{ required: true, message: "Indtustry Type is required" }]}requiredMark={true}>
+                            <IndustryTypeSelect/>
+                          </FormItem>
+                        </div>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                        <div className="mb-3">
+                          <FormItem name="country" label="Country" rules={[{ required: true, message: "Country is required" }]}requiredMark={true}>
+                            <CountrySelect/>
+                          </FormItem>
+                        </div>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                          <FormItem name="state" label="State" rules={[{ required: true, message: "State is required" }]}requiredMark={true}>
+                            <StateSelect/>
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="industry" label="Industry Type" rules={[{ required: true, message: "Required" }]}>
-                            <Select
-                              options={[
-                                { value: "1", label: "IT" },
-                                { value: "2", label: "Healthcare" },
-                                { value: "3", label: "Education" },
-                              ]}
-                            />
-                          </FormItem>
-                        </div>
-                        <div className="col-12 col-lg-4">
-                          <FormItem name="country" label="Country" rules={[{ required: true, message: "Required" }]}>
-                            <Select
-                              options={[
-                                { value: "1", label: "United States" },
-                                { value: "2", label: "India" },
-                                { value: "3", label: "Japan" },
-                              ]}
-                            />
-                          </FormItem>
-                        </div>
-                        <div className="col-12 col-lg-4">
-                          <FormItem name="state" label="State" rules={[{ required: true, message: "Required" }]}>
-                            <Select
-                              options={[
-                                { value: "1", label: "Noida" },
-                                { value: "2", label: "Pune" },
-                                { value: "3", label: "Mumbai" },
-                              ]}
-                            />
-                          </FormItem>
-                        </div>
-                        <div className="col-12 col-lg-4">
-                          <FormItem name="address" label="Organization Address" rules={[{ required: true, message: "Required" }]}>
+                          <FormItem name="address" label="Organization Address" rules={[{ required: true, message: "organization Address is required" }]}requiredMark={true}>
                             <Input type="text" />
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="contractExpiry" label="Hub Contract Expiry Date" rules={[{ required: true, message: "Required" }]}>
-                            <Input type="date" />
+                          <FormItem name="contractExpiry" label="Hub Contract Expiry Date" rules={[{ required: true, message: "Hub Contract Expiry Date is required" }]}requiredMark={true}>
+                          <DatePicker minDate={new Date()}
+                                onChange={(date) => { console.log(date) }} name="contract_expiry_date" />
                           </FormItem>
                         </div>
                       </div>
@@ -127,22 +115,28 @@ const EditOrganization = () => {
                           </FormItem> */}
                         {/* </div> */}
                         <div className="col-12 col-lg-4">
-                          <FormItem name="firstName" label="First Name" rules={[{ required: true, message: "Required" }]}>
+                        <div className="mb-3">
+                          <FormItem name="firstName" label="First Name" rules={[{ required: true, message: "First Name is required" }]}requiredMark={true}>
                             <Input type="text" />
                           </FormItem>
                         </div>
+                        </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="lastName" label="Last Name" rules={[{ required: true, message: "Required" }]}>
+                        <div className="mb-3">
+                          <FormItem name="lastName" label="Last Name" rules={[{ required: true, message: "Last Name is required" }]}requiredMark={true}>
                             <Input type="text" />
                           </FormItem>
                         </div>
+                        </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="email" label="Email Address" rules={[{ required: true, message: "Invalid email", pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }]}>
+                          <div className="mb-3">
+                          <FormItem name="email" label="Email Address" rules={[{ required: true, message: "Email is required", pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }]}requiredMark={true}>
                             <Input type="email" />
                           </FormItem>
                         </div>
+                        </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="contactNo" label="Contact Number" rules={[{ required: true, message: "Required" }]}>
+                          <FormItem name="contactNo" label="Contact Number" rules={[{ required: true, message: "Contact No is required" }]}requiredMark={true}>
                             <Input type="text" />
                           </FormItem>
                         </div>
