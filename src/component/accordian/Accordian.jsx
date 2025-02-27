@@ -20,7 +20,7 @@ const AccordianHeader = ({ showIcon = true, title, collapsed, handleToggle, extr
                 <div className="userManagmentShortView">
                     <div className="manageOrg">
                         {prefix}
-                        {showIcon && <div className="arrowDown me-2">▼</div>}
+                        {showIcon &&  <div class="arrowDown me-2"><i class="fa-solid fa-caret-down"></i></div>}
                         <div className="title">{title}</div>
                     </div>
                 </div>
