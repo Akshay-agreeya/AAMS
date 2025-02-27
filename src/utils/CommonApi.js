@@ -46,7 +46,7 @@ export const putData = async (requestUrl, data) => {
 // Create a function to make DELETE requests
 export const deleteData = async (requestUrl, data) => {
     try {
-        const response = await axiosInstance.delete(requestUrl);
+        const response = await axiosInstance.delete(requestUrl,{data});
         return response.data;
     } catch (error) {
         console.error('Error during DELETE request:', error);

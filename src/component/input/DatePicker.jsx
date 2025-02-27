@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const formattedDate = (date, dateFormat = "yyyy-MM-dd") => {
     if (!date) return '';
@@ -28,7 +28,7 @@ const DatePicker = ({
     value,
     ...rest
 }) => {
-    const [date, setDate] = useState(value instanceof Date ? formattedDate(value) : value);
+    const [date, setDate] = useState(value instanceof Date ? formattedDate(value) : formattedDate(new Date(value)));
 
     const handleChange = (e) => {
         const selectedDate = e.target.value;

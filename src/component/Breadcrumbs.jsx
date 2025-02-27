@@ -3,71 +3,56 @@ import { useLocation } from 'react-router-dom';
 import { routesMap } from '../App';
 
 
-// export const generateBreadcrumbs = (addHome, pathnames) => {
+// Utility to detect edit actions (e.g., "edituser", "editrole")
+const isEditAction = (path) => {
+  return /edit/.test(path);
+};
 
-
-
-//   const breadcrumbs = addHome ? [
-
-//     // Home is always the starting point
-//     { url: "/admin/dashboard", label: "Home" }
-//   ] : [];
-
-//   let currentPath = '';
-
-//   // Iterate over the path segments and create breadcrumb items
-//   pathnames.forEach((segment,index) => {
-//     currentPath += `/${segment}`;
-//     const isLast = index === pathnames.length - 1;
-//     // Get the label from breadcrumbMap or fallback to the segment itself
-//     const path = `/${pathnames.slice(0, index + 1).join('/')}`;
-//       const route = routesMap.find(r => r.path === path);
-//     const breadcrumb = isLast ? { label: label } : { url: currentPath, label: label };
-//     breadcrumbs.push(
-//       breadcrumb
-//     );
-//   });
-
-//   return breadcrumbs;
-// };
-
+// Generates breadcrumbs dynamically based on the current URL path
 export const generateBreadcrumbs = (addHome = true, pathnames) => {
-
-
-  // Home is always the starting point
+  // Initialize breadcrumbs array
   const breadcrumbs = [];
 
+  // Add "Home" breadcrumb if required
+  if (addHome) {
+    breadcrumbs.push({ url: "/admin/dashboard", label: "Home" });
+  }
+
+  let currentPath = "";
+  let entityId = null;  // Variable to hold the dynamic ID (e.g., user_id, role_id)
+
+  // Iterate over the path segments to generate breadcrumbs
   pathnames.forEach((value, index) => {
-    const path = `/${pathnames.slice(0, index + 1).join('/')}`;
-    const route = routesMap.find(r => r.path === path);
-    const isLast = index === pathnames.length - 1;
-    if (value !== "admin") {
-      if (isLast !== true) {
-        breadcrumbs.push({ url: path, label: route.breadcrumb });
+    currentPath += `/${value}`;
+
+    // Find the matching route from the routesMap
+    const route = routesMap.find(r => {
+      // Handle dynamic routes like /admin/user-management/editorganization/:org_id
+      const pathRegExp = new RegExp(`^${r.path.replace(/(:\w+)/g, '([^/]+)')}$`);
+      return pathRegExp.test(currentPath);
+    });
+    const isLast = index === pathnames.length - 1;  // Check if it's the last breadcrumb
+
+    if (route) {
+      let label = route.breadcrumb || value;  // Use route breadcrumb or fallback to the path segment
+
+      // Check if it's an edit action (like edituser, editrole, etc.)
+      if (isEditAction(route.path)) {
+        // Set the dynamic entity ID from the next path segment (like user_id, role_id)
+        entityId = pathnames[index];
+        label = `${label} #${entityId}`;  // e.g., Edit User #123
       }
-      else
-        breadcrumbs.push({ label:  route.breadcrumb });
+
+      // Push the breadcrumb item (either with a URL or just the label for the last one)
+      if (isLast) {
+        breadcrumbs.push({ label: label });
+      } else {
+        breadcrumbs.push({ url: currentPath, label: label });
+      }
     }
-    else if (addHome)
-      breadcrumbs.push({ url: "/admin/dashboard", label: "Home" });
   });
+
   return breadcrumbs;
-  // Iterate over the path segments and create breadcrumb items
-  // pathnames.forEach((_segment, index) => {
-
-  //   // Get the label from breadcrumbMap or fallback to the segment itself
-  //   const path = `/${pathnames.slice(0, index + 1).join('/')}`;
-  //   const route = routesMap.find(r => r.path === path);
-  //   if (route) {
-
-  //     breadcrumbs.push(
-  //       { url: path, label: route }
-  //     );
-  //   }
-  //   return 
-  // });
-
-  // return breadcrumbs;
 };
 
 const Breadcrumbs = ({ breadcrumbs, addHome }) => {

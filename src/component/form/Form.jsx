@@ -6,15 +6,22 @@ const Form = ({ children, onSubmit, initialValues = {} }) => {
     const [formData, setFormData] = useState(initialValues);
     const [errors, setErrors] = useState({});
 
-    
+    useEffect(() => {
+        // Only update formData if initialValues has changed
+        if (JSON.stringify(initialValues) !== JSON.stringify(formData)) {
+            setFormData(initialValues);
+        }
+    }, [initialValues]);
+
+
     // Validate individual input field
     const validateInput = useCallback((newErrors, child) => {
         if (child.props.name) {
             const rules = child.props.rules || [];
-    
+
             rules.forEach((rule) => {
                 const value = formData[child.props.name] || '';
-    
+
                 if (rule.required && !value) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
                 } else if (rule.pattern && !rule.pattern.test(value)) {
@@ -22,11 +29,11 @@ const Form = ({ children, onSubmit, initialValues = {} }) => {
                 } else if (rule.minLength && value.length < rule.minLength) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
                 }
-    
+
                 if (child.props.name === 'password' && formData['confirmPassword'] && formData['password'] !== formData['confirmPassword']) {
                     newErrors['confirmPassword'] = 'Password and Confirm Password must match';
                 }
-    
+
                 if (child.props.name === 'confirmPassword' && formData['password'] && formData['password'] !== formData['confirmPassword']) {
                     newErrors['confirmPassword'] = 'Password and Confirm Password must match';
                 }
@@ -62,7 +69,7 @@ const Form = ({ children, onSubmit, initialValues = {} }) => {
 
     // Handle input change
     const handleChange = (e) => {
-        const {name, value } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
