@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { FormItem } from './FormItem';
 
 // Form Component
-const Form = forwardRef((props,ref) => {
+const Form = forwardRef((props, ref) => {
 
     const { children, onSubmit, initialValues = {} } = props;
 
@@ -11,19 +11,19 @@ const Form = forwardRef((props,ref) => {
 
     // Forward ref
 
-    useImperativeHandle(ref, ()=>({
-        setFieldsValue(values){
+    useImperativeHandle(ref, () => ({
+        setFieldsValue(values) {
             setFormData(values);
         }
     }));
 
     // Validate individual input field
-    const validateInput = useCallback((newErrors, child) => {
+    const validateInput = useCallback((newErrors, child, newFormData = formData) => {
         if (child.props.name) {
             const rules = child.props.rules || [];
 
             rules.forEach((rule) => {
-                const value = formData[child.props.name] || '';
+                const value = newFormData[child.props.name] || '';
 
                 if (rule.required && !value) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
@@ -33,11 +33,11 @@ const Form = forwardRef((props,ref) => {
                     newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
                 }
 
-                if (child.props.name === 'password' && formData['confirmPassword'] && formData['password'] !== formData['confirmPassword']) {
+                if (child.props.name === 'password' && newFormData['confirmPassword'] && newFormData['password'] !== newFormData['confirmPassword']) {
                     newErrors['confirmPassword'] = 'Password and Confirm Password must match';
                 }
 
-                if (child.props.name === 'confirmPassword' && formData['password'] && formData['password'] !== formData['confirmPassword']) {
+                if (child.props.name === 'confirmPassword' && newFormData['password'] && newFormData['password'] !== newFormData['confirmPassword']) {
                     newErrors['confirmPassword'] = 'Password and Confirm Password must match';
                 }
             });
@@ -64,19 +64,45 @@ const Form = forwardRef((props,ref) => {
         return Object.keys(newErrors).length === 0;
     }, [children, validateInput]); // Include dependencies
 
-    useEffect(() => {
-        if (Object.keys(formData).length > 0) {
-            validateForm(); // Call validateForm when formData changes
-        }
-    }, [formData, validateForm]); // Include validateForm in the dependency array
-
     // Handle input change
+    const findChildByName = (children, name) => {
+        let foundChild = null;
+
+        // Use a normal for loop to allow breaking
+        for (let i = 0; i < React.Children.count(children); i++) {
+            const child = React.Children.toArray(children)[i];
+
+            // Check if the current child has the matching name
+            if (child.props?.name === name) {
+                foundChild = child; // Found the matching child
+                break; // Exit the loop after finding the first matching child
+            }
+
+            // If the child has nested children, recursively search them
+            if (child.props?.children) {
+                foundChild = findChildByName(child.props.children, name);
+            }
+
+            if (foundChild) break; // If found in nested children, stop searching
+        }
+
+        return foundChild; // Return the found child or null if not found
+    };
+
+
+    // Example usage in the context of your form
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        const newFormData = { ...formData, [name]: value };
+        setFormData(newFormData);
+
+        // Find the child (or nested child) by its name
+        const foundChild = findChildByName(children, name);
+        if (foundChild) {
+            const newErrors = { ...errors, [foundChild.props.name]: '' };
+            validateInput(newErrors, foundChild, newFormData); // Validate only the found child
+            setErrors(newErrors);
+        }
     };
 
     // Handle form submission
