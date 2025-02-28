@@ -10,7 +10,8 @@ import { getData, patchData, postData } from '../../utils/CommonApi';
 import notification from '../../component/notification/Notification';
 import DatePicker, { formattedDate } from '../../component/input/DatePicker';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { convertUtcToLocal } from '../../utils/Helper';
 
 const AddOrganization = () => {
 
@@ -19,6 +20,7 @@ const AddOrganization = () => {
   const navigate = useNavigate();
 
   const { org_id } = useParams();
+  const formRef = useRef();
 
   useEffect(() => {
     if (org_id)
@@ -30,6 +32,7 @@ const AddOrganization = () => {
     try {
       const resp = await getData(`/org/get/${org_id}`);
       setInitialValues(resp.data);
+      formRef.current.setFieldsValue(resp.data);
     }
     catch (error) {
       console.log(error);
@@ -38,11 +41,10 @@ const AddOrganization = () => {
 
   const handleSubmit = async (formData) => {
 
-    console.log("Form Submitted", { formData });
     try {
       const tempData = {
         ...formData,
-        contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "mm/dd/yyyy")
+        contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "MM/dd/yyyy")
       }
       const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData): await postData("/org/add", tempData);
       notification.success({
@@ -74,7 +76,7 @@ const AddOrganization = () => {
               <div className="col-12">
                 <div className="userManagmentContainer">
                   <h3>Organization Details</h3>
-                  <Form onSubmit={handleSubmit} initialValues={initialValues}>
+                  <Form onSubmit={handleSubmit} initialValues={initialValues} ref={formRef}>
                     <div className="formContainer">
                       <div className="row">
                         {/* Organization Name */}
@@ -147,8 +149,8 @@ const AddOrganization = () => {
                               rules={[{ required: true, message: "Hub Contract Expiry Date is required" }]}
                               requiredMark={true}>
                               <DatePicker minDate={initialValues?.contract_expiry_date ? new Date(initialValues.contract_expiry_date) : new Date()}
-                                onChange={(date) => { console.log(date) }} name="contract_expiry_date"
-                                value={initialValues.contract_expiry_date ? new Date(initialValues.contract_expiry_date) : ''} />
+                                name="contract_expiry_date"
+                                value={initialValues.contract_expiry_date?convertUtcToLocal(initialValues.contract_expiry_date):''} />
                             </FormItem>
                           </div>
                         </div>

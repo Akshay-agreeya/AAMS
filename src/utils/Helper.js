@@ -1,3 +1,4 @@
+import { formattedDate } from "../component/input/DatePicker";
 
 export const getUserFromSession = () => {
     const storedUser = sessionStorage.getItem("user");
@@ -18,4 +19,13 @@ export const getUserIdFromSession = () => {
         return userId;
     }
     return null;
+}
+
+export const convertUtcToLocal = (utc)=>{
+    const utcDate = new Date(utc);
+    return new Date(utcDate);
+}
+
+export const convertUtcToLocalFormatDate= (utc, format="dd/MM/yyyy")=>{
+    formattedDate(convertUtcToLocal(utc), format)
 }

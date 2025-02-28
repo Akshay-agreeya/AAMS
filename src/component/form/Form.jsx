@@ -1,18 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { FormItem } from './FormItem';
 
 // Form Component
-const Form = ({ children, onSubmit, initialValues = {} }) => {
+const Form = forwardRef((props,ref) => {
+
+    const { children, onSubmit, initialValues = {} } = props;
+
     const [formData, setFormData] = useState(initialValues);
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        // Only update formData if initialValues has changed
-        if (JSON.stringify(initialValues) !== JSON.stringify(formData)) {
-            setFormData(initialValues);
-        }
-    }, [initialValues]);
+    // Forward ref
 
+    useImperativeHandle(ref, ()=>({
+        setFieldsValue(values){
+            setFormData(values);
+        }
+    }));
 
     // Validate individual input field
     const validateInput = useCallback((newErrors, child) => {
@@ -107,6 +110,6 @@ const Form = ({ children, onSubmit, initialValues = {} }) => {
             {React.Children.map(children, processChildren)}
         </form>
     );
-};
+});
 
 export default Form;

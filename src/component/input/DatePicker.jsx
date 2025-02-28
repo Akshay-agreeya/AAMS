@@ -30,6 +30,13 @@ const DatePicker = ({
 }) => {
     const [date, setDate] = useState(value instanceof Date ? formattedDate(value) : formattedDate(new Date(value)));
 
+    useEffect(() => {
+        if (value)
+            setDate(value instanceof Date ? formattedDate(value) : formattedDate(new Date(value)));
+        else
+            setDate('');
+    }, [value]);
+
     const handleChange = (e) => {
         const selectedDate = e.target.value;
         setDate(selectedDate);
