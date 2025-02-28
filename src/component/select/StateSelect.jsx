@@ -7,7 +7,7 @@ const states = [
     { value: "Pune", label: "Pune" },
     { value: "Mumbai", label: "Mumbai" }];
 
-export const StateSelect = ({ countryId, name = "country", ...rest }) => {
+export const StateSelect = ({ countryId, name = "state", ...rest }) => {
 
     useEffect(() => {
 

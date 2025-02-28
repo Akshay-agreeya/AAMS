@@ -42,7 +42,7 @@ const AddOrganization = () => {
     try {
       const tempData = {
         ...formData,
-        contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "dd/MM/yyyy")
+        contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "mm/dd/yyyy")
       }
       const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData): await postData("/org/add", tempData);
       notification.success({
@@ -167,7 +167,7 @@ const AddOrganization = () => {
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
-                                rules={[{ required: true, message: field.messagerequired }]}requiredMark={true}>
+                                rules={[{ required: true, message: field.messagerequired }]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>
                             </div>
