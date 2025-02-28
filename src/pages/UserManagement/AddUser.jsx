@@ -1,53 +1,85 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 import { Select } from "../../component/input/Select";
-// import Captcha from "../../assets/images/capcha.jpg";
-import { postData } from "../../utils/CommonApi";
-import {useParams} from "react-router-dom"
+import { getData, patchData, postData } from "../../utils/CommonApi";
+import notification from "../../component/notification/Notification";
 
 const AddUser = () => {
-  const{org_id} = useParams()
+  const [initialValues, setInitialValues] = useState({});
+  const navigate = useNavigate();
+  const { org_id, user_id } = useParams();
+  const formRef = useRef();
 
-  const initialData = {
-    username: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    contactNo: "",
-    password: "",
-    confirmPassword: "",
-    selRole: "",
-    selStatus: "",
+  useEffect(() => {
+    if (user_id) {
+      getUserInfo();
+    }
+  }, [user_id]);
+
+  const getUserInfo = async () => {
+    try {
+      const resp = await getData(`/user/get/${user_id}`);
+      if (resp.success) {
+        setInitialValues(resp.data);
+        formRef.current?.setFieldsValue(resp.data); // Update form fields
+      } else {
+        notification.error({
+          title: "Error",
+          message: "Failed to fetch user details.",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      notification.error({
+        title: "Error",
+        message: "An error occurred while fetching user details.",
+      });
+    }
   };
 
   const handleSubmit = async (formData) => {
     try {
-        const payload = {
-            username: formData.username,
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            email: formData.email,
-            phone_number: formData.contactNo,
-            password: formData.password,
-            role_id: parseInt(formData.selRole), 
-        };
+      const payload = {
+        ...formData,
+        // username: formData.username,
+        // first_name: formData.firstName,
+        // last_name: formData.lastName,
+        // email: formData.email,
+        // phone_number: formData,
+        // password: formData.password,
+        role_id: parseInt(formData.selRole),
+        status_id: formData.selStatus,
+      };
 
-        const response = await postData(`/user/add/${org_id}`, payload);
+      const response = user_id
+        ? await patchData(`/user/edit/${user_id}`, payload)
+        : await postData(`/user/add/${org_id}`, payload);
 
-        if (response.success) {
-            alert("User added successfully!");
-            
-        } else {
-            alert(response.message || "Failed to add user.");
-        }
+      if (response.success) {
+        notification.success({
+          title: `${user_id ? "Edit" : "Add"} User`,
+          message: "User saved successfully!",
+        });
+
+        navigate("/admin/user-management");
+      } else {
+        notification.error({
+          title: "User Operation Failed",
+          message: response.message || "Failed to process the request.",
+        });
+      }
     } catch (error) {
-        console.error("Error adding user:", error);
-        alert("An error occurred while adding the user.");
+      console.error("Error handling user:", error);
+      notification.error({
+        title: "Error",
+        message: error.response?.data?.message || "An error occurred while processing the user request.",
+      });
     }
-};
+  };
 
   return (
     <Layout>
@@ -57,56 +89,47 @@ const AddUser = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Add User</h1>
+                  <h1>{user_id ? "Edit User" : "Add User"}</h1>
                 </div>
               </div>
 
               <div className="col-12">
                 <div className="userManagmentContainer">
-                  <Form onSubmit={handleSubmit} initialValues={initialData}>
-                    <h3>Organization Details</h3>
-                    <div className="formContainer">
-                      <div className="row">
-                        {[
-                          { title: "Organization Name", value: "Organization Name 1" },
-                          { title: "Organization Address", value: "B-34, Sector 45, Noida, India" },
-                          { title: "Contact Person", value: "Shiva Sharma - +91 9876545367" },
-                          { title: "Email", value: "shiva.sharma@email.com" },
-                        ].map((item, index) => (
-                          <div className="col-12 col-lg-3" key={index}>
-                            <div className="userStaticInfo">
-                              <div className="title">{item.title}</div>
-                              <div className="value">{item.value}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <h3>User Details - 01</h3>
+                  
+                  <Form onSubmit={handleSubmit} ref={formRef}>
+                    <h3>User Details</h3>
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
-                          <FormItem name="selRole" label="Select Role" rules={[{ required: true, message: "Role is required" }]}requiredMark={true}>
-                            <Select
-                              options={[
-                                { value: "1", label: "Admin" },
-                                { value: "2", label: "User" },
-                              ]}
-                            />
-                          </FormItem>
+                          <div className="mb-3">
+                            <FormItem
+                              name="selRole"
+                              label="Select Role"
+                              rules={[{ required: true, message: "Role is required" }]}
+                              requiredMark={true}
+                            >
+                              <Select
+                                options={[
+                                  { value: "1", label: "Admin" },
+                                  { value: "2", label: "User" },
+                                ]}
+                              />
+                            </FormItem>
+                          </div>
                         </div>
 
                         {[
-                          { label: "First Name", name: "firstName", type: "text", placeholder: "First Name",messagerequired:"First Name is required" },
-                          { label: "Last Name", name: "lastName", type: "text", placeholder: "Last Name",messagerequired:"Last Name is required" },
-                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com",messagerequired:"Email is required" },
-                          { label: "Contact Number", name: "contactNo", type: "text", placeholder: "Contact Number",messagerequired:"Contact No is required" },
+                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
+                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
+                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com" },
+                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message: field.messagerequired }]}requiredMark={true}>
-                              <Input type={field.type} placeholder={field.placeholder} />
-                            </FormItem>
+                            <div className="mb-3">
+                              <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                                <Input type={field.type} placeholder={field.placeholder} />
+                              </FormItem>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -116,43 +139,41 @@ const AddUser = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "User Name", name: "username", type: "text", placeholder: "User Name",messagerequired:"User Name is required" },
-                          { label: "Password", name: "password", type: "password", placeholder: "Password",messagerequired:"Password is required" },
-                          { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password",messagerequired:"Confirm Password is required" },
+                          { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
+                          { label: "Password", name: "password", type: "password", placeholder: "Password" },
+                          { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
-                            <FormItem name={field.name} label={field.label} rules={[{ required: true, message:field.messagerequired}]}requiredMark={true}>
-                              <Input type={field.type} placeholder={field.placeholder} />
-                            </FormItem>
+                            <div className="mb-3">
+                              <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                                <Input type={field.type} placeholder={field.placeholder} />
+                              </FormItem>
+                            </div>
                           </div>
                         ))}
 
                         <div className="col-12 col-lg-4">
-                          <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}requiredMark={true}>
-                            <Select
-                              options={[
-                                { value: "1", label: "Active" },
-                                { value: "2", label: "Inactive" },
-                              ]}
-                            />
-                          </FormItem>
-                        </div>
-
-                        {/* <div className="col-12 col-lg-8">
-                          <div className="captchaContainer text-end">
-                            <img src={Captcha} alt="captcha" />
+                          <div className="mb-3">
+                            <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]} requiredMark={true}>
+                              <Select
+                                options={[
+                                  { value: "1", label: "Active" },
+                                  { value: "2", label: "Inactive" },
+                                ]}
+                              />
+                            </FormItem>
                           </div>
-                        </div> */}
+                        </div>
                       </div>
                     </div>
 
                     <div className="col-12">
                       <div className="buttonBox">
-                        <a href="/admin/user-management" className="btnCancel">
+                        <button type="button" className="btnCancel" onClick={() => navigate("/admin/user-management")}>
                           Cancel
-                        </a>
+                        </button>
                         <button type="submit" className="btnAddUser">
-                          Submit
+                          {user_id ? "Update" : "Submit"}
                         </button>
                       </div>
                     </div>
