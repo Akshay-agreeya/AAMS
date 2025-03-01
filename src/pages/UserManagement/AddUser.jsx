@@ -7,6 +7,7 @@ import { Input } from "../../component/input/Input";
 import { Select } from "../../component/input/Select";
 import { getData, patchData, postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
+import { RoleSelect } from "../../component/select/RoleSelect";
 
 const AddUser = () => {
   const [initialValues, setInitialValues] = useState({});
@@ -95,7 +96,7 @@ const AddUser = () => {
 
               <div className="col-12">
                 <div className="userManagmentContainer">
-                  
+
                   <Form onSubmit={handleSubmit} ref={formRef}>
                     <h3>User Details</h3>
                     <div className="formContainer">
@@ -108,12 +109,7 @@ const AddUser = () => {
                               rules={[{ required: true, message: "Role is required" }]}
                               requiredMark={true}
                             >
-                              <Select
-                                options={[
-                                  { value: "1", label: "Admin" },
-                                  { value: "2", label: "User" },
-                                ]}
-                              />
+                              <RoleSelect />
                             </FormItem>
                           </div>
                         </div>
@@ -121,12 +117,15 @@ const AddUser = () => {
                         {[
                           { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
                           { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
-                          { label: "Email address", name: "email", type: "email", placeholder: "name@example.com" },
+                          { label: "Email address", name: "email", type: "text", patternType:'email', placeholder: "name@example.com", patternMsg: "Enter valid email" },
                           { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
-                              <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                              <FormItem name={field.name} label={field.label} rules={[
+                                { required: true, message: `${field.label} is required` },
+                                { type: field.patternType, message: field.patternMsg }
+                              ]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>
                             </div>

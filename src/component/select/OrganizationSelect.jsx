@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Select } from "../input/Select";
+import { getData } from "../../utils/CommonApi";
 
-const organizations = [
-  { value: "", label: "Select Organization", disabled: true },
-  { value: "1", label: "Organization Enterprise -1" },
-  { value: "2", label: "Organization Enterprise -2" },
-];
 
-export const OrganizationSelect = ({ name = "role", defaultValue = "1", ...rest }) => {
-  return <Select options={organizations} name={name} value={defaultValue} {...rest} />;
+export const OrganizationSelect = ({ name = "role", defaultValue, selectFirst = false,
+  onChange = () => { }, ...rest }) => {
+
+  const [organizations, setOrganizations] = useState([]);
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    loadOrganizations();
+  }, []);
+
+  const loadOrganizations = async () => {
+    try {
+      const resp = await getData("/org/list");
+      setOrganizations(resp.data.organizations);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+
+    const options = organizations.map(item => ({ value: item.org_id, label: item.org_name }));
+    options.splice(0, 0, { value: "", label: "Select Organization", props: { defaultValue, disabled: true } });
+    setOptions(options);   
+
+  }, [organizations]);
+
+  useEffect(()=>{
+
+    if (selectFirst) {
+      const selectedOption = {
+        target: {
+          value: options?.[1]?.value
+        }
+      };
+      onChange(selectedOption);
+    }
+  }, [options]);
+
+
+  return <Select options={options} name={name} defaultValue={defaultValue} {...rest}/>;
 };

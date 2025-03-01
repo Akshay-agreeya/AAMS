@@ -1,11 +1,8 @@
-export const Select = ({ options, children, ...rest }) => {
+export const Select = ({className="form-select", options, children, ...rest }) => {
 
 	return (
-		<select className="form-select" {...rest}>
+		<select className={className} {...rest}>
 			{options ? options.map((item,index) => <option value={item.value} {...item.props} key={index}>{item.label}</option>) : children}
 		</select>
-
 	)
-
-
 }

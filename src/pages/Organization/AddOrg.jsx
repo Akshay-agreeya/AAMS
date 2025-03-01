@@ -163,13 +163,15 @@ const AddOrganization = () => {
                         {[
                           { label: "First Name", name: "first_name", type: "text", placeholder: "First Name",messagerequired:"First Name is required" },
                           { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name",messagerequired:"Last Name is required" },
-                          { label: "Email Address", name: "email", type: "email", placeholder: "name@example.com",messagerequired:"Email is required" },
+                          { label: "Email Address", name: "email", type: "text", patternType:"email", placeholder: "name@example.com",messagerequired:"Email is required", patternMsg:"Enter valid email" },
                           { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number",messagerequired:"Contact No is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
-                                rules={[{ required: true, message: field.messagerequired }]} requiredMark={true}>
+                                rules={[{ required: true, message: field.messagerequired },
+                                  { type: field.patternType, message: field.patternMsg }
+                                ]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>
                             </div>

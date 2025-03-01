@@ -1,5 +1,6 @@
 import React, { useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { FormItem } from './FormItem';
+import { emailPattern } from '../../constants';
 
 // Form Component
 const Form = forwardRef((props, ref) => {
@@ -27,7 +28,10 @@ const Form = forwardRef((props, ref) => {
 
                 if (rule.required && !value) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
-                } else if (rule.pattern && !rule.pattern.test(value)) {
+                } else if (rule.type === "email" && value && !emailPattern.test(value)) {
+                    newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
+                }
+                else if (rule.pattern && !rule.pattern.test(value)) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} is invalid`;
                 } else if (rule.minLength && value.length < rule.minLength) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
