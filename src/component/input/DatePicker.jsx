@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
+// Month names
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const monthAbbrs = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
 export const formattedDate = (date, dateFormat = "yyyy-MM-dd") => {
     if (!date) return '';
     const year = date.getFullYear();
@@ -16,6 +27,34 @@ export const formattedDate = (date, dateFormat = "yyyy-MM-dd") => {
     // Replace the date format with corresponding values from the map
     return dateFormat.replace(/yyyy|MM|dd/g, match => formats[match]);
 };
+
+
+export const getFormattedDateWithTime = (date, dateFormat = "dd MMM yyyy - HH:mm:ss") => {
+    if (!date) return '';
+
+    const year = date.getFullYear();
+    const monthIndex = date.getMonth(); // 0-based month index
+    const day = String(date.getDate()).padStart(2, '0'); // Ensures day is two digits
+    const hours = String(date.getHours()).padStart(2, '0'); // 24-hour clock
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Minutes
+    const seconds = String(date.getSeconds()).padStart(2, '0'); // Seconds
+
+    // Create a map to format based on the given dateFormat
+    const formats = {
+        "yyyy": year,
+        "MM": String(monthIndex + 1).padStart(2, '0'), // Numeric month
+        "MMM": monthAbbrs[monthIndex], // Abbreviated month name
+        "MMMM": monthNames[monthIndex], // Full month name
+        "dd": day,
+        "HH": hours,
+        "mm": minutes,
+        "ss": seconds,
+    };
+
+    // Replace the date format with corresponding values from the map
+    return dateFormat.replace(/yyyy|MMM|MMMM|MM|dd|HH|mm|ss/g, match => formats[match]);
+};
+
 
 
 const DatePicker = ({

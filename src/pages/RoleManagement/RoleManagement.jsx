@@ -1,11 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images//iconDelete.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
+import { getData } from "../../utils/CommonApi";
+import Table from "../../component/table/Table";
+import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 
 
 const RoleManagement = () => {
+
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    getRoles();
+  }, []);
+
+
+  const getRoles = async () => {
+    try {
+      const resp = await getData("/role/list");
+      setRoles(resp.data);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  const columns = [{
+    title: 'Role Name',
+    dataIndex: 'role_name',
+    scop: "col",
+    width: '25%'
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    scop: 'col',
+    width: '30%'
+  },
+  {
+    title: 'Created',
+    dataIndex: 'creation_date',
+    scop: 'col',
+    width: '25%',
+    render: (text)=>(
+      <span>{getFormattedDateWithTime(new Date(text))}</span>
+    )
+  },
+  {
+    title: 'Action',
+    dataIndex: 'ction',
+    scop: 'col',
+    width: '20%',
+    className: "text-center",
+    render: (_, record) => (
+      <>
+        <a href={`/admin/role-management/editrole/${record.role_id}`} className="me-3">
+          <img src={editicon} alt="Edit Role" />
+        </a>
+        <a href="/" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+          <img src={deleteicon} alt="Delete Role" />
+        </a>
+      </>
+    )
+
+  }
+  ];
+
   return (
     <Layout >
       <div className="adaMainContainer">
@@ -28,37 +90,7 @@ const RoleManagement = () => {
               <div className="col-12">
                 <div className="roleManagmentContainer">
                   <div className="gridContainer">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th scope="col" width="25%">Role Name</th>
-                          <th scope="col" width="30%">Description</th>
-                          <th scope="col" width="25%">Created</th>
-                          <th scope="col" width="20%" className="text-center">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          { name: "Super Admin", description: "Administrator role with full access", created: "16 Jan 2025 - 20:55:12" },
-                          { name: "Admin", description: "View and Delete Reports", created: "09 Dec 2024 - 22:34:07" },
-                          { name: "User", description: "View Reports", created: "09 Dec 2024 - 22:34:07" },
-                        ].map((role, index) => (
-                          <tr key={index}>
-                            <td>{role.name}</td>
-                            <td>{role.description}</td>
-                            <td>{role.created}</td>
-                            <td className="text-center">
-                              <a href="/admin/role-management/editrole" className="me-3">
-                                <img src={editicon} alt="Edit Role" />
-                              </a>
-                              <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
-                                <img src={deleteicon} alt="Delete Role" />
-                              </a>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <Table columns={columns} dataSource={roles} rowKey="role_id" />
                   </div>
                 </div>
               </div>
@@ -66,11 +98,11 @@ const RoleManagement = () => {
           </div>
         </section>
 
-     {/* Delete Confirmation Modal - Reusable Component */}
- <DeleteConfirmationModal modalId="deleteUserModal" />
+        {/* Delete Confirmation Modal - Reusable Component */}
+        <DeleteConfirmationModal modalId="deleteUserModal" />
 
         {/* Change Password Modal */}
-        
+
       </div>
     </Layout>
   );

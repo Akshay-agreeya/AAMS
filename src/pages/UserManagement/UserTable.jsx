@@ -75,12 +75,12 @@ export const UserTable = ({ org_id }) => {
         dataIndex: "action",
         width: '13%',
         className: "text-center",
-        render: () => (
+        render: (_text, record) => (
             <>
-                <a href="/admin/user-management/viewuser" className="me-3">
+                <a href={`/admin/user-management/viewuser/${record.user_id}`} className="me-3">
                     <img src={viewicon} alt="View Details" />
                 </a>
-                <a href="/admin/user-management/edituser" className="me-3">
+                <a href={`/admin/user-management/edituser/${record.user_id}`}className="me-3">
                     <img src={editicon} alt="Edit Details" />
                 </a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
@@ -91,6 +91,6 @@ export const UserTable = ({ org_id }) => {
     }
     ];
     return (
-        <Table columns={columns} dataSource={users} rowKey="usr_id" />
+        <Table columns={columns} dataSource={users} rowKey="user_id" />
     )
 }
