@@ -20,7 +20,7 @@ const initializeNotificationRoot = () => {
 
 // Add a new notification to the queue
 const addNotification = (options) => {
-    const {title="AAMS", message, type = 'info', duration = 3000 } = options;
+    const {title="AAMS", message, type = 'info', duration = 5000 } = options;
     const id = notificationId++;
 
     // Push the notification into the queue

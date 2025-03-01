@@ -14,10 +14,10 @@ const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id" }) =
                     </tr>
                 </thead>}
                 <tbody>
-                    {dataSource.map(record => (
-                        <tr key={record.rowKey}>
-                            {columns.map(column => (
-                                <td className={column.className}>{
+                    {dataSource.map((record, index) => (
+                        <tr key={record[rowKey] || index}>
+                            {columns.map((column, i) => (
+                                <td className={column.className} key={i}>{
                                     column.render ? column.render(record[column.dataIndex], record) : record[column.dataIndex]
                                 }</td>
                             ))}

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
-import { getData, postData } from "../../utils/CommonApi";
+import { getData, patchData, postData } from "../../utils/CommonApi";
 import Table from "../../component/table/Table";
 import notification from "../../component/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,20 +12,37 @@ const AddRole = () => {
 
   const [roleSeedData, setRoleSeedData] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState([]);
+  const [initialValues, setInitialValues] = useState({});
 
   const actions = [{ label: "Add", id: 1 }, { label: "Edit", id: 2 }, { label: "View", id: 3 }, { label: "Delete", id: 4 }];
 
   const navigate = useNavigate();
-  const {role_id} = useParams();
+  const { role_id } = useParams();
+
+  const formRef = useRef();
 
   useEffect(() => {
     getSeedData();
+    if (role_id)
+      getRoleInfo();
   }, []);
 
   const getSeedData = async () => {
     try {
       const resp = await getData("/lookup/permissions");
       setRoleSeedData(resp.data);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+  const getRoleInfo = async () => {
+
+    try {
+      const resp = await getData(`/role/get/${role_id}`);
+      setInitialValues(resp.data);
+      formRef.current.setFieldsValue(resp.data?.role);
+      setSelectedPermission(resp.data?.details?.map(id => id.menu_detail_permission_id));
     }
     catch (error) {
       console.log(error);
@@ -44,7 +61,7 @@ const AddRole = () => {
   actions.forEach((item, index) => {
     roleColumns.push({
       title: item.label,
-      dataIndex: 'permission_id',
+      dataIndex: 'menu_detail_permission_id',
       width: '15%',
       scop: 'col',
       className: "text-center",
@@ -70,12 +87,13 @@ const AddRole = () => {
         };
 
         return (
-          <div className="form-check custCheckRol">
+          <div className="form-check custCheckRol" key={permissionId}>
             <input
               className="form-check-input"
               type="checkbox"
               id={`${item.label.toLowerCase()}Check${index}`}
               value={permissionId}
+              checked={selectedPermission.includes(permissionId)}
               onChange={handleChange}
             />
           </div>
@@ -87,10 +105,12 @@ const AddRole = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const resp = await postData("/role/add", { ...formData, role_permissions: selectedPermission });
+      const roleData = { ...formData, role_permissions: selectedPermission };
+      const resp = role_id ? await patchData(`/role/edit/${role_id}`, roleData) :
+        await postData("/role/add", roleData);
 
       notification.success({
-        message: 'Add Role',
+        message: role_id?"Edit Role":'Add Role',
         description: resp.message
       });
       navigate("/admin/role-management");
@@ -98,7 +118,7 @@ const AddRole = () => {
     catch (error) {
       console.log(error);
       notification.error({
-        title: 'Add Role',
+        title: role_id?"Edit Role":'Add Role',
         message: error.data?.error
       });
     }
@@ -118,7 +138,7 @@ const AddRole = () => {
 
               <div className="col-12">
                 <div className="roleManagmentContainer">
-                  <Form onSubmit={onSubmit}>
+                  <Form onSubmit={onSubmit} ref={formRef}>
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
@@ -136,7 +156,7 @@ const AddRole = () => {
 
                     <div className="col-12">
                       <div className="gridContainer">
-                        <Table columns={roleColumns} dataSource={roleSeedData} />
+                        <Table columns={roleColumns} dataSource={roleSeedData} rowKey="menu_detail_id" />
                       </div>
                     </div>
 

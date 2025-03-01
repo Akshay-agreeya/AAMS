@@ -3,14 +3,19 @@ import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images//iconDelete.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
-import { getData } from "../../utils/CommonApi";
+import { deleteData, getData } from "../../utils/CommonApi";
 import Table from "../../component/table/Table";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { useNavigate } from "react-router-dom";
+import notification from "../../component/notification/Notification";
 
 
 const RoleManagement = () => {
 
   const [roles, setRoles] = useState([]);
+  const [selectedRoleId, setSelectedRoleId] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getRoles();
@@ -24,6 +29,23 @@ const RoleManagement = () => {
     }
     catch (error) {
       console.log(error);
+    }
+  }
+
+  const handleDelete = async()=>{
+    try{
+      const resp = await deleteData(`/role/delete/${selectedRoleId}`);
+      notification.success({
+        title: `Delete Role`,
+        message: resp.message
+      });
+      navigate(0);
+    }
+    catch(error){
+      notification.error({
+        title: 'Delete Role',
+        message: error.data?.error
+      });
     }
   }
 
@@ -60,7 +82,7 @@ const RoleManagement = () => {
           <img src={editicon} alt="Edit Role" />
         </a>
         <a href="/" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
-          <img src={deleteicon} alt="Delete Role" />
+          <img src={deleteicon} alt="Delete Role" onClick={()=>setSelectedRoleId(record.role_id)}/>
         </a>
       </>
     )
@@ -99,7 +121,7 @@ const RoleManagement = () => {
         </section>
 
         {/* Delete Confirmation Modal - Reusable Component */}
-        <DeleteConfirmationModal modalId="deleteUserModal" />
+        <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDelete}/>
 
         {/* Change Password Modal */}
 
