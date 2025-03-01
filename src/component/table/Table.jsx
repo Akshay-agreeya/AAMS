@@ -8,7 +8,8 @@ const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id" }) =
                 {showHeader && <thead>
                     <tr>
                         {columns.map(column => (<th width={column.width}
-                            className={column.className} key={column.dataIndex}>{column.title}</th>
+                            className={column.className} key={column.dataIndex}
+                            scop={column.scop}>{column.title}</th>
                         ))}
                     </tr>
                 </thead>}

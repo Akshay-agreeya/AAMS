@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import editOrgicon from "../../assets/images//iconWhiteEdit.svg";
+import editOrgicon from "../../assets/images/iconWhiteEdit.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
 import ChangePasswordModal from '../../common/auth/ChangePassword'
