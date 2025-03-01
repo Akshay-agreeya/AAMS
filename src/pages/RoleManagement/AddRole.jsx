@@ -106,11 +106,19 @@ const AddRole = () => {
   const onSubmit = async (formData) => {
     try {
       const roleData = { ...formData, role_permissions: selectedPermission };
+      if (selectedPermission?.length === 0) {
+        notification.error({
+          title: role_id ? "Edit Role" : 'Add Role',
+          message: "Please select at least one permission"
+        });
+        return;
+      }
+
       const resp = role_id ? await patchData(`/role/edit/${role_id}`, roleData) :
         await postData("/role/add", roleData);
 
       notification.success({
-        message: role_id?"Edit Role":'Add Role',
+        message: role_id ? "Edit Role" : 'Add Role',
         description: resp.message
       });
       navigate("/admin/role-management");
@@ -118,7 +126,7 @@ const AddRole = () => {
     catch (error) {
       console.log(error);
       notification.error({
-        title: role_id?"Edit Role":'Add Role',
+        title: role_id ? "Edit Role" : 'Add Role',
         message: error.data?.error
       });
     }
@@ -142,12 +150,18 @@ const AddRole = () => {
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
-                          <FormItem name="role_name" label="Role Name" required>
-                            <Input type="text" placeholder="Role Name" required />
+                          <FormItem name="role_name" label="Role Name" rules={[{
+                            required: true,
+                            message: "Role name is required"
+                          }]} requiredMark={true}>
+                            <Input type="text" placeholder="Role Name" />
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">
-                          <FormItem name="description" label="Description">
+                          <FormItem name="description" label="Description" rules={[{
+                            required: true,
+                            message: "Description is required"
+                          }]} requiredMark={true}>
                             <Input type="text" placeholder="Description" />
                           </FormItem>
                         </div>
