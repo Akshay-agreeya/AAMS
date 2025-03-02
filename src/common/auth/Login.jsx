@@ -4,7 +4,7 @@ import { FormItem } from '../../component/form/FormItem';
 import Form from '../../component/form/Form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { postData } from '../../utils/CommonApi'; // Import API utility
+import { getData, postData } from '../../utils/CommonApi'; // Import API utility
 import { InputPassword } from '../../component/input/InputPassword';
 import { Input } from '../../component/input/Input';
 
@@ -39,8 +39,9 @@ const LoginForm = () => {
             login();
             sessionStorage.setItem('token', response.data.token);
             sessionStorage.setItem('user', JSON.stringify(response.data));
+            const roleResp = await getData(`/role/get/${response.data.role_id}`);
+            localStorage.setItem("user_role", JSON.stringify(roleResp.data.details));
             navigate("/admin/dashboard");
-
         }
         catch (error) {
             console.log(error);

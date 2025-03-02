@@ -12,7 +12,11 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.clear();
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
