@@ -4,9 +4,9 @@ import axiosInstance from './AxiosInstance';
 
 
 // Create a function to make GET requests
-export const getData = async (requestUrl) => {
+export const getData = async (requestUrl,data) => {
     try {
-        const response = await axiosInstance.get(requestUrl);
+        const response = await axiosInstance.get(requestUrl,{data});
         return response.data; // You can return the data directly here or process it if needed
     } catch (error) {
         console.error('Error during GET request:', error);

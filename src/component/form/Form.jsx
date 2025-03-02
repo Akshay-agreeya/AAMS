@@ -54,9 +54,9 @@ const Form = forwardRef((props, ref) => {
 
         const validateChildrenRecursively = (children) => {
             React.Children.forEach(children, (child) => {
-                if (child.type?.name === "FormItem") {
+                if (child?.type?.name === "FormItem") {
                     validateInput(newErrors, child);
-                } else if (child.props?.children) {
+                } else if (child?.props?.children) {
                     validateChildrenRecursively(child.props.children); // Recurse if there are nested children
                 }
             });
@@ -119,7 +119,7 @@ const Form = forwardRef((props, ref) => {
     };
 
     const processChildren = (child) => {
-        if (child.type === FormItem) {
+        if (child?.type === FormItem) {
             return React.cloneElement(child, {
                 value: formData[child.props.name] || '',
                 onChange: handleChange,
@@ -127,7 +127,7 @@ const Form = forwardRef((props, ref) => {
             });
         }
 
-        if (child.props && child.props.children) {
+        if (child?.props && child.props?.children) {
             const nestedChildren = React.Children.map(child.props.children, processChildren);
             return React.cloneElement(child, { children: nestedChildren });
         }
