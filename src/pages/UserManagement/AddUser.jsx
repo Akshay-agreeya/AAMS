@@ -14,6 +14,7 @@ const AddUser = () => {
   const navigate = useNavigate();
   const { org_id, user_id } = useParams();
   const formRef = useRef();
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
     if (user_id) {
@@ -23,10 +24,11 @@ const AddUser = () => {
 
   const getUserInfo = async () => {
     try {
-      const resp = await getData(`/user/get/${user_id}`);
+      const resp = user_id ?await getData(`/user/get/${user_id}`):await getData(`/org/get`,{org_id});
       if (resp.success) {
         setInitialValues(resp.data);
-        formRef.current?.setFieldsValue(resp.data); // Update form fields
+        setUserDetails(resp.data);  
+        formRef.current?.setFieldsValue(resp.data); 
       } else {
         notification.error({
           title: "Error",
@@ -41,6 +43,7 @@ const AddUser = () => {
       });
     }
   };
+  
 
   const handleSubmit = async (formData) => {
     try {
@@ -54,7 +57,9 @@ const AddUser = () => {
         // password: formData.password,
         role_id: parseInt(formData.selRole),
         status_id: formData.selStatus,
+        
       };
+      
 
       const response = user_id
         ? await patchData(`/user/edit/${user_id}`, payload)
@@ -96,6 +101,27 @@ const AddUser = () => {
 
               <div className="col-12">
                 <div className="userManagmentContainer">
+                <div className="formContainer">
+                    <div className="row">
+                      {[ 
+                        { title: "Organization Name", value: userDetails.org_name || "N/A" },
+                        { title: "Organization Address", value: userDetails.address_line || "N/A" },
+                        { title: "Contact Person", value: userDetails.contact_first_name && userDetails.contact_last_name
+                        ? `${userDetails.contact_first_name} ${userDetails.contact_last_name}`
+                        : "N/A"},
+                        { title: "Email", value: userDetails.contact_email || "N/A" },
+                      ].map((item, index) => (
+                        <div className="col-12 col-lg-3" key={index}>
+                          <div className="mb-3">
+                            <div className="userStaticInfo">
+                              <div className="title">{item.title}</div>
+                              <div className="value">{item.value}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
                   <Form onSubmit={handleSubmit} ref={formRef}>
                     <h3>User Details</h3>
@@ -133,7 +159,7 @@ const AddUser = () => {
                         ))}
                       </div>
                     </div>
-
+{!user_id &&<>
                     <h3>User Login Details</h3>
                     <div className="formContainer">
                       <div className="row">
@@ -165,6 +191,7 @@ const AddUser = () => {
                         </div>
                       </div>
                     </div>
+                    </>}
 
                     <div className="col-12">
                       <div className="buttonBox">
