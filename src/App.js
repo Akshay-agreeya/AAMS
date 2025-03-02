@@ -21,7 +21,6 @@ import ReportListing from './pages/Report/ReportListing';
 import ViewService from './pages/ProductManagement/ViewService';
 import AddService from './pages/ProductManagement/AddService';
 import AddOrganization from '../src/pages/Organization/AddOrg';
-import ErrorPage from '../src/component/notification/Error';
 
 export const routesMap = [
     { path: "/", element: <Login /> },
@@ -29,7 +28,6 @@ export const routesMap = [
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/reportlisting", element: <ReportListing /> },
-    { path: "/errorpage", element: <ErrorPage /> },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
     { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
