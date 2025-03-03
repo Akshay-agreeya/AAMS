@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../component/Layout';
 import { OrganizationSelect } from '../component/select/OrganizationSelect';
-import { getData } from '../utils/CommonApi';
+import { postData } from '../utils/CommonApi';
 
 
 const ProductPermission = () => {
@@ -16,8 +16,8 @@ const ProductPermission = () => {
 
     const  getOrganizationDetails = async()=>{
         try{
-            const resp = await getData(`/org/get/${selectedOrganizationId}`);
-            setSelectedOrganization(resp.data);
+            const resp = await postData(`/org/get`,{org_id:selectedOrganizationId});
+            setSelectedOrganization(resp.data?.[0]);
         }
         catch(error){
             console.log(error);

@@ -30,7 +30,7 @@ const AddOrganization = () => {
   const getOrganizationInfo = async () => {
 
     try {
-      const resp = await getData(`/org/get/${org_id}`);
+      const resp = await postData(`/org/get`,{org_id});
       setInitialValues(resp.data);
       formRef.current.setFieldsValue(resp.data);
     }

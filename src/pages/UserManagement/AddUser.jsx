@@ -8,33 +8,40 @@ import { Select } from "../../component/input/Select";
 import { getData, patchData, postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
 import { RoleSelect } from "../../component/select/RoleSelect";
+import { getFormattedAddress } from "../../utils/Helper";
 
 const AddUser = () => {
+
   const [initialValues, setInitialValues] = useState({});
+  const [organization, setOrganization] = useState({});
+
   const navigate = useNavigate();
+
   const { org_id, user_id } = useParams();
+
   const formRef = useRef();
-  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
-    if (user_id) {
+    if (user_id)
       getUserInfo();
-    }
+
   }, [user_id]);
+
+  useEffect(() => {
+    if (org_id)
+      getOrganizationInfo();
+  }, [org_id]);
 
   const getUserInfo = async () => {
     try {
-      const resp = user_id ?await getData(`/user/get/${user_id}`):await getData(`/org/get`,{org_id});
-      if (resp.success) {
-        setInitialValues(resp.data);
-        setUserDetails(resp.data);  
-        formRef.current?.setFieldsValue(resp.data); 
-      } else {
-        notification.error({
-          title: "Error",
-          message: "Failed to fetch user details.",
-        });
-      }
+      const resp = await getData(`/user/get/${user_id}`);
+      const userData = resp.data || {};
+      setInitialValues(userData);
+      setOrganization({
+        org_name: userData.org_name,
+        contact_first_name: userData.contact_first_name, contact_last_name: userData.contact_last_name,
+        contact_email: userData.contact_email, contact: userData.contact
+      })
     } catch (error) {
       console.error("Error fetching user details:", error);
       notification.error({
@@ -43,23 +50,38 @@ const AddUser = () => {
       });
     }
   };
-  
+
+  const getOrganizationInfo = async () => {
+    try {
+      const resp = await postData(`/org/get`, { org_id });
+      const orgData = resp.data?.[0] || {};
+      setOrganization({
+        ...orgData,
+        contact_first_name: orgData.first_name, contact_last_name: orgData.last_name,
+        contact_email: orgData.email, contact: orgData.phone_number
+      })
+    } catch (error) {
+      console.error("Error fetching organization details:", error);
+      notification.error({
+        title: "Error",
+        message: "An error occurred while fetching organization details.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    formRef.current.setFieldsValue(initialValues);
+  }, [initialValues])
 
   const handleSubmit = async (formData) => {
     try {
       const payload = {
         ...formData,
-        // username: formData.username,
-        // first_name: formData.firstName,
-        // last_name: formData.lastName,
-        // email: formData.email,
-        // phone_number: formData,
-        // password: formData.password,
         role_id: parseInt(formData.selRole),
         status_id: formData.selStatus,
-        
+
       };
-      
+
 
       const response = user_id
         ? await patchData(`/user/edit/${user_id}`, payload)
@@ -101,15 +123,15 @@ const AddUser = () => {
 
               <div className="col-12">
                 <div className="userManagmentContainer">
-                <div className="formContainer">
+                  <div className="formContainer">
                     <div className="row">
-                      {[ 
-                        { title: "Organization Name", value: userDetails.org_name || "N/A" },
-                        { title: "Organization Address", value: userDetails.address_line || "N/A" },
-                        { title: "Contact Person", value: userDetails.contact_first_name && userDetails.contact_last_name
-                        ? `${userDetails.contact_first_name} ${userDetails.contact_last_name}`
-                        : "N/A"},
-                        { title: "Email", value: userDetails.contact_email || "N/A" },
+                      {[
+                        { title: "Organization Name", value: organization.org_name || "N/A" },
+                        { title: "Organization Address", value: getFormattedAddress(organization) || "N/A" },
+                        {
+                          title: "Contact Person", value: `${organization.contact_first_name || ''}  ${organization.contact_last_name || ''} - ${organization.contact}`
+                        },
+                        { title: "Email", value: organization.contact_email || "N/A" },
                       ].map((item, index) => (
                         <div className="col-12 col-lg-3" key={index}>
                           <div className="mb-3">
@@ -135,7 +157,7 @@ const AddUser = () => {
                               rules={[{ required: true, message: "Role is required" }]}
                               requiredMark={true}
                             >
-                              <RoleSelect />
+                              <RoleSelect value={initialValues.role_id}/>
                             </FormItem>
                           </div>
                         </div>
@@ -143,7 +165,7 @@ const AddUser = () => {
                         {[
                           { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
                           { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
-                          { label: "Email address", name: "email", type: "text", patternType:'email', placeholder: "name@example.com", patternMsg: "Enter valid email" },
+                          { label: "Email address", name: "email", type: "text", patternType: 'email', placeholder: "name@example.com", patternMsg: "Enter valid email" },
                           { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
@@ -159,38 +181,39 @@ const AddUser = () => {
                         ))}
                       </div>
                     </div>
-{!user_id &&<>
-                    <h3>User Login Details</h3>
-                    <div className="formContainer">
-                      <div className="row">
-                        {[
-                          { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
-                          { label: "Password", name: "password", type: "password", placeholder: "Password" },
-                          { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
-                        ].map((field, index) => (
-                          <div className="col-12 col-lg-4" key={index}>
+                    {!user_id && <>
+                      <h3>User Login Details</h3>
+                      <div className="formContainer">
+                        <div className="row">
+                          {[
+                            { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
+                            { label: "Password", name: "password", type: "password", placeholder: "Password" },
+                            { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
+                          ].map((field, index) => (
+                            <div className="col-12 col-lg-4" key={index}>
+                              <div className="mb-3">
+                                <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                                  <Input type={field.type} placeholder={field.placeholder} />
+                                </FormItem>
+                              </div>
+                            </div>
+                          ))}
+
+                          <div className="col-12 col-lg-4">
                             <div className="mb-3">
-                              <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
-                                <Input type={field.type} placeholder={field.placeholder} />
+                              <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}
+                                requiredMark={true}>
+                                <Select
+                                  options={[
+                                    { value: "1", label: "Active" },
+                                    { value: "2", label: "Inactive" },
+                                  ]}
+                                />
                               </FormItem>
                             </div>
                           </div>
-                        ))}
-
-                        <div className="col-12 col-lg-4">
-                          <div className="mb-3">
-                            <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]} requiredMark={true}>
-                              <Select
-                                options={[
-                                  { value: "1", label: "Active" },
-                                  { value: "2", label: "Inactive" },
-                                ]}
-                              />
-                            </FormItem>
-                          </div>
                         </div>
                       </div>
-                    </div>
                     </>}
 
                     <div className="col-12">

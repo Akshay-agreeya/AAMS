@@ -43,3 +43,16 @@ export const convertUtcToLocal = (utc) => {
 export const convertUtcToLocalFormatDate = (utc, format = "dd/MM/yyyy") => {
     formattedDate(convertUtcToLocal(utc), format)
 }
+
+export const getFormattedAddress = (address) => {
+
+    if(!address) return;
+    const parts = [];
+  
+    if (address.address_line) parts.push(address.address_line);
+    if (address.city) parts.push(address.city);
+    if (address.state) parts.push(address.state);
+    if (address.country) parts.push(address.country);
+  
+    return parts.join(', ');
+  };
