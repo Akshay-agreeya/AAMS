@@ -27,11 +27,11 @@ export const OrganizationSelect = ({ name = "role", defaultValue, selectFirst = 
 
     const options = organizations.map(item => ({ value: item.org_id, label: item.org_name }));
     options.splice(0, 0, { value: "", label: "Select Organization", props: { defaultValue, disabled: true } });
-    setOptions(options);   
+    setOptions(options);
 
   }, [organizations]);
 
-  useEffect(()=>{
+  useEffect(() => {
 
     if (selectFirst) {
       const selectedOption = {
@@ -44,5 +44,6 @@ export const OrganizationSelect = ({ name = "role", defaultValue, selectFirst = 
   }, [options]);
 
 
-  return <Select options={options} name={name} defaultValue={defaultValue} {...rest}/>;
+  return <Select options={options} name={name} defaultValue={defaultValue} {...rest}
+    onChange={onChange} />;
 };

@@ -4,12 +4,17 @@ import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
 import dummyUserPic from "../assets/images/dummyUserPic.jpg";
 import { getUserFromSession } from '../utils/Helper';
+import { useAuth } from './auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
-const AppHeader = () => {
+const AppHeader = ({ topNav = true }) => {
     const userID = JSON.parse(sessionStorage.getItem("user_id") || "{}");
     const user = getUserFromSession() || {};
-    
+
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
     return (
         <div>
             <header className="headerContainer">
@@ -20,7 +25,7 @@ const AppHeader = () => {
                                 <div className="headerNavigation">
                                     <div className="siteLogo"><img src={siteLogo}
                                         alt="Site Logo" /><span>Accessibility Monitoring System</span></div>
-                                    <div className="topNav">
+                                    {topNav && <div className="topNav">
                                         <div className="topUtilities">
                                             <ul>
 
@@ -47,7 +52,11 @@ const AppHeader = () => {
 
                                                     <ul className="dropdown-menu">
                                                         <li><a className="dropdown-item" href={`/forgotpassword?user_id=${userID}`} data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</a></li>
-                                                        <li><a className="dropdown-item" href="#">Logout</a></li>
+                                                        <li><a className="dropdown-item" href="#" onClick={(e) => {
+                                                            e.preventDefault();
+                                                            logout();
+                                                            navigate("/login");
+                                                        }}>Logout</a></li>
 
                                                     </ul>
                                                 </div>
@@ -60,7 +69,7 @@ const AppHeader = () => {
 
 
 
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>

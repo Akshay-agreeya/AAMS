@@ -1,7 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { getUserRole } from '../utils/Helper';
 
 const Navbar = () => {
+
+  const user_role = getUserRole();
+  
+
   return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       <li className="nav-item ms-0">
