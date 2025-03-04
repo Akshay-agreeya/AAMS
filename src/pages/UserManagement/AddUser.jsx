@@ -14,6 +14,7 @@ const AddUser = () => {
 
   const [initialValues, setInitialValues] = useState({});
   const [organization, setOrganization] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,6 +35,7 @@ const AddUser = () => {
 
   const getUserInfo = async () => {
     try {
+      setLoading(true);
       const resp = await getData(`/user/get/${user_id}`);
       const userData = resp.data || {};
       setInitialValues(userData);
@@ -50,6 +52,9 @@ const AddUser = () => {
         title: "Error",
         message: "An error occurred while fetching user details.",
       });
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -114,6 +119,16 @@ const AddUser = () => {
   return (
     <Layout>
       <div className="adaMainContainer">
+      {loading ? (
+          <div className="dataLoadContainer">
+            <div className="progressBarContainer">
+              <div className="message">Loading data, please wait...</div>
+              <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
+              </div>
+            </div>
+          </div>
+        ) :(
         <section className="adminControlContainer">
           <div className="container">
             <div className="row">
@@ -234,8 +249,10 @@ const AddUser = () => {
             </div>
           </div>
         </section>
+        )}
       </div>
     </Layout>
+        
   );
 };
 

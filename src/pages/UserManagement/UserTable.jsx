@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 export const UserTable = ({ org_id }) => {
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -20,6 +21,7 @@ export const UserTable = ({ org_id }) => {
 
     const getUsers = async () => {
         try {
+            setLoading(true);
             const resp = await getData(`/user/list/${org_id}`);
             if (resp.data)
                 resp.data = resp.data.map((item, index) => ({ ...item, id: index + 1 }));
@@ -27,6 +29,9 @@ export const UserTable = ({ org_id }) => {
         } catch (error) {
             console.error("Error fetching users:", error);
         }
+        finally{
+            setLoading(false);
+          }
     };
 
     const handleDelete = async()=>{
@@ -114,7 +119,18 @@ export const UserTable = ({ org_id }) => {
 
     return(
         <>
+        {loading ? (
+                <div className="dataLoadContainer">
+                  <div className="progressBarContainer">
+                    <div className="message">Loading data, please wait...</div>
+                    <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                      <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
+                    </div>
+                  </div>
+                </div>
+            ) : (
      <Table columns={columns} dataSource={users} rowKey="user_id" />
+     )}
      <DeleteConfirmationModal modalId="deleteUserModal2" onDelete={handleDelete}/>
      </>
     )
