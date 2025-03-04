@@ -1,7 +1,7 @@
 /**
  * Global variables
  */
-<<<<<<< HEAD
+
  @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
  html,
  body {
@@ -1446,6 +1446,15 @@
    font-weight: 500;
    text-decoration: none;
  }
+ .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .addNewUserCont .view {
+   border-radius: 3px;
+   background: #5E6977;
+   padding: 8px 12px;
+   color: #fff;
+   font-size: 0.87rem;
+   font-weight: 500;
+   text-decoration: none;
+ }
  .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-body {
    padding: 0;
    border: 1px solid #003D68;
@@ -1913,6 +1922,58 @@
    font-weight: 300;
    line-height: 44px;
    /* 146.667% */
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table {
+   background-color: #fff;
+   width: 100%;
+   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
+   margin-bottom: 15px;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table tbody tr {
+   border-bottom: 1px solid #dbe2eb;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table tbody tr:nth-child(odd) {
+   background: #e9f6ff;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table tbody tr:last-child {
+   border-bottom: 0;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table td {
+   padding: 12px;
+   font-size: 0.85rem;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter {
+   display: flex;
+   flex-wrap: wrap;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter .multiScreen {
+   display: flex;
+   flex-direction: column;
+   margin-right: 15px;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter .multiScreen .screenName {
+   margin-bottom: 8px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   width: 135px;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table th {
+   padding: 12px;
+   font-weight: 500;
+   vertical-align: top;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table caption {
+   caption-side: top;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table a {
+   color: #003D68;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table a.edit {
+   color: #0E75A5;
+ }
+ .adaMainContainer .adminControlContainer .reportGrid table a.delete {
+   color: #bd2020;
  }
  .adaMainContainer .faqContainer {
    position: relative;
@@ -2538,8 +2599,6 @@
  }
  
  /*# sourceMappingURL=child-theme.css.map */
- 
-=======
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 html,
 body {
@@ -5076,4 +5135,3 @@ h4 {
 }
 
 /*# sourceMappingURL=child-theme.css.map */
->>>>>>> master

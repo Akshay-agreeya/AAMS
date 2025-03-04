@@ -31,8 +31,8 @@ const AddOrganization = () => {
 
     try {
       const resp = await postData(`/org/get`,{org_id});
-      setInitialValues(resp.data);
-      formRef.current.setFieldsValue(resp.data);
+      setInitialValues(resp.data?.[0]);
+      formRef.current.setFieldsValue(resp.data?.[0]);
     }
     catch (error) {
       console.log(error);

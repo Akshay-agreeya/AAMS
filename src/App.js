@@ -21,6 +21,7 @@ import ReportListing from './pages/Report/ReportListing';
 import ViewService from './pages/ProductManagement/ViewService';
 import AddService from './pages/ProductManagement/AddService';
 import AddOrganization from '../src/pages/Organization/AddOrg';
+import ViewOrganization from './pages/Organization/ViewOrganization';
 
 export const routesMap = [
     { path: "/", element: <Login /> },
@@ -32,6 +33,7 @@ export const routesMap = [
     { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
     { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
     { path: "/admin/user-management/editorganization/:org_id", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Edit Organization" },
+    { path: "/admin/user-management/vieworganization/:org_id", element: <PrivateRoute element={ViewOrganization} />, breadcrumb: "View Organization" },
     { path: "/admin/user-management/adduser/:org_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Add User" },
     { path: "/admin/user-management/edituser/:user_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Edit User" },
     { path: "/admin/user-management/viewuser/:user_id", element: <PrivateRoute element={ViewUser} />, breadcrumb: "View User" },

@@ -40,7 +40,9 @@ const AddUser = () => {
       setOrganization({
         org_name: userData.org_name,
         contact_first_name: userData.contact_first_name, contact_last_name: userData.contact_last_name,
-        contact_email: userData.contact_email, contact: userData.contact
+        contact_email: userData.contact_email, contact: userData.contact,
+        address_line:userData.address_line, city:userData.city, state:userData.state,
+        country: userData.country
       })
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -152,7 +154,7 @@ const AddUser = () => {
                         <div className="col-12 col-lg-4">
                           <div className="mb-3">
                             <FormItem
-                              name="selRole"
+                              name="role_id"
                               label="Select Role"
                               rules={[{ required: true, message: "Role is required" }]}
                               requiredMark={true}
