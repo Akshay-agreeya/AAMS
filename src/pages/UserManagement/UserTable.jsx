@@ -8,6 +8,9 @@ import notification from "../../component/notification/Notification";
 import { deleteData } from "../../utils/CommonApi";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
+import { formattedDate } from "../../component/input/DatePicker";
+import { convertUtcToLocal, getShortAddress } from "../../utils/Helper";
+import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 
 export const UserTable = ({ org_id }) => {
     const [users, setUsers] = useState([]);
@@ -69,11 +72,17 @@ export const UserTable = ({ org_id }) => {
             dataIndex: "location",
             width: "15%",
             className: "text-center",
+            render: (_, record)=>(
+                <span>{getShortAddress(record)}</span>
+            )
         },
         {
             title: "Created on",
-            dataIndex: "created",
+            dataIndex: "created_on",
             width: "10%",
+            render: (text)=>(
+                <span>{formattedDate(convertUtcToLocal(text),"dd-MM-yyyy")}</span>
+            )
         },
         {
             title: "Role",
@@ -85,10 +94,11 @@ export const UserTable = ({ org_id }) => {
             dataIndex: "status",
             width: "12%",
             render: (_text, record) => (
-                <select className="form-select" defaultValue={record.status}>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
+                // <select className="form-select" defaultValue={record.status}>
+                //     <option value="Active">Active</option>
+                //     <option value="Inactive">Inactive</option>
+                // </select>
+                <UserStatusSelect defaultValue={record.status_id}/>
             ),
         },
         {

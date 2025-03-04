@@ -9,6 +9,7 @@ import { getData, patchData, postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
 import { RoleSelect } from "../../component/select/RoleSelect";
 import { getFormattedAddress } from "../../utils/Helper";
+import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 
 const AddUser = () => {
 
@@ -79,7 +80,7 @@ const AddUser = () => {
     try {
       const payload = {
         ...formData,
-        role_id: parseInt(formData.selRole),
+        role_id: parseInt(formData.role_id),
         status_id: formData.selStatus,
 
       };
@@ -205,12 +206,7 @@ const AddUser = () => {
                             <div className="mb-3">
                               <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}
                                 requiredMark={true}>
-                                <Select
-                                  options={[
-                                    { value: "1", label: "Active" },
-                                    { value: "2", label: "Inactive" },
-                                  ]}
-                                />
+                                <UserStatusSelect />
                               </FormItem>
                             </div>
                           </div>
