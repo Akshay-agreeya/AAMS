@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import editOrgicon from "../../assets/images/iconWhiteEdit.svg";
+import viewOrgicon from "../../assets/images/iconWhiteView.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
 import ChangePasswordModal from '../../common/auth/ChangePassword';
@@ -96,6 +97,9 @@ const UserManagement = () => {
                         </div>} extra={<div className="addNewUserCont">
                           <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
+                          </a>
+                          <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
+                            <img src={viewOrgicon} alt="View Organization" /> View Organization
                           </a>
                           <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
                             <i className="fa-solid fa-plus"></i> Add New User
