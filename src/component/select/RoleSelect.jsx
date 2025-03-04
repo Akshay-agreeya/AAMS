@@ -3,14 +3,11 @@ import { Select } from '../input/Select';
 import { getData } from '../../utils/CommonApi';
 
 
-export const RoleSelect = ({ name = "role_id",value, ...rest }) => {
+export const RoleSelect = ({ name = "role_id", ...rest }) => {
 
     const [roles, setRoles] = useState([]);
-    const [selectedRole, setSelectedRole] = useState(value);
 
-    useEffect(()=>{debugger
-        setSelectedRole(value);
-    },[value]);
+    
 
     useEffect(()=>{
         loadRoles();
@@ -29,6 +26,6 @@ export const RoleSelect = ({ name = "role_id",value, ...rest }) => {
     }
 
     return (
-        <Select options={roles} name={name} value={selectedRole} {...rest} />
+        <Select options={roles} name={name} {...rest} />
     )
 }
