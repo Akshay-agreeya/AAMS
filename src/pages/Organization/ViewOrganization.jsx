@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Layout from "../../component/Layout";
 import iconEditDeails from "../../assets/images/iconEditDeails.svg";
 import { postData } from "../../utils/CommonApi";
+import { formattedDate } from "../../component/input/DatePicker";
 
 const ViewOrganization = () => {
   const { org_id } = useParams();
@@ -73,11 +74,11 @@ const ViewOrganization = () => {
                           {[
                             { title: "Organization Name", value: organization?.org_name },
                             { title: "Type of Organization", value: organization?.org_type },
-                            { title: "Industry Type", value: organization?.industry_type},
+                            { title: "Industry Type", value: organization?.industry_type },
                             { title: "Organization Address", value: organization?.address_line },
                             { title: "Country", value: organization?.country },
                             { title: "State", value: organization?.state },
-                            { title: "Hub Contract Expiry Date", value: organization?.contract_expiry_date },
+                            { title: "Hub Contract Expiry Date", value: organization?.contract_expiry_date ? formattedDate(new Date(organization?.contract_expiry_date), "dd/MM/yyyy") : "N/A" },
                           ].map((item, index) => (
                             <div className="col-12 col-lg-3 mt-4" key={index}>
                               <div className="userStaticInfo">

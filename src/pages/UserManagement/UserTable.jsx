@@ -18,8 +18,10 @@ export const UserTable = ({ org_id }) => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+
     useEffect(() => {
-        if (org_id) getUsers();
+        if (org_id)
+            getUsers();
     }, [org_id]);
 
     const getUsers = async () => {
@@ -32,44 +34,44 @@ export const UserTable = ({ org_id }) => {
         } catch (error) {
             console.error("Error fetching users:", error);
         }
-        finally{
+        finally {
             setLoading(false);
-          }
+        }
     };
 
-    const handleDelete = async()=>{
-        try{
-          const resp = await deleteData(`/user/delete/${selectedUserId}`);
-          notification.success({
-            title: `Delete User`,
-            message: resp.message
-          });
-          navigate(0);
+    const handleDelete = async () => {
+        try {
+            const resp = await deleteData(`/user/delete/${selectedUserId}`);
+            notification.success({
+                title: `Delete User`,
+                message: resp.message
+            });
+            navigate(0);
         }
-        catch(error){
-          notification.error({
-            title: 'Delete User',
-            message: error.data?.error
-          });
+        catch (error) {
+            notification.error({
+                title: 'Delete User',
+                message: error.data?.error
+            });
         }
-      }
-    const handleStatusChanged = async(e, record)=>{
-        try{
-            const resp = await patchData(`/user/update/status`,{
+    }
+    const handleStatusChanged = async (e, record) => {
+        try {
+            const resp = await patchData(`/user/update/status`, {
                 user_id: record.user_id,
                 status_id: parseInt(e.target.value)
             });
             notification.success({
                 title: `Update  Status`,
                 message: resp.message
-              });
+            });
         }
-        catch(error){
+        catch (error) {
             console.log(error);
             notification.error({
                 title: 'Update Status',
                 message: error.data?.error
-              });
+            });
         }
     }
 
@@ -95,7 +97,7 @@ export const UserTable = ({ org_id }) => {
             dataIndex: "location",
             width: "15%",
             className: "text-center",
-            render: (_, record)=>(
+            render: (_, record) => (
                 <span>{getShortAddress(record)}</span>
             )
         },
@@ -103,8 +105,8 @@ export const UserTable = ({ org_id }) => {
             title: "Created on",
             dataIndex: "created_on",
             width: "10%",
-            render: (text)=>(
-                <span>{formattedDate(convertUtcToLocal(text),"dd-MM-yyyy")}</span>
+            render: (text) => (
+                <span>{formattedDate(convertUtcToLocal(text), "dd-MM-yyyy")}</span>
             )
         },
         {
@@ -117,8 +119,8 @@ export const UserTable = ({ org_id }) => {
             dataIndex: "status",
             width: "12%",
             render: (_text, record) => (
-                <UserStatusSelect value={record.status_id} 
-                onChange={(e)=>{handleStatusChanged(e,record)}}/>
+                <UserStatusSelect value={record.status_id}
+                    onChange={(e) => { handleStatusChanged(e, record) }} />
             ),
         },
         {
@@ -134,30 +136,19 @@ export const UserTable = ({ org_id }) => {
                     <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
                         <img src={editicon} alt="Edit Details" />
                     </a>
-                    <a href="#" onClick={()=>setSelectedUserId(record.user_id)} data-bs-toggle="modal" data-bs-target="#deleteUserModal2">
-                    <img src={deleteicon} alt="Delete Details" />
-                </a>
+                    <a href="#" onClick={() => setSelectedUserId(record.user_id)} data-bs-toggle="modal" data-bs-target="#deleteUserModal2">
+                        <img src={deleteicon} alt="Delete Details" />
+                    </a>
                 </>
             ),
         },
     ];
 
-    return(
+    return (
         <>
-        {loading ? (
-                <div className="dataLoadContainer">
-                  <div className="progressBarContainer">
-                    <div className="message">Loading data, please wait...</div>
-                    <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                      <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
-                    </div>
-                  </div>
-                </div>
-            ) : (
-     <Table columns={columns} dataSource={users} rowKey="user_id" />
-     )}
-     <DeleteConfirmationModal modalId="deleteUserModal2" onDelete={handleDelete}/>
-     </>
+            <Table columns={columns} dataSource={users} rowKey="user_id" loading={loading}/>
+            <DeleteConfirmationModal modalId="deleteUserModal2" onDelete={handleDelete} />
+        </>
     )
-    
+
 };
