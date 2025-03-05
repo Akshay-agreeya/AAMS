@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import errorImage from "../assets/images/error.svg";
+import Layout from '../component/Layout' 
 
 import errorImg from "../assets/images/error.svg";
 import AppFooter from '../common/AppFooter';
@@ -30,7 +32,8 @@ const NotFound = () => {
             </div>
             <AppFooter />
         </div>
-    );
+      
+  );
 };
 
 export default NotFound;

@@ -14,6 +14,7 @@ const RoleManagement = () => {
 
   const [roles, setRoles] = useState([]);
   const [selectedRoleId, setSelectedRoleId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,11 +25,15 @@ const RoleManagement = () => {
 
   const getRoles = async () => {
     try {
+      setLoading(true);
       const resp = await getData("/role/list");
       setRoles(resp.data);
     }
     catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoading(false);
     }
   }
 
@@ -93,38 +98,42 @@ const RoleManagement = () => {
   return (
     <Layout >
       <div className="adaMainContainer">
-        {/* Breadcrumbs */}
-        {/* Admin Panel Content */}
-        <section className="adminControlContainer">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="pageTitle">
-                  <h1>Role Management</h1>
-                  <div className="buttonContainer">
-                    <a href="/admin/role-management/addrole" className="add">
-                      + New Role
-                    </a>
+        
+      {loading ? (
+          <div className="dataLoadContainer">
+            <div className="progressBarContainer">
+              <div className="message">Loading data, please wait...</div>
+              <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <section className="adminControlContainer">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="pageTitle">
+                    <h1>Role Management</h1>
+                    <div className="buttonContainer">
+                      <a href="/admin/role-management/addrole" className="add">
+                        + New Role
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="col-12">
-                <div className="roleManagmentContainer">
-                  <div className="gridContainer">
-                    <Table columns={columns} dataSource={roles} rowKey="role_id" />
+                <div className="col-12">
+                  <div className="roleManagmentContainer">
+                    <div className="gridContainer">
+                      <Table columns={columns} dataSource={roles} rowKey="role_id" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Delete Confirmation Modal - Reusable Component */}
-        <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDelete}/>
-
-        {/* Change Password Modal */}
-
+          </section>
+        )}
+        <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDelete} />
       </div>
     </Layout>
   );
