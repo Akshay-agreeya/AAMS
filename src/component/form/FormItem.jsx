@@ -15,7 +15,7 @@ export const FormItem = ({ name, label, value, onChange, error, children, requir
                     onChange: onChange,
                 })
                 : children}
-            {error&& <div style={{ color: 'red' }}>{error}</div>}
+            {error && <div className="mt-2" style={{ color: 'red' }}>{error}</div>}
         </>
     );
 };
