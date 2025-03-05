@@ -85,7 +85,7 @@ const UserManagement = () => {
                 </div>
               </div>
 
-              {/* Show loading indicator for 3 seconds */}
+              
               {loading ? (
                 <div className="dataLoadContainer">
                   <div className="progressBarContainer">

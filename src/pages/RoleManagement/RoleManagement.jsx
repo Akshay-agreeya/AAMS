@@ -8,6 +8,7 @@ import Table from "../../component/table/Table";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
+import Loading from "../../component/Loading";
 
 
 const RoleManagement = () => {
@@ -100,14 +101,7 @@ const RoleManagement = () => {
       <div className="adaMainContainer">
         
       {loading ? (
-          <div className="dataLoadContainer">
-            <div className="progressBarContainer">
-              <div className="message">Loading data, please wait...</div>
-              <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
-              </div>
-            </div>
-          </div>
+          <Loading/>
         ) : (
           <section className="adminControlContainer">
             <div className="container">
