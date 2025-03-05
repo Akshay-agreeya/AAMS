@@ -28,7 +28,7 @@ export const getUserIdFromSession = () => {
     return null;
 }
 
-export const getUserRole = ()=>{
+export const getUserRole = () => {
     const storedRole = localStorage.getItem("user_role");
     if (storedRole)
         return JSON.parse(storedRole);
@@ -46,13 +46,24 @@ export const convertUtcToLocalFormatDate = (utc, format = "dd/MM/yyyy") => {
 
 export const getFormattedAddress = (address) => {
 
-    if(!address) return;
+    if (!address) return;
     const parts = [];
-  
+
     if (address.address_line) parts.push(address.address_line);
     if (address.city) parts.push(address.city);
     if (address.state) parts.push(address.state);
     if (address.country) parts.push(address.country);
-  
+
     return parts.join(', ');
-  };
+};
+
+export const getShortAddress = (address) => {
+
+    if (!address) return;
+    const parts = [];
+
+    if (address.city) parts.push(address.city);
+    if (address.country) parts.push(address.country);
+
+    return parts.join(', ');
+};
