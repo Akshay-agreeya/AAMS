@@ -128,7 +128,7 @@ export const UserTable = ({ org_id }) => {
             className: "text-center",
             render: (_text, record) => (
                 <>
-                    <a href={`/admin/user-management/viewuser/${record.user_id}`} className="me-3">
+                     <a href={`/admin/user-management/viewuser/${record.user_id}`} className="me-3">
                         <img src={viewicon} alt="View Details" />
                     </a>
                     <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">

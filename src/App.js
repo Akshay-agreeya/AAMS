@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './common/auth/AuthContext';
 import Login from './common/auth/Login';
+import ResetPassword from './common/auth/ResetPassword';
 import PrivateRoute from './route/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/UserManagement/UserManagement';
@@ -23,10 +24,12 @@ import AddService from './pages/ProductManagement/AddService';
 import AddOrganization from '../src/pages/Organization/AddOrg';
 import ViewOrganization from './pages/Organization/ViewOrganization';
 
+
 export const routesMap = [
     { path: "/", element: <Login /> },
     { path: "/login", element: <Login /> },
     { path: "/forgotpassword", element: <ForgotPassword /> },
+    { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/reportlisting", element: <ReportListing /> },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },

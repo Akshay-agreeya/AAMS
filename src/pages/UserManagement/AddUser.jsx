@@ -10,6 +10,7 @@ import notification from "../../component/notification/Notification";
 import { RoleSelect } from "../../component/select/RoleSelect";
 import { getFormattedAddress } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
+import Loading from "../../component/Loading";
 
 const AddUser = () => {
 
@@ -121,14 +122,7 @@ const AddUser = () => {
     <Layout>
       <div className="adaMainContainer">
       {loading ? (
-          <div className="dataLoadContainer">
-            <div className="progressBarContainer">
-              <div className="message">Loading data, please wait...</div>
-              <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
-              </div>
-            </div>
-          </div>
+          <Loading/>
         ) :(
         <section className="adminControlContainer">
           <div className="container">
@@ -201,14 +195,14 @@ const AddUser = () => {
                     </div>
                     {!user_id && <>
                       <h3>User Login Details</h3>
-                      <div className="formContainer">
+                      <div className="formContainer ">
                         <div className="row">
                           {[
                             { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
                             { label: "Password", name: "password", type: "password", placeholder: "Password" },
                             { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
                           ].map((field, index) => (
-                            <div className="col-12 col-lg-4" key={index}>
+                            <div className="col-12 col-lg-4 " key={index}>
                               <div className="mb-3">
                                 <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
                                   <Input type={field.type} placeholder={field.placeholder} />

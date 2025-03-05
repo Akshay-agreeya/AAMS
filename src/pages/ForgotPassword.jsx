@@ -4,7 +4,7 @@ import Years_Logo_Horizontal1 from "../assets/images/Final_25-Years_Logo_Horizon
 import { FormItem } from '../component/form/FormItem';
 import Form from '../component/form/Form';
 import { Input } from '../component/input/Input';
-import { patchData } from "../utils/CommonApi";
+import { postData } from "../utils/CommonApi";
 
 const ForgotPassword = () => {
     const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
         setLoading(true);
         setError(null);
         try {
-            await patchData("/user/reset-password", { email: formData.email });
+            await postData("/user/forgot-password", { email: formData.email });
             setSuccessMessage("A password reset link has been sent to your registered email.");
         } catch (error) {
             setError(error.data?.message || "Something went wrong, please try again.");
