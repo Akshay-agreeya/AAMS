@@ -9,6 +9,7 @@ import { deleteData, getData } from "../../utils/CommonApi";
 import { UserTable } from "./UserTable";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
+import { getAllowedOperations } from "../../utils/Helper";
 
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
@@ -57,6 +58,8 @@ const UserManagement = () => {
       });
     }
   };
+
+  const operations = getAllowedOperations(1);
 
   return (
     <Layout>
@@ -107,9 +110,10 @@ const UserManagement = () => {
                           <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
                             <img src={viewOrgicon} alt="View Organization" /> View Organization
                           </a>
-                          <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
+                         { operations?.find(item => item.operation_type_id === 1)&&<a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
                             <i className="fa-solid fa-plus"></i> Add New User
                           </a>
+                        }
                         </div>}>
                           <UserTable org_id={org.org_id} />
                         </Accordian>

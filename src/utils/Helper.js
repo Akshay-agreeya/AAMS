@@ -35,6 +35,20 @@ export const getUserRole = () => {
     return null;
 }
 
+export const getUserMenu = () => {
+    const storedUserMenu = localStorage.getItem("user_menu");
+    if (storedUserMenu)
+        return JSON.parse(storedUserMenu);
+    return null;
+}
+
+export const getAllowedOperations = (menu_id) => {
+    const user_menu = getUserMenu();
+    if (!user_menu)
+        return [];
+    return user_menu.find(item => item.menu_detail_id === menu_id)?.operations || [];
+}
+
 export const convertUtcToLocal = (utc) => {
     const utcDate = new Date(utc);
     return new Date(utcDate);

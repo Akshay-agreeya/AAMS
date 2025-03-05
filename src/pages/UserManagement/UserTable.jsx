@@ -9,7 +9,7 @@ import { deleteData } from "../../utils/CommonApi";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../component/input/DatePicker";
-import { convertUtcToLocal, getShortAddress } from "../../utils/Helper";
+import { convertUtcToLocal, getAllowedOperations, getShortAddress } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 
 export const UserTable = ({ org_id }) => {
@@ -76,6 +76,8 @@ export const UserTable = ({ org_id }) => {
         }
     }
 
+    const operations = getAllowedOperations(1);
+
     const columns = [
         {
             title: "S. No.",
@@ -131,18 +133,20 @@ export const UserTable = ({ org_id }) => {
             className: "text-center",
             render: (_text, record) => (
                 <>
-                    <a href={`/admin/user-management/viewuser/${record.user_id}`} className="me-3">
+                    {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/user-management/viewuser/${record.user_id}`} className="me-3">
                         <img src={viewicon} alt="View Details" />
-                    </a>
-                    <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
+                    </a>}
+                    {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
                         <img src={editicon} alt="Edit Details" />
                     </a>
-                    <a href="#" onClick={() => {
+                    }
+                    {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={() => {
                         setSelectedUserId(record.user_id);
                         setOpenUserDeleteModal(true);
                     }}>
                         <img src={deleteicon} alt="Delete Details" />
                     </a>
+                    }
                 </>
             ),
         },
