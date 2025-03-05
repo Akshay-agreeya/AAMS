@@ -16,6 +16,7 @@ export const UserTable = ({ org_id }) => {
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [openUserDeleteModal, setOpenUserDeleteModal] = useState();
 
     const navigate = useNavigate();
 
@@ -136,7 +137,10 @@ export const UserTable = ({ org_id }) => {
                     <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
                         <img src={editicon} alt="Edit Details" />
                     </a>
-                    <a href="#" onClick={() => setSelectedUserId(record.user_id)} data-bs-toggle="modal" data-bs-target="#deleteUserModal2">
+                    <a href="#" onClick={() => {
+                        setSelectedUserId(record.user_id);
+                        setOpenUserDeleteModal(true);
+                    }}>
                         <img src={deleteicon} alt="Delete Details" />
                     </a>
                 </>
@@ -146,8 +150,13 @@ export const UserTable = ({ org_id }) => {
 
     return (
         <>
-            <Table columns={columns} dataSource={users} rowKey="user_id" loading={loading}/>
-            <DeleteConfirmationModal modalId="deleteUserModal2" onDelete={handleDelete} />
+            <Table columns={columns} dataSource={users} rowKey="user_id" loading={loading} />
+            <DeleteConfirmationModal
+                modalId="deleteUserModal"
+                open={openUserDeleteModal}
+                onDelete={handleDelete}
+                onClose={() => { setOpenUserDeleteModal(false) }}
+            />
         </>
     )
 

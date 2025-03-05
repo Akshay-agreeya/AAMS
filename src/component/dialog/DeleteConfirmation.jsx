@@ -1,13 +1,27 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
-const DeleteConfirmationModal = ({ modalId, onDelete }) => {
+const DeleteConfirmationModal = (props) => {
+
+  const [showModal, setShowModal] = useState(false);
+
+  const { modalId, onDelete, open, onClose = () => { } } = props;
+
+  useEffect(() => {
+    setShowModal(open);
+  }, [open]);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    onClose();
+  }
+
   return (
-    <div className="popUpMessageContainer">
-      <div className="modal fade" id={modalId} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-hidden="true">
+    <div className={`popUpMessageContainer ${showModal ? "d-block" : "d-none"}`}>
+      <div className="modal fade show" id={modalId} tabIndex="-1" aria-hidden="true" style={{ display: showModal ? 'block' : 'none' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <div className="heading">Confirm Delete</div>
@@ -17,7 +31,7 @@ const DeleteConfirmationModal = ({ modalId, onDelete }) => {
               <button onClick={onDelete} className="btn btn-danger" data-bs-dismiss="modal">
                 Delete Record
               </button>
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="button" className="btn btn-secondary" onClick={handleCloseModal} data-bs-dismiss="modal">
                 Cancel
               </button>
             </div>

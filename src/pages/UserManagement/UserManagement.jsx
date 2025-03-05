@@ -13,6 +13,8 @@ import notification from "../../component/notification/Notification";
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(false); // Loading state added
+  const [openOrgDeleteModal, setOpenOrgDeleteModal] = useState(false); // Loading state added
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +22,8 @@ const UserManagement = () => {
   }, []);
 
   const getOrganizations = async () => {
-    
-  
+
+
     try {
       setLoading(true);
       const resp = await getData("/org/list");
@@ -30,7 +32,7 @@ const UserManagement = () => {
       console.log(error);
     }
 
-    finally{
+    finally {
       setLoading(false);
     }
   };
@@ -66,7 +68,11 @@ const UserManagement = () => {
                 <div className="pageTitle">
                   <h1>User Management - Organization ({organizations.length})</h1>
                   <div className="buttonContainer">
-                    <a href="#" onClick={(e) => { e.preventDefault() }} className="delete me-1" data-bs-toggle={organizations.filter(item => item.selected).length > 0 ? "modal" : ""} data-bs-target="#deleteUserModal">
+                    <a href="#" onClick={(e) => {
+                      e.preventDefault();
+                      if (organizations.filter(item => item.selected)?.length > 0)
+                        setOpenOrgDeleteModal(true);
+                    }} className="delete me-1" >
                       <i className="fa-regular fa-trash-can"></i> Delete
                     </a>
                     <a href="/admin/user-management/addorg" className="add">
@@ -110,7 +116,12 @@ const UserManagement = () => {
                       ))}
                     </div>
 
-                    <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDeleteOrganization} />
+                    <DeleteConfirmationModal
+                      modalId="deleteUserModal"
+                      open={openOrgDeleteModal}
+                      onDelete={handleDeleteOrganization}
+                      onClose={() => { setOpenOrgDeleteModal(false) }}
+                    />
                     <ChangePasswordModal id="changePassword" />
                   </div>
                 </div>

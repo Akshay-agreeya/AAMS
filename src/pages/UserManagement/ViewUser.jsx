@@ -48,7 +48,7 @@ const ViewUserDetails = () => {
                 <div className="roleContainer">
                   <div className="userrole">
                     User Name: <span className="me-4">{userDetails.username || "N/A"}</span>
-                    Role: <span>{userDetails.role || "N/A"}</span>
+                    Role: <span>{userDetails.role_name || "N/A"}</span>
                   </div>
                   <div className="editDetails">
                     <a href={`/admin/user-management/edituser/${user_id}`}>
