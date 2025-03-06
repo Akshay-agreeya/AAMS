@@ -9,7 +9,7 @@ import { deleteData } from "../../utils/CommonApi";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../component/input/DatePicker";
-import { convertUtcToLocal, getAllowedOperations, getShortAddress } from "../../utils/Helper";
+import { convertUtcToLocal, getAllowedOperations, getShortAddress, operationExist } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 
 export const UserTable = ({ org_id }) => {
@@ -151,6 +151,9 @@ export const UserTable = ({ org_id }) => {
             ),
         },
     ];
+
+    if (!operationExist(operations, 2) && !operationExist(operations, 3) && !operationExist(operations, 4))
+        columns.splice(columns.length - 1, 1);
 
     return (
         <>

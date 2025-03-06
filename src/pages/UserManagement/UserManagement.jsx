@@ -3,7 +3,6 @@ import editOrgicon from "../../assets/images/iconWhiteEdit.svg";
 import viewOrgicon from "../../assets/images/iconWhiteView.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
-import ChangePasswordModal from '../../common/auth/ChangePassword';
 import Accordian from "../../component/accordian/Accordian";
 import { deleteData, getData } from "../../utils/CommonApi";
 import { UserTable } from "./UserTable";
@@ -71,21 +70,21 @@ const UserManagement = () => {
                 <div className="pageTitle">
                   <h1>User Management - Organization ({organizations.length})</h1>
                   <div className="buttonContainer">
-                    <a href="#" onClick={(e) => {
+                    {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={(e) => {
                       e.preventDefault();
                       if (organizations.filter(item => item.selected)?.length > 0)
                         setOpenOrgDeleteModal(true);
                     }} className="delete me-1" >
                       <i className="fa-regular fa-trash-can"></i> Delete
-                    </a>
-                    <a href="/admin/user-management/addorg" className="add">
+                    </a>}
+                    {operations?.find(item => item.operation_type_id === 1) && <a href="/admin/user-management/addorg" className="add">
                       <i className="fa-solid fa-plus"></i> Add New Organization
-                    </a>
+                    </a>}
                   </div>
                 </div>
               </div>
 
-              
+
               {loading ? (
                 <div className="dataLoadContainer">
                   <div className="progressBarContainer">
@@ -101,19 +100,19 @@ const UserManagement = () => {
                     <div className="accordion" id="userManageList">
                       {organizations.map((org) => (
                         <Accordian title={org.org_name} prefix={<div className="form-check me-2 custCheck">
-                          <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
-                            value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />
+                          {operations?.find(item => item.operation_type_id === 4) && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
+                            value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />}
                         </div>} extra={<div className="addNewUserCont">
-                          <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
+                          {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
-                          </a>
-                          <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
+                          </a>}
+                          {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
                             <img src={viewOrgicon} alt="View Organization" /> View Organization
-                          </a>
-                         { operations?.find(item => item.operation_type_id === 1)&&<a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
+                          </a>}
+                          {operations?.find(item => item.operation_type_id === 1) && <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
                             <i className="fa-solid fa-plus"></i> Add New User
                           </a>
-                        }
+                          }
                         </div>}>
                           <UserTable org_id={org.org_id} />
                         </Accordian>
@@ -126,7 +125,7 @@ const UserManagement = () => {
                       onDelete={handleDeleteOrganization}
                       onClose={() => { setOpenOrgDeleteModal(false) }}
                     />
-                    <ChangePasswordModal id="changePassword" />
+                    {/* <ChangePasswordModal id="changePassword" /> */}
                   </div>
                 </div>
               )}

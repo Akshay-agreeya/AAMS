@@ -3,40 +3,56 @@ import { patchData } from "../../utils/CommonApi";
 import { InputPassword } from "../../component/input/InputPassword";
 import { FormItem } from "../../component/form/FormItem";
 import Form from "../../component/form/Form";
-import { getUserIdFromSession } from "../../utils/Helper";
+import { useNavigate } from "react-router-dom";
 
-const ChangePasswordModal = () => {
+const ChangePasswordModal = (props) => {
+
+    const { open, onClose = () => { } } = props;
 
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false); // Added state to control modal visibility
 
-    const userId = getUserIdFromSession();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsModalVisible(open);
+      }, [open]);
+    
+      const handleCloseModal = () => {
+        setIsModalVisible(false);
+        onClose();
+      }
 
     const handleSubmit = async (formData) => {
 
         setLoading(true);
         setMessage("");
-        const reqData = { oldpassword: formData.oldPassword, newPassword: formData.password };
+        const reqData = { oldPassword: formData.oldPassword, newPassword: formData.password };
         try {
-            const response = await patchData(`/user/change-password/${userId}`, reqData);
+            const response = await patchData(`/user/change-password`, reqData);
 
-            if (response.data.success) {
+            if (response.success) {
                 setMessage("Password changed successfully!");
+                setIsModalVisible(false); // Close modal after successful change
+                sessionStorage.clear();
+                navigate("/login");
             }
         } catch (error) {
-            setMessage(error.response?.data?.message || "Failed to change password.");
+            setMessage(error.data?.message || "Failed to change password.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="popUpMessageContainer">
-            <div className="modal fade" id="changePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1">
+        <div className={`popUpMessageContainer ${isModalVisible ? 'd-block' : 'd-none'}`}>
+            <div className="modal fade show" style={{ display: isModalVisible ? 'block' : 'none' }} id="changePassword" tabIndex="-1">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                            <button type="button" className="btn-close" onClick={handleCloseModal}></button>
                         </div>
                         <div className="modal-body">
                             <div className="heading">Change Password</div>
@@ -57,7 +73,7 @@ const ChangePasswordModal = () => {
                                     </div>
 
                                     <div className="mb-3 passwordContainer">
-                                        <FormItem name="confirmPassword" rules={[{ required: true, message: "Please confirm your new password", }]}>
+                                        <FormItem name="confirmPassword" rules={[{ required: true, message: "Please confirm your new password" }]}>
                                             <InputPassword className="form-control" placeholder="Confirm New Password" />
                                         </FormItem>
                                     </div>
@@ -66,7 +82,7 @@ const ChangePasswordModal = () => {
                                         <button type="submit" className="btn btnpassword" disabled={loading}>
                                             {loading ? "Saving..." : "Save Password"}
                                         </button>
-                                        <button type="button" className="btn btnCancel" data-bs-dismiss="modal">
+                                        <button type="button" className="btn btnCancel" onClick={handleCloseModal}>
                                             Cancel
                                         </button>
                                     </div>

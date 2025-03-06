@@ -9,6 +9,7 @@ import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
+import { getAllowedOperations, operationExist } from "../../utils/Helper";
 
 
 const RoleManagement = () => {
@@ -16,8 +17,11 @@ const RoleManagement = () => {
   const [roles, setRoles] = useState([]);
   const [selectedRoleId, setSelectedRoleId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigate = useNavigate();
+
+  const operations = getAllowedOperations(2);
 
   useEffect(() => {
     getRoles();
@@ -33,13 +37,13 @@ const RoleManagement = () => {
     catch (error) {
       console.log(error);
     }
-    finally{
+    finally {
       setLoading(false);
     }
   }
 
-  const handleDelete = async()=>{
-    try{
+  const handleDelete = async () => {
+    try {
       const resp = await deleteData(`/role/delete/${selectedRoleId}`);
       notification.success({
         title: `Delete Role`,
@@ -47,7 +51,7 @@ const RoleManagement = () => {
       });
       navigate(0);
     }
-    catch(error){
+    catch (error) {
       notification.error({
         title: 'Delete Role',
         message: error.data?.error
@@ -72,7 +76,7 @@ const RoleManagement = () => {
     dataIndex: 'creation_date',
     scop: 'col',
     width: '25%',
-    render: (text)=>(
+    render: (text) => (
       <span>{getFormattedDateWithTime(new Date(text))}</span>
     )
   },
@@ -84,24 +88,29 @@ const RoleManagement = () => {
     className: "text-center",
     render: (_, record) => (
       <>
-        <a href={`/admin/role-management/editrole/${record.role_id}`} className="me-3">
+        {operationExist(operations, 2) && <a href={`/admin/role-management/editrole/${record.role_id}`} className="me-3">
           <img src={editicon} alt="Edit Role" />
-        </a>
-        <a href="/" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
-          <img src={deleteicon} alt="Delete Role" onClick={()=>setSelectedRoleId(record.role_id)}/>
-        </a>
+        </a>}
+        {operationExist(operations, 4) && <a href="/">
+          <img src={deleteicon} alt="Delete Role" onClick={(e) => {
+            e.preventDefault();
+            setSelectedRoleId(record.role_id);
+            setIsModalVisible(true);
+          }} />
+        </a>}
       </>
     )
+  }];
 
-  }
-  ];
+  if (!operationExist(operations, 2) && !operationExist(operations, 4))
+    columns.splice(columns.length - 1, 1);
 
   return (
     <Layout >
       <div className="adaMainContainer">
-        
-      {loading ? (
-          <Loading/>
+
+        {loading ? (
+          <Loading />
         ) : (
           <section className="adminControlContainer">
             <div className="container">
@@ -110,9 +119,9 @@ const RoleManagement = () => {
                   <div className="pageTitle">
                     <h1>Role Management</h1>
                     <div className="buttonContainer">
-                      <a href="/admin/role-management/addrole" className="add">
+                      {operationExist(operations, 1) && <a href="/admin/role-management/addrole" className="add">
                         + New Role
-                      </a>
+                      </a>}
                     </div>
                   </div>
                 </div>
@@ -127,7 +136,9 @@ const RoleManagement = () => {
             </div>
           </section>
         )}
-        <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDelete} />
+        <DeleteConfirmationModal modalId="deleteUserModal" onDelete={handleDelete}
+          open={isModalVisible}
+          onClose={() => { setIsModalVisible(false) }} />
       </div>
     </Layout>
   );
