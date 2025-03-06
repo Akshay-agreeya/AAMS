@@ -23,7 +23,6 @@ const UserManagement = () => {
 
   const getOrganizations = async () => {
 
-
     try {
       setLoading(true);
       const resp = await getData("/org/list");
@@ -31,7 +30,6 @@ const UserManagement = () => {
     } catch (error) {
       console.log(error);
     }
-
     finally {
       setLoading(false);
     }

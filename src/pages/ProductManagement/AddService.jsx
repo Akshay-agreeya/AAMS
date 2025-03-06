@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
@@ -9,23 +9,10 @@ import { RequirementTextarea } from "../../component/input/TextArea";
 import { Input } from "../../component/input/Input";
 
 const AddService = () => {
-  const [formData, setFormData] = useState({
-    webaccess: "",
-    wcagVer: "",
-    wcagLev: "",
-    scanFrequency: "",
-    scanDay: "",
-    scheduleTime: "",
-  });
 
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (formData) => {
+
     console.log("Form submitted:", formData);
   };
 
@@ -75,43 +62,41 @@ const AddService = () => {
 
                     <h3>Product & Maintenance</h3>
                     <div className="formContainer">
-                    <div className="col-12 mb-4">
-        <h3>Select Your Product</h3>
-        <div className="checkBoxOptionContainer w-75">
-          <div className="form-check me-5">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="product"
-              id="websiteAccessibility"
-              value="websiteAccessibility"
-              checked
-              readOnly
-            />
-            <label className="form-check-label" htmlFor="websiteAccessibility">
-              Website Accessibility
-            </label>
-          </div>
-        </div>
-      </div>
+                      <div className="col-12 mb-4">
+                        <h3>Select Your Product</h3>
+                        <div className="checkBoxOptionContainer w-75">
+                          <div className="form-check me-5">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="product"
+                              id="websiteAccessibility"
+                              value="websiteAccessibility"
+                              checked
+                              readOnly
+                            />
+                            <label className="form-check-label" htmlFor="websiteAccessibility">
+                              Website Accessibility
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                       <div className="row">
                         <div className="col-12 mb-4">
                           <h3>Product</h3>
                           <div className="row">
                             <div className="col-lg-4">
-                            <FormItem name="WebUrl" label="Enter URL for Website Accessibility" rules={[{
-                            required: true,
-                            message: "Web URL is required"
-                          }]} requiredMark={true}>
-                            <Input type="text" placeholder="Enter URL for Website Accessibility" />
-                          </FormItem>
+                              <FormItem name="WebUrl" label="Enter URL for Website Accessibility" rules={[{
+                                required: true,
+                                message: "Web URL is required"
+                              }]} requiredMark={true}>
+                                <Input type="text" placeholder="Enter URL for Website Accessibility" />
+                              </FormItem>
                             </div>
                             <div className="col-lg-4">
                               <FormItem label="WCAG Version">
                                 <WCAGVersionSelect
                                   name="wcagVer"
-                                  value={formData.wcagVer}
-                                  onChange={handleChange}
                                 />
                               </FormItem>
                             </div>
@@ -119,8 +104,6 @@ const AddService = () => {
                               <FormItem label="WCAG Compliance Level">
                                 <WCAGComplianceLevelSelect
                                   name="wcagLev"
-                                  value={formData.wcagLev}
-                                  onChange={handleChange}
                                 />
                               </FormItem>
                             </div>
@@ -130,17 +113,12 @@ const AddService = () => {
                         {/* Maintenance Section */}
                         <div className="col-12 mb-4">
                           <h3>Maintenance</h3>
-                          <MaintenanceSection
-                            scanFrequency={formData.scanFrequency}
-                            scanDay={formData.scanDay}
-                            scheduleTime={formData.scheduleTime}
-                            onChange={handleChange}
-                          />
+                          <MaintenanceSection />
                         </div>
 
                         <div className="col-12">
                           <h3>Requirement/Description</h3>
-                          <RequirementTextarea name="requirement" value={formData.requirement} onChange={handleChange} />
+                          <RequirementTextarea name="requirement" />
                         </div>
                       </div>
                     </div>

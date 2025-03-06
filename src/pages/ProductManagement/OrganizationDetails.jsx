@@ -1,0 +1,43 @@
+import React, { useEffect, useState } from 'react'
+import { postData } from '../../utils/CommonApi';
+import { getShortAddress } from '../../utils/Helper';
+
+export const OrganizationDetails = ({org_id}) => {
+
+    const[details, setDetails] = useState({});
+
+    useEffect(()=>{
+        getOrganizationDetails();
+    },[org_id]);
+
+    const getOrganizationDetails = async()=>{
+        try{
+            const resp = await postData(`/org/get`,{org_id});
+            setDetails(resp.data?.[0]);
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    return (
+        <>
+            <div className="userDetails">
+                <span className="title">Contact Name</span>
+                <span className="desc">{`${details.first_name || ''} ${details.last_name || ''}`}</span>
+            </div>
+            <div className="userDetails">
+                <span className="title">Contact Email</span>
+                <span className="desc">{details.email}</span>
+            </div>
+            <div className="userDetails">
+                <span className="title">Contact Phone</span>
+                <span className="desc">{details.phone_number}</span>
+            </div>
+            <div className="userDetails">
+                <span className="title">Location</span>
+                <span className="desc">{getShortAddress(details)}</span>
+            </div>
+        </>
+    )
+}
