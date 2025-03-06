@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Select } from '../input/Select'; // Adjust the import path as needed
 import { getData } from '../../utils/CommonApi';
 
-export const WCAGVersionSelect = ({ className = "form-select", value, onChange, ...rest }) => {
+export const WCAGVersionSelect = ({ name = "guideline_version_id", ...rest }) => {
     const [versions, setVersions] = useState([]);
 
     useEffect(() => {
@@ -23,12 +24,11 @@ export const WCAGVersionSelect = ({ className = "form-select", value, onChange, 
     };
 
     return (
-        <select className={className} value={value} onChange={onChange} {...rest}>
-            {versions.map(option => (
-                <option key={option.value} value={option.value} {...option.props}>
-                    {option.label}
-                </option>
-            ))}
-        </select>
+        <Select
+            options={versions}
+            name={name}
+            id="guideline_version_id"
+            {...rest}
+        />
     );
 };

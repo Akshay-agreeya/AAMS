@@ -3,12 +3,7 @@ import { getData } from "../../utils/CommonApi";
 import { FormItem } from "../form/FormItem";
 import { Select } from "./Select";
 
-export const MaintenanceSection = ({
-  scanFrequency,
-  scanDay,
-  scheduleTime,
-  onChange,
-}) => {
+export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onChange }) => {
   const [frequencies, setFrequencies] = useState([]);
   const [days, setDays] = useState([]);
 
@@ -26,11 +21,6 @@ export const MaintenanceSection = ({
             label: item.scan_frequency,
           }))
         : [];
-      options.unshift({
-        value: "",
-        label: "Select Scan Frequency",
-        props: { defaultValue: "", disabled: true },
-      });
       setFrequencies(options);
     } catch (error) {
       console.error("Error fetching scan frequencies:", error);
@@ -46,11 +36,6 @@ export const MaintenanceSection = ({
             label: item.day_name,
           }))
         : [];
-      options.unshift({
-        value: "",
-        label: "Select Scan Day",
-        props: { defaultValue: "", disabled: true },
-      });
       setDays(options);
     } catch (error) {
       console.error("Error fetching scan days:", error);
@@ -60,14 +45,14 @@ export const MaintenanceSection = ({
   return (
     <div className="row">
       <div className="col-12 col-lg-4">
-        <FormItem
+        <FormItem name="frequency_id" label="Scan Frequency"
           name="frequency_id"
           label="Scan Frequency"
           rules={[{ required: true, message: "Scan Frequency is required" }]}
           requiredMark={true}
         >
           <Select
-            name="scanFrequency"
+            name="frequency_id"
             value={scanFrequency}
             onChange={onChange}
             options={frequencies}
@@ -76,8 +61,8 @@ export const MaintenanceSection = ({
       </div>
 
       <div className="col-12 col-lg-4">
-        <FormItem
-          name="Scan_day_id"
+        <FormItem name="scan_day_ids" label="Scan Day"
+          name="scan_day_id"
           label="Scan Day"
           rules={[{ required: true, message: "Scan Day is required" }]}
           requiredMark={true}
@@ -90,9 +75,10 @@ export const MaintenanceSection = ({
           />
         </FormItem>
       </div>
+
       <div className="col-12 col-lg-4">
-        <FormItem
-          name="Scan_time"
+        <FormItem name="schedule_time" label="Schedule Time"
+          name="scan_time"
           label="Scan Time"
           rules={[{ required: true, message: "Scan Time is required" }]}
           requiredMark={true}

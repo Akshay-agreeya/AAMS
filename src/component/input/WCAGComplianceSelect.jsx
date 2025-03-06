@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Select } from '../input/Select'; // Adjust the import path as needed
 import { getData } from '../../utils/CommonApi';
 
-export const WCAGComplianceLevelSelect = ({ className = "form-select", value, onChange, ...rest }) => {
+export const WCAGComplianceLevelSelect = ({ name = "compliance_level_id", ...rest }) => {
     const [levels, setLevels] = useState([]);
 
     useEffect(() => {
@@ -23,12 +24,11 @@ export const WCAGComplianceLevelSelect = ({ className = "form-select", value, on
     };
 
     return (
-        <select className={className} value={value} onChange={onChange} {...rest}>
-            {levels.map(option => (
-                <option key={option.value} value={option.value} {...option.props}>
-                    {option.label}
-                </option>
-            ))}
-        </select>
+        <Select
+            options={levels}
+            name={name}
+            id="compliance_level_id"
+            {...rest}
+        />
     );
 };

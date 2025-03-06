@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
@@ -7,13 +8,70 @@ import { WCAGComplianceLevelSelect } from "../../component/input/WCAGComplianceS
 import { MaintenanceSection } from "../../component/input/MaintenanceSection";
 import { RequirementTextarea } from "../../component/input/TextArea";
 import { Input } from "../../component/input/Input";
+import { postData } from "../../utils/CommonApi";
+import notification from "../../component/notification/Notification";
 
 const AddService = () => {
+  const { org_id } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [organization, setOrganization] = useState(null);
+
+  // Fetch organization details
+  useEffect(() => {
+    const getOrganizationInfo = async () => {
+      try {
+        const resp = await postData(`/org/get`, { org_id });
+        const orgData = resp.data?.[0] || {};
+        setOrganization({
+          ...orgData,
+          contact_first_name: orgData.first_name,
+          contact_last_name: orgData.last_name,
+          contact_email: orgData.email,
+          contact: orgData.phone_number,
+        });
+      } catch (error) {
+        console.error("Error fetching organization details:", error);
+      }
+    };
+
+    if (org_id) {
+      getOrganizationInfo();
+    }
+  }, [org_id]);
+
+  const handleSubmit = async (formData) => {
+    try {
+      setLoading(true);
+      const payload = {
+        formData
+      };
+      console.log("Form Data:", formData );
 
 
-  const handleSubmit = (formData) => {
+      const response = await postData(`/api/product/add/${org_id}`, payload);
 
-    console.log("Form submitted:", formData);
+      if (response.success) {
+        notification.success({
+          title: "Add Product",
+          message: "Product added successfully!",
+        });
+        navigate("/admin/product-management");
+      } else {
+        notification.error({
+          title: "Error",
+          message: response.message || "Failed to add product.",
+        });
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+      notification.error({
+        title: "Error",
+        message: error.response?.data?.message || "An error occurred while adding the product.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,25 +94,27 @@ const AddService = () => {
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Organization Name</div>
-                            <div className="value">Organization Name 1</div>
+                            <div className="value">{organization?.org_name || "N/A"}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Organization Address</div>
-                            <div className="value">B-34, Sector 45, Noida, India</div>
+                            <div className="value">{organization?.address_line|| "N/A"}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Contact Person</div>
-                            <div className="value">Abhishek Joshi - +91 8755338189</div>
+                            <div className="value">
+                              {organization?.contact_first_name} {organization?.contact_last_name} - {organization?.contact}
+                            </div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Email</div>
-                            <div className="value">abhishek.joshi@agreeya.com</div>
+                            <div className="value">{organization?.contact_email || "N/A"}</div>
                           </div>
                         </div>
                       </div>
@@ -94,17 +154,13 @@ const AddService = () => {
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem label="WCAG Version">
-                                <WCAGVersionSelect
-                                  name="wcagVer"
-                                />
+                              <FormItem name="guideline_version_id" label="WCAG Version">
+                                <WCAGVersionSelect />
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem label="WCAG Compliance Level">
-                                <WCAGComplianceLevelSelect
-                                  name="wcagLev"
-                                />
+                              <FormItem name="compliance_level_id" label="WCAG Compliance Level">
+                                <WCAGComplianceLevelSelect  />
                               </FormItem>
                             </div>
                           </div>
@@ -113,22 +169,26 @@ const AddService = () => {
                         {/* Maintenance Section */}
                         <div className="col-12 mb-4">
                           <h3>Maintenance</h3>
-                          <MaintenanceSection />
+                          
+                          <MaintenanceSection/>
+                          
                         </div>
 
                         <div className="col-12">
                           <h3>Requirement/Description</h3>
-                          <RequirementTextarea name="requirement" />
+                          <FormItem name="requirement"  label="">
+                          <RequirementTextarea />
+                          </FormItem>
                         </div>
                       </div>
                     </div>
 
                     <div className="buttonBox mt-4">
-                      <a href="/admin/product-management" className="btnCancel">
+                      <button type="button" className="btnCancel" onClick={() => navigate("/admin/product-management")}>
                         Cancel
-                      </a>
-                      <button type="submit" className="btnAddUser">
-                        Add Product
+                      </button>
+                      <button type="submit" className="btnAddUser" disabled={loading}>
+                        {loading ? "Adding..." : "Add Product"}
                       </button>
                     </div>
                   </Form>
