@@ -1,17 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from '../input/Select';
+import { getData } from '../../utils/CommonApi';
 
-const organizationTypes = [
-    { value: '', label: "Select Type of Organization", props: { defaultValue:'', disabled: true } },
-    { value: 1, label: "Private" },
-    { value: 2, label: "Government" },
-    { value: 3, label: "Non-Profit" }
-];
+export const OrganizationTypeSelect = ({ name = "role_id", value, onChange = () => {}, ...rest }) => {
+    const [types, setTypes] = useState([]);
+    const [selectedType, setSelectedType] = useState(value);
 
-export const OrganizationTypeSelect = ({ name = "role", ...rest }) => {
+    useEffect(() => {
+        setSelectedType(value);
+    }, [value]);
+
+    useEffect(() => {
+        loadOrganizationTypes();
+    }, []);
+
+    const loadOrganizationTypes = async () => {
+        try {
+            const resp = await getData("lookup/org-types");
+            const options = resp.data.map(item => ({ value: item.org_type_id, label: item.org_type }));
+            options.unshift({ value: "", label: "Select Type of Organization", props: { defaultValue: '', disabled: true } });
+            setTypes(options);
+        } catch (error) {
+            console.log("Error fetching organization types:", error);
+        }
+    };
 
     return (
-        <Select options={organizationTypes} name={name}
-            id="role"  {...rest} />
-    )
-}
+        <Select
+            options={types}
+            name={name}
+            id="role_id"
+            value={selectedType}
+            onChange={(e) => {
+                onChange(e);
+                setSelectedType(e.target.value);
+            }}
+            {...rest}
+        />
+    );
+};

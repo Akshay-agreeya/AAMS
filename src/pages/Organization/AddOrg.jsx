@@ -46,6 +46,7 @@ const AddOrganization = () => {
         ...formData,
         contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "MM/dd/yyyy")
       }
+      console.log(formData)
       const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData): await postData("/org/add", tempData);
       notification.success({
         title: `${org_id?"Edit":"Add"} Organization`,
@@ -116,7 +117,7 @@ const AddOrganization = () => {
                             <FormItem name="country" label="Country"
                               rules={[{ required: true, message: "Country is required" }]}
                               requiredMark={true}>
-                              <CountrySelect />
+                              <Input type="text" placeholder="Country" />
                             </FormItem>
                           </div>
                         </div>
@@ -126,7 +127,7 @@ const AddOrganization = () => {
                             <FormItem name="state" label="State"
                               rules={[{ required: true, message: "State is required" }]}
                               requiredMark={true}>
-                              <StateSelect />
+                              <Input type="text" placeholder="State" />
                             </FormItem>
                           </div>
                         </div>
