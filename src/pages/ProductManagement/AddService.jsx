@@ -4,9 +4,9 @@ import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { WCAGVersionSelect } from "../../component/input/WCAGVersionSelect";
 import { WCAGComplianceLevelSelect } from "../../component/input/WCAGComplianceSelect";
-import { WebsiteAccessibilityInput } from "../../component/input/WebsiteURLInput";
 import { MaintenanceSection } from "../../component/input/MaintenanceSection";
 import { RequirementTextarea } from "../../component/input/TextArea";
+import { Input } from "../../component/input/Input";
 
 const AddService = () => {
   const [formData, setFormData] = useState({
@@ -99,14 +99,12 @@ const AddService = () => {
                           <h3>Product</h3>
                           <div className="row">
                             <div className="col-lg-4">
-                              <FormItem label="Enter URL for Website Accessibility">
-                                <WebsiteAccessibilityInput
-                                  name="webaccess"
-                                  value={formData.webaccess}
-                                  onChange={handleChange}
-                                  placeholder="Enter URL"
-                                />
-                              </FormItem>
+                            <FormItem name="WebUrl" label="Enter URL for Website Accessibility" rules={[{
+                            required: true,
+                            message: "Web URL is required"
+                          }]} requiredMark={true}>
+                            <Input type="text" placeholder="Enter URL for Website Accessibility" />
+                          </FormItem>
                             </div>
                             <div className="col-lg-4">
                               <FormItem label="WCAG Version">
