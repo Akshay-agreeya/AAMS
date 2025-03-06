@@ -3,7 +3,6 @@ import { patchData } from "../../utils/CommonApi";
 import { InputPassword } from "../../component/input/InputPassword";
 import { FormItem } from "../../component/form/FormItem";
 import Form from "../../component/form/Form";
-import { getUserIdFromSession } from "../../utils/Helper";
 import { useNavigate } from "react-router-dom";
 
 const ChangePasswordModal = (props) => {
@@ -25,8 +24,6 @@ const ChangePasswordModal = (props) => {
         setIsModalVisible(false);
         onClose();
       }
-
-    const userId = getUserIdFromSession();
 
     const handleSubmit = async (formData) => {
 

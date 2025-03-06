@@ -3,7 +3,6 @@ import editOrgicon from "../../assets/images/iconWhiteEdit.svg";
 import viewOrgicon from "../../assets/images/iconWhiteView.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
-import ChangePasswordModal from '../../common/auth/ChangePassword';
 import Accordian from "../../component/accordian/Accordian";
 import { deleteData, getData } from "../../utils/CommonApi";
 import { UserTable } from "./UserTable";

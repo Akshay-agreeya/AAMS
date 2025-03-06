@@ -49,6 +49,10 @@ export const getAllowedOperations = (menu_id) => {
     return user_menu.find(item => item.menu_detail_id === menu_id)?.operations || [];
 }
 
+export const operationExist = (operations, id)=>{
+    return operations.some(item => item.operation_type_id === id);
+}
+
 export const convertUtcToLocal = (utc) => {
     const utcDate = new Date(utc);
     return new Date(utcDate);
