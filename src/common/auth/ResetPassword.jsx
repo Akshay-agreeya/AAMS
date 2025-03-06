@@ -38,8 +38,8 @@ const ResetPassword = () => {
         setError(null);
 
         try {
-            const response = await postData('/user/reset-password', {
-                token, 
+            const response = await postData('/user/reset-password?token='+token, {
+                 
                 newPassword: formdata.password,
             });
             
