@@ -117,7 +117,7 @@ const AddOrganization = () => {
                             <FormItem name="country" label="Country"
                               rules={[{ required: true, message: "Country is required" }]}
                               requiredMark={true}>
-                              <Input type="text" placeholder="Country" />
+                              <CountrySelect/>
                             </FormItem>
                           </div>
                         </div>
@@ -127,7 +127,7 @@ const AddOrganization = () => {
                             <FormItem name="state" label="State"
                               rules={[{ required: true, message: "State is required" }]}
                               requiredMark={true}>
-                              <Input type="text" placeholder="State" />
+                              <StateSelect/>
                             </FormItem>
                           </div>
                         </div>
