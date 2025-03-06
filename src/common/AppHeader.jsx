@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import siteLogo from "../assets/images/siteLogo.svg";
 import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
@@ -6,11 +6,15 @@ import dummyUserPic from "../assets/images/dummyUserPic.jpg";
 import { getUserFromSession } from '../utils/Helper';
 import { useAuth } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import ChangePasswordModal from './auth/ChangePassword';
 
 
 const AppHeader = ({ topNav = true }) => {
     const userID = JSON.parse(sessionStorage.getItem("user_id") || "{}");
     const user = getUserFromSession() || {};
+
+    const [isModalVisible, setIsModalVisible] = useState(false); // Added state to control modal visibility
+
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -51,7 +55,9 @@ const AppHeader = ({ topNav = true }) => {
                                                     </a>
 
                                                     <ul className="dropdown-menu">
-                                                        <li><a className="dropdown-item" href={`/forgotpassword?user_id=${userID}`} data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</a></li>
+                                                        <li><a className="dropdown-item" href={`#`} onClick={() => {
+                                                            setIsModalVisible(true);
+                                                        }}>Change Password</a></li>
                                                         <li><a className="dropdown-item" href="#" onClick={(e) => {
                                                             e.preventDefault();
                                                             logout();
@@ -62,13 +68,7 @@ const AppHeader = ({ topNav = true }) => {
                                                 </div>
                                                 <div className="userProfileType">{user.user_role}</div>
                                             </div>
-
-
-
                                         </div>
-
-
-
                                     </div>}
                                 </div>
                             </div>
@@ -76,6 +76,9 @@ const AppHeader = ({ topNav = true }) => {
                     </div>
                 </div>
             </header >
+
+            <ChangePasswordModal open={isModalVisible}
+                onClose={() => { setIsModalVisible(false) }} />
         </div >
     )
 }
