@@ -65,7 +65,7 @@ const ProductManagement = () => {
                           </div>
                           <div className="addNewService">
                             <a href="/admin/product-management/addservice" className="add">
-                              <i className="fa-solid fa-plus"></i> Add Service
+                              <i className="fa-solid fa-plus"></i> Add Product
                             </a>
                           </div>
                         </h2>
