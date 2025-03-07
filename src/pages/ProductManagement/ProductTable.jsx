@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Table from '../../component/table/Table';
 import { useNavigate } from 'react-router-dom';
 import { getData } from '../../utils/CommonApi';
-import { formattedDate } from '../../component/input/DatePicker';
+import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
@@ -81,9 +81,12 @@ const ProductTable = ({ org_id }) => {
 
     {
         title: 'Scan Date',
-        dataIndex: 'scan-date',
+        dataIndex: 'schedule_time',
         width: '8%',
-        className: "text-center"
+        className: "text-center",
+        render: (text) => (
+            <span>{formattedDate(new Date(text), "dd/MM/yyyy")}</span>
+        )
     },
 
     {
@@ -92,7 +95,7 @@ const ProductTable = ({ org_id }) => {
         width: '8%',
         className: "text-center",
         render: (text) => (
-            <span>{formattedDate(new Date(text, "dd/MM/yyyy"))}</span>
+            <span>{getFormattedDateWithTime(new Date(text)," HH:mm:ss")}</span>
         )
     },
 
