@@ -34,6 +34,8 @@ const AddService = () => {
           label: item.scan_frequency,
         }))
         : [];
+        options.unshift({ value: "", label: "Select Scan Frequency", props: { defaultValue: '', disabled: true } });
+            
       setFrequencies(options);
     } catch (error) {
       console.error("Error fetching scan frequencies:", error);
@@ -49,6 +51,7 @@ const AddService = () => {
           label: item.day_name,
         }))
         : [];
+        options.unshift({ value: "", label: "Select Scan Day", props: { defaultValue: '', disabled: true } });
       setDays(options);
     } catch (error) {
       console.error("Error fetching scan days:", error);
@@ -201,11 +204,13 @@ const AddService = () => {
                             <div className="col-12 col-lg-4">
                               <FormItem label="Scan Frequency"
                                 name="frequency_id"
+                
                                 rules={[{ required: true, message: "Scan Frequency is required" }]}
                                 requiredMark={true}
                               >
                                 <Select
                                   name="frequency_id"
+                                  label= "Select WCAG Version"
                                   options={frequencies}
                                 />
                               </FormItem>

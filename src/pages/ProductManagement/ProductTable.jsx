@@ -81,7 +81,7 @@ const ProductTable = ({ org_id }) => {
 
     {
         title: 'Scan Date',
-        dataIndex: 'schedule_time',
+        dataIndex: 'next_scan_date',
         width: '8%',
         className: "text-center",
         render: (text) => (
