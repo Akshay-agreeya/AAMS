@@ -17,9 +17,9 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
       const resp = await getData("/lookup/frequency");
       const options = Array.isArray(resp.data)
         ? resp.data.map((item) => ({
-            value: item.frequency_id,
-            label: item.scan_frequency,
-          }))
+          value: item.frequency_id,
+          label: item.scan_frequency,
+        }))
         : [];
       setFrequencies(options);
     } catch (error) {
@@ -31,10 +31,10 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
     try {
       const resp = await getData("/lookup/scan-days");
       const options = Array.isArray(resp.data)
-        ? resp.data.map((item) => ({
-            value: item.day_id,
-            label: item.day_name,
-          }))
+        ? resp.data.filter(item=>item.Scan_day_id<8).map((item) => ({
+          value: item.Scan_day_id,
+          label: item.day_name,
+        }))
         : [];
       setDays(options);
     } catch (error) {
@@ -43,11 +43,10 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
   };
 
   return (
-    <div className="row">
+    <>
       <div className="col-12 col-lg-4">
-        <FormItem name="frequency_id" label="Scan Frequency"
+        <FormItem label="Scan Frequency"
           name="frequency_id"
-          label="Scan Frequency"
           rules={[{ required: true, message: "Scan Frequency is required" }]}
           requiredMark={true}
         >
@@ -62,15 +61,11 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
 
       <div className="col-12 col-lg-4">
         <FormItem name="scan_day_ids" label="Scan Day"
-          name="scan_day_id"
-          label="Scan Day"
           rules={[{ required: true, message: "Scan Day is required" }]}
           requiredMark={true}
         >
           <Select
-            name="scanDay"
-            value={scanDay}
-            onChange={onChange}
+            name="scan_day_ids"
             options={days}
           />
         </FormItem>
@@ -78,8 +73,6 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
 
       <div className="col-12 col-lg-4">
         <FormItem name="schedule_time" label="Schedule Time"
-          name="scan_time"
-          label="Scan Time"
           rules={[{ required: true, message: "Scan Time is required" }]}
           requiredMark={true}
         >
@@ -92,6 +85,6 @@ export const MaintenanceSection = ({ scanFrequency, scanDay, scheduleTime, onCha
           />
         </FormItem>
       </div>
-    </div>
+    </>
   );
 };

@@ -13,7 +13,7 @@ export const WCAGVersionSelect = ({ name = "guideline_version_id", ...rest }) =>
         try {
             const resp = await getData("/lookup/guideline-version");
             const options = Array.isArray(resp.data)
-                ? resp.data.map(item => ({ value: item.guideline_version_id, label: item.guideline }))
+                ? resp.data.map(item => ({ value: item.guidline_version_id, label: item.guideline }))
                 : [];
 
             options.unshift({ value: "", label: "Select WCAG Version", props: { defaultValue: '', disabled: true } });
