@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../component/Layout';
 import { getData } from '../../utils/CommonApi';
 import Loading from '../../component/Loading';
-import Table from '../../component/table/Table';
 import { OrganizationDetails } from './OrganizationDetails';
 import ProductTable from './ProductTable';
+import Pagenation from '../../component/Pagenation';
 
 const ProductManagement = () => {
 

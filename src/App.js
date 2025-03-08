@@ -20,7 +20,7 @@ import ChangePassword from './common/auth/ChangePassword';
 import Reports from './pages/Report/Reports';
 import ReportListing from './pages/Report/ReportListing';
 import ViewService from './pages/ProductManagement/ViewService';
-import AddService from './pages/ProductManagement/AddService';
+import AddProduct from './pages/ProductManagement/AddProduct';
 import AddOrganization from '../src/pages/Organization/AddOrg';
 import ViewOrganization from './pages/Organization/ViewOrganization';
 
@@ -45,8 +45,8 @@ export const routesMap = [
     { path: "/admin/role-management/editrole/:role_id", element: <PrivateRoute element={AddRole} />, breadcrumb: "Edit Role " },
     { path: "/admin/product-permission", element: <PrivateRoute element={ProductPermission} />, breadcrumb: "ProductPermission" },
     { path: "/admin/product-management", element: <PrivateRoute element={ProductManagement} />, breadcrumb: "Product Management" },
-    { path: "/admin/product-management/addproduct/:org_id", element: <PrivateRoute element={AddService} />, breadcrumb: "Add Product" },
-    { path: "/admin/product-management/editservice", element: <PrivateRoute element={AddService} />, breadcrumb: "Edit Product" },
+    { path: "/admin/product-management/addproduct/:org_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Add Product" },
+    { path: "/admin/product-management/editservice", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Edit Product" },
     { path: "/admin/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/admin/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
 ]
@@ -59,83 +59,6 @@ function App() {
                     {routesMap.map((item, index) => <Route path={item.path} element={item.element} key={index} />
 
                     )}
-                    {/* <Route path="/" element={<Login />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/forgotpassword" element={<ForgotPassword />} />
-                    <Route path="/changepassword" element={<ChangePassword />} />
-                    <Route path="/reportlisting" element={<ReportListing />} />
-                    <Route
-                        path="/admin/dashboard"
-                        element={<PrivateRoute element={Dashboard} />}
-                    />
-                    <Route
-                        path="/admin/user-management"
-                        element={<PrivateRoute element={UserManagement} />}
-                    />
-                    <Route
-                        path="/admin/role-management"
-                        element={<PrivateRoute element={RoleManagement} />}
-                    />
-                    <Route
-                        path="/forgot-password"
-                        element={<PrivateRoute element={ForgotPassword} />}
-                    />
-                    <Route
-                        path="/admin/addrole"
-                        element={<PrivateRoute element={AddRole} />}
-                    />
-                    <Route
-                        path="/admin/editrole"
-                        element={<PrivateRoute element={EditRole} />}
-                    />
-                    <Route
-                        path="/admin/user-management/adduser"
-                        element={<PrivateRoute element={AddUser} />}
-                    />
-                    <Route
-                        path="/admin/edituser"
-                        element={<PrivateRoute element={EditUser} />}
-                    />
-                    <Route
-                        path="/admin/viewuser"
-                        element={<PrivateRoute element={ViewUser} />}
-                    />
-                    <Route
-                        path="/admin/user-management/addorg"
-                        element={<PrivateRoute element={AddOrg} />}
-                    />
-                    <Route
-                        path="/admin/editorg"
-                        element={<PrivateRoute element={EditOrg} />}
-                    />
-                    <Route
-                        path="/admin/product-permission"
-                        element={<PrivateRoute element={ProductPermission} />}
-                    />
-                    <Route
-                        path="/admin/product-management"
-                        element={<PrivateRoute element={ProductManagement} />}
-                    />
-                    <Route
-                        path="/admin/reports"
-                        element={<PrivateRoute element={Reports} />}
-                    />
-                     <Route
-                        path="/admin/reportlisting"
-                        element={<PrivateRoute element={ReportListing} />}
-                    /> 
-                    <Route
-                        path="/admin/editservice"
-                        element={<PrivateRoute element={EditService} />}
-                    />
-                    <Route
-                        path="/admin/addservice"
-                        element={<PrivateRoute element={AddService} />}
-                    />
-                    <Route
-                        path="/admin/viewservice"
-                        element={<PrivateRoute element={ViewService} />}
-                    /> */}
 
                     <Route
                         path="*"

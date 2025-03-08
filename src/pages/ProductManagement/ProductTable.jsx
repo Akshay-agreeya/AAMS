@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Table from '../../component/table/Table';
-import { useNavigate } from 'react-router-dom';
 import { getData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
-import viewicon from "../../assets/images/iconView.svg";
 import { getAllowedOperations } from '../../utils/Helper';
 
 const ProductTable = ({ org_id }) => {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [pageSetting, setPageSetting] = useState({ totalPages: 1, size: 10, page: 1 });
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         if (org_id)
@@ -24,8 +23,10 @@ const ProductTable = ({ org_id }) => {
         try {
             setLoading(true);
             const resp = await getData(`/product/get/${org_id}`);
-            if (resp.data)
+            if (resp.data){
                 resp.data = resp.data?.map((item, index) => ({ ...item, id: index + 1 }));
+                setPageSetting({...pageSetting, totalPages:  resp.data.length})
+            }
             setProducts(resp.data);
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -95,7 +96,7 @@ const ProductTable = ({ org_id }) => {
         width: '8%',
         className: "text-center",
         render: (text) => (
-            <span>{getFormattedDateWithTime(new Date(text)," HH:mm:ss")}</span>
+            <span>{getFormattedDateWithTime(new Date(text), " HH:mm:ss")}</span>
         )
     },
 
@@ -106,13 +107,13 @@ const ProductTable = ({ org_id }) => {
         className: "text-center",
         render: (_text, record) => (
             <>
-                
+
                 {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
                     <img src={editicon} alt="Edit Details" />
                 </a>
                 }
                 {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={() => {
-                    
+
                 }}>
                     <img src={deleteicon} alt="Delete Details" />
                 </a>
@@ -122,10 +123,7 @@ const ProductTable = ({ org_id }) => {
     },
     ];
     return (
-        <>
-            <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading} />
-
-        </>
+        <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading} pagenation={pageSetting}/>
     )
 }
 

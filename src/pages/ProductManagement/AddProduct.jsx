@@ -5,59 +5,22 @@ import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { WCAGVersionSelect } from "../../component/input/WCAGVersionSelect";
 import { WCAGComplianceLevelSelect } from "../../component/input/WCAGComplianceSelect";
-import { MaintenanceSection } from "../../component/input/MaintenanceSection";
 import { RequirementTextarea } from "../../component/input/TextArea";
 import { Input } from "../../component/input/Input";
-import { getData, postData } from "../../utils/CommonApi";
+import { postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
-import { Select } from "../../component/input/Select";
+import { FrequencySelect } from "../../component/select/FrequencySelect";
+import { ScanDaySelect } from "../../component/select/ScanDaySelect";
+import { ScanMonthDaySelect } from "../../component/select/ScanMonthDaySelect";
 
-const AddService = () => {
+const AddProduct = () => {
+
   const { org_id } = useParams();
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
-  const [frequencies, setFrequencies] = useState([]);
-  const [days, setDays] = useState([]);
-
-  useEffect(() => {
-    loadScanFrequencies();
-    loadScanDays();
-  }, []);
-
-  const loadScanFrequencies = async () => {
-    try {
-      const resp = await getData("/lookup/frequency");
-      const options = Array.isArray(resp.data)
-        ? resp.data.map((item) => ({
-          value: item.frequency_id,
-          label: item.scan_frequency,
-        }))
-        : [];
-        options.unshift({ value: "", label: "Select Scan Frequency", props: { defaultValue: '', disabled: true } });
-            
-      setFrequencies(options);
-    } catch (error) {
-      console.error("Error fetching scan frequencies:", error);
-    }
-  };
-
-  const loadScanDays = async () => {
-    try {
-      const resp = await getData("/lookup/scan-days");
-      const options = Array.isArray(resp.data)
-        ? resp.data.filter(item => item.Scan_day_id < 8).map((item) => ({
-          value: item.Scan_day_id,
-          label: item.day_name,
-        }))
-        : [];
-        options.unshift({ value: "", label: "Select Scan Day", props: { defaultValue: '', disabled: true } });
-      setDays(options);
-    } catch (error) {
-      console.error("Error fetching scan days:", error);
-    }
-  };
-
+  const [selectedFrequency, setSelectedFrequency] = useState(1);
 
   // Fetch organization details
   useEffect(() => {
@@ -204,15 +167,12 @@ const AddService = () => {
                             <div className="col-12 col-lg-4">
                               <FormItem label="Scan Frequency"
                                 name="frequency_id"
-                
+
                                 rules={[{ required: true, message: "Scan Frequency is required" }]}
                                 requiredMark={true}
                               >
-                                <Select
-                                  name="frequency_id"
-                                  label= "Select WCAG Version"
-                                  options={frequencies}
-                                />
+                                <FrequencySelect name="frequency_id"
+                                  onChange={(e) => { setSelectedFrequency(e.target.value) }} />
                               </FormItem>
                             </div>
 
@@ -221,10 +181,7 @@ const AddService = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                <Select
-                                  name="scan_day_ids"
-                                  options={days}
-                                />
+                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect mode="single"/>}
                               </FormItem>
                             </div>
 
@@ -271,4 +228,4 @@ const AddService = () => {
   );
 };
 
-export default AddService;
+export default AddProduct;

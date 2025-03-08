@@ -10,9 +10,9 @@ export const FormItem = ({ name, label, value, onChange, error, children, requir
             }
             {React.isValidElement(children)
                 ? React.cloneElement(children, {
-                    name: name,
-                    value: value,
-                    onChange: onChange,
+                    name,
+                    value,
+                    onChange,
                 })
                 : children}
             {error && <div className="mt-2" style={{ color: 'red' }}>{error}</div>}

@@ -77,13 +77,13 @@ const Form = forwardRef((props, ref) => {
             const child = React.Children.toArray(children)[i];
 
             // Check if the current child has the matching name
-            if (child.props?.name === name) {
+            if (child?.props?.name === name) {
                 foundChild = child; // Found the matching child
                 break; // Exit the loop after finding the first matching child
             }
 
             // If the child has nested children, recursively search them
-            if (child.props?.children) {
+            if (child?.props?.children) {
                 foundChild = findChildByName(child.props.children, name);
             }
 
@@ -96,8 +96,9 @@ const Form = forwardRef((props, ref) => {
 
     // Example usage in the context of your form
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        const newFormData = { ...formData, [name]: value };
+        const { name, selectedOptions, multiple, value } = e.target;
+        const newValue = multiple?Array.from(selectedOptions).map(option => option.value):value
+        const newFormData = { ...formData, [name]: newValue };
         setFormData(newFormData);
 
         // Find the child (or nested child) by its name
@@ -122,7 +123,19 @@ const Form = forwardRef((props, ref) => {
         if (child?.type === FormItem) {
             return React.cloneElement(child, {
                 value: formData[child.props.name] || '',
-                onChange: handleChange,
+                onChange: (e) => {
+
+                    // Call the child's original children onChange handler (if it exists)
+                    if (child?.props?.children?.props?.onChange)
+                        child.props.children?.props?.onChange(e);
+
+                    // Call the child's original onChange handler (if it exists)
+                    if (child?.props?.onChange)
+                        child.props.onChange(e);
+
+                    // Optionally, you can also still handle form-specific logic here
+                    handleChange(e); // or other logic
+                },
                 error: errors[child.props.name],
             });
         }
