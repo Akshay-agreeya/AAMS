@@ -8,6 +8,10 @@ const isEditAction = (path) => {
   return /edit/.test(path);
 };
 
+const isViewAction = (path) => {
+  return /view/.test(path);
+};
+
 // Generates breadcrumbs dynamically based on the current URL path
 export const generateBreadcrumbs = (addHome = true, pathnames) => {
   // Initialize breadcrumbs array
@@ -37,7 +41,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
       let label = route.breadcrumb || value;  // Use route breadcrumb or fallback to the path segment
 
       // Check if it's an edit action (like edituser, editrole, etc.)
-      if (isEditAction(route.path)) {
+      if (isEditAction(route.path)||isViewAction(route.path)) {
         // Set the dynamic entity ID from the next path segment (like user_id, role_id)
         entityId = pathnames[index];
         label = `${label} #${entityId}`;  // e.g., Edit User #123

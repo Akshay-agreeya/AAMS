@@ -1,22 +1,135 @@
 import React from 'react';
-import AdminLogo from "../assets/images/adminDashboard.png";
 import Layout from '../component/Layout';
+import dashboardGraph2 from '../assets/images/dashboardGraph2.png';
+import iconMoveForward from '../assets/images/iconMoveForward.svg';
+import RoleBox from '../component/dashboard/RoleBox';
+import UserBox from '../component/dashboard/UserBox';
+import OrganizationBox from '../component/dashboard/OrganizationBox';
+import ReportBox from '../component/dashboard/ReportBox';
+import ProductGraph from '../component/dashboard/ProductGraph';
+import RecentActivities from '../component/dashboard/RecentActivities';
+import OrganizationDashboard from '../component/dashboard/OrganizationDashboard';
 
 const Dashboard = () => {
-    const breadcrumbs = [{ url: "admin/dashboard", label: "Home" },
-        {label:"Dashboard"}
-    ];
+
     return (
-        <Layout breadcrumbs={breadcrumbs}>
-            <section className="adminControlContainer">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <img src={AdminLogo} className="w-100" alt="Dashboard"/>
+        <Layout>
+            <div className="adaMainContainer">
+                <div className="dashboardControlContainer">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="pageTitle">
+                                    <h1>Dashboard</h1>
+                                    <div className="buttonContainer">
+                                        <a href="/admin/user-management/addorg" className="add"> <i className="fa-solid fa-plus"></i> Add Organization</a>
+
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+                        <section className="dashBoxContainerOuter">
+                            <div className="row">
+                                <div className="col-12 col-lg-3">
+                                    <OrganizationBox/>
+                                </div>
+                                <div className="col-12 col-lg-3">
+                                    <RoleBox/>
+                                </div>
+                                <div className="col-12 col-lg-3">
+                                    <UserBox/>
+                                </div>
+                                <div className="col-12 col-lg-3">
+                                    <ReportBox/>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="dashGraphActivity">
+                            <div className="row">
+                                <div className="col-12 col-lg-6">
+                                    <ProductGraph/>
+                                </div>
+                                <div className="col-12 col-lg-3">
+                                    <div className="dashGraphicContainerWhite">
+                                        <div className="heading">Total Product Compliance</div>
+                                        <div className="graphOuter">
+                                            <img src={dashboardGraph2} alt="Highly Utilized Service" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-lg-3">
+                                    <RecentActivities/>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="orgDetailsExpireServiceContainer">
+                            <div className="row">
+                                <div className="col-12 col-lg-9">
+                                   <OrganizationDashboard/>
+                                </div>
+
+                                <div className="col-12 col-lg-3">
+                                    <div className="dashGraphicContainerWhite">
+                                        <div className="heading">Expiring Client Services</div>
+                                        <div className="activityGrid">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" width="60%">Organization Name</th>
+                                                        <th scope="col" width="40%">Expiry Date</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="row">
+                                                            <div className="orgname">WIPRO</div>
+                                                            <div className="prodDetail"><a href="#">Website Scanned</a></div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="expDetail">02-15-2025</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">
+                                                            <div className="orgname">SIP</div>
+                                                            <div className="prodDetail"><a href="#">PDF Scanned</a></div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="expDetail">02-15-2025</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">
+                                                            <div className="orgname">TATA</div>
+                                                            <div className="prodDetail"><a href="#">Mobile App</a></div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="expDetail">02-15-2025</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">
+                                                            <div className="orgname">WIPRO</div>
+                                                            <div className="prodDetail"><a href="#">Website Scanned</a></div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="expDetail">02-15-2025</div>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
-            </section>
+            </div>
         </Layout>
     )
 }
