@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Table from '../../component/table/Table';
-import { getData } from '../../utils/CommonApi';
+import { deleteData, getData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import { getAllowedOperations } from '../../utils/Helper';
+import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
+import notification from '../../component/notification/Notification';
+import { useNavigate } from 'react-router-dom';
 
 const ProductTable = ({ org_id }) => {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pageSetting, setPageSetting] = useState({ totalPages: 1, size: 10, page: 1 });
+    const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
+    const [selectedProductId, setSelectedProductId] = useState(null);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (org_id)
@@ -23,9 +28,9 @@ const ProductTable = ({ org_id }) => {
         try {
             setLoading(true);
             const resp = await getData(`/product/get/${org_id}`);
-            if (resp.data){
+            if (resp.data) {
                 resp.data = resp.data?.map((item, index) => ({ ...item, id: index + 1 }));
-                setPageSetting({...pageSetting, totalPages:  resp.data.length})
+                setPageSetting({ ...pageSetting, totalPages: resp.data.length })
             }
             setProducts(resp.data);
         } catch (error) {
@@ -108,12 +113,13 @@ const ProductTable = ({ org_id }) => {
         render: (_text, record) => (
             <>
 
-                {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/edituser/${record.user_id}`} className="me-3">
+                {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/product-management/editproduct/${record.service_id}`} className="me-3">
                     <img src={editicon} alt="Edit Details" />
                 </a>
                 }
                 {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={() => {
-
+                    setSelectedProductId(record.service_id);
+                    setOpenProductDeleteModal(true);
                 }}>
                     <img src={deleteicon} alt="Delete Details" />
                 </a>
@@ -122,8 +128,35 @@ const ProductTable = ({ org_id }) => {
         ),
     },
     ];
+
+    const handleDelete = async () => {
+        try {
+            const resp = await deleteData(`/product/delete/${selectedProductId}`);
+            notification.success({
+                title: `Delete Product`,
+                message: resp.message
+            });
+            navigate(0);
+        }
+        catch (error) {
+            notification.error({
+                title: 'Delete Product',
+                message: error.data?.error
+            });
+        }
+    }
+
+
     return (
-        <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading} pagenation={pageSetting}/>
+        <>
+            <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading} pagenation={pageSetting} />
+            <DeleteConfirmationModal
+                modalId="deleteProductModal"
+                open={openProductDeleteModal}
+                onDelete={handleDelete}
+                onClose={() => { setOpenProductDeleteModal(false) }}
+            />
+        </>
     )
 }
 

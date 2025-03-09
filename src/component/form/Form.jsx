@@ -15,6 +15,9 @@ const Form = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         setFieldsValue(values) {
             setFormData(values);
+        },
+        setFieldValue(keyName, value) {
+            setFormData({...formData,[keyName]:value});
         }
     }));
 

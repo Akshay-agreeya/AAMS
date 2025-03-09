@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
@@ -7,54 +7,97 @@ import { WCAGVersionSelect } from "../../component/input/WCAGVersionSelect";
 import { WCAGComplianceLevelSelect } from "../../component/input/WCAGComplianceSelect";
 import { RequirementTextarea } from "../../component/input/TextArea";
 import { Input } from "../../component/input/Input";
-import { postData } from "../../utils/CommonApi";
+import { getData, patchData, postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
 import { FrequencySelect } from "../../component/select/FrequencySelect";
 import { ScanDaySelect } from "../../component/select/ScanDaySelect";
 import { ScanMonthDaySelect } from "../../component/select/ScanMonthDaySelect";
+import { getFormattedAddress, getFullName } from "../../utils/Helper";
+import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 
 const AddProduct = () => {
 
-  const { org_id } = useParams();
-  const navigate = useNavigate();
-
+  const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
   const [selectedFrequency, setSelectedFrequency] = useState(1);
 
-  // Fetch organization details
-  useEffect(() => {
-    const getOrganizationInfo = async () => {
-      try {
-        const resp = await postData(`/org/get`, { org_id });
-        const orgData = resp.data?.[0] || {};
-        setOrganization({
-          ...orgData,
-          contact_first_name: orgData.first_name,
-          contact_last_name: orgData.last_name,
-          contact_email: orgData.email,
-          contact: orgData.phone_number,
-        });
-      } catch (error) {
-        console.error("Error fetching organization details:", error);
-      }
-    };
+  const { org_id, product_id } = useParams();
+  const navigate = useNavigate();
+  const formRef = useRef();
 
-    if (org_id) {
+  // Fetch organization details
+
+  useEffect(() => {
+    if (product_id)
+      getProductInfo();
+
+  }, [product_id]);
+
+  useEffect(() => {
+    if (org_id)
       getOrganizationInfo();
-    }
+
   }, [org_id]);
+
+
+  const getOrganizationInfo = async () => {
+    try {
+      const resp = await postData(`/org/get`, { org_id });
+      const orgData = resp.data?.[0] || {};
+      setOrganization({
+        ...orgData,
+        contact_person_name: getFullName(orgData.contact_first_name, orgData.contact_last_name),
+        contact_email: orgData.email,
+        contact: orgData.phone_number,
+      });
+      formRef.current.setFieldValue("service_type_id", 1);
+    } catch (error) {
+      console.error("Error fetching organization details:", error);
+    }
+  };
+
+  const getProductInfo = async () => {
+    try {
+      setLoading(true);
+      const resp = await getData(`/product/view/${product_id}`);
+      const productData = resp.data || {};
+      setInitialValues({
+        ...productData, guideline_version_id: productData.guidline_version_id,
+        schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm")
+      });
+
+      setOrganization({
+        org_name: productData.organization_name,
+        contact_person_name: productData.contact_person_name,
+        contact_email: productData.contact_email, contact: productData.contact,
+        address_line: getFormattedAddress(productData), city: productData.city, state: productData.state,
+        country: productData.country
+      });
+
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      notification.error({
+        title: "Error",
+        message: "An error occurred while fetching user details.",
+      });
+    }
+    finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (formData) => {
     try {
       setLoading(true);
-      const response = await postData(`/product/add/${org_id}`, { ...formData, service_type_id: 1 });
+      const response = product_id ? await patchData(`/product/edit/${product_id}`, formData) : await postData(`/product/add/${org_id}`, formData);
 
 
       notification.success({
         title: "Add Product",
-        message: "Product added successfully!",
+        message: response.message || "Product added successfully!",
       });
+
       navigate("/admin/product-management");
 
     } catch (error) {
@@ -67,6 +110,10 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    formRef.current.setFieldsValue(initialValues);
+  }, [initialValues])
 
   return (
     <Layout>
@@ -81,7 +128,7 @@ const AddProduct = () => {
               </div>
               <div className="col-12">
                 <div className="customerManagmentContainer">
-                  <Form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit} ref={formRef}>
                     <h3>Organization Details</h3>
                     <div className="formContainer">
                       <div className="row">
@@ -101,7 +148,7 @@ const AddProduct = () => {
                           <div className="userStaticInfo">
                             <div className="title">Contact Person</div>
                             <div className="value">
-                              {organization?.contact_first_name} {organization?.contact_last_name} - {organization?.contact}
+                              {organization?.contact_person_name} - {organization?.contact}
                             </div>
                           </div>
                         </div>
@@ -181,7 +228,7 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect mode="single"/>}
+                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect mode="single" />}
                               </FormItem>
                             </div>
 
@@ -190,7 +237,7 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Time is required" }]}
                                 requiredMark={true}
                               >
-                                <input
+                                <Input
                                   type="time"
                                   name="scheduleTime"
                                   className="form-control"
@@ -202,7 +249,7 @@ const AddProduct = () => {
 
                         <div className="col-12">
                           <h3>Requirement/Description</h3>
-                          <FormItem name="requirement" label="">
+                          <FormItem name="other_details" label="">
                             <RequirementTextarea />
                           </FormItem>
                         </div>

@@ -85,3 +85,8 @@ export const getShortAddress = (address) => {
 
     return parts.join(', ');
 };
+
+export const getFullName = (firstName, lastName) =>{
+
+    return `${firstName ||''} ${lastName||''}`;
+}
