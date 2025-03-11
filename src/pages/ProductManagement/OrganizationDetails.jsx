@@ -13,7 +13,7 @@ export const OrganizationDetails = ({org_id}) => {
     const getOrganizationDetails = async()=>{
         try{
             const resp = await postData(`/org/get`,{org_id});
-            setDetails(resp.data?.[0]);
+            setDetails(resp.contents?.[0]);
         }
         catch(error){
             console.log(error);

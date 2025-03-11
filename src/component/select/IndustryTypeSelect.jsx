@@ -15,7 +15,7 @@ export const IndustryTypeSelect = ({ name = "industry_type",  ...rest }) => {
     const loadIndustryTypes = async () => {
         try {
             const resp = await getData("/lookup/industry-types"); 
-            const options = Array.isArray(resp.data) 
+            const options = Array.isArray(resp.contents) 
                 ? resp.data.map(item => ({ value: item.industry_id, label: item.industry_type })) 
                 : [];
             

@@ -19,7 +19,7 @@ export const UserStatusSelect = ({ name = "role_id", value, onChange = () => { }
     const loadUserStatus = async () => {
         try {
             const resp = await getData("/lookup/user-status");
-            const options = resp.data.map(item => ({ value: item.user_status_id, label: item.status }));
+            const options = resp.contents.map(item => ({ value: item.user_status_id, label: item.status }));
             options.splice(0, 0, { value: "", label: "Select Status", props: { defaultValue: '', disabled: true } });
             setStatus(options);
         }

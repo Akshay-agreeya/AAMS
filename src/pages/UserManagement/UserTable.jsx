@@ -9,14 +9,16 @@ import { deleteData } from "../../utils/CommonApi";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../component/input/DatePicker";
-import { convertUtcToLocal, getAllowedOperations, getShortAddress, operationExist } from "../../utils/Helper";
+import { convertUtcToLocal, getAllowedOperations, getPagenationFromResponse, getShortAddress, operationExist } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
+import { TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 export const UserTable = ({ org_id }) => {
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [openUserDeleteModal, setOpenUserDeleteModal] = useState();
+    const [pagenation, setPagenation] = useState({});
 
     const navigate = useNavigate();
 
@@ -25,13 +27,14 @@ export const UserTable = ({ org_id }) => {
             getUsers();
     }, [org_id]);
 
-    const getUsers = async () => {
+    const getUsers = async (page = 1) => {
         try {
             setLoading(true);
-            const resp = await getData(`/user/list/${org_id}`);
-            if (resp.data)
-                resp.data = resp.data.map((item, index) => ({ ...item, id: index + 1 }));
-            setUsers(resp.data);
+            const resp = await getData(`/user/list/${org_id}?page=${page}&size=${TABLE_RECORD_SIZE}`);
+            if (resp.contents)
+                resp.contents = resp.contents.map((item, index) => ({ ...item, id: index + 1 }));
+            setUsers(resp.contents);
+            setPagenation(getPagenationFromResponse(resp));
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -39,6 +42,10 @@ export const UserTable = ({ org_id }) => {
             setLoading(false);
         }
     };
+
+    const handlePageChanged = (pageNum) => {
+       getUsers(pageNum);
+    }
 
     const handleDelete = async () => {
         try {
@@ -157,7 +164,8 @@ export const UserTable = ({ org_id }) => {
 
     return (
         <>
-            <Table columns={columns} dataSource={users} rowKey="user_id" loading={loading} />
+            <Table columns={columns} dataSource={users} rowKey="user_id" loading={loading}
+                pagenation={{ ...pagenation, onChange: handlePageChanged }} />
             <DeleteConfirmationModal
                 modalId="deleteUserModal"
                 open={openUserDeleteModal}

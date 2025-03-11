@@ -21,7 +21,7 @@ const ProductManagement = () => {
     try {
       setLoading(true);
       const resp = await getData("/org/list");
-      setOrganizations(resp.data.organizations);
+      setOrganizations(resp.contents);
     } catch (error) {
       console.log(error);
     }

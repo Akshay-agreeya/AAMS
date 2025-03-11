@@ -21,8 +21,8 @@ const ViewUserDetails = () => {
     try {
       const response = await getData(`/user/get/${user_id}`);
       if (response.success) {
-        setUserDetails(response.data);
-        formRef.current?.setFieldsValue(response.data); // Update Form Fields
+        setUserDetails(response);
+        formRef.current?.setFieldsValue(response); // Update Form Fields
       } else {
         notification.error({ title: "Error", message: "Failed to load user details" });
       }

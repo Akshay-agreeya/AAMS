@@ -28,11 +28,11 @@ const ProductTable = ({ org_id }) => {
         try {
             setLoading(true);
             const resp = await getData(`/product/get/${org_id}`);
-            if (resp.data) {
-                resp.data = resp.data?.map((item, index) => ({ ...item, id: index + 1 }));
-                setPageSetting({ ...pageSetting, totalPages: resp.data.length })
+            if (resp.contents) {
+                resp.contents = resp.contents?.map((item, index) => ({ ...item, id: index + 1 }));
+                setPageSetting({ ...pageSetting, totalPages: resp.contents.length })
             }
-            setProducts(resp.data);
+            setProducts(resp.contents);
         } catch (error) {
             console.error("Error fetching products:", error);
         }
@@ -149,7 +149,8 @@ const ProductTable = ({ org_id }) => {
 
     return (
         <>
-            <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading} pagenation={pageSetting} />
+            <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading}
+                pagenation={pageSetting} />
             <DeleteConfirmationModal
                 modalId="deleteProductModal"
                 open={openProductDeleteModal}

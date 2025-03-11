@@ -49,7 +49,7 @@ export const getAllowedOperations = (menu_id) => {
     return user_menu.find(item => item.menu_detail_id === menu_id)?.operations || [];
 }
 
-export const operationExist = (operations, id)=>{
+export const operationExist = (operations, id) => {
     return operations.some(item => item.operation_type_id === id);
 }
 
@@ -86,7 +86,16 @@ export const getShortAddress = (address) => {
     return parts.join(', ');
 };
 
-export const getFullName = (firstName, lastName) =>{
+export const getFullName = (firstName, lastName) => {
 
-    return `${firstName ||''} ${lastName||''}`;
+    return `${firstName || ''} ${lastName || ''}`;
+}
+
+export const getPagenationFromResponse = (resp) => {
+    return {
+        "totalRecords": resp.total_count,
+        "page": resp.page_number,
+        "size": resp.page_size,
+        "totalPages": resp.total_pages
+    }
 }

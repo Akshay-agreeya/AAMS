@@ -32,7 +32,7 @@ const RoleManagement = () => {
     try {
       setLoading(true);
       const resp = await getData("/role/list");
-      setRoles(resp.data);
+      setRoles(resp.contents);
     }
     catch (error) {
       console.log(error);

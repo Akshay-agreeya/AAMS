@@ -28,7 +28,7 @@ const Navbar = () => {
       // Extract just the permission IDs
       const permissionIds = permissions.map(item => item.menu_detail_permission_id);
 
-      const data = resp.data?.map(menuDetail => {
+      const data = resp.contents?.map(menuDetail => {
         const filteredOperations = menuDetail.operations.filter(operation =>
           permissionIds.includes(operation.menu_detail_permission_id)
         );

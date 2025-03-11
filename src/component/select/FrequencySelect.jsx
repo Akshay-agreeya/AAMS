@@ -13,7 +13,7 @@ export const FrequencySelect = ({ name = "frequency_id", ...rest }) => {
     const loadFrequencies = async () => {
         try {
             const resp = await getData("/lookup/frequency");
-            const options = Array.isArray(resp.data)
+            const options = Array.isArray(resp.contents)
                 ? resp.data.map((item) => ({
                     value: item.frequency_id,
                     label: item.scan_frequency,

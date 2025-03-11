@@ -39,7 +39,7 @@ const AddUser = () => {
     try {
       setLoading(true);
       const resp = await getData(`/user/get/${user_id}`);
-      const userData = resp.data || {};
+      const userData = resp || {};
       setInitialValues(userData);
       setOrganization({
         org_name: userData.org_name,
@@ -63,7 +63,7 @@ const AddUser = () => {
   const getOrganizationInfo = async () => {
     try {
       const resp = await postData(`/org/get`, { org_id });
-      const orgData = resp.data?.[0] || {};
+      const orgData = resp.contents?.[0] || {};
       setOrganization({
         ...orgData,
         contact_first_name: orgData.first_name, contact_last_name: orgData.last_name,

@@ -16,7 +16,7 @@ export const RoleSelect = ({ name = "role_id", ...rest }) => {
     const loadRoles = async()=>{
         try{
             const resp = await getData("/role/list");
-            const options = resp.data.map(item=>({value: item.role_id, label: item.role_name}));
+            const options = resp.contents.map(item=>({value: item.role_id, label: item.role_name}));
             options.splice(0,0, { value: "", label: "Select Role", props: { defaultValue:'', disabled: true } });
             setRoles(options);
         }

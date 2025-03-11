@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-const Pagenation = ({ totalPages = 1, onChange }) => {
+const Pagenation = ({ totalPages = 1, page = 1, onChange, hideOnSingle = true }) => {
 
-    const [selectedPage, setSelectedPage] = useState(1);
+    const [selectedPage, setSelectedPage] = useState(page);
     const [pages, setPages] = useState([1]);
+
+    useEffect(() => {
+        setSelectedPage(page);
+    }, [page]);
 
     useEffect(() => {
         const pageArr = [];
@@ -18,12 +22,14 @@ const Pagenation = ({ totalPages = 1, onChange }) => {
         setSelectedPage(pageNum);
 
         if (onChange)
-            onchange(pageNum);
+            onChange(pageNum);
     }
+    if (hideOnSingle && totalPages === 1)
+        return <></>
 
     return (
         <div className="col-12">
-            <div className="paginationContainer">
+            {<div className="paginationContainer">
                 <nav aria-label="Page navigation">
                     <ul className="pagination pagination-lg justify-content-center">
                         {totalPages > 4 && <li className={`page-item ${selectedPage === 1 ? 'disabled' : ''} `}>
@@ -35,7 +41,7 @@ const Pagenation = ({ totalPages = 1, onChange }) => {
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>}
-                        {pages.map(item => <li className={`page-item ${selectedPage === item ? 'active' : ''}`} aria-current="page" ><a className="page-link" href="#"
+                        {pages.map((item, index) => <li className={`page-item ${selectedPage === item ? 'active' : ''}`} aria-current="page" key={index}><a className="page-link" href="#"
                             onClick={(e) => { handleChange(e, item) }}>{item}</a></li>)}
                         {totalPages > 4 && < li className={`page-item ${selectedPage === totalPages ? 'disabled' : ''} `}>
                             <a className="page-link" href="#" aria-label="Next" onClick={(e) => {
@@ -48,7 +54,7 @@ const Pagenation = ({ totalPages = 1, onChange }) => {
                         </li>}
                     </ul>
                 </nav>
-            </div>
+            </div>}
         </div >
     )
 }

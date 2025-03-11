@@ -17,7 +17,7 @@ const ProductPermission = () => {
     const  getOrganizationDetails = async()=>{
         try{
             const resp = await postData(`/org/get`,{org_id:selectedOrganizationId});
-            setSelectedOrganization(resp.data?.[0]);
+            setSelectedOrganization(resp.contents?.[0]);
         }
         catch(error){
             console.log(error);

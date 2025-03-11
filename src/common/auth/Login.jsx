@@ -37,10 +37,10 @@ const LoginForm = () => {
         try {
             const response = await postData('/login', formData);
             login();
-            sessionStorage.setItem('token', response.data.token);
-            sessionStorage.setItem('user', JSON.stringify(response.data));
-            const roleResp = await getData(`/role/get/${response.data.role_id}`);
-            localStorage.setItem("user_role", JSON.stringify(roleResp.data.details));
+            sessionStorage.setItem('token', response.token);
+            sessionStorage.setItem('user', JSON.stringify(response));
+            const roleResp = await getData(`/role/get/${response.role_id}`);
+            localStorage.setItem("user_role", JSON.stringify(roleResp.details));
             navigate("/admin/dashboard");
         }
         catch (error) {

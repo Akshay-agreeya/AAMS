@@ -1,7 +1,7 @@
 import React from 'react'
 import Pagenation from '../Pagenation';
 
-const   Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loading = false,
+const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loading = false,
     pagenation = true }) => {
 
     return (
@@ -17,7 +17,7 @@ const   Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", l
                 </thead>}
                 <tbody>
                     {loading ?
-                        <div className="message">Loading data, please wait...</div>
+                        <tr><td>Loading data, please wait...</td></tr>
                         :
                         dataSource.map((record, index) => (
                             <tr key={record[rowKey] || index}>
@@ -30,7 +30,7 @@ const   Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", l
                         ))}
                 </tbody>
             </table>
-            {pagenation && <Pagenation {...pagenation} />}
+            {pagenation && dataSource.length > 0 && <Pagenation {...pagenation} />}
         </div>
     )
 }

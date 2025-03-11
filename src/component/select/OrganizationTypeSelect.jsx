@@ -17,7 +17,7 @@ export const OrganizationTypeSelect = ({ name = "role_id", value, onChange = () 
     const loadOrganizationTypes = async () => {
         try {
             const resp = await getData("lookup/org-types");
-            const options = resp.data.map(item => ({ value: item.org_type_id, label: item.org_type }));
+            const options = resp.contents.map(item => ({ value: item.org_type_id, label: item.org_type }));
             options.unshift({ value: "", label: "Select Type of Organization", props: { defaultValue: '', disabled: true } });
             setTypes(options);
         } catch (error) {

@@ -30,7 +30,7 @@ const AddRole = () => {
   const getSeedData = async () => {
     try {
       const resp = await getData("/lookup/permissions");
-      setRoleSeedData(resp.data);
+      setRoleSeedData(resp.contents);
     }
     catch (error) {
       console.log(error);
@@ -170,7 +170,8 @@ const AddRole = () => {
 
                     <div className="col-12">
                       <div className="gridContainer">
-                        <Table columns={roleColumns} dataSource={roleSeedData} rowKey="menu_detail_id" />
+                        <Table columns={roleColumns} dataSource={roleSeedData} rowKey="menu_detail_id"
+                          pagenation={false} />
                       </div>
                     </div>
 
