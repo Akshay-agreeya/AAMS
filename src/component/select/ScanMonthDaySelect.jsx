@@ -13,8 +13,8 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, ...rest }) => 
     const loadScanMonthDays = async () => {
         try {
             const resp = await getData("/lookup/scan-days");
-            const options = Array.isArray(resp.contents)
-                ? resp.data.filter(item => item.Scan_day_id > 7).map((item) => ({
+            const options = Array.isArray(resp.content)
+                ? resp.content.filter(item => item.Scan_day_id > 7).map((item) => ({
                     value: item.Scan_day_id,
                     label: item.day_name,
                 }))

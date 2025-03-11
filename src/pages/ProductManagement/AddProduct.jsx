@@ -44,7 +44,7 @@ const AddProduct = () => {
   const getOrganizationInfo = async () => {
     try {
       const resp = await postData(`/org/get`, { org_id });
-      const orgData = resp.data?.[0] || {};
+      const orgData = resp.contents?.[0] || {};
       setOrganization({
         ...orgData,
         contact_person_name: getFullName(orgData.contact_first_name, orgData.contact_last_name),
@@ -61,7 +61,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const resp = await getData(`/product/view/${product_id}`);
-      const productData = resp.data || {};
+      const productData = resp.content || {};
       setInitialValues({
         ...productData, guideline_version_id: productData.guidline_version_id,
         schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm")
@@ -90,7 +90,15 @@ const AddProduct = () => {
   const handleSubmit = async (formData) => {
     try {
       setLoading(true);
-      const response = product_id ? await patchData(`/product/edit/${product_id}`, formData) : await postData(`/product/add/${org_id}`, formData);
+      let currentDate = new Date().toISOString().split('T')[0];
+
+      let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
+
+      // Convert the date to UTC and get it in ISO format
+      let utcDateTime = localDate.toISOString();
+
+      const response = product_id ? await patchData(`/product/edit/${product_id}`,
+        { ...formData, schedule_time: utcDateTime }) : await postData(`/product/add/${org_id}`, formData);
 
 
       notification.success({
