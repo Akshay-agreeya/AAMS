@@ -91,7 +91,6 @@ const AddUser = () => {
 
       };
 
-
       const response = user_id
         ? await patchData(`/user/edit/${user_id}`, payload)
         : await postData(`/user/add/${org_id}`, payload);
@@ -113,7 +112,7 @@ const AddUser = () => {
       console.error("Error handling user:", error);
       notification.error({
         title: "Error",
-        message: error.response?.data?.message || "An error occurred while processing the user request.",
+        message: error?.data?.errors?.[0] || "An error occurred while processing the user request.",
       });
     }
   };

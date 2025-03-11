@@ -4,16 +4,17 @@ import { deleteData, getData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
-import { getAllowedOperations } from '../../utils/Helper';
+import { getAllowedOperations, getPagenationFromResponse } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
+import { TABLE_RECORD_SIZE } from '../../utils/Constants';
 
 const ProductTable = ({ org_id }) => {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [pageSetting, setPageSetting] = useState({ totalPages: 1, size: 10, page: 1 });
+    const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
 
@@ -24,15 +25,15 @@ const ProductTable = ({ org_id }) => {
             getProducts();
     }, [org_id]);
 
-    const getProducts = async () => {
+    const getProducts = async (page = 1) => {
         try {
             setLoading(true);
-            const resp = await getData(`/product/get/${org_id}`);
+            const resp = await getData(`/product/get/${org_id}?page=${page}&size=${TABLE_RECORD_SIZE}`);
             if (resp.contents) {
                 resp.contents = resp.contents?.map((item, index) => ({ ...item, id: index + 1 }));
-                setPageSetting({ ...pageSetting, totalPages: resp.contents.length })
             }
             setProducts(resp.contents);
+            setPagenation(getPagenationFromResponse(resp));
         } catch (error) {
             console.error("Error fetching products:", error);
         }
@@ -101,7 +102,7 @@ const ProductTable = ({ org_id }) => {
         width: '8%',
         className: "text-center",
         render: (text) => (
-            <span>{getFormattedDateWithTime(new Date(text), " HH:mm:ss")}</span>
+            <span>{getFormattedDateWithTime(new Date(text), " HH:mm")}</span>
         )
     },
 
@@ -150,7 +151,7 @@ const ProductTable = ({ org_id }) => {
     return (
         <>
             <Table columns={columns} dataSource={products} rowKey="user_id" loading={loading}
-                pagenation={pageSetting} />
+                pagenation={{ ...pagenation, onChange: getProducts }} />
             <DeleteConfirmationModal
                 modalId="deleteProductModal"
                 open={openProductDeleteModal}

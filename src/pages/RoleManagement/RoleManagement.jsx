@@ -9,7 +9,8 @@ import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
-import { getAllowedOperations, operationExist } from "../../utils/Helper";
+import { getAllowedOperations, getPagenationFromResponse, operationExist } from "../../utils/Helper";
+import { TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 
 const RoleManagement = () => {
@@ -18,6 +19,7 @@ const RoleManagement = () => {
   const [selectedRoleId, setSelectedRoleId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [pagenation, setPagenation] = useState({});
 
   const navigate = useNavigate();
 
@@ -28,11 +30,12 @@ const RoleManagement = () => {
   }, []);
 
 
-  const getRoles = async () => {
+  const getRoles = async (page = 1) => {
     try {
       setLoading(true);
-      const resp = await getData("/role/list");
+      const resp = await getData(`/role/list?page=${page}&size=${TABLE_RECORD_SIZE}`);
       setRoles(resp.contents);
+      setPagenation(getPagenationFromResponse(resp));
     }
     catch (error) {
       console.log(error);
@@ -128,7 +131,8 @@ const RoleManagement = () => {
                 <div className="col-12">
                   <div className="roleManagmentContainer">
                     <div className="gridContainer">
-                      <Table columns={columns} dataSource={roles} rowKey="role_id" />
+                      <Table columns={columns} dataSource={roles} rowKey="role_id"
+                        pagenation={{ ...pagenation, onChange: getRoles }} />
                     </div>
                   </div>
                 </div>
