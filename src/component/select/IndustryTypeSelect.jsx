@@ -16,7 +16,7 @@ export const IndustryTypeSelect = ({ name = "industry_type",  ...rest }) => {
         try {
             const resp = await getData("/lookup/industry-types"); 
             const options = Array.isArray(resp.contents) 
-                ? resp.data.map(item => ({ value: item.industry_id, label: item.industry_type })) 
+                ? resp.contents.map(item => ({ value: item.industry_id, label: item.industry_type })) 
                 : [];
             
             options.unshift({ value: "", label: "Select Industry Type", props: { defaultValue: '', disabled: true } });

@@ -20,8 +20,8 @@ const ViewOrganization = () => {
     try {
       setLoading(true);
       const resp = await postData(`/org/get`, { org_id });
-      if (resp.success && resp.data.length > 0) {
-        setOrganization(resp.data[0]);
+      if (resp.success && resp.contents.length > 0) {
+        setOrganization(resp.contents[0]);
       }
     } catch (error) {
       console.log("Error fetching organization details:", error);

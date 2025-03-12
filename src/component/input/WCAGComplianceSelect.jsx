@@ -12,8 +12,8 @@ export const WCAGComplianceLevelSelect = ({ name = "compliance_level_id", ...res
     const loadComplianceLevels = async () => {
         try {
             const resp = await getData("/lookup/compliance-level");
-            const options = Array.isArray(resp.content)
-                ? resp.content.map(item => ({ value: item.compliance_level_id, label: item.level }))
+            const options = Array.isArray(resp.contents)
+                ? resp.contents.map(item => ({ value: item.compliance_level_id, label: item.level }))
                 : [];
 
             options.unshift({ value: "", label: "Select Compliance Level", props: { defaultValue: '', disabled: true } });
