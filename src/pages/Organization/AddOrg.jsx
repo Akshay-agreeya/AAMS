@@ -30,7 +30,7 @@ const AddOrganization = () => {
   const getOrganizationInfo = async () => {
 
     try {
-      const resp = await postData(`/org/get`,{org_id});
+      const resp = await postData(`/org/get`, { org_id });
       setInitialValues(resp.contents?.[0]);
       formRef.current.setFieldsValue(resp.contents?.[0]);
     }
@@ -47,9 +47,9 @@ const AddOrganization = () => {
         contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "MM/dd/yyyy")
       }
       console.log(formData)
-      const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData): await postData("/org/add", tempData);
+      const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData) : await postData("/org/add", tempData);
       notification.success({
-        title: `${org_id?"Edit":"Add"} Organization`,
+        title: `${org_id ? "Edit" : "Add"} Organization`,
         message: resp.message
       });
       navigate("/admin/user-management");
@@ -71,7 +71,7 @@ const AddOrganization = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Add New Organization</h1>
+                  <h1>{`${org_id ? "Edit" : "Add New"} Organization`}</h1>
                 </div>
               </div>
               <div className="col-12">
@@ -117,7 +117,7 @@ const AddOrganization = () => {
                             <FormItem name="country" label="Country"
                               rules={[{ required: true, message: "Country is required" }]}
                               requiredMark={true}>
-                              <CountrySelect/>
+                              <CountrySelect />
                             </FormItem>
                           </div>
                         </div>
@@ -127,7 +127,7 @@ const AddOrganization = () => {
                             <FormItem name="state" label="State"
                               rules={[{ required: true, message: "State is required" }]}
                               requiredMark={true}>
-                              <StateSelect/>
+                              <StateSelect />
                             </FormItem>
                           </div>
                         </div>
@@ -151,7 +151,7 @@ const AddOrganization = () => {
                               requiredMark={true}>
                               <DatePicker minDate={initialValues?.contract_expiry_date ? new Date(initialValues.contract_expiry_date) : new Date()}
                                 name="contract_expiry_date"
-                                value={initialValues.contract_expiry_date?convertUtcToLocal(initialValues.contract_expiry_date):''} />
+                                value={initialValues.contract_expiry_date ? convertUtcToLocal(initialValues.contract_expiry_date) : ''} />
                             </FormItem>
                           </div>
                         </div>
@@ -162,16 +162,16 @@ const AddOrganization = () => {
                     <div className="formContainer">
                       <div className="row">
                         {[
-                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name",messagerequired:"First Name is required" },
-                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name",messagerequired:"Last Name is required" },
-                          { label: "Email Address", name: "email", type: "text", patternType:"email", placeholder: "name@example.com",messagerequired:"Email is required", patternMsg:"Enter valid email" },
-                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number",messagerequired:"Contact No is required" },
+                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name", messagerequired: "First Name is required" },
+                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name", messagerequired: "Last Name is required" },
+                          { label: "Email Address", name: "email", type: "text", patternType: "email", placeholder: "name@example.com", messagerequired: "Email is required", patternMsg: "Enter valid email" },
+                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number", messagerequired: "Contact No is required" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
                                 rules={[{ required: true, message: field.messagerequired },
-                                  { type: field.patternType, message: field.patternMsg }
+                                { type: field.patternType, message: field.patternMsg }
                                 ]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>

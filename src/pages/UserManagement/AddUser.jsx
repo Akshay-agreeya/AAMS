@@ -45,7 +45,7 @@ const AddUser = () => {
         org_name: userData.org_name,
         contact_first_name: userData.contact_first_name, contact_last_name: userData.contact_last_name,
         contact_email: userData.contact_email, contact: userData.contact,
-        address_line:userData.address_line, city:userData.city, state:userData.state,
+        address_line: userData.address_line, city: userData.city, state: userData.state,
         country: userData.country
       })
     } catch (error) {
@@ -55,7 +55,7 @@ const AddUser = () => {
         message: "An error occurred while fetching user details.",
       });
     }
-    finally{
+    finally {
       setLoading(false);
     }
   };
@@ -110,138 +110,140 @@ const AddUser = () => {
       }
     } catch (error) {
       console.error("Error handling user:", error);
-      notification.error({
-        title: "Error",
-        message: error?.data?.errors?.[0] || "An error occurred while processing the user request.",
-      });
+      formRef.current.setFieldsError(error.data?.errors || {});
+      if (!error.data?.errors)
+        notification.error({
+          title: "Error",
+          message: error?.data?.errors?.[0] || "An error occurred while processing the user request.",
+        });
     }
   };
 
   return (
     <Layout>
       <div className="adaMainContainer">
-      {loading ? (
-          <Loading/>
-        ) :(
-        <section className="adminControlContainer">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="pageTitle">
-                  <h1>{`${user_id ? "Edit" : "Add"} User`}</h1>
-                </div>
-              </div>
-
-              <div className="col-12">
-                <div className="userManagmentContainer">
-                  <div className="formContainer">
-                    <div className="row">
-                      {[
-                        { title: "Organization Name", value: organization.org_name || "N/A" },
-                        { title: "Organization Address", value: getFormattedAddress(organization) || "N/A" },
-                        {
-                          title: "Contact Person", value: `${organization.contact_first_name || ''}  ${organization.contact_last_name || ''} - ${organization.contact}`
-                        },
-                        { title: "Email", value: organization.contact_email || "N/A" },
-                      ].map((item, index) => (
-                        <div className="col-12 col-lg-3" key={index}>
-                          <div className="mb-3">
-                            <div className="userStaticInfo">
-                              <div className="title">{item.title}</div>
-                              <div className="value">{item.value}</div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+        {loading ? (
+          <Loading />
+        ) : (
+          <section className="adminControlContainer">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="pageTitle">
+                    <h1>{`${user_id ? "Edit" : "Add"} User`}</h1>
                   </div>
+                </div>
 
-                  <Form onSubmit={handleSubmit} ref={formRef}>
-                    <h3>User Details</h3>
+                <div className="col-12">
+                  <div className="userManagmentContainer">
                     <div className="formContainer">
                       <div className="row">
-                        <div className="col-12 col-lg-4">
-                          <div className="mb-3">
-                            <FormItem
-                              name="role_id"
-                              label="Select Role"
-                              rules={[{ required: true, message: "Role is required" }]}
-                              requiredMark={true}
-                            >
-                              <RoleSelect value={initialValues.role_id}/>
-                            </FormItem>
-                          </div>
-                        </div>
-
                         {[
-                          { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
-                          { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
-                          { label: "Email address", name: "email", type: "text", patternType: 'email', placeholder: "name@example.com", patternMsg: "Enter valid email" },
-                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
-                        ].map((field, index) => (
-                          <div className="col-12 col-lg-4" key={index}>
+                          { title: "Organization Name", value: organization.org_name || "N/A" },
+                          { title: "Organization Address", value: getFormattedAddress(organization) || "N/A" },
+                          {
+                            title: "Contact Person", value: `${organization.contact_first_name || ''}  ${organization.contact_last_name || ''} - ${organization.contact}`
+                          },
+                          { title: "Email", value: organization.contact_email || "N/A" },
+                        ].map((item, index) => (
+                          <div className="col-12 col-lg-3" key={index}>
                             <div className="mb-3">
-                              <FormItem name={field.name} label={field.label} rules={[
-                                { required: true, message: `${field.label} is required` },
-                                { type: field.patternType, message: field.patternMsg }
-                              ]} requiredMark={true}>
-                                <Input type={field.type} placeholder={field.placeholder} />
-                              </FormItem>
+                              <div className="userStaticInfo">
+                                <div className="title">{item.title}</div>
+                                <div className="value">{item.value}</div>
+                              </div>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
-                    {!user_id && <>
-                      <h3>User Login Details</h3>
-                      <div className="formContainer ">
+
+                    <Form onSubmit={handleSubmit} ref={formRef}>
+                      <h3>User Details</h3>
+                      <div className="formContainer">
                         <div className="row">
+                          <div className="col-12 col-lg-4">
+                            <div className="mb-3">
+                              <FormItem
+                                name="role_id"
+                                label="Select Role"
+                                rules={[{ required: true, message: "Role is required" }]}
+                                requiredMark={true}
+                              >
+                                <RoleSelect value={initialValues.role_id} />
+                              </FormItem>
+                            </div>
+                          </div>
+
                           {[
-                            { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
-                            { label: "Password", name: "password", type: "password", placeholder: "Password" },
-                            { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
+                            { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
+                            { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
+                            { label: "Email address", name: "email", type: "text", patternType: 'email', placeholder: "name@example.com", patternMsg: "Enter valid email" },
+                            { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                           ].map((field, index) => (
-                            <div className="col-12 col-lg-4 " key={index}>
+                            <div className="col-12 col-lg-4" key={index}>
                               <div className="mb-3">
-                                <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                                <FormItem name={field.name} label={field.label} rules={[
+                                  { required: true, message: `${field.label} is required` },
+                                  { type: field.patternType, message: field.patternMsg }
+                                ]} requiredMark={true}>
                                   <Input type={field.type} placeholder={field.placeholder} />
                                 </FormItem>
                               </div>
                             </div>
                           ))}
+                        </div>
+                      </div>
+                      {!user_id && <>
+                        <h3>User Login Details</h3>
+                        <div className="formContainer ">
+                          <div className="row">
+                            {[
+                              { label: "User Name", name: "username", type: "text", placeholder: "User Name" },
+                              { label: "Password", name: "password", type: "password", placeholder: "Password" },
+                              { label: "Confirm Password", name: "confirmPassword", type: "password", placeholder: "Confirm Password" },
+                            ].map((field, index) => (
+                              <div className="col-12 col-lg-4 " key={index}>
+                                <div className="mb-3">
+                                  <FormItem name={field.name} label={field.label} rules={[{ required: true, message: `${field.label} is required` }]} requiredMark={true}>
+                                    <Input type={field.type} placeholder={field.placeholder} />
+                                  </FormItem>
+                                </div>
+                              </div>
+                            ))}
 
-                          <div className="col-12 col-lg-4">
-                            <div className="mb-3">
-                              <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}
-                                requiredMark={true}>
-                                <UserStatusSelect />
-                              </FormItem>
+                            <div className="col-12 col-lg-4">
+                              <div className="mb-3">
+                                <FormItem name="selStatus" label="Status" rules={[{ required: true, message: "Status is required" }]}
+                                  requiredMark={true}>
+                                  <UserStatusSelect />
+                                </FormItem>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </>}
+                      </>}
 
-                    <div className="col-12">
-                      <div className="buttonBox">
-                        <button type="button" className="btnCancel" onClick={() => navigate("/admin/user-management")}>
-                          Cancel
-                        </button>
-                        <button type="submit" className="btnAddUser">
-                          {user_id ? "Update" : "Submit"}
-                        </button>
+                      <div className="col-12">
+                        <div className="buttonBox">
+                          <button type="button" className="btnCancel" onClick={() => navigate("/admin/user-management")}>
+                            Cancel
+                          </button>
+                          <button type="submit" className="btnAddUser">
+                            {user_id ? "Update" : "Submit"}
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </Form>
+                    </Form>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
         )}
       </div>
     </Layout>
-        
+
   );
 };
 

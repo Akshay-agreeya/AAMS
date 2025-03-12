@@ -17,7 +17,27 @@ const Form = forwardRef((props, ref) => {
             setFormData(values);
         },
         setFieldValue(keyName, value) {
-            setFormData({...formData,[keyName]:value});
+            setFormData({ ...formData, [keyName]: value });
+        },
+        setFieldsError(errs = {}) {
+
+
+            // Set the errors in state (assumed to be some form state handler)
+            setErrors(errs);
+
+            // Early return if there are no errors
+            const keys = Object.keys(errs);
+            if (keys.length === 0) return;
+
+
+            // Get the first field to focus
+            const fieldElement = document.querySelector(`[name="${keys[0]}"]`);
+
+            if (fieldElement) {
+                // Scroll the field into view and focus it
+                fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                fieldElement.focus();
+            }
         }
     }));
 
@@ -54,11 +74,15 @@ const Form = forwardRef((props, ref) => {
     // Memoize validateForm function to avoid unnecessary re-creations
     const validateForm = useCallback(() => {
         const newErrors = {};
+        let firstErrorField = null; // Track the first error field
 
         const validateChildrenRecursively = (children) => {
             React.Children.forEach(children, (child) => {
                 if (child?.type?.name === "FormItem") {
                     validateInput(newErrors, child);
+                    if (!firstErrorField && newErrors[child.props.name]) {
+                        firstErrorField = child; // Store the first error field
+                    }
                 } else if (child?.props?.children) {
                     validateChildrenRecursively(child.props.children); // Recurse if there are nested children
                 }
@@ -67,6 +91,14 @@ const Form = forwardRef((props, ref) => {
 
         validateChildrenRecursively(children);
         setErrors(newErrors);
+
+        if (firstErrorField) {
+            const fieldElement = document.querySelector(`[name="${firstErrorField.props.name}"]`);
+            if (fieldElement) {
+                fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                fieldElement.focus(); // Focus the field as well
+            }
+        }
 
         return Object.keys(newErrors).length === 0;
     }, [children, validateInput]); // Include dependencies
@@ -100,7 +132,7 @@ const Form = forwardRef((props, ref) => {
     // Example usage in the context of your form
     const handleChange = (e) => {
         const { name, selectedOptions, multiple, value } = e.target;
-        const newValue = multiple?Array.from(selectedOptions).map(option => option.value):value
+        const newValue = multiple ? Array.from(selectedOptions).map(option => option.value) : value
         const newFormData = { ...formData, [name]: newValue };
         setFormData(newFormData);
 
