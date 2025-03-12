@@ -40,9 +40,9 @@ const AddRole = () => {
 
     try {
       const resp = await getData(`/role/get/${role_id}`);
-      setInitialValues(resp.data);
-      formRef.current.setFieldsValue(resp.data?.role);
-      setSelectedPermission(resp.data?.details?.map(id => id.menu_detail_permission_id));
+      setInitialValues(resp);
+      formRef.current.setFieldsValue(resp.role);
+      setSelectedPermission(resp.details?.map(id => id.menu_detail_permission_id));
     }
     catch (error) {
       console.log(error);
@@ -140,7 +140,7 @@ const AddRole = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Add Role</h1>
+                  <h1>{`${role_id ? "Edit" : "Add"} Role`}</h1>
                 </div>
               </div>
 

@@ -61,7 +61,7 @@ const AddProduct = () => {
     try {
       setLoading(true);
       const resp = await getData(`/product/view/${product_id}`);
-      const productData = resp.content || {};
+      const productData = resp || {};
       setInitialValues({
         ...productData, guideline_version_id: productData.guidline_version_id,
         schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm")
@@ -131,7 +131,7 @@ const AddProduct = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Add Product</h1>
+                  <h1>{`${product_id ? "Edit" : "Add"} Product`}</h1>
                 </div>
               </div>
               <div className="col-12">

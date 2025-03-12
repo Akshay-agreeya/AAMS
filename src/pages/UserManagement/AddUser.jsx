@@ -128,7 +128,7 @@ const AddUser = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>{user_id ? "Edit User" : "Add User"}</h1>
+                  <h1>{`${user_id ? "Edit" : "Add"} User`}</h1>
                 </div>
               </div>
 
