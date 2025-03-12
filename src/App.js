@@ -14,7 +14,7 @@ import RoleManagement from './pages/RoleManagement/RoleManagement'
 import ForgotPassword from './pages/ForgotPassword';
 import AddRole from './pages/RoleManagement/AddRole';
 import EditOrganization from '../src/pages/Organization/EditOrg';
-import ProductPermission from './pages/ProductPermission';
+import ProductPermission from './pages/ProductPermision/ProductPermission';
 import ProductManagement from './pages/ProductManagement/ProductManagement';
 import ChangePassword from './common/auth/ChangePassword';
 import Reports from './pages/Report/Reports';
