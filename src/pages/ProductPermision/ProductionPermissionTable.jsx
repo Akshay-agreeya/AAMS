@@ -1,48 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Table from '../../component/table/Table';
 import { getData } from '../../utils/CommonApi';
-import { getFullName } from '../../utils/Helper';
+import { getFullName, getOperationPermissionId, getOperationsFromPermission, operationExist } from '../../utils/Helper';
+import Loading from '../../component/Loading';
 
-const ProductionPermissionTable = ({ org_id }) => {
+const ProductionPermissionTable = ({ org_id, onChange }) => {
 
     const [users, setUsers] = useState([]);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [usersWithServices, setUsersWithServices] = useState([]);
+
+
+    const getOrganizationData = useCallback(async () => {
+        try {
+            setLoading(true);
+            setUsers([]);
+            setProducts([]);
+            // Fetch users and products in parallel
+            const [usersResp, productsResp] = await Promise.all([
+                getData(`/user/list/${org_id}?page=0&size=20`),
+                getData(`/product/get/${org_id}?page=0&size=20`)
+            ]);
+
+            // Handle users data
+            if (usersResp.contents) {
+                // Fetch roles for users concurrently using Promise.all
+                const usersWithRoles = await Promise.all(
+                    usersResp.contents.map(async (item, index) => {
+                        const roleResp = await getData(`/role/get/${item.role_id}`);
+                        return { ...item, id: index + 1, user_role: roleResp.details };
+                    })
+                );
+                setUsers(usersWithRoles); // Set users with roles in one go
+            }
+
+            // Handle products data
+            if (productsResp.contents) {
+                const processedProducts = productsResp.contents.map((item, index) => ({
+                    ...item,
+                    id: index + 1
+                }));
+                setProducts(processedProducts); // Assuming you want to set products to state
+            }
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }, [org_id]);
+
 
     useEffect(() => {
         if (org_id)
             getOrganizationData();
-    }, [org_id]);
+    }, [org_id, getOrganizationData]);
 
-    const getOrganizationData = async () => {
+    useEffect(() => {
+        onChange(usersWithServices);
+    }, [usersWithServices]);
 
-        try {
-            setLoading(true);
-            const users = await getData(`/user/list/${org_id}?page=0&size=20`);
-            if (users.contents)
-                users.contents = users.contents.map((item, index) => ({ ...item, id: index + 1 }));
-            setUsers(users.contents);
-            const products = await getData(`/product/get/${org_id}?page=0&size=20`);
-            if (products.contents) {
-                products.contents = products.contents?.map((item, index) => ({ ...item, id: index + 1 }));
-            }
-            setProducts(products.contents);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    const TDComp = ({ }) => {
+    const getTDComp = (menu_key, record) => {
         return (
             <div className="selectCheckRepeat">
                 <div className="form-check custCheck me-3">
-                    <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" checked disabled />
+                    <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"
+                        checked={operationExist(getOperationsFromPermission(record.user_role, menu_key), 3)} disabled />
                     <label className="form-check-label" htmlFor="inlineCheckbox1">View</label>
                 </div>
                 <div className="form-check custCheck">
-                    <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" checked disabled />
+                    <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2"
+                        checked={operationExist(getOperationsFromPermission(record.user_role, menu_key), 2)} disabled />
                     <label className="form-check-label" htmlFor="inlineCheckbox2">Edit</label>
                 </div>
             </div>
@@ -58,18 +87,18 @@ const ProductionPermissionTable = ({ org_id }) => {
             width: '20%',
             render: (_, record) => (
                 <>
-                    {record.username}
+                    {getFullName(record.first_name, record.last_nameP)}
                     <div className="roletype">Role: <span>{record.role}</span></div>
                 </>
             )
         },
         {
             title: 'User Management',
-            dataIndex: 'user',
+            dataIndex: 'user_mgmt',
             scope: 'col',
             width: '13%',
-            render: (_text) => (
-                <TDComp />
+            render: (_text, record) => (
+                getTDComp("user_mgmt", record)
             )
         },
         {
@@ -77,8 +106,8 @@ const ProductionPermissionTable = ({ org_id }) => {
             dataIndex: 'role',
             scope: 'col',
             width: '13%',
-            render: (_text) => (
-                <TDComp />
+            render: (_text, record) => (
+                getTDComp("role_mgmt", record)
             )
         },
         {
@@ -86,13 +115,13 @@ const ProductionPermissionTable = ({ org_id }) => {
             dataIndex: 'prodPer',
             scope: 'col',
             width: '13%',
-            render: (_text) => (
-                <TDComp />
+            render: (_text, record) => (
+                getTDComp("product_permission", record)
             )
         },
         {
             title: 'Product',
-            dataIndex: 'user',
+            dataIndex: 'product',
             scope: 'col',
             width: '15%',
             className: "tblDataOuter",
@@ -106,16 +135,17 @@ const ProductionPermissionTable = ({ org_id }) => {
             )
         },
         {
-            title: 'Product management',
-            dataIndex: 'user',
+            title: 'Product Management',
+            dataIndex: 'product_mgmt',
             scope: 'col',
             width: '13%',
             className: "tblDataOuter",
-            render: () => (
+            render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
                         {products?.map(item => <div className="form-check custCheck">
-                            <input className="form-check-input" type="checkbox" id="inlineCheckbox20" value="option1"  />
+                            <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'product_mgmt') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                         </div>)}
                     </ul>
@@ -124,15 +154,16 @@ const ProductionPermissionTable = ({ org_id }) => {
         },
         {
             title: 'Reports',
-            dataIndex: 'user',
+            dataIndex: 'reports',
             scope: 'col',
             width: '13%',
             className: "tblDataOuter",
-            render: () => (
+            render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
                         {products?.map(item => <div className="form-check custCheck">
-                            <input className="form-check-input" type="checkbox" id="inlineCheckbox20" value="option1" />
+                            <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'reports') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                         </div>)}
                     </ul>
@@ -140,7 +171,47 @@ const ProductionPermissionTable = ({ org_id }) => {
 
             )
         },
-    ]
+    ];
+
+    const handlePermissionChanged = (e, record, menu_key) => {
+        const mKey = getOperationPermissionId(getOperationsFromPermission(record.user_role, menu_key), 3);
+        const { value, checked } = e.target;
+
+        // Create a copy of usersWithServices to avoid direct mutation
+        const updatedUsersWithServices = [...usersWithServices];
+
+        // Find the existing user-service pair
+        const existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === value);
+
+        if (checked) {
+            if (existData) {
+                // Add the permission operation ID if it doesn't exist
+                if (!existData.product_permission_opr_ids.includes(mKey)) {
+                    existData.product_permission_opr_ids.push(mKey);
+                }
+            } else {
+                // Add new user-service pair
+                updatedUsersWithServices.push({
+                    user_id: record.user_id,
+                    service_id: value,
+                    product_permission_opr_ids: [mKey]
+                });
+            }
+        } else {
+            if (existData) {
+                // Remove the permission operation ID
+                existData.product_permission_opr_ids = existData.product_permission_opr_ids.filter(item => item !== mKey);
+            }
+        }
+
+        // Filter out users with empty product_permission_opr_ids
+        setUsersWithServices(updatedUsersWithServices.filter(item => item.product_permission_opr_ids.length > 0));
+    };
+
+
+    if (loading)
+        return <Loading />
+
     return (
         <Table columns={columns} dataSource={users} pagenation={false} />
     )

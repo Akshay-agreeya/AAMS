@@ -7,6 +7,7 @@ import { useAuth } from './AuthContext';
 import { getData, postData } from '../../utils/CommonApi'; // Import API utility
 import { InputPassword } from '../../component/input/InputPassword';
 import { Input } from '../../component/input/Input';
+import { MENU_PERMISSION, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
 
 const LoginForm = () => {
     const [rememberMe, setRememberMe] = useState(true);
@@ -37,10 +38,12 @@ const LoginForm = () => {
         try {
             const response = await postData('/login', formData);
             login();
-            sessionStorage.setItem('token', response.token);
-            sessionStorage.setItem('user', JSON.stringify(response));
+            sessionStorage.setItem(TOKEN, response.token);
+            sessionStorage.setItem(USER, JSON.stringify(response));
             const roleResp = await getData(`/role/get/${response.role_id}`);
-            localStorage.setItem("user_role", JSON.stringify(roleResp.details));
+            localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
+            const resp = await getData("/lookup/permissions");
+            localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
             navigate("/admin/dashboard");
         }
         catch (error) {
@@ -58,7 +61,7 @@ const LoginForm = () => {
             <div className="loginHeading">ADA CMS Sign In</div>
             <div className="loginSubHeading">Sign in to your account to continue</div>
             {error && <div className="alert alert-danger" role="alert">{error}</div>
- }
+            }
             <div className="formFieldsContainer">
                 <Form onSubmit={handleSubmit}>
                     <div className="form-floating mb-3">
@@ -85,7 +88,7 @@ const LoginForm = () => {
                         <button type="submit" className="btn signInAdmin" disabled={loading}>
                             {loading ? 'Logging in...' : 'Login '}
                         </button>
-                        
+
                     </div>
                     <div className="forgotPassword">
                         <a href="/forgotpassword">Forgot Password?</a>

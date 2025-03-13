@@ -4,12 +4,14 @@ import { OrganizationSelect } from '../../component/select/OrganizationSelect';
 import { postData } from '../../utils/CommonApi';
 import { getFormattedAddress, getFullName } from '../../utils/Helper';
 import ProductionPermissionTable from './ProductionPermissionTable';
+import notification from '../../component/notification/Notification';
 
 
 const ProductPermission = () => {
 
     const [selectedOrganizationId, setSelectedOrganizationId] = useState();
     const [selectedOrganization, setSelectedOrganization] = useState({});
+    const [formData, setFormData] = useState({});
 
     useEffect(() => {
         getOrganizationDetails();
@@ -20,6 +22,31 @@ const ProductPermission = () => {
         try {
             const resp = await postData(`/org/get`, { org_id: selectedOrganizationId });
             setSelectedOrganization(resp.contents?.[0]);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleChange = (data) => {
+        setFormData(data);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData?.length === 0) {
+            notification.error({
+                title: "Product Permission",
+                message: "Please select atleast one product",
+            });
+            return;
+        }
+        try {
+           await postData(`/permission/update`, {usersWithServices:formData});
+           notification.success({
+            title: `Product Permission`,
+            message: "Permission saved successfully!",
+          });
         }
         catch (error) {
             console.log(error);
@@ -81,13 +108,13 @@ const ProductPermission = () => {
 
                                         <div className="col-12">
                                             <div className="gridContainer">
-                                                <ProductionPermissionTable org_id={selectedOrganizationId}/>
+                                                <ProductionPermissionTable org_id={selectedOrganizationId} onChange={handleChange} />
                                             </div>
                                         </div>
 
                                         <div className="buttonBox mt-4">
                                             <a href="/admin/product-permission" className="btnCancel">Cancel</a>
-                                            <button type="submit" className="btnAddUser">Save</button>
+                                            <button type="submit" className="btnAddUser" onClick={handleSubmit}>Save</button>
                                         </div>
                                     </form>
                                 </div>

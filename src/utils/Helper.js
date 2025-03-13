@@ -1,4 +1,5 @@
 import { formattedDate } from "../component/input/DatePicker";
+import { MENU_PERMISSION, USER_MENU, USER_ROLE } from "./Constants";
 
 export const getUserFromSession = () => {
     const storedUser = sessionStorage.getItem("user");
@@ -29,14 +30,43 @@ export const getUserIdFromSession = () => {
 }
 
 export const getUserRole = () => {
-    const storedRole = localStorage.getItem("user_role");
+    const storedRole = localStorage.getItem(USER_ROLE);
     if (storedRole)
         return JSON.parse(storedRole);
     return null;
 }
 
+export const menuPermissions = (menu, permissions) => {
+
+    const permissionIds = permissions.map(item => item.menu_detail_permission_id);
+
+    const data = menu?.map(menuDetail => {
+        const filteredOperations = menuDetail.operations.filter(operation =>
+            permissionIds.includes(operation.menu_detail_permission_id)
+        );
+
+        // Return menuDetail only if there are operations left
+        if (filteredOperations.length > 0) {
+            return {
+                ...menuDetail,
+                operations: filteredOperations
+            };
+        }
+        return null; // Return null if no operations left
+    }).filter(menuDetail => menuDetail !== null);
+    return data;
+}
+
+export const getMenuDetails = () => {
+    const storedMenu = localStorage.getItem(MENU_PERMISSION);
+    if (storedMenu)
+        return JSON.parse(storedMenu);
+    return [];
+}
+
+
 export const getUserMenu = () => {
-    const storedUserMenu = localStorage.getItem("user_menu");
+    const storedUserMenu = localStorage.getItem(USER_MENU);
     if (storedUserMenu)
         return JSON.parse(storedUserMenu);
     return null;
@@ -49,8 +79,20 @@ export const getAllowedOperations = (menu_id) => {
     return user_menu.find(item => item.menu_detail_id === menu_id)?.operations || [];
 }
 
+export const getOperationsFromPermission = (permissions, menu_key) => {
+    const menu = getMenuDetails();
+    const user_menu = menuPermissions(menu, permissions);
+    if (!user_menu)
+        return [];
+    return user_menu.find(item => item.menu_key === menu_key)?.operations || [];
+}
+
 export const operationExist = (operations, id) => {
     return operations.some(item => item.operation_type_id === id);
+}
+
+export const getOperationPermissionId = (operations, id) => {
+    return operations.find(item => item.operation_type_id === id)?.menu_detail_permission_id;
 }
 
 export const convertUtcToLocal = (utc) => {

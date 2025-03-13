@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getUserRole } from '../utils/Helper';
-import { getData } from '../utils/CommonApi';
+import { getMenuDetails, getUserRole, menuPermissions } from '../utils/Helper';
+
+import { USER_MENU } from '../utils/Constants';
 
 const Navbar = () => {
 
   const [menuDetails, setMenuDetails] = useState([]);
   const permissions = getUserRole();
+  const menu_permissions = getMenuDetails();
 
-  useEffect(() => {
-    getMenuDetails();
-  }, []);
 
   const urlMapping = {
     dashboard: '/admin/dashboard',
@@ -21,35 +20,23 @@ const Navbar = () => {
     reports: '/admin/reports',
   }
 
-  const getMenuDetails = async () => {
+  const getMenu = useCallback(async () => {
     try {
-      const resp = await getData("/lookup/permissions");
 
       // Extract just the permission IDs
-      const permissionIds = permissions.map(item => item.menu_detail_permission_id);
-
-      const data = resp.contents?.map(menuDetail => {
-        const filteredOperations = menuDetail.operations.filter(operation =>
-          permissionIds.includes(operation.menu_detail_permission_id)
-        );
-
-        // Return menuDetail only if there are operations left
-        if (filteredOperations.length > 0) {
-          return {
-            ...menuDetail,
-            operations: filteredOperations
-          };
-        }
-        return null; // Return null if no operations left
-      })
-        .filter(menuDetail => menuDetail !== null);
-      setMenuDetails(data);
-      localStorage.setItem("user_menu",JSON.stringify(data));
+      const menu = menuPermissions(menu_permissions, permissions)
+      setMenuDetails(menu);
+      localStorage.setItem(USER_MENU, JSON.stringify(menu));
     }
     catch (error) {
       console.log(error);
     }
-  }
+  }, []);
+
+  
+  useEffect(() => {
+    getMenu();
+  }, [getMenu]);
 
   return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
