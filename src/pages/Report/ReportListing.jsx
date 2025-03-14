@@ -7,11 +7,9 @@ import iconPDF from '../../assets/images/iconPDF.svg';
 
 
 const ReportsComponent = () => {
-    const breadcrumbs = [{ url: "/admin/reportlisting", label: "Home" },
-        {label:"Website Reports"}
-    ];
+    
   return (
-      <Layout breadcrumbs={breadcrumbs}>
+      <Layout>
     <div className="adaMainContainer">
       <section className="adminControlContainer">
         <div className="container">

@@ -4,13 +4,15 @@ import { getData } from '../../utils/CommonApi';
 import Loading from '../../component/Loading';
 import { OrganizationDetails } from './OrganizationDetails';
 import ProductTable from './ProductTable';
-import Pagenation from '../../component/Pagenation';
+import { getAllowedOperations, operationExist } from '../../utils/Helper';
+import { PRODUCT_MGMT } from '../../utils/Constants';
 
 const ProductManagement = () => {
 
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const operations = getAllowedOperations(PRODUCT_MGMT);
 
   useEffect(() => {
     getOrganizations();
@@ -47,7 +49,7 @@ const ProductManagement = () => {
               {loading ? <Loading /> : <div className="col-12">
                 <div className="customerManagmentContainer">
                   <div className="accordion" id="customerManageViewList">
-                    {organizations.map((item,index) => <div className="customerManagmentRepeater" key={index}>
+                    {organizations.map((item, index) => <div className="customerManagmentRepeater" key={index}>
                       <div className="accordion-item">
                         <h2 className="accordion-header" id="headingOne">
                           <div
@@ -60,14 +62,14 @@ const ProductManagement = () => {
                           >
                             <div className="customerManagmentShortView">
                               <div className="orgTitle">{item.org_name}</div>
-                             <OrganizationDetails org_id={item.org_id}/>
+                              <OrganizationDetails org_id={item.org_id} />
                             </div>
                           </div>
-                          <div className="addNewService">
+                          {operationExist(operations, 1) && <div className="addNewService">
                             <a href={`/admin/product-management/addproduct/${item.org_id}`} className="add">
                               <i className="fa-solid fa-plus"></i> Add Product
                             </a>
-                          </div>
+                          </div>}
                         </h2>
                         <div
                           id={`collapse${index}`}
@@ -76,7 +78,7 @@ const ProductManagement = () => {
                           data-bs-parent="#customerManageViewList"
                         >
                           <div className="accordion-body">
-                            <ProductTable org_id={item.org_id}/>
+                            <ProductTable org_id={item.org_id} />
                           </div>
                         </div>
                       </div>

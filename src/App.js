@@ -32,6 +32,7 @@ export const routesMap = [
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/reportlisting", element: <ReportListing /> },
+    { path: "/user/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
     { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },

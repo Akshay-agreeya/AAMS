@@ -44,7 +44,7 @@ const LoginForm = () => {
             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
             const resp = await getData("/lookup/permissions");
             localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
-            navigate("/admin/dashboard");
+            response.role_key==="Super_Admin"? navigate("/admin/dashboard"): navigate("/user/dashboard");           
         }
         catch (error) {
             console.log(error);

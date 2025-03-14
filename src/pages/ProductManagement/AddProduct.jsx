@@ -95,10 +95,11 @@ const AddProduct = () => {
       let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
 
       // Convert the date to UTC and get it in ISO format
-      let utcDateTime = localDate.toISOString();
+      const reqData = { ...formData, schedule_time: localDate.toISOString() };
 
-      const response = product_id ? await patchData(`/product/edit/${product_id}`,
-        { ...formData, schedule_time: utcDateTime }) : await postData(`/product/add/${org_id}`, formData);
+
+      const response = product_id ? await patchData(`/product/edit/${product_id}`, reqData) :
+        await postData(`/product/add/${org_id}`, reqData);
 
 
       notification.success({

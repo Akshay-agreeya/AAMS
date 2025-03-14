@@ -9,6 +9,7 @@ import { UserTable } from "./UserTable";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import { getAllowedOperations } from "../../utils/Helper";
+import { USER_MGMT } from "../../utils/Constants";
 
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
@@ -56,7 +57,7 @@ const UserManagement = () => {
     }
   };
 
-  const operations = getAllowedOperations(1);
+  const operations = getAllowedOperations(USER_MGMT);
 
   return (
     <Layout>

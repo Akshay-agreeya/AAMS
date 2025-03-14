@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
 import { getAllowedOperations, getPagenationFromResponse, operationExist } from "../../utils/Helper";
-import { TABLE_RECORD_SIZE } from "../../utils/Constants";
+import { ROLE_MGMT, TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 
 const RoleManagement = () => {
@@ -23,7 +23,7 @@ const RoleManagement = () => {
 
   const navigate = useNavigate();
 
-  const operations = getAllowedOperations(2);
+  const operations = getAllowedOperations(ROLE_MGMT);
 
   useEffect(() => {
     getRoles();

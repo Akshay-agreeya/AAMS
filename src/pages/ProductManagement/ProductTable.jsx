@@ -8,7 +8,7 @@ import { getAllowedOperations, getPagenationFromResponse } from '../../utils/Hel
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
-import { TABLE_RECORD_SIZE } from '../../utils/Constants';
+import { PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
 
 const ProductTable = ({ org_id }) => {
 
@@ -42,7 +42,7 @@ const ProductTable = ({ org_id }) => {
         }
     };
 
-    const operations = getAllowedOperations(4);
+    const operations = getAllowedOperations(PRODUCT_MGMT);
 
     const columns = [{
         title: 'Service Name',

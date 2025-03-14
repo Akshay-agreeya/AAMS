@@ -6,3 +6,6 @@ export const USER_ROLE = "user_role";
 export const USER = 'user';
 export const TOKEN='token';
 export const USER_MENU='user_menu';
+export const USER_MGMT = "user_mgmt";
+export const ROLE_MGMT = "role_mgmt";
+export const PRODUCT_MGMT = "product_mgmt";

@@ -3,7 +3,7 @@ import { Select } from "../input/Select";
 import { getData } from "../../utils/CommonApi";
 
 
-export const OrganizationSelect = ({ name = "role", defaultValue, selectFirst = false,
+export const OrganizationSelect = ({ name = "organization", defaultValue, selectFirst = false,
   onChange = () => { }, ...rest }) => {
 
   const [organizations, setOrganizations] = useState([]);

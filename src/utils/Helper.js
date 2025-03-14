@@ -72,11 +72,11 @@ export const getUserMenu = () => {
     return null;
 }
 
-export const getAllowedOperations = (menu_id) => {
+export const getAllowedOperations = (menu_key) => {
     const user_menu = getUserMenu();
     if (!user_menu)
         return [];
-    return user_menu.find(item => item.menu_detail_id === menu_id)?.operations || [];
+    return user_menu.find(item => item.menu_key === menu_key)?.operations || [];
 }
 
 export const getOperationsFromPermission = (permissions, menu_key) => {

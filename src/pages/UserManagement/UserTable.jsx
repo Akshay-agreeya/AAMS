@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../component/input/DatePicker";
 import { convertUtcToLocal, getAllowedOperations, getPagenationFromResponse, getShortAddress, operationExist } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
-import { TABLE_RECORD_SIZE } from "../../utils/Constants";
+import { TABLE_RECORD_SIZE, USER_MGMT } from "../../utils/Constants";
 
 export const UserTable = ({ org_id }) => {
     const [users, setUsers] = useState([]);
@@ -83,7 +83,7 @@ export const UserTable = ({ org_id }) => {
         }
     }
 
-    const operations = getAllowedOperations(1);
+    const operations = getAllowedOperations(USER_MGMT);
 
     const columns = [
         {
