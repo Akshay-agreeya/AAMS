@@ -33,6 +33,7 @@ const Reports = () => {
       setPagenation(getPagenationFromResponse(resp));
     }
     catch (error) {
+      setReports([]);
       console.log(error);
     }
     finally {

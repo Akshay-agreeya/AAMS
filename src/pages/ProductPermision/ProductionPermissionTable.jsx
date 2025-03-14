@@ -17,6 +17,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             setLoading(true);
             setUsers([]);
             setProducts([]);
+            setUsersWithServices([]);
             // Fetch users and products in parallel
             const [usersResp, productsResp] = await Promise.all([
                 getData(`/user/list/${org_id}?page=0&size=20`),
@@ -128,7 +129,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: () => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <div className="form-check custCheck"><li>{item.web_url}</li></div>)}
+                        {products?.map(item => <li><div className="form-check custCheck">{item.web_url}</div></li>)}
                     </ul>
                 </div>
 
@@ -143,11 +144,12 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <div className="form-check custCheck">
+                        {products?.map(item => <li>
+                        <div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
                                 value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'product_mgmt') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
-                        </div>)}
+                        </div></li>)}
                     </ul>
                 </div>
             )
@@ -161,11 +163,11 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <div className="form-check custCheck">
+                        {products?.map(item => <li><div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
                                 value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'reports') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
-                        </div>)}
+                        </div></li>)}
                     </ul>
                 </div>
 
