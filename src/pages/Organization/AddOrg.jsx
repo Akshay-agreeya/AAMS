@@ -16,11 +16,13 @@ import { convertUtcToLocal } from '../../utils/Helper';
 const AddOrganization = () => {
 
   const [initialValues, setInitialValues] = useState({});
+  const [selectedCountry, setSelectedCountry] = useState({});
 
   const navigate = useNavigate();
 
   const { org_id } = useParams();
   const formRef = useRef();
+  const countryRef = useRef();
 
   useEffect(() => {
     if (org_id)
@@ -37,6 +39,11 @@ const AddOrganization = () => {
     catch (error) {
       console.log(error);
     }
+  }
+
+  const handleCountryChange = (e) => {
+    setSelectedCountry(e.target.value || '');
+    formRef.current?.setFieldValue("state", '');
   }
 
   const handleSubmit = async (formData) => {
@@ -117,7 +124,7 @@ const AddOrganization = () => {
                             <FormItem name="country" label="Country"
                               rules={[{ required: true, message: "Country is required" }]}
                               requiredMark={true}>
-                              <CountrySelect />
+                              <CountrySelect onChange={handleCountryChange} ref={countryRef} />
                             </FormItem>
                           </div>
                         </div>
@@ -127,7 +134,7 @@ const AddOrganization = () => {
                             <FormItem name="state" label="State"
                               rules={[{ required: true, message: "State is required" }]}
                               requiredMark={true}>
-                              <StateSelect />
+                              <StateSelect countryId={countryRef.current?.getISOCode(selectedCountry)}/>
                             </FormItem>
                           </div>
                         </div>

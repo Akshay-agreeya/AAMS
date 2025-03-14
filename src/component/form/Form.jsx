@@ -17,10 +17,12 @@ const Form = forwardRef((props, ref) => {
             setFormData(values);
         },
         setFieldValue(keyName, value) {
-            setFormData({ ...formData, [keyName]: value });
+            setFormData((prev)=>({ ...prev, [keyName]: value }));
+        },
+        getFieldValue(keyName) {
+            return formData?.[keyName] || '';
         },
         setFieldsError(errs = {}) {
-
 
             // Set the errors in state (assumed to be some form state handler)
             setErrors(errs);
@@ -133,14 +135,14 @@ const Form = forwardRef((props, ref) => {
     const handleChange = (e) => {
         const { name, selectedOptions, multiple, value } = e.target;
         const newValue = multiple ? Array.from(selectedOptions).map(option => option.value) : value
-        const newFormData = { ...formData, [name]: newValue };
-        setFormData(newFormData);
+        
+        setFormData((prev)=>({ ...prev, [name]: newValue }));
 
         // Find the child (or nested child) by its name
         const foundChild = findChildByName(children, name);
         if (foundChild) {
             const newErrors = { ...errors, [foundChild.props.name]: '' };
-            validateInput(newErrors, foundChild, newFormData); // Validate only the found child
+            validateInput(newErrors, foundChild, { ...formData, [name]: newValue }); // Validate only the found child
             setErrors(newErrors);
         }
     };
