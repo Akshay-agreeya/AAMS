@@ -1,0 +1,724 @@
+[
+  {
+    "header": "Deep Accessibility Report",
+    "data": [
+      {
+        "Criteria": "1.3.1 3.3.2",
+        "Issue Description": "All fieldset elements should be labeled with legend elements.",
+        "Remediation": "The first child element inside a fieldset must be a legend element, which provides a label or description for the group. legend elements in other positions may be ignored.",
+        "Level": "A",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A H71",
+            "link": "https://www.w3.org/TR/WCAG-TECHS/H71.html"
+          },
+          {
+            "text": "Section 508 (2017) A H71",
+            "link": "https://www.w3.org/TR/WCAG-TECHS/H71.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "57"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "105"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "106"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "106"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "",
+            "LineNumbers": "105"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "Don't use CSS animations that run for more than 5 seconds without giving the user a way to turn them off.",
+        "Remediation": "Reduce the duration of the animation to less than 5 seconds (works on all devices)\n            or use the @media (prefers-reduced-motion) media query to turn them off (works in Chrome, Firefox and Safari).",
+        "Level": "A",
+        "Failing Page": "3",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A 2.2.2",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html"
+          },
+          {
+            "text": "Section 508 (2017) A 2.2.2",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "animation-duration: 7000ms",
+            "LineNumbers": "344"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "animation-duration: 7000ms, animation-duration: 7000ms",
+            "LineNumbers": "365, 367"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "animation-duration: 7000ms, animation-duration: 7000ms, animation-duration: 7000ms, animation-duration: 7000ms, animation-duration: 7000ms",
+            "LineNumbers": "275, 322, 369, 414, 460"
+          }
+        ]
+      },
+      {
+        "Criteria": "4.1.2",
+        "Issue Description": "HTML form control has no accessible name.",
+        "Remediation": "A label (or name) linked to the control allows screen readers to voice the label correctly when reading the control. To add a label do one of the following:\n\nUse a label element with the for attribute set to the ID of the form control\nWrap a label element around the form control\nAdd a title attribute\nAdd an aria-label attribute\nAdd an aria-labelledby attribute",
+        "Level": "A",
+        "Failing Page": "2",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A F68",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F68.html"
+          },
+          {
+            "text": "Section 508 (2017) A F68",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F68.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "276"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "293, 333, 339, 345"
+          }
+        ]
+      },
+      {
+        "Criteria": "1.4.1",
+        "Issue Description": "Indicating links using only a text color change does not work for color-blind users.",
+        "Remediation": "Remove the text-decoration:none property from your link styles, or add other style attributes in addition to color changes to make links visible to people without color vision.\n            If the non-color cue only happens when the mouse hovers over the link or when the link receives focus, it is still a failure.",
+        "Level": "A",
+        "Failing Page": "1",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A F73",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F73.html"
+          },
+          {
+            "text": "Section 508 (2017) A F73",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F73.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "387, 402, 417, 432, 447"
+          }
+        ]
+      },
+      {
+        "Criteria": "2.4.4 2.4.9",
+        "Issue Description": "Link uses general text like 'Click Here' with no surrounding text explaining link purpose.",
+        "Remediation": "Screen reader users use text around links to help understand what the link does.\n            If the link text is very general, and there's no surrounding text, there's no way to work out what the link does.\n            Either use a descriptive link label (which helps all users) or add an aria-label or aria-describedby to the link (which helps screen reader users).",
+        "Level": "A",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A F63",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F63.html"
+          },
+          {
+            "text": "Section 508 (2017) A F63",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F63.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "Discover More, Discover More, Discover More, Discover More, Discover More",
+            "LineNumbers": "223, 238, 253, 268, 283"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "Donate Now, Donate\n\n                                            Now",
+            "LineNumbers": "157, 180"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "Donate Now, Donate\n\n                                            Now",
+            "LineNumbers": "157, 180"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "Donate Now, Donate\n\n                                            Now",
+            "LineNumbers": "157, 180"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "Donate Now, Donate\n\n                                            Now",
+            "LineNumbers": "157, 180"
+          }
+        ]
+      },
+      {
+        "Criteria": "2.4.4 2.4.9 4.1.2",
+        "Issue Description": "Links must have an accessible name.",
+        "Remediation": "A link name allows screen readers to voice what the links does. If there is no link content, or the link content is hidden by CSS, screen readers have nothing to read, so read out the URL instead. To add a name do one of the following:\n\nAdd text between the a element start and end tags\nAdd an aria-label attribute\nAdd an aria-labelledby attribute\nAdd an img alt attribute labeling the link if it contains an img element\n\nimg elements with role=presentation or role=none are not included in the link's accessible name.",
+        "Level": "A",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A F89",
+            "link": "https://www.w3.org/TR/WCAG-TECHS/F89.html"
+          },
+          {
+            "text": "Section 508 (2017) A F89",
+            "link": "https://www.w3.org/TR/WCAG-TECHS/F89.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "45, 71, 116, 164, 608"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "96, 125, 168, 197, 468"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "97, 125, 168, 197, 304"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "97, 125, 168, 197, 389"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "",
+            "LineNumbers": "96, 125, 168, 197, 480"
+          }
+        ]
+      },
+      {
+        "Criteria": "2.4.2",
+        "Issue Description": "Some pages have the same title, so the title cannot be used to distinguish pages.",
+        "Remediation": "Change the title elements so they are unique for each page.",
+        "Level": "A",
+        "Failing Page": "2",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A F25",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F25.html"
+          },
+          {
+            "text": "Section 508 (2017) A F25",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F25.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "11"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "11"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "11"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "11"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "This button element is empty and has no accessible name.",
+        "Remediation": "A programmatically determined name allows screen readers to tell users what the control does. To add a name do one of the following:\n\nAdd text between the button start and end tags\nAdd a title attribute\nAdd an aria-label attribute\nAdd an aria-labelledby attribute\nAdd an img alt attribute if the button contains an img element",
+        "Level": "A",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 A 4.1.2",
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+          },
+          {
+            "text": "Section 508 (2017) A 4.1.2",
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "58, 322, 322"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "108"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "109"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "109"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "",
+            "LineNumbers": "108"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "Do not use the meta viewport tag to disable zoom.",
+        "Remediation": "Setting user-scalable=no or maximum-scale to less than 2.0 prevents  \n            zooming small text to make it readable.\n            Note that iOS 10+ ignores this setting.",
+        "Level": "AA",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 AA 1.4.4",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html"
+          },
+          {
+            "text": "Section 508 (2017) AA 1.4.4",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "6"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "",
+            "LineNumbers": "7"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "",
+            "LineNumbers": "9"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "",
+            "LineNumbers": "9"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "",
+            "LineNumbers": "7"
+          }
+        ]
+      },
+      {
+        "Criteria": "1.4.6",
+        "Issue Description": "Ensure that text and background colors have enough contrast.",
+        "Remediation": "Some users find it hard to read light gray text on a white background, dark gray text on a black background and white text on a red background.\n\nThe contrast ratio should be 3.0 or more for 18 point text, or larger\nThe contrast ratio should be 3.0 or more for 14 point bold text, or larger\nThe contrast ratio should be 4.5 or more for all other text",
+        "Level": "AA",
+        "Failing Page": "4",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 AA 1.4.3",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html"
+          },
+          {
+            "text": "Section 508 (2017) AA 1.4.3",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "color:   rgb(255,255,255), background:   rgb(147,192,37), font-size: 12pt, font-weight: 600, color:   rgb(255,255,255), background:   rgb(147,192,37), font-size: 12pt, font-weight: 600, color:   rgb(229,172,27), background:   rgb(255,255,255), font-size: 18pt, font-weight: 500, color:   rgb(0,123,255), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(0,123,255), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400",
+            "LineNumbers": "279, 283, 362, 402, 432"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "color:   rgb(255,255,255), background:   rgb(147,192,37), font-size: 12pt, font-weight: 600",
+            "LineNumbers": "355"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "color:   rgb(255,255,255), background:   rgb(147,192,37), font-size: 12pt, font-weight: 600",
+            "LineNumbers": "279"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "color:   rgb(224,66,55), background:   rgb(255,255,255), font-size: 13.50pt, font-weight: 400, color:   rgb(255,255,255), background:   rgb(147,192,37), font-size: 12pt, font-weight: 600, color:   rgb(255,255,255), background:   rgb(224,66,55), font-size: 13.50pt, font-weight: 600",
+            "LineNumbers": "263, 303, 350"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "The CSS outline or border style on this element makes it difficult or impossible to see the link focus outline.",
+        "Remediation": null,
+        "Level": "AA",
+        "Failing Page": "5",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 AA F78",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F78.html"
+          },
+          {
+            "text": "Section 508 (2017) AA F78",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F78.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": ":focus-visible",
+              "link": "https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible#focus_vs_focus-visible"
+            },
+            "Description": "",
+            "LineNumbers": ""
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": ":focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus)",
+            "LineNumbers": "384, 399, 414, 429, 444"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": ":focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus)",
+            "LineNumbers": "232, 501, 502, 503, 504"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": ":focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus)",
+            "LineNumbers": "232, 337, 338, 339, 340"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": ":focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus)",
+            "LineNumbers": "232, 422, 423, 424, 425"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": ":focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus), :focus, :not(:focus)",
+            "LineNumbers": "232, 513, 514, 515, 516"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "Don't use CSS animations or transitions in interactions without giving the user a way to turn them off.",
+        "Remediation": "Use the @media (prefers-reduced-motion) media query to respect user preferences.",
+        "Level": "Important",
+        "Failing Page": "2",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 2.3.3",
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "::before:hover transition: left auto 0.0px inset-block-start auto 0.0px width auto 0.0px  0.5s",
+            "LineNumbers": "279"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/donate.html",
+              "link": "http://careclubfoundation.in/donate.html"
+            },
+            "Description": "::before:hover transition: left auto 0.0px inset-block-start auto 0.0px width auto 0.0px  0.5s",
+            "LineNumbers": "350"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "Ensure that text and background colors have a 7:1 contrast ratio.",
+        "Remediation": "Some users find it hard to read light gray text on a white background, dark gray text on a black background and white text on a red background.\n\nThe contrast ratio should be 4.5 or more for 18 point text, or larger\nThe contrast ratio should be 4.5 or more for 14 point bold text, or larger\nThe contrast ratio should be 7.0 or more for all other text",
+        "Level": "Important",
+        "Failing Page": "4",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 AAA 1.4.6",
+            "link": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400",
+            "LineNumbers": "333, 334, 386, 401, 416"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/about.html",
+              "link": "http://careclubfoundation.in/about.html"
+            },
+            "Description": "color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400",
+            "LineNumbers": "249, 257, 323, 338, 348"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/contact.html",
+              "link": "http://careclubfoundation.in/contact.html"
+            },
+            "Description": "color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400",
+            "LineNumbers": "251"
+          },
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/services.html",
+              "link": "http://careclubfoundation.in/services.html"
+            },
+            "Description": "color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400, color:   rgb(103,103,103), background:   rgb(255,255,255), font-size: 12pt, font-weight: 400",
+            "LineNumbers": "253, 300, 347, 393, 438"
+          }
+        ]
+      },
+      {
+        "Criteria": "2.4.9",
+        "Issue Description": "Link uses general text like 'Click Here' which doesn't explain link purpose.",
+        "Remediation": "Screen reader users often tab from one link to the next, or use the 'Next Link' command.\n            Moving between links labelled 'click here' sounds like 'Click here, tab, click here, tab, click here'.\n            Change the link text, or add an aria-label, so the link makes sense when read without the surrounding text.",
+        "Level": "Important",
+        "Failing Page": "1",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 AAA F84",
+            "link": "https://www.w3.org/TR/WCAG20-TECHS/F84.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "Read More, Read More, Read More, Read More, Read More",
+            "LineNumbers": "387, 402, 417, 432, 447"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "role is ignored on this element.",
+        "Remediation": "The presentational roles role=presentation and role=none are ignored when applied to interactive \n            elements like button and elements with global aria attributes like aria-label. \n            This also happens when img alt='' is used with global aria attributes.",
+        "Level": "Information",
+        "Failing Page": "1",
+        "Guideline": [
+          {
+            "text": "ARIA 1.2 Role Conflict",
+            "link": "https://www.w3.org/TR/wai-aria-1.2/#conflict_resolution_presentation_none"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "322, 322"
+          }
+        ]
+      },
+      {
+        "Criteria": null,
+        "Issue Description": "WCAG Success Criteria 4.1.1 is always satisfied for HTML and XML pages.",
+        "Remediation": "Since WCAG 2 4.1.1 was written, the HTML Standard has added requirements \n            specifying exactly how browsers handle incomplete markup, incorrectly nested elements, \n            duplicate attributes, and duplicate IDs. This means the \"except where the specifications allow\"\n            condition in 4.1.1 is satisfied.",
+        "Level": "Information",
+        "Failing Page": "1",
+        "Guideline": [
+          {
+            "text": "WCAG 2.1 4.1.1",
+            "link": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-parses.html"
+          }
+        ],
+        "nestedTableData": [
+          {
+            "PageURL": {
+              "text": "http://careclubfoundation.in/",
+              "link": "http://careclubfoundation.in/"
+            },
+            "Description": "",
+            "LineNumbers": "1"
+          }
+        ]
+      }
+    ],
+    "reportType": "Deep"
+  }
+]

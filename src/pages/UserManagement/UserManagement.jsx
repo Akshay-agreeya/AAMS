@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import { getAllowedOperations } from "../../utils/Helper";
 import { USER_MGMT } from "../../utils/Constants";
+import Loading from "../../component/Loading";
 
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
@@ -85,20 +86,13 @@ const UserManagement = () => {
 
 
               {loading ? (
-                <div className="dataLoadContainer">
-                  <div className="progressBarContainer">
-                    <div className="message">Loading data, please wait...</div>
-                    <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                      <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
-                    </div>
-                  </div>
-                </div>
+                <Loading/>
               ) : (
                 <div className="col-12">
                   <div className="userManagmentContainer">
                     <div className="accordion" id="userManageList">
-                      {organizations.map((org) => (
-                        <Accordian title={org.org_name} prefix={<div className="form-check me-2 custCheck">
+                      {organizations.map((org,index) => (
+                        <Accordian title={org.org_name} prefix={<div className="form-check me-2 custCheck" key={index}>
                           {operations?.find(item => item.operation_type_id === 4) && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
                             value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />}
                         </div>} extra={<div className="addNewUserCont">

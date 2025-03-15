@@ -1,20 +1,27 @@
 import { formattedDate } from "../component/input/DatePicker";
-import { MENU_PERMISSION, USER_MENU, USER_ROLE } from "./Constants";
+import { MENU_PERMISSION, USER, USER_MENU, USER_ROLE } from "./Constants";
+
+export const getUserRoleKey = () => {
+    const storedUser = sessionStorage.getItem(USER);
+    if (storedUser)
+        return JSON.parse(storedUser)?.role_key;
+    return '';
+}
 
 export const getUserFromSession = () => {
-    const storedUser = sessionStorage.getItem("user");
+    const storedUser = sessionStorage.getItem(USER);
     return JSON.parse(storedUser)
 }
 
 export const getUserRoleIdFromSession = () => {
-    const storedUser = sessionStorage.getItem("user");
+    const storedUser = sessionStorage.getItem(USER);
     if (storedUser)
         return JSON.parse(storedUser)?.role_id;
     return null;
 }
 
 export const getUserIdFromSession = () => {
-    const storedUser = sessionStorage.getItem("user");
+    const storedUser = sessionStorage.getItem(USER);
     if (storedUser) {
         let userId = null;
         try {

@@ -1,0 +1,56 @@
+[
+  {
+    "header": "Summary Report",
+    "data": [
+      {
+        "Category": "Overall Quality",
+        "Issues": "13% pages have critical issues8% pages have non-critical issues",
+        "Pages": "13 pages with quality issues",
+        "Benchmark": "21% have issues, worse than average"
+      },
+      {
+        "Category": "Errors",
+        "Issues": "8% pages have critical issues",
+        "Pages": "5 pages with broken links or other errors",
+        "Benchmark": "8% have issues, better than average"
+      },
+      {
+        "Category": "Accessibility",
+        "Issues": "8% pages have critical issues",
+        "Pages": "5 pages with accessibility problems",
+        "Benchmark": "8% have issues, better than average"
+      },
+      {
+        "Category": "Compatibility",
+        "Issues": "2% pages have critical issues2% pages have non-critical issues",
+        "Pages": "2 pages with browser specific issues",
+        "Benchmark": "4% have issues, better than average"
+      },
+      {
+        "Category": "Search",
+        "Issues": "2% pages have critical issues7% pages have non-critical issues",
+        "Pages": "5 pages with search engine issues",
+        "Benchmark": "8% have issues, better than average"
+      },
+      {
+        "Category": "Standards",
+        "Issues": "13% pages have critical issues",
+        "Pages": "8 pages have W3C standards issues",
+        "Benchmark": "13% have issues, better than average"
+      },
+      {
+        "Category": "Usability",
+        "Issues": "2% pages have critical issues14% pages have non-critical issues",
+        "Pages": "10 pages with usability issues",
+        "Benchmark": "16% have issues, worse than average"
+      },
+      {
+        "Category": "Totals",
+        "Issues": "",
+        "Pages": "65 pages and files checked",
+        "Benchmark": ""
+      }
+    ],
+    "reportType": "summary"
+  }
+]

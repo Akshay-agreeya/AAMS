@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getMenuDetails, getUserRole, menuPermissions } from '../utils/Helper';
+import { getMenuDetails, getUserRole, getUserRoleKey, menuPermissions } from '../utils/Helper';
 
 import { USER_MENU } from '../utils/Constants';
 
@@ -9,15 +9,16 @@ const Navbar = () => {
   const [menuDetails, setMenuDetails] = useState([]);
   const permissions = getUserRole();
   const menu_permissions = getMenuDetails();
+  const role_key = getUserRoleKey();
 
 
   const urlMapping = {
-    dashboard: '/admin/dashboard',
+    dashboard: role_key === "Super_Admin" ? '/admin/dashboard' : '/user/dashboard',
     user_management: '/admin/user-management',
     role_management: '/admin/role-management',
     product_permission: '/admin/product-permission',
     product_management: '/admin/product-management',
-    reports: '/admin/reports',
+    reports: role_key === "Super_Admin" ? '/admin/reports' : '/user/reports',
   }
 
   const getMenu = useCallback(async () => {
@@ -33,7 +34,7 @@ const Navbar = () => {
     }
   }, []);
 
-  
+
   useEffect(() => {
     getMenu();
   }, [getMenu]);
@@ -43,7 +44,7 @@ const Navbar = () => {
       <li className={`nav-item ms-0`}>
         <NavLink
           className="nav-link"
-          to={`/admin/dashboard`}
+          to={urlMapping["dashboard"]}
           end // Ensure exact match for this route
         >
           Dashboard
@@ -52,9 +53,7 @@ const Navbar = () => {
       {menuDetails.map((item, index) => <li className={`nav-item`} key={index}>
         <NavLink
           className="nav-link"
-          to={urlMapping[item.menu_detail_name?.replace(/ /g, '_').toLowerCase()]}
-          end // Ensure exact match for this route
-        >
+          to={urlMapping[item.menu_detail_name?.replace(/ /g, '_').toLowerCase()]}>
           {item.menu_detail_name}
         </NavLink>
       </li>)}

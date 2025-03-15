@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { routesMap } from '../App';
+import { getUserRoleKey } from '../utils/Helper';
 
 
 // Utility to detect edit actions (e.g., "edituser", "editrole")
@@ -12,6 +13,8 @@ const isViewAction = (path) => {
   return /view/.test(path);
 };
 
+const role_key = getUserRoleKey();
+
 // Generates breadcrumbs dynamically based on the current URL path
 export const generateBreadcrumbs = (addHome = true, pathnames) => {
   // Initialize breadcrumbs array
@@ -19,7 +22,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
 
   // Add "Home" breadcrumb if required
   if (addHome) {
-    breadcrumbs.push({ url: "/admin/dashboard", label: "Home" });
+    breadcrumbs.push({ url: `/${role_key === "Super_Admin" ? 'admin' : 'user'}/dashboard`, label: "Home" });
   }
 
   let currentPath = "";
