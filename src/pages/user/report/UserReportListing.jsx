@@ -5,9 +5,13 @@ import iconViewInternet from '../../../assets/images/iconViewInternet.svg';
 import iconMsWord from '../../../assets/images/iconMsWord.svg';
 import iconPDF from '../../../assets/images/iconPDF.svg';
 import { useNavigate } from "react-router-dom";
+import { getUserRoleKey } from "../../../utils/Helper";
+import Pagenation from "../../../component/Pagenation";
 
 
 const UserReportListing = () => {
+
+    const role_key = getUserRoleKey();
 
     const navigate = useNavigate();
 
@@ -17,8 +21,8 @@ const UserReportListing = () => {
         navigate("/user/reports/view",{state:{fileName: item}});
     }
 
-    const breadcrumbs = [{ url: "/user/dashboard", label: "Home" },
-        { url: "/user/reports", label: "Website Listing" },{ label: "Reports" }
+    const breadcrumbs = [{ url: `/${role_key === "Super_Admin" ? 'admin' : 'user'}/dashboard`, label: "Home" },
+        { url: `/${role_key === "Super_Admin" ? 'admin' : 'user'}/reports`, label: "Website Listing" },{ label: "Reports" }
     ];
 
     return (
@@ -109,31 +113,7 @@ const UserReportListing = () => {
                                             </div>
                                         </div>
                                         <div className="col-12">
-                                            <div className="paginationContainer">
-                                                <nav aria-label="Page navigation">
-                                                    <ul className="pagination pagination-lg justify-content-center">
-                                                        <li className="page-item disabled">
-                                                            <a className="page-link" href="#" aria-label="Previous">
-                                                                <span aria-hidden="true">&laquo;</span>
-                                                            </a>
-                                                        </li>
-                                                        <li className="page-item active" aria-current="page">
-                                                            <a className="page-link" href="#">1</a>
-                                                        </li>
-                                                        <li className="page-item">
-                                                            <a className="page-link" href="#">2</a>
-                                                        </li>
-                                                        <li className="page-item">
-                                                            <a className="page-link" href="#">3</a>
-                                                        </li>
-                                                        <li className="page-item">
-                                                            <a className="page-link" href="#" aria-label="Next">
-                                                                <span aria-hidden="true">&raquo;</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </nav>
-                                            </div>
+                                            <Pagenation/>
                                         </div>
                                     </div>
                                 </div>
