@@ -7,7 +7,7 @@ import { useAuth } from './AuthContext';
 import { getData, postData } from '../../utils/CommonApi'; // Import API utility
 import { InputPassword } from '../../component/input/InputPassword';
 import { Input } from '../../component/input/Input';
-import { MENU_PERMISSION, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
+import { MENU_PERMISSION, SUPER_ADMIN, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
 
 const LoginForm = () => {
     const [rememberMe, setRememberMe] = useState(true);
@@ -44,7 +44,7 @@ const LoginForm = () => {
             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
             const resp = await getData("/lookup/permissions");
             localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
-            response.role_key==="Super_Admin"? navigate("/admin/dashboard"): navigate("/user/dashboard");           
+            response.role_key === SUPER_ADMIN ? navigate("/admin/dashboard") : navigate("/user/dashboard");
         }
         catch (error) {
             console.log(error);

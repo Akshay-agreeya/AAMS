@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getMenuDetails, getUserRole, getUserRoleKey, menuPermissions } from '../utils/Helper';
+import { getMenuDetails, getUserRole, isSuperAdmin, menuPermissions } from '../utils/Helper';
 
 import { USER_MENU } from '../utils/Constants';
 
@@ -9,16 +10,16 @@ const Navbar = () => {
   const [menuDetails, setMenuDetails] = useState([]);
   const permissions = getUserRole();
   const menu_permissions = getMenuDetails();
-  const role_key = getUserRoleKey();
+  const superAdmin = isSuperAdmin();
 
 
   const urlMapping = {
-    dashboard: role_key === "Super_Admin" ? '/admin/dashboard' : '/user/dashboard',
+    dashboard: superAdmin ? '/admin/dashboard' : '/user/dashboard',
     user_management: '/admin/user-management',
     role_management: '/admin/role-management',
     product_permission: '/admin/product-permission',
     product_management: '/admin/product-management',
-    reports: role_key === "Super_Admin" ? '/admin/reports' : '/user/reports',
+    reports: superAdmin ? '/admin/reports' : '/user/reports',
   }
 
   const getMenu = useCallback(async () => {

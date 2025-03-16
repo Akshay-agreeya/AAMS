@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
@@ -8,11 +8,11 @@ import Table from "../../component/table/Table";
 import notification from "../../component/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 
+
 const AddRole = () => {
 
   const [roleSeedData, setRoleSeedData] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState([]);
-  const [initialValues, setInitialValues] = useState({});
 
   const actions = [{ label: "Add", id: 1 }, { label: "Edit", id: 2 }, { label: "View", id: 3 }, { label: "Delete", id: 4 }];
 
@@ -21,11 +21,7 @@ const AddRole = () => {
 
   const formRef = useRef();
 
-  useEffect(() => {
-    getSeedData();
-    if (role_id)
-      getRoleInfo();
-  }, []);
+  
 
   const getSeedData = async () => {
     try {
@@ -36,18 +32,23 @@ const AddRole = () => {
       console.log(error);
     }
   }
-  const getRoleInfo = async () => {
+  const getRoleInfo = useCallback(async () => {
 
     try {
       const resp = await getData(`/role/get/${role_id}`);
-      setInitialValues(resp);
       formRef.current.setFieldsValue(resp.role);
       setSelectedPermission(resp.details?.map(id => id.menu_detail_permission_id));
     }
     catch (error) {
       console.log(error);
     }
-  }
+  }, [role_id]);
+
+  useEffect(() => {
+    getSeedData();
+    if (role_id)
+      getRoleInfo();
+  }, [getRoleInfo,role_id]);
 
   const roleColumns = [
     {

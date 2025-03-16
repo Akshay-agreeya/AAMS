@@ -5,24 +5,24 @@ import iconViewInternet from '../../../assets/images/iconViewInternet.svg';
 import iconMsWord from '../../../assets/images/iconMsWord.svg';
 import iconPDF from '../../../assets/images/iconPDF.svg';
 import { useNavigate } from "react-router-dom";
-import { getUserRoleKey } from "../../../utils/Helper";
+import { isSuperAdmin } from "../../../utils/Helper";
 import Pagenation from "../../../component/Pagenation";
 
 
 const UserReportListing = () => {
 
-    const role_key = getUserRoleKey();
+    const superAdmin = isSuperAdmin();
 
     const navigate = useNavigate();
 
     const handleClick = (e, item) => {
         e.preventDefault();
-      
-        navigate("/user/reports/view",{state:{fileName: item}});
+
+        navigate("/user/reports/view", { state: { fileName: item } });
     }
 
-    const breadcrumbs = [{ url: `/${role_key === "Super_Admin" ? 'admin' : 'user'}/dashboard`, label: "Home" },
-        { url: `/${role_key === "Super_Admin" ? 'admin' : 'user'}/reports`, label: "Website Listing" },{ label: "Reports" }
+    const breadcrumbs = [{ url: `/${superAdmin ? 'admin' : 'user'}/dashboard`, label: "Home" },
+    { url: `/${superAdmin ? 'admin' : 'user'}/reports`, label: "Website Listing" }, { label: "Reports" }
     ];
 
     return (
@@ -81,8 +81,8 @@ const UserReportListing = () => {
                                                     <tbody>
                                                         {[...Array(9)].map((_, index) => (
                                                             <tr key={index}>
-                                                                <td scope="row">
-                                                                    <a href="#" onClick={(e)=>{handleClick(e, `AQMD Site Assessment Report-${9 - index}`)}}>AQMD Site Assessment Report-{9 - index}</a>
+                                                                <td>
+                                                                    <a href="/#" onClick={(e) => { handleClick(e, `AQMD Site Assessment Report-${9 - index}`) }}>AQMD Site Assessment Report-{9 - index}</a>
                                                                 </td>
                                                                 <td>
                                                                     <a href="https://agreeya.com/" target="_blank" rel="noopener noreferrer">
@@ -99,10 +99,10 @@ const UserReportListing = () => {
                                                                     </a>
                                                                 </td>
                                                                 <td className="text-center">
-                                                                    <a href="#" className="me-3">
+                                                                    <a href="/" className="me-3" onClick={(e) => {e.preventDefault();}}>
                                                                         <img src={iconMsWord} alt="Download Document in Microsoft Word" />
                                                                     </a>
-                                                                    <a href="#">
+                                                                    <a href="/#" onClick={(e) => {e.preventDefault();}}>
                                                                         <img src={iconPDF} alt="Download Document in PDF Format" />
                                                                     </a>
                                                                 </td>
@@ -113,7 +113,7 @@ const UserReportListing = () => {
                                             </div>
                                         </div>
                                         <div className="col-12">
-                                            <Pagenation/>
+                                            <Pagenation />
                                         </div>
                                     </div>
                                 </div>

@@ -70,7 +70,7 @@ const UserManagement = () => {
                 <div className="pageTitle">
                   <h1>User Management - Organization ({organizations.length})</h1>
                   <div className="buttonContainer">
-                    {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={(e) => {
+                    {operations?.find(item => item.operation_type_id === 4) && <a href="/#" onClick={(e) => {
                       e.preventDefault();
                       if (organizations.filter(item => item.selected)?.length > 0)
                         setOpenOrgDeleteModal(true);
@@ -92,7 +92,7 @@ const UserManagement = () => {
                   <div className="userManagmentContainer">
                     <div className="accordion" id="userManageList">
                       {organizations.map((org,index) => (
-                        <Accordian title={org.org_name} prefix={<div className="form-check me-2 custCheck" key={index}>
+                        <Accordian title={org.org_name} key={index} prefix={<div className="form-check me-2 custCheck">
                           {operations?.find(item => item.operation_type_id === 4) && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
                             value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />}
                         </div>} extra={<div className="addNewUserCont">

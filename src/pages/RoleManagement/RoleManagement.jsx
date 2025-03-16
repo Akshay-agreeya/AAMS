@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images//iconDelete.svg";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
 import { getAllowedOperations, getPagenationFromResponse, operationExist } from "../../utils/Helper";
-import { ROLE_MGMT, TABLE_RECORD_SIZE } from "../../utils/Constants";
-
+import { ROLE_MGMT, SUPER_ADMIN, TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 const RoleManagement = () => {
 
@@ -25,12 +24,7 @@ const RoleManagement = () => {
 
   const operations = getAllowedOperations(ROLE_MGMT);
 
-  useEffect(() => {
-    getRoles();
-  }, []);
-
-
-  const getRoles = async (page = 1) => {
+  const getRoles = useCallback(async (page = 1) => {
     try {
       setLoading(true);
       const resp = await getData(`/role/list?page=${page}&size=${TABLE_RECORD_SIZE}`);
@@ -43,7 +37,12 @@ const RoleManagement = () => {
     finally {
       setLoading(false);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    getRoles();
+  }, [getRoles]);
+
 
   const handleDelete = async () => {
     try {
@@ -91,11 +90,12 @@ const RoleManagement = () => {
     className: "text-center",
     render: (_, record) => (
       <>
-        {operationExist(operations, 2) && <a href={`/admin/role-management/editrole/${record.role_id}`} className="me-3">
+        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a href={`/admin/role-management/editrole/${record.role_id}`}
+          className="me-3">
           <img src={editicon} alt="Edit Role" />
         </a>}
-        {operationExist(operations, 4) && <a href="/">
-          <img src={deleteicon} alt="Delete Role" onClick={(e) => {
+        {record.role_key !== SUPER_ADMIN && operationExist(operations, 4) && <a href="/">
+          <img src={deleteicon} className="disabled" alt="Delete Role" onClick={(e) => {
             e.preventDefault();
             setSelectedRoleId(record.role_id);
             setIsModalVisible(true);

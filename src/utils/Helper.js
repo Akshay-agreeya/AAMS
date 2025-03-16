@@ -1,11 +1,15 @@
 import { formattedDate } from "../component/input/DatePicker";
-import { MENU_PERMISSION, USER, USER_MENU, USER_ROLE } from "./Constants";
+import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE } from "./Constants";
 
 export const getUserRoleKey = () => {
     const storedUser = sessionStorage.getItem(USER);
     if (storedUser)
         return JSON.parse(storedUser)?.role_key;
     return '';
+}
+
+export const isSuperAdmin = () => {
+    return getUserRoleKey() === SUPER_ADMIN;
 }
 
 export const getUserFromSession = () => {
