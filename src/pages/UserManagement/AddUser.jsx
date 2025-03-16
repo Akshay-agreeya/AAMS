@@ -4,13 +4,13 @@ import Layout from "../../component/Layout";
 import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
-import { Select } from "../../component/input/Select";
 import { getData, patchData, postData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
 import { RoleSelect } from "../../component/select/RoleSelect";
 import { getFormattedAddress } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 import Loading from "../../component/Loading";
+import { OPERATION_FAILED_MSG, USER_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
 
 const AddUser = () => {
 
@@ -95,26 +95,20 @@ const AddUser = () => {
         ? await patchData(`/user/edit/${user_id}`, payload)
         : await postData(`/user/add/${org_id}`, payload);
 
-      if (response.success) {
         notification.success({
           title: `${user_id ? "Edit" : "Add"} User`,
-          message: "User saved successfully!",
+          message: USER_SAVE_SUCCESS_MSG,
         });
 
         navigate("/admin/user-management");
-      } else {
-        notification.error({
-          title: "User Operation Failed",
-          message: response.message || "Failed to process the request.",
-        });
-      }
+      
     } catch (error) {
       console.error("Error handling user:", error);
       formRef.current.setFieldsError(error.data?.errors || {});
       if (!error.data?.errors)
         notification.error({
-          title: "Error",
-          message: error?.data?.errors?.[0] || "An error occurred while processing the user request.",
+          title: `${user_id ? "Edit" : "Add"} User`,
+          message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
         });
     }
   };

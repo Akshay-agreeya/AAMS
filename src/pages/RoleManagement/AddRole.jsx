@@ -7,6 +7,8 @@ import { getData, patchData, postData } from "../../utils/CommonApi";
 import Table from "../../component/table/Table";
 import notification from "../../component/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
+import { RoleTypeSelect } from "../../component/select/RoleTypeSelect";
+import { AT_LEAST_ONE_PERMISSION } from "../../constants/MessageConstants";
 
 
 const AddRole = () => {
@@ -110,7 +112,7 @@ const AddRole = () => {
       if (selectedPermission?.length === 0) {
         notification.error({
           title: role_id ? "Edit Role" : 'Add Role',
-          message: "Please select at least one permission"
+          message: AT_LEAST_ONE_PERMISSION
         });
         return;
       }
@@ -128,7 +130,7 @@ const AddRole = () => {
       console.log(error);
       notification.error({
         title: role_id ? "Edit Role" : 'Add Role',
-        message: error.data?.error
+        message: error.data?.message
       });
     }
   }
@@ -156,6 +158,14 @@ const AddRole = () => {
                             message: "Role name is required"
                           }]} requiredMark={true}>
                             <Input type="text" placeholder="Role Name" />
+                          </FormItem>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                          <FormItem name="role_key" label="Role Type" rules={[{
+                            required: true,
+                            message: "Role Type is required"
+                          }]} requiredMark={true}>
+                            <RoleTypeSelect />
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">

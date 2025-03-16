@@ -68,10 +68,16 @@ const RoleManagement = () => {
     width: '25%'
   },
   {
+    title: 'Role Type',
+    dataIndex: 'role_key',
+    scop: "col",
+    width: '15%'
+  },
+  {
     title: 'Description',
     dataIndex: 'description',
     scop: 'col',
-    width: '30%'
+    width: '25%'
   },
   {
     title: 'Created',

@@ -8,9 +8,11 @@ import { deleteData, getData } from "../../utils/CommonApi";
 import { UserTable } from "./UserTable";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
-import { getAllowedOperations } from "../../utils/Helper";
+import { getAllowedOperations, isSuperAdmin } from "../../utils/Helper";
 import { USER_MGMT } from "../../utils/Constants";
 import Loading from "../../component/Loading";
+
+const superAdmin = isSuperAdmin();
 
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
@@ -70,14 +72,14 @@ const UserManagement = () => {
                 <div className="pageTitle">
                   <h1>User Management - Organization ({organizations.length})</h1>
                   <div className="buttonContainer">
-                    {operations?.find(item => item.operation_type_id === 4) && <a href="/#" onClick={(e) => {
+                    {superAdmin && <a href="/#" onClick={(e) => {
                       e.preventDefault();
                       if (organizations.filter(item => item.selected)?.length > 0)
                         setOpenOrgDeleteModal(true);
                     }} className="delete me-1" >
                       <i className="fa-regular fa-trash-can"></i> Delete
                     </a>}
-                    {operations?.find(item => item.operation_type_id === 1) && <a href="/admin/user-management/addorg" className="add">
+                    {superAdmin && <a href="/admin/user-management/addorg" className="add">
                       <i className="fa-solid fa-plus"></i> Add New Organization
                     </a>}
                   </div>
@@ -86,20 +88,20 @@ const UserManagement = () => {
 
 
               {loading ? (
-                <Loading/>
+                <Loading />
               ) : (
                 <div className="col-12">
                   <div className="userManagmentContainer">
                     <div className="accordion" id="userManageList">
-                      {organizations.map((org,index) => (
+                      {organizations.map((org, index) => (
                         <Accordian title={org.org_name} key={index} prefix={<div className="form-check me-2 custCheck">
-                          {operations?.find(item => item.operation_type_id === 4) && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
+                          {superAdmin && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
                             value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />}
                         </div>} extra={<div className="addNewUserCont">
-                          {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
+                          {superAdmin && <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                           </a>}
-                          {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
+                          {superAdmin && <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
                             <img src={viewOrgicon} alt="View Organization" /> View Organization
                           </a>}
                           {operations?.find(item => item.operation_type_id === 1) && <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
