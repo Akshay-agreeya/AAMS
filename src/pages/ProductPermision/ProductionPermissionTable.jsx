@@ -8,6 +8,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
 
     const [users, setUsers] = useState([]);
     const [products, setProducts] = useState([]);
+    const [productPermissions, setProductPermissions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [usersWithServices, setUsersWithServices] = useState([]);
 
@@ -19,9 +20,10 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             setProducts([]);
             setUsersWithServices([]);
             // Fetch users and products in parallel
-            const [usersResp, productsResp] = await Promise.all([
+            const [usersResp, productsResp, productPermissionResp] = await Promise.all([
                 getData(`/user/list/${org_id}?page=0&size=20`),
-                getData(`/product/get/${org_id}?page=0&size=20`)
+                getData(`/product/get/${org_id}?page=0&size=20`),
+                getData(`/lookup/prod_permissions?page=0&size=20`)
             ]);
 
             // Handle users data
@@ -43,6 +45,10 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                     id: index + 1
                 }));
                 setProducts(processedProducts); // Assuming you want to set products to state
+            }
+            // Handle products permission data
+            if (productPermissionResp.contents) {                
+                setProductPermissions(productPermissionResp.contents); // Assuming you want to set products to state
             }
 
         } catch (error) {
@@ -145,11 +151,11 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                 <div className="selectOptionRepeat">
                     <ul>
                         {products?.map(item => <li>
-                        <div className="form-check custCheck">
-                            <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
-                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'product_mgmt') }} />
-                            <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
-                        </div></li>)}
+                            <div className="form-check custCheck">
+                                <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+                                    value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Product_View') }} />
+                                <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
+                            </div></li>)}
                     </ul>
                 </div>
             )
@@ -165,7 +171,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                     <ul>
                         {products?.map(item => <li><div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
-                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'reports') }} />
+                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                         </div></li>)}
                     </ul>
@@ -176,7 +182,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     ];
 
     const handlePermissionChanged = (e, record, menu_key) => {
-        const mKey = getOperationPermissionId(getOperationsFromPermission(record.user_role, menu_key), 3);
+        const mKey = productPermissions?.find(item=>item.product_permission_opr_name===menu_key)?.product_permission_opr_id;
         const { value, checked } = e.target;
 
         // Create a copy of usersWithServices to avoid direct mutation
