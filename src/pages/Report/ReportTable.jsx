@@ -12,9 +12,9 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
 
     useEffect(() => {
         console.log(service_id)
-        if (service_id) {
+        // if (service_id) {
             fetchReports(service_id);
-        }
+        // }
     }, [service_id]);
 
     const fetchReports = async (serviceId) => {
@@ -22,7 +22,15 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             setLoading(true);
             const response = await getData(`/report/get/assessments/${serviceId}`);
             if (response?.contents) {
-                setReports(response.contents);
+                const formattedReports = response.contents.map((item) => ({
+                    report_name: item.report_name, 
+                    url: item.web_url, 
+                    last_scan_date: item.scan_date, 
+                    issues_found: item.issues, 
+                    accessibility_score: item.benchmark, 
+                    guidelines: item.guideline
+                }));
+                setReports(formattedReports);
             } else {
                 setReports([]);
             }
@@ -36,6 +44,7 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             setLoading(false);
         }
     };
+    
 
     const columns = [
         {
