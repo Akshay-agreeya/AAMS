@@ -13,7 +13,7 @@ export const UrlSelect = ({ org_id, onChange, ...rest }) => {
 
   const loadUrls = async (org_id) => {
     try {
-      const resp = await getData(`/get/urls/${org_id}`);
+      const resp = await getData(`report/get/urls/${org_id}`);
       if (resp.contents && resp.contents.length > 0) {
         const urlOptions = resp.contents.map((item) => ({
           value: item.web_url,
