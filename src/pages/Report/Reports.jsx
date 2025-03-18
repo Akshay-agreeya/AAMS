@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from '../../component/Layout';
-import blackSiteIcon from '../../assets/images/blackSiteIcon.svg'
+import blackSiteIcon from '../../assets/images/blackSiteIcon.svg';
 import smallAccessibilityNumber from '../../assets/images/smallAccessibilityNumber.svg';
-import iconMoveRight from '../../assets/images/iconMoveRight.svg'
+import iconMoveRight from '../../assets/images/iconMoveRight.svg';
 import { OrganizationSelect } from "../../component/select/OrganizationSelect";
 import { getData } from "../../utils/CommonApi";
 import { getPagenationFromResponse } from "../../utils/Helper";
@@ -10,19 +11,18 @@ import Pagenation from "../../component/Pagenation";
 import Loading from "../../component/Loading";
 
 const Reports = () => {
-
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagenation, setPagenation] = useState({});
-  const [selectedOrg, setSelectedOrg] = useState('');
+  const [selectedOrg, setSelectedOrg] = useState("");
+  const navigate = useNavigate();
 
   const handleOrganizationChange = (e) => {
     setSelectedOrg(e.target.value);
-  }
+  };
 
   useEffect(() => {
-    if (selectedOrg)
-      getReports();
+    if (selectedOrg) getReports();
   }, [selectedOrg]);
 
   const getReports = async () => {
@@ -31,16 +31,17 @@ const Reports = () => {
       const resp = await getData(`/report/get/urls/${selectedOrg}`);
       setReports(resp.contents);
       setPagenation(getPagenationFromResponse(resp));
-    }
-    catch (error) {
+    } catch (error) {
       setReports([]);
       console.log(error);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
-  }
+  };
 
+  const handleNavigate = (web_url) => {
+    navigate("/admin/reports/listing", { state: { selectedUrl: web_url } });
+  };
 
   return (
     <Layout>
@@ -65,9 +66,11 @@ const Reports = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="reportListingGridContainer">
-                        {loading ? <Loading /> : <>
-                          {
-                            reports.map((site, index) => (
+                        {loading ? (
+                          <Loading />
+                        ) : (
+                          <>
+                            {reports.map((site, index) => (
                               <div className="reportListingRepeat" key={index}>
                                 <div className="box">
                                   <div className="siteIcon">
@@ -81,19 +84,21 @@ const Reports = () => {
                                   </div>
                                   <div className="accessbilityDescription">
                                     <div className="title">Accessibility</div>
-                                    <div className="desc">have issues, worse than average</div>
+                                    <div className="desc">Have issues, worse than average</div>
                                   </div>
                                 </div>
                                 <div className="navigateICon">
-                                  <a href="/admin/reports/listing">
+                                  <button
+                                    onClick={() => handleNavigate(site.web_url)}
+                                    className="btn btn-link"
+                                  >
                                     <img src={iconMoveRight} alt="Click here to view Report" />
-                                  </a>
+                                  </button>
                                 </div>
                               </div>
-                            ))
-                          }
-                        </>
-                        }
+                            ))}
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="col-12">

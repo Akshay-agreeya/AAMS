@@ -14,6 +14,7 @@ import ReportTable from "../../Report/ReportTable";
 const UserReportListing = () => {
     const [orgId, setOrgId] = useState(null);
     const [selectedUrl, setSelectedUrl] = useState("");
+    const [serviceId, setServiceId] = useState(null);
 
     const superAdmin = isSuperAdmin();
     const navigate = useNavigate();
@@ -34,8 +35,15 @@ const UserReportListing = () => {
         }
     };
 
-    const handleUrlChange = (url) => {
+    const handleUrlChange = async (url) => {
         setSelectedUrl(url);
+        try {
+            const response = await getData(`/report/get/urls/${orgId}`);
+            const selectedService = response.contents.find(item => item.web_url === url);
+            setServiceId(selectedService?.service_id || null);
+        } catch (error) {
+            console.error("Error fetching service ID:", error);
+        }
     };
 
     const handleClick = (e, item) => {
@@ -85,7 +93,8 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable  selectedUrl={selectedUrl} handleClick={handleClick} />
+                                        <ReportTable service_id={serviceId} selectedUrl={selectedUrl} handleClick={handleClick} />
+
 
                                         {/* Pagination */}
                                         <div className="col-12">
