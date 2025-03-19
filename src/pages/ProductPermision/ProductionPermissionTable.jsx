@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Table from '../../component/table/Table';
 import { getData } from '../../utils/CommonApi';
-import { getFullName, getOperationPermissionId, getOperationsFromPermission, operationExist } from '../../utils/Helper';
+import { convertProductPermission, getFullName,  getOperationsFromPermission, operationExist } from '../../utils/Helper';
 import Loading from '../../component/Loading';
 
 const ProductionPermissionTable = ({ org_id, onChange }) => {
@@ -20,17 +20,13 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             setProducts([]);
             setUsersWithServices([]);
             // Fetch users and products in parallel
-            const [usersResp, productsResp, productPermissionResp] = await Promise.all([
-                getData(`/user/list/${org_id}?page=0&size=20`),
-                getData(`/product/get/${org_id}?page=0&size=20`),
-                getData(`/lookup/prod_permissions?page=0&size=20`)
-            ]);
+            const {Users, Service, allPermissions, prod_permissions} = await getData(`/permission/get/${org_id}`);
 
             // Handle users data
-            if (usersResp.contents) {
+            if (Users) {
                 // Fetch roles for users concurrently using Promise.all
                 const usersWithRoles = await Promise.all(
-                    usersResp.contents.map(async (item, index) => {
+                    Users.map(async (item, index) => {
                         const roleResp = await getData(`/role/get/${item.role_id}`);
                         return { ...item, id: index + 1, user_role: roleResp.details };
                     })
@@ -39,16 +35,20 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             }
 
             // Handle products data
-            if (productsResp.contents) {
-                const processedProducts = productsResp.contents.map((item, index) => ({
+            if (Service) {
+                const processedProducts = Service.map((item, index) => ({
                     ...item,
                     id: index + 1
                 }));
                 setProducts(processedProducts); // Assuming you want to set products to state
             }
             // Handle products permission data
-            if (productPermissionResp.contents) {                
-                setProductPermissions(productPermissionResp.contents); // Assuming you want to set products to state
+            if (allPermissions) {
+                setProductPermissions(allPermissions); // Assuming you want to set products to state
+            }
+            // Handle products permission data
+            if (prod_permissions){
+                setUsersWithServices(Object.values(convertProductPermission(prod_permissions)));
             }
 
         } catch (error) {
@@ -86,6 +86,12 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
         )
     }
 
+    const permissionExist = useCallback((service_id,user_id, menu_key)=>{
+        const mKey = productPermissions?.find(item => item.product_permission_opr_name === menu_key)?.product_permission_opr_id;
+        const operationIds = usersWithServices.find(item=>item.user_id === user_id && item.service_id===service_id)?.product_permission_opr_ids;
+        return operationIds?.includes(mKey);
+    },[usersWithServices,productPermissions]);
+
     const columns = [
         {
             title: 'Users',
@@ -94,7 +100,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             width: '20%',
             render: (_, record) => (
                 <>
-                    {getFullName(record.first_name, record.last_nameP)}
+                    {getFullName(record.first_name, record.last_name)}
                     <div className="roletype">Role: <span>{record.role}</span></div>
                 </>
             )
@@ -153,6 +159,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                         {products?.map(item => <li>
                             <div className="form-check custCheck">
                                 <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+                                checked={permissionExist(item.service_id, record.user_id, 'Product_View')}
                                     value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Product_View') }} />
                                 <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                             </div></li>)}
@@ -171,6 +178,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                     <ul>
                         {products?.map(item => <li><div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+                            checked={permissionExist(item.service_id, record.user_id, 'Report_View')}
                                 value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                         </div></li>)}
@@ -182,14 +190,14 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     ];
 
     const handlePermissionChanged = (e, record, menu_key) => {
-        const mKey = productPermissions?.find(item=>item.product_permission_opr_name===menu_key)?.product_permission_opr_id;
+        const mKey = productPermissions?.find(item => item.product_permission_opr_name === menu_key)?.product_permission_opr_id;
         const { value, checked } = e.target;
 
         // Create a copy of usersWithServices to avoid direct mutation
         const updatedUsersWithServices = [...usersWithServices];
 
         // Find the existing user-service pair
-        const existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === value);
+        const existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === Number(value));
 
         if (checked) {
             if (existData) {
