@@ -152,3 +152,25 @@ export const getPagenationFromResponse = (resp) => {
         "totalPages": resp.total_pages
     }
 }
+export const convertProductPermission = (prodPermissions) => {
+    const groupedPermissions = prodPermissions.reduce((acc, { user_id, service_id, product_permission_opr_id }) => {
+        // Check if the key combination exists in the accumulator
+        const key = `${user_id}-${service_id}`;
+
+        if (!acc[key]) {
+            // If it doesn't exist, initialize it
+            acc[key] = { user_id, service_id, product_permission_opr_ids: [] }; // Changed property name here
+        }
+
+        // Add the product_permission_opr_id to the array if it's not already there
+        if (!acc[key].product_permission_opr_ids.includes(product_permission_opr_id)) { // Changed here too
+            acc[key].product_permission_opr_ids.push(product_permission_opr_id); // Changed here too
+        }
+
+        return acc;
+    }, {});
+
+    // Convert the object back into an array
+    return Object.values(groupedPermissions);
+}
+
