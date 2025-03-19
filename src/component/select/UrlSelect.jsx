@@ -4,8 +4,8 @@ import { getData } from "../../utils/CommonApi";
 
 export const UrlSelect = ({ org_id, onChange, ...rest }) => {
   const [options, setOptions] = useState([]);
-
   useEffect(() => {
+    console.log(org_id)
     if (org_id) {
       loadUrls(org_id);
     }
@@ -30,5 +30,5 @@ export const UrlSelect = ({ org_id, onChange, ...rest }) => {
     }
   };
 
-  return <Select options={options} onChange={onChange} {...rest} />;
+  return <Select  options={options} onChange={onChange} {...rest} />;
 };

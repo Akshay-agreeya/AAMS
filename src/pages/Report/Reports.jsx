@@ -39,8 +39,9 @@ const Reports = () => {
     }
   };
 
-  const handleNavigate = (web_url) => {
-    navigate("/admin/reports/listing", { state: { selectedUrl: web_url } });
+  const handleNavigate = (service_id,web_url,org_id) => {
+    navigate("/admin/reports/listing", { state: { service_id, web_url,org_id } });
+    console.log(service_id,web_url)
   };
 
   return (
@@ -59,7 +60,7 @@ const Reports = () => {
                   <div className="d-flex mb-4 align-items-center">
                     <h3 className="mb-0 me-3">Selected Organization</h3>
                     <div>
-                      <OrganizationSelect onChange={handleOrganizationChange} selectFirst={true} />
+                      <OrganizationSelect  onChange={handleOrganizationChange} selectFirst={true} />
                     </div>
                   </div>
 
@@ -89,7 +90,7 @@ const Reports = () => {
                                 </div>
                                 <div className="navigateICon">
                                   <button
-                                    onClick={() => handleNavigate(site.web_url)}
+                                    onClick={() => handleNavigate(site.service_id,site.web_url,selectedOrg)}
                                     className="btn btn-link"
                                   >
                                     <img src={iconMoveRight} alt="Click here to view Report" />
