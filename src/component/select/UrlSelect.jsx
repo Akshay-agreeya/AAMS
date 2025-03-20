@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Select } from "../input/Select";
 import { getData } from "../../utils/CommonApi";
 
-export const UrlSelect = ({ org_id, onChange, ...rest }) => {
+export const UrlSelect = ({ org_id,web_url, onChange, ...rest }) => {
+  const [selectedUrl, setSelectedurl]  = useState(web_url);
   const [options, setOptions] = useState([]);
   useEffect(() => {
     console.log(org_id)
@@ -11,6 +12,12 @@ export const UrlSelect = ({ org_id, onChange, ...rest }) => {
     }
   }, [org_id]);
 
+const handleUrlChange = (e)=>{
+  
+  setSelectedurl (e.target.value)
+  if (onChange)
+  onChange (e)
+}
   const loadUrls = async (org_id) => {
     try {
       const resp = await getData(`report/get/urls/${org_id}`);
@@ -19,7 +26,7 @@ export const UrlSelect = ({ org_id, onChange, ...rest }) => {
           value: item.web_url,
           label: item.web_url,
         }));
-        urlOptions.unshift({ value: "", label: "Select URL", disabled: true });
+        
         setOptions(urlOptions);
       } else {
         setOptions([{ value: "", label: "No URLs Available", disabled: true }]);
@@ -30,5 +37,5 @@ export const UrlSelect = ({ org_id, onChange, ...rest }) => {
     }
   };
 
-  return <Select  options={options} onChange={onChange} {...rest} />;
+  return <Select  value = {selectedUrl} options={options} onChange={handleUrlChange} {...rest} />;
 };
