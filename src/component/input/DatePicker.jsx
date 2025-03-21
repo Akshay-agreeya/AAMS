@@ -39,20 +39,27 @@ export const getFormattedDateWithTime = (date, dateFormat = "dd MMM yyyy - HH:mm
     const minutes = String(date.getMinutes()).padStart(2, '0'); // Minutes
     const seconds = String(date.getSeconds()).padStart(2, '0'); // Seconds
 
+    const period = hours >= 12 ? 'PM' : 'AM';
     // Create a map to format based on the given dateFormat
+
+    // Convert hours to 12-hour format
+    const formattedHours = String(hours % 12 || 12).padStart(2, '0');  // If 0, use 12
+
     const formats = {
         "yyyy": year,
         "MM": String(monthIndex + 1).padStart(2, '0'), // Numeric month
         "MMM": monthAbbrs[monthIndex], // Abbreviated month name
         "MMMM": monthNames[monthIndex], // Full month name
         "dd": day,
-        "HH": hours,
+        "HH": String(hours).padStart(2, '0'), 
+        "hh": formattedHours,
         "mm": minutes,
         "ss": seconds,
+        "a": period
     };
 
     // Replace the date format with corresponding values from the map
-    return dateFormat.replace(/yyyy|MMM|MMMM|MM|dd|HH|mm|ss/g, match => formats[match]);
+    return dateFormat.replace(/yyyy|MMM|MMMM|MM|dd|HH|hh|mm|ss|a/g, match => formats[match]);
 };
 
 

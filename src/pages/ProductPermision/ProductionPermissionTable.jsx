@@ -95,13 +95,13 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     const columns = [
         {
             title: 'Users',
-            dataIndex: 'user',
+            dataIndex: 'user_id',
             scope: 'col',
             width: '20%',
             render: (_, record) => (
                 <>
                     {getFullName(record.first_name, record.last_name)}
-                    <div className="roletype">Role: <span>{record.role}</span></div>
+                    <div className="roletype">Role: <span>{record.role_name}</span></div>
                 </>
             )
         },
@@ -141,7 +141,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: () => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <li><div className="form-check custCheck">{item.web_url}</div></li>)}
+                        {products?.map((item,index) => <li key={index}><div className="form-check custCheck">{item.web_url}</div></li>)}
                     </ul>
                 </div>
 
@@ -156,7 +156,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <li>
+                        {products?.map((item,index) => <li key={index}>
                             <div className="form-check custCheck">
                                 <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
                                 checked={permissionExist(item.service_id, record.user_id, 'Product_View')}
@@ -176,7 +176,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map(item => <li><div className="form-check custCheck">
+                        {products?.map((item,index) => <li key={index}><div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
                             checked={permissionExist(item.service_id, record.user_id, 'Report_View')}
                                 value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} />
@@ -229,7 +229,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
         return <Loading />
 
     return (
-        <Table columns={columns} dataSource={users} pagenation={false} />
+        <Table columns={columns} dataSource={users} pagenation={false} rowKey='user_id'/>
     )
 }
 

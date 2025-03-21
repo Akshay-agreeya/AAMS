@@ -174,3 +174,7 @@ export const convertProductPermission = (prodPermissions) => {
     return Object.values(groupedPermissions);
 }
 
+export const addLeadingZero = (num) => {
+    if(!num) return;
+    return num < 10 ? num.toString().padStart(2, '0') : num.toString();
+}

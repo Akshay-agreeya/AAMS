@@ -1,19 +1,42 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import iconMoveForward from '../../assets/images/iconMoveForward.svg';
 import Table from '../table/Table';
+import { getData, postData } from '../../utils/CommonApi';
+import { getFullName, getShortAddress } from '../../utils/Helper';
+import { formattedDate } from '../input/DatePicker';
 
 
 const OrganizationDashboard = () => {
 
     const [loading, setLoading] = useState(false);
+    const [organizations, setOrganizations] = useState([]);
+    const [totalOrganizations, setTotalOrganizations] = useState(0);
 
-    const [organizations, setOrganizations] = useState([{
-        org_name: 'WIPRO',
-        org_type: 'Health',
-        admin: 'Mukesh Kumar',
-        location: 'India, Mumbai',
-        created: '02-15-2025'
-    }]);
+    const getOrganizations = useCallback(async () => {
+        try {
+            const resp = await getData(`/org/list?size=5`);
+
+            // Await the result of each individual `postData` call
+            const organizationsWithDetails = await Promise.all(
+                resp.contents.map(async (item) => {
+                    const details = await postData(`/org/get`, { org_id: item.org_id });
+                    return { ...item, ...details.contents?.[0] }; // Add details to each item
+                })
+            );
+
+            setOrganizations(organizationsWithDetails);
+            setTotalOrganizations(resp.total_count);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+
+    useEffect(() => {
+        getOrganizations();
+    }, [getOrganizations]);
+
 
     const columns = [
         {
@@ -34,7 +57,9 @@ const OrganizationDashboard = () => {
             scope: 'col',
             width: '20%',
             render: (text, record) => (
-                <a href={`/admin/user-management/viewuser/${record.org_id || '66C68316-9212-4F68-9309-804A888425DB'}`}>{text}</a>
+                <a href={`/admin/user-management/vieworganization/${record.org_id}`}>{
+                    getFullName(record.first_name, record.last_name)
+                }</a>
             )
         },
         {
@@ -42,19 +67,25 @@ const OrganizationDashboard = () => {
             dataIndex: 'location',
             scope: 'col',
             width: '20%',
+            render: (_,record)=>(
+                <span>{getShortAddress(record)}</span>
+            )
         },
         {
-            title: 'created on',
-            dataIndex: 'created',
+            title: 'Created on',
+            dataIndex: 'creation_date',
             scope: 'col',
             width: '20%',
+            render: (text)=>(
+                <span>{formattedDate(new Date(text),"dd-MM-yyyy")}</span>
+            )
         }
     ];
 
 
     return (
         <div className="dashGraphicContainerWhite">
-            <div className="heading">All Organization(10)  <a href="/admin/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
+            <div className="heading">{`All Organization(${totalOrganizations})`}  <a href="/admin/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
             <div className="gridContainer">
                 <Table columns={columns} dataSource={organizations} pagenation={false} loading={loading} />
             </div>

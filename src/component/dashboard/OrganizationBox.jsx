@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import iconOrg from '../../assets/images/iconOrg.svg';
+import { addLeadingZero } from '../../utils/Helper';
 
-const OrganizationBox = () => {
+const OrganizationBox = ({ counts = 0 }) => {
+
+    const [totalElements, setTotalElements] = useState(counts);
+
+    useEffect(() => {
+        setTotalElements(counts);
+    }, [counts]);
+
+
     return (
         <div className="dashBoxContainer">
             <div className="dashIcon">
@@ -10,7 +19,7 @@ const OrganizationBox = () => {
                 </div>
             </div>
             <div className="dashContent">
-                <div className="number">10</div>
+                <div className="number">{addLeadingZero(totalElements)}</div>
                 <div className="desc">Total Organization</div>
             </div>
         </div>

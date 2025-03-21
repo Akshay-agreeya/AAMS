@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import iconReport from '../../assets/images/iconReports.svg';
+import { addLeadingZero } from '../../utils/Helper';
 
-const ReportBox = () => {
+const ReportBox = ({counts}) => {
+
+     const [totalElements, setTotalElements] = useState(counts);
+    
+        useEffect(() => {
+            setTotalElements(counts);
+        }, [counts]);
+    
+
     return (
         <div className="dashBoxContainer">
             <div className="dashIcon">
@@ -10,7 +19,7 @@ const ReportBox = () => {
                 </div>
             </div>
             <div className="dashContent">
-                <div className="number">05</div>
+                <div className="number">{addLeadingZero(totalElements)}</div>
                 <div className="desc">Total Reports</div>
             </div>
         </div>
