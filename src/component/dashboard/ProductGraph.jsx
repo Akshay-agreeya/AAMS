@@ -1,5 +1,6 @@
 import React from 'react';
 import dashboardGraph1 from '../../assets/images/dashboardGraph1.png';
+import ProductAccessibilityChart from './ProductAccessibilityChart';
 
 const ProductGraph = () => {
     return (
@@ -9,7 +10,7 @@ const ProductGraph = () => {
                     <div className="heading">Total Scanned Products</div>
                 </div>
                 <div className="col-lg-11">
-                    <img src={dashboardGraph1} alt="Total Scanned Products" />
+                    <ProductAccessibilityChart/>
                 </div>
             </div>
         </div>
