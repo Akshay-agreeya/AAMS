@@ -6,12 +6,13 @@ import { OrganizationTypeSelect } from "../../component/select/OrganizationTypeS
 import { StateSelect } from "../../component/select/StateSelect";
 import { IndustryTypeSelect } from "../../component/select/IndustryTypeSelect";
 import { CountrySelect } from "../../component/select/CountrySelect";
-import { getData, patchData, postData } from '../../utils/CommonApi';
+import { patchData, postData } from '../../utils/CommonApi';
 import notification from '../../component/notification/Notification';
 import DatePicker, { formattedDate } from '../../component/input/DatePicker';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { convertUtcToLocal } from '../../utils/Helper';
+import { OPERATION_FAILED_MSG,ORG_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
 
 const AddOrganization = () => {
 
@@ -57,7 +58,7 @@ const AddOrganization = () => {
       const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData) : await postData("/org/add", tempData);
       notification.success({
         title: `${org_id ? "Edit" : "Add"} Organization`,
-        message: resp.message
+        message:ORG_SAVE_SUCCESS_MSG,
       });
       navigate("/admin/user-management");
     }
@@ -65,7 +66,7 @@ const AddOrganization = () => {
       console.log(error);
       notification.error({
         title: 'Add Organization',
-        message: error.data?.error
+        message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
       })
     }
   };

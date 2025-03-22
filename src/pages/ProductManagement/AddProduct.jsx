@@ -14,6 +14,7 @@ import { ScanDaySelect } from "../../component/select/ScanDaySelect";
 import { ScanMonthDaySelect } from "../../component/select/ScanMonthDaySelect";
 import { getFormattedAddress, getFullName } from "../../utils/Helper";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { PRODUCT_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from "../../constants/MessageConstants";
 
 const AddProduct = () => {
 
@@ -104,7 +105,7 @@ const AddProduct = () => {
 
       notification.success({
         title: "Add Product",
-        message: response.message || "Product added successfully!",
+        message: PRODUCT_SAVE_SUCCESS_MSG,
       });
 
       navigate("/admin/product-management");
@@ -113,7 +114,7 @@ const AddProduct = () => {
       console.error("Error adding product:", error);
       notification.error({
         title: "Error",
-        message: error.response?.data?.message || "An error occurred while adding the product.",
+        message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
       });
     } finally {
       setLoading(false);

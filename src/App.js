@@ -24,6 +24,8 @@ import UserDashboard from './pages/user/dashboard/UserDashboard';
 import ReportView from './pages/user/report/ReportView';
 import UserReport from './pages/user/report/UserReport';
 import UserReportListing from './pages/user/report/UserReportListing';
+import ViewReport from './pages/Report/ViewReport';
+
 
 
 export const routesMap = [
@@ -33,6 +35,8 @@ export const routesMap = [
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/admin/reports/listing", element: <UserReportListing /> },
+    { path: "/admin/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
+   
     { path: "/user/reports/listing", element: <UserReportListing /> },
     { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},
     { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},

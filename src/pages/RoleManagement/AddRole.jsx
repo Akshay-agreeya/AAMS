@@ -8,7 +8,7 @@ import Table from "../../component/table/Table";
 import notification from "../../component/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { RoleTypeSelect } from "../../component/select/RoleTypeSelect";
-import { AT_LEAST_ONE_PERMISSION } from "../../constants/MessageConstants";
+import { AT_LEAST_ONE_PERMISSION,ROLE_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from "../../constants/MessageConstants";
 
 
 const AddRole = () => {
@@ -121,8 +121,8 @@ const AddRole = () => {
         await postData("/role/add", roleData);
 
       notification.success({
-        message: role_id ? "Edit Role" : 'Add Role',
-        description: resp.message
+        title: role_id ? "Edit Role" : 'Add Role',
+        message: ROLE_SAVE_SUCCESS_MSG
       });
       navigate("/admin/role-management");
     }
@@ -130,7 +130,7 @@ const AddRole = () => {
       console.log(error);
       notification.error({
         title: role_id ? "Edit Role" : 'Add Role',
-        message: error.data?.message
+        message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG
       });
     }
   }
