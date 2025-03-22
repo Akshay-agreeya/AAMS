@@ -10,6 +10,7 @@ import ProductGraph from '../component/dashboard/ProductGraph';
 import RecentActivities from '../component/dashboard/RecentActivities';
 import OrganizationDashboard from '../component/dashboard/OrganizationDashboard';
 import { getData } from '../utils/CommonApi';
+import ExpiringClientServices from '../component/dashboard/ExpiringClientServices';
 
 const Dashboard = () => {
     const [countsData, setCountsData] = useState({});
@@ -90,54 +91,7 @@ const Dashboard = () => {
                                     <div className="dashGraphicContainerWhite">
                                         <div className="heading">Expiring Client Services</div>
                                         <div className="activityGrid">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" width="60%">Organization Name</th>
-                                                        <th scope="col" width="40%">Expiry Date</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td scope="row">
-                                                            <div className="orgname">WIPRO</div>
-                                                            <div className="prodDetail"><a href="#">Website Scanned</a></div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="expDetail">02-15-2025</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="row">
-                                                            <div className="orgname">SIP</div>
-                                                            <div className="prodDetail"><a href="#">PDF Scanned</a></div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="expDetail">02-15-2025</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="row">
-                                                            <div className="orgname">TATA</div>
-                                                            <div className="prodDetail"><a href="#">Mobile App</a></div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="expDetail">02-15-2025</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td scope="row">
-                                                            <div className="orgname">WIPRO</div>
-                                                            <div className="prodDetail"><a href="#">Website Scanned</a></div>
-                                                        </td>
-                                                        <td>
-                                                            <div className="expDetail">02-15-2025</div>
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
+                                            <ExpiringClientServices/>
                                         </div>
                                     </div>
                                 </div>
