@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
-import iconViewInternet from "../../../assets/images/iconViewInternet.svg";
+// import iconViewInternet from "../../../assets/images/iconuseInternet.svg";
 import iconMsWord from "../../../assets/images/iconMsWord.svg";
 import iconPDF from "../../../assets/images/iconPDF.svg";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,7 @@ const UserReportListing = () => {
    
     const location = useLocation();
     const service_id = location.state?.service_id || null;
+    const assesment_id = location.state?.assesment_id || null;
     const web_url = location.state?.web_url || null;
     const org_id = location.state.org_id || null;
     console.log(location.state)
@@ -93,7 +94,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable service_id={service_id}  handleClick={handleClick} />
+                                        <ReportTable service_id={service_id} assesment_id={assesment_id}  handleClick={handleClick} />
 
 
                                         {/* Pagination */}

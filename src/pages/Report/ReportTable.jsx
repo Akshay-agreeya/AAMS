@@ -5,6 +5,7 @@ import iconViewInternet from "../../assets/images/iconViewInternet.svg";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
 import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
+import { formattedDate, getFormattedDateWithTime } from "../../component/input/DatePicker";
 
 export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
     const [reports, setReports] = useState([]);
@@ -28,7 +29,8 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
                     last_scan_date: item.scan_date, 
                     issues_found: item.issues, 
                     accessibility_score: item.benchmark, 
-                    guidelines: item.guideline
+                    guidelines: item.guideline,
+                    assessment_id: item.assessment_id
                 }));
                 setReports(formattedReports);
             } else {
@@ -71,6 +73,9 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             title: "Last Scan Date & Time",
             dataIndex: "last_scan_date",
             width: "14%",
+            render : (text)=>(
+                <span>{getFormattedDateWithTime(new Date (text))}</span>
+            )
         },
         {
             title: "Issues Found",
@@ -96,7 +101,7 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             width: "5%",
             className: "text-center",
             render: (_, record) => (
-                <a href={record.view_url || "#"} target="_blank" rel="noopener noreferrer">
+                <a href={`/admin/reports/listing/viewReport/${record.assessment_id}`} rel="noopener noreferrer">
                     <img src={iconViewInternet} alt="View Online" />
                 </a>
             ),
