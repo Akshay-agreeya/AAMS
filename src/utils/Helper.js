@@ -1,4 +1,5 @@
 import { formattedDate } from "../component/input/DatePicker";
+import notification from "../component/notification/Notification";
 import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE } from "./Constants";
 
 export const getUserRoleKey = () => {
@@ -175,6 +176,20 @@ export const convertProductPermission = (prodPermissions) => {
 }
 
 export const addLeadingZero = (num) => {
-    if(!num) return;
+    if (!num) return;
     return num < 10 ? num.toString().padStart(2, '0') : num.toString();
+}
+
+export const handleApiSuccess = (title, message) => {
+    notification.success({
+        title,
+        message,
+    });
+}
+
+export const handleApiError = (title, message) => {
+    notification.error({
+        title,
+        message,
+    });
 }

@@ -11,24 +11,38 @@ import notification from '../../component/notification/Notification';
 import DatePicker, { formattedDate } from '../../component/input/DatePicker';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { convertUtcToLocal } from '../../utils/Helper';
-import { OPERATION_FAILED_MSG,ORG_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
+import { convertUtcToLocal, handleApiError, handleApiSuccess } from '../../utils/Helper';
+import { OPERATION_FAILED_MSG, ORG_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
+import { CitySelect } from '../../component/select/CitySelect';
 
 const AddOrganization = () => {
 
   const [initialValues, setInitialValues] = useState({});
   const [selectedCountry, setSelectedCountry] = useState({});
+  const [selectedState, setSelectedState] = useState({});
 
   const navigate = useNavigate();
 
   const { org_id } = useParams();
   const formRef = useRef();
   const countryRef = useRef();
+  const stateRef = useRef();
 
   useEffect(() => {
     if (org_id)
       getOrganizationInfo();
   }, []);
+
+  useEffect(() => {
+    if (initialValues) {
+      setSelectedCountry(initialValues.country);
+      setTimeout(() => {
+        setSelectedState(initialValues.state);
+
+      }, 400);
+    }
+  }, [initialValues]);
+
 
   const getOrganizationInfo = async () => {
 
@@ -46,6 +60,10 @@ const AddOrganization = () => {
     setSelectedCountry(e.target.value || '');
     formRef.current?.setFieldValue("state", '');
   }
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value || '');
+    formRef.current?.setFieldValue("city", '');
+  }
 
   const handleSubmit = async (formData) => {
 
@@ -55,21 +73,15 @@ const AddOrganization = () => {
         contract_expiry_date: formattedDate(new Date(formData.contract_expiry_date), "MM/dd/yyyy")
       }
       console.log(formData)
-      const resp = org_id ? await patchData(`/org/edit/${org_id}`, tempData) : await postData("/org/add", tempData);
-      notification.success({
-        title: `${org_id ? "Edit" : "Add"} Organization`,
-        message:ORG_SAVE_SUCCESS_MSG,
-      });
+      org_id ? await patchData(`/org/edit/${org_id}`, tempData) : await postData("/org/add", tempData);
+      handleApiSuccess(`${org_id ? "Edit" : "Add"} Organization`, ORG_SAVE_SUCCESS_MSG);
       navigate("/admin/user-management");
     }
     catch (error) {
       console.log(error);
-      notification.error({
-        title: 'Add Organization',
-        message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
-      })
+      handleApiError(`${org_id ? "Edit" : "Add"} Organization`, (error?.data?.errors?.[0] || OPERATION_FAILED_MSG));
     }
-  };
+  }
 
   return (
     <Layout >
@@ -135,7 +147,20 @@ const AddOrganization = () => {
                             <FormItem name="state" label="State"
                               rules={[{ required: true, message: "State is required" }]}
                               requiredMark={true}>
-                              <StateSelect countryId={countryRef.current?.getISOCode(selectedCountry)}/>
+                              <StateSelect countryId={countryRef.current?.getISOCode(selectedCountry)}
+                                ref={stateRef}
+                                onChange={handleStateChange} value={selectedState} />
+                            </FormItem>
+                          </div>
+                        </div>
+                        {/* City */}
+                        <div className="col-12 col-lg-4">
+                          <div className="mb-3">
+                            <FormItem name="city" label="City"
+                              rules={[{ required: true, message: "City is required" }]}
+                              requiredMark={true}>
+                              <CitySelect countryId={countryRef.current?.getISOCode(selectedCountry)}
+                                stateId={stateRef.current?.getISOCode(selectedState)} value={initialValues.city} />
                             </FormItem>
                           </div>
                         </div>

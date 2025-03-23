@@ -78,6 +78,7 @@ const ViewOrganization = () => {
                             { title: "Organization Address", value: organization?.address_line },
                             { title: "Country", value: organization?.country },
                             { title: "State", value: organization?.state },
+                            { title: "City", value: organization?.city },
                             { title: "Hub Contract Expiry Date", value: organization?.contract_expiry_date ? formattedDate(new Date(organization?.contract_expiry_date), "dd/MM/yyyy") : "N/A" },
                           ].map((item, index) => (
                             <div className="col-12 col-lg-3 mt-4" key={index}>
