@@ -94,7 +94,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable service_id={service_id} assesment_id={assesment_id}  handleClick={handleClick} />
+                                        <ReportTable service_id={service_id} assesment_id={assesment_id} org_id = {org_id} web_url={web_url}  handleClick={handleClick} />
 
 
                                         {/* Pagination */}

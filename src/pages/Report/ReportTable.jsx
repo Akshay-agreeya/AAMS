@@ -6,10 +6,13 @@ import iconMsWord from "../../assets/images/iconMsWord.svg";
 import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
 import {  getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { useNavigate } from "react-router";
 
-export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
+
+export const ReportTable = ({ service_id, selectedUrl, handleClick , org_id, web_url}) => {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(service_id)
@@ -101,7 +104,10 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             width: "5%",
             className: "text-center",
             render: (_, record) => (
-                <a href={`/admin/reports/listing/viewReport/${record.assessment_id}`} rel="noopener noreferrer">
+                <a href={"#"}
+                onClick = {(e)=>{e.preventDefault();
+                    navigate(`/admin/reports/listing/viewReport/${record.assessment_id}`, { state: { service_id, web_url,org_id } });
+                }} rel="noopener noreferrer">
                     <img src={iconViewInternet} alt="View Online" />
                 </a>
             ),
