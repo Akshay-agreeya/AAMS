@@ -5,7 +5,7 @@ import iconViewInternet from "../../assets/images/iconViewInternet.svg";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
 import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
-import { formattedDate, getFormattedDateWithTime } from "../../component/input/DatePicker";
+import {  getFormattedDateWithTime } from "../../component/input/DatePicker";
 
 export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
     const [reports, setReports] = useState([]);
@@ -54,7 +54,7 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             dataIndex: "report_name",
             width: "20%",
             render: (text, record) => (
-                <a href="/#" onClick={(e) => handleClick(e, record.report_name)}>
+                <a href={`/admin/reports/listing/viewReport/${record.assessment_id}`} onClick={(e) => handleClick(e, record.report_name)}>
                     {record.report_name}
                 </a>
             ),

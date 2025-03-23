@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../component/Layout";
 import { getData } from "../../utils/CommonApi";
+import { isSuperAdmin } from "../../utils/Helper";
 import { useParams } from "react-router-dom";
 
 const AccessibilityReport = () => {
@@ -8,6 +9,7 @@ const AccessibilityReport = () => {
   const [categories, setCategories] = useState([]); 
   const [categoryReportName, setCategoryReportName] = useState(""); 
   const [expandedIssues, setExpandedIssues] = useState({}); 
+  const superAdmin = isSuperAdmin();
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -80,9 +82,14 @@ const AccessibilityReport = () => {
       </React.Fragment>
     ));
   };
+  const breadcrumbs = [
+    { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
+    { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
+    { label: "View Report" }
+];
 
   return (
-    <Layout>
+    <Layout breadcrumbs={breadcrumbs}>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">
