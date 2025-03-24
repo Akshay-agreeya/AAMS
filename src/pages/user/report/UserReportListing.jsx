@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
-// import iconViewInternet from "../../../assets/images/iconuseInternet.svg";
-import { useNavigate } from "react-router-dom";
 import { isSuperAdmin } from "../../../utils/Helper";
 import Pagenation from "../../../component/Pagenation";
 import { UrlSelect } from "../../../component/select/UrlSelect";
@@ -15,7 +13,6 @@ const UserReportListing = () => {
     const [selectedUrl, setSelectedUrl] = useState("");
 
     const superAdmin = isSuperAdmin();
-    const navigate = useNavigate();
    
     const {org_id} = useParams();
     const location = useLocation();

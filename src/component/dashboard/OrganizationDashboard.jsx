@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import iconMoveForward from '../../assets/images/iconMoveForward.svg';
 import Table from '../table/Table';
-import { getData, postData } from '../../utils/CommonApi';
+import { postData } from '../../utils/CommonApi';
 import { getFullName, getShortAddress } from '../../utils/Helper';
 import { formattedDate } from '../input/DatePicker';
 
