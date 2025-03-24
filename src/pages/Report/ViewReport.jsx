@@ -118,19 +118,25 @@ const AccessibilityReport = () => {
                           <th className="side">A</th>
                           <td><img src="/images/p1.svg" width="20" height="20" className="absmiddle" alt="Level A" /></td>
                           <td><img src="/images/p1.svg" width="20" height="20" className="absmiddle" alt="Level A" /></td>
-                          <td className="key optional">Pages with level A issues are unusable for some people</td>
+                          <td className="key optional"><img src="/images/p1.svg" width="20" height="20" className="absmiddle" alt="Level A" />  Pages with level A issues are unusable for some people</td>
                         </tr>
                         <tr>
                           <th className="side">AA</th>
                           <td><img src="/images/p2.svg" width="20" height="20" className="absmiddle" alt="Level AA" /></td>
                           <td><img src="/images/p2.svg" width="20" height="20" className="absmiddle" alt="Level AA" /></td>
-                          <td className="key optional">Pages with level AA issues are very difficult to use</td>
+                          <td className="key optional"><img src="/images/p2.svg" width="20" height="20" className="absmiddle" alt="Level AA" />  Pages with level AA issues are very difficult to use</td>
+                        </tr>
+                        <tr>
+                          <th className="side">AAA</th>
+                          <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Level AAA" /></td>
+                          <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Level AAA" /></td>
+                          <td className="key optional"><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Level AAA" />  Pages with level AAA issues can be difficult to use</td>
                         </tr>
                         <tr>
                           <th className="side">Important</th>
                           <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
                           <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
-                          <td className="key optional">Pages with important issues should be addressed urgently</td>
+                          <td className="key optional"><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" />  Pages with important issues should be addressed urgently</td>
                         </tr>
                       </tbody>
                     </table>
