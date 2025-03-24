@@ -6,9 +6,11 @@ import { useParams } from "react-router-dom";
 
 const AccessibilityReport = () => {
   const { assessment_id } = useParams();
-  const [categories, setCategories] = useState([]); 
-  const [categoryReportName, setCategoryReportName] = useState(""); 
-  const [expandedIssues, setExpandedIssues] = useState({}); 
+  const [categories, setCategories] = useState([]);
+  const [categoryReportName, setCategoryReportName] = useState("");
+  const [expandedIssues, setExpandedIssues] = useState({});
+  const [org_id, setOrganizationId] = useState();
+  const [product_id, setProductId] = useState();
   const superAdmin = isSuperAdmin();
 
   useEffect(() => {
@@ -85,8 +87,9 @@ const AccessibilityReport = () => {
   const breadcrumbs = [
     { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
     { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
+    { url: `/user/reports/listing/${org_id}?id=${product_id}`, label: "Report" },
     { label: "View Report" }
-];
+  ];
 
   return (
     <Layout breadcrumbs={breadcrumbs}>

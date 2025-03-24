@@ -5,30 +5,43 @@ import iconViewInternet from "../../assets/images/iconViewInternet.svg";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
 import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
-import {  getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 
-export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
+const ViewReport = (assessment_id, icon, text) => {
+    return <a href={`/admin/reports/listing/viewReport/${assessment_id}`} rel="noopener noreferrer">
+        {icon ? <img src={icon} alt="View Online" /> : text }
+    </a>
+}
+
+export const ReportTable = ({ product_id }) => {
+
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState(product_id);
 
     useEffect(() => {
-        console.log(service_id)
-        // if (service_id) {
-            fetchReports(service_id);
-        // }
-    }, [service_id]);
+        if (product_id) {
+            setSelectedProductId(product_id);
+        }
+    }, [product_id]);
 
-    const fetchReports = async (serviceId) => {
+    useEffect(() => {
+        if (selectedProductId) {
+            fetchReports();
+        }
+    }, [selectedProductId]);
+
+    const fetchReports = async () => {
         try {
             setLoading(true);
-            const response = await getData(`/report/get/assessments/${serviceId}`);
+            const response = await getData(`/report/get/assessments/${selectedProductId}`);
             if (response?.contents) {
                 const formattedReports = response.contents.map((item) => ({
-                    report_name: item.report_name, 
-                    url: item.web_url, 
-                    last_scan_date: item.scan_date, 
-                    issues_found: item.issues, 
-                    accessibility_score: item.benchmark, 
+                    report_name: item.report_name,
+                    url: item.web_url,
+                    last_scan_date: item.scan_date,
+                    issues_found: item.issues,
+                    accessibility_score: item.benchmark,
                     guidelines: item.guideline,
                     assessment_id: item.assessment_id
                 }));
@@ -46,26 +59,25 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             setLoading(false);
         }
     };
-    
+
+
 
     const columns = [
         {
             title: "Report Name",
             dataIndex: "report_name",
             width: "20%",
-            render: (text, record) => (
-                <a href={`/admin/reports/listing/viewReport/${record.assessment_id}`} onClick={(e) => handleClick(e, record.report_name)}>
-                    {record.report_name}
-                </a>
-            ),
+            render: (text, record) => {
+                return ViewReport(record.assessment_id, undefined, text);
+            },
         },
         {
             title: "URL",
             dataIndex: "url",
             width: "20%",
             render: (_, record) => (
-                <a href={selectedUrl || record.url || "#"} target="_blank" rel="noopener noreferrer">
-                    {selectedUrl || record.url || "N/A"}
+                <a href={record.url || "#"} target="_blank" rel="noopener noreferrer">
+                    {record.url || "N/A"}
                 </a>
             ),
         },
@@ -73,8 +85,8 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             title: "Last Scan Date & Time",
             dataIndex: "last_scan_date",
             width: "14%",
-            render : (text)=>(
-                <span>{getFormattedDateWithTime(new Date (text))}</span>
+            render: (text) => (
+                <span>{getFormattedDateWithTime(new Date(text))}</span>
             )
         },
         {
@@ -100,11 +112,9 @@ export const ReportTable = ({ service_id, selectedUrl, handleClick }) => {
             dataIndex: "view",
             width: "5%",
             className: "text-center",
-            render: (_, record) => (
-                <a href={`/admin/reports/listing/viewReport/${record.assessment_id}`} rel="noopener noreferrer">
-                    <img src={iconViewInternet} alt="View Online" />
-                </a>
-            ),
+            render: (_, record) => {
+                return ViewReport(record.assessment_id, iconViewInternet);
+            },
         },
         {
             title: "Download",

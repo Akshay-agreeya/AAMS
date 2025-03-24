@@ -34,7 +34,7 @@ export const routesMap = [
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
-    { path: "/admin/reports/listing", element: <UserReportListing /> },
+    { path: "/admin/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/admin/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
    
     { path: "/user/reports/listing", element: <UserReportListing /> },

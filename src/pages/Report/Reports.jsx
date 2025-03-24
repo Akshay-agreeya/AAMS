@@ -39,9 +39,8 @@ const Reports = () => {
     }
   };
 
-  const handleNavigate = (service_id,web_url,org_id) => {
-    navigate("/admin/reports/listing", { state: { service_id, web_url,org_id } });
-    console.log(service_id,web_url)
+  const handleNavigate = (service_id,org_id) => {
+    navigate(`/admin/reports/listing/${org_id}?id=${service_id}`);
   };
 
   return (
@@ -90,7 +89,7 @@ const Reports = () => {
                                 </div>
                                 <div className="navigateICon">
                                   <button
-                                    onClick={() => handleNavigate(site.service_id,site.web_url,selectedOrg)}
+                                    onClick={() => handleNavigate(site.service_id,selectedOrg)}
                                     className="btn btn-link"
                                   >
                                     <img src={iconMoveRight} alt="Click here to view Report" />

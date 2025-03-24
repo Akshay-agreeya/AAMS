@@ -14,17 +14,17 @@ const OrganizationDashboard = () => {
 
     const getOrganizations = useCallback(async () => {
         try {
-            const resp = await getData(`/org/list?size=5`);
+            const resp = await postData(`/org/get?size=5`);
 
             // Await the result of each individual `postData` call
-            const organizationsWithDetails = await Promise.all(
-                resp.contents.map(async (item) => {
-                    const details = await postData(`/org/get`, { org_id: item.org_id });
-                    return { ...item, ...details.contents?.[0] }; // Add details to each item
-                })
-            );
+            // const organizationsWithDetails = await Promise.all(
+            //     resp.contents.map(async (item) => {
+            //         const details = await postData(`/org/get`, { org_id: item.org_id });
+            //         return { ...item, ...details.contents?.[0] }; // Add details to each item
+            //     })
+            // );
 
-            setOrganizations(organizationsWithDetails);
+            setOrganizations(resp.contents);
             setTotalOrganizations(resp.total_count);
         }
         catch (error) {
