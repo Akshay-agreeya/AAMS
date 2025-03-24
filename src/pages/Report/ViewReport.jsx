@@ -5,24 +5,20 @@ import { isSuperAdmin } from "../../utils/Helper";
 import { useParams } from "react-router-dom";
 
 const AccessibilityReport = () => {
+
   const { assessment_id } = useParams();
   const [categories, setCategories] = useState([]);
-  const [categoryReportName, setCategoryReportName] = useState("");
   const [expandedIssues, setExpandedIssues] = useState({});
-  const [org_id, setOrganizationId] = useState();
-  const [product_id, setProductId] = useState();
+  const [accessibilityInfo, setAccessibilityInfo] = useState({});
+
   const superAdmin = isSuperAdmin();
 
   useEffect(() => {
     const fetchReport = async () => {
       try {
         const response = await getData(`report/get/category-data/${assessment_id}`);
-        if (response.success) {
-          setCategories(response.contents);
-          if (response.category_report_name) {
-            setCategoryReportName(response.contents[0]?.category_report_name || "Unknown Report");
-          }
-        }
+        setCategories(response.contents);
+        setAccessibilityInfo(response.accessibilityInfo);
       } catch (error) {
         console.error("Error fetching accessibility report:", error);
       }
@@ -87,7 +83,7 @@ const AccessibilityReport = () => {
   const breadcrumbs = [
     { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
     { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
-    { url: `/user/reports/listing/${org_id}?id=${product_id}`, label: "Report" },
+    { url: `/${superAdmin ? "admin" : "user"}/reports/listing/${accessibilityInfo.org_id}?id=${accessibilityInfo.service_id}`, label: "Report" },
     { label: "View Report" }
   ];
 
@@ -99,7 +95,7 @@ const AccessibilityReport = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Accessibility Report - {categoryReportName} </h1>
+                  <h1>Accessibility Report - {accessibilityInfo.summary_report_name} </h1>
                 </div>
               </div>
 
