@@ -12,7 +12,6 @@ import { getAllowedOperations, isSuperAdmin } from "../../utils/Helper";
 import { USER_MGMT } from "../../utils/Constants";
 import Loading from "../../component/Loading";
 
-const superAdmin = isSuperAdmin();
 
 const UserManagement = () => {
   const [organizations, setOrganizations] = useState([]);
@@ -20,6 +19,8 @@ const UserManagement = () => {
   const [openOrgDeleteModal, setOpenOrgDeleteModal] = useState(false); // Loading state added
 
   const navigate = useNavigate();
+
+  const superAdmin = isSuperAdmin();
 
   useEffect(() => {
     getOrganizations();
