@@ -221,7 +221,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
         }
 
         // Filter out users with empty product_permission_opr_ids
-        setUsersWithServices(updatedUsersWithServices.filter(item => item.product_permission_opr_ids.length > 0));
+        setUsersWithServices(updatedUsersWithServices);
     };
 
 
