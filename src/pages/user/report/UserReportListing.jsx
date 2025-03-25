@@ -19,7 +19,6 @@ const UserReportListing = () => {
 
     const [selectedProduct, setSelectedProduct] = useState({ value: product_id });
 
-
     const handleUrlChange = async (product) => {
         setSelectedProduct(product);
     }
