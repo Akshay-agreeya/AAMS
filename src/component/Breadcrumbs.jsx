@@ -47,7 +47,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
       if (isEditAction(route.path)||isViewAction(route.path)) {
         // Set the dynamic entity ID from the next path segment (like user_id, role_id)
         entityId = pathnames[index];
-        label = `${label} #${entityId}`;  // e.g., Edit User #123
+        label = `${label} `;  // e.g., Edit User #123
       }
 
       // Push the breadcrumb item (either with a URL or just the label for the last one)

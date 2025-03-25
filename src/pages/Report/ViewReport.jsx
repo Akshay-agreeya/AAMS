@@ -48,8 +48,14 @@ const AccessibilityReport = () => {
               title="List Pages"
               onClick={() => toggleExpand(category.category_id)}
             >
-              <img src="/images/chevron-down.svg" alt="" className="absmiddle" width="20" height="20" />
-            </button>{" "}
+              <img
+                src={expandedIssues[category.category_id] ? "/images/chevron-up.svg" : "/images/chevron-down.svg"}
+                alt=""
+                className="absmiddle"
+                width="20"
+                height="20"
+              />
+            </button>
             <img src={icon} width="20" height="20" alt="Issue Level" className="absmiddle" />
           </td>
           <td className="desc">{category.issue_description}</td>
@@ -60,26 +66,34 @@ const AccessibilityReport = () => {
           </td>
           <td className="optional">{category.failing_page} pages</td>
         </tr>
-
+  
         {expandedIssues[category.category_id] &&
-          category.category_details.map((detail) => (
-            <tr key={detail.category_detail_id} className="expando">
-              <td></td>
-              <td>
-                <strong>Remediation:</strong>
-                <p>{detail.remediation}</p>
-                <strong>Page URL:</strong>{" "}
-                <a href={detail.page_url} target="_blank" rel="noopener noreferrer">
-                  {detail.page_url}
-                </a>
-              </td>
-              <td>{detail.criteria}</td>
-              <td className="optional">Lines: {detail.line_numbers}</td>
-            </tr>
-          ))}
+  category.category_details.map((detail) => (
+    <tr key={detail.category_detail_id} className="expando">
+      <td></td> 
+      <td> 
+        <strong>Remediation:</strong>
+        <p>{detail.remediation}</p>
+        <strong>Page URL:</strong>{" "}
+        <a href={detail.page_url} target="_blank" rel="noopener noreferrer">
+          {detail.page_url}
+        </a>
+      </td>
+      <td className="optional"> 
+        <strong>Criteria:</strong> {detail.criteria} <br />
+        <strong>Lines:</strong>{" "}
+        <a href={detail.page_url} target="_blank" rel="noopener noreferrer">
+          {detail.line_numbers}
+        </a>
+      </td>
+      <td className="optional"></td> 
+    </tr>
+  ))}
+
       </React.Fragment>
     ));
   };
+  
   const breadcrumbs = [
     { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
     { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
@@ -106,7 +120,7 @@ const AccessibilityReport = () => {
                       <thead>
                         <tr>
                           <th className="side">Level</th>
-                          <th className="section">WCAG 2.1</th>
+                          <th className="section">{accessibilityInfo.guideline}</th>
                           <th className="section">Section 508 - 2017</th>
                           <th className="key optional">Key</th>
                         </tr>
@@ -130,12 +144,12 @@ const AccessibilityReport = () => {
                           <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Level AAA" /></td>
                           <td className="key optional"><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Level AAA" />  Pages with level AAA issues can be difficult to use</td>
                         </tr>
-                        <tr>
-                          <th className="side">Important</th>
+                        {/* <tr>
+                          <th className="side">AAA</th>
                           <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
                           <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
                           <td className="key optional"><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" />  Pages with important issues should be addressed urgently</td>
-                        </tr>
+                        </tr> */}
                       </tbody>
                     </table>
 
@@ -162,7 +176,7 @@ const AccessibilityReport = () => {
                         {renderIssues(levelAAIssues, "/images/p2.svg")}
 
                         <tr>
-                          <td colSpan={3}><h2>Important</h2><p>{importantIssues.length} issues</p></td>
+                          <td colSpan={3}><h2>Level AAA</h2><p>{importantIssues.length} issues</p></td>
                           <td className="optional"></td>
                         </tr>
                         {renderIssues(importantIssues, "/images/p3.svg")}

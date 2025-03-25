@@ -25,6 +25,7 @@ import ReportView from './pages/user/report/ReportView';
 import UserReport from './pages/user/report/UserReport';
 import UserReportListing from './pages/user/report/UserReportListing';
 import ViewReport from './pages/Report/ViewReport';
+import Help from './component/dialog/Help';
 
 
 
@@ -34,6 +35,8 @@ export const routesMap = [
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
+    { path: "/help", element: <Help /> },
+   
     { path: "/admin/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/admin/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
    

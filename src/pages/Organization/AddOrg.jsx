@@ -217,7 +217,9 @@ const AddOrganization = () => {
                     <div className="col-12">
                       <div className="buttonBox">
                         <a href="/admin/user-management" className="btnCancel">Cancel</a>
-                        <button type="submit" className="btnAddUser">Submit</button>
+                        <button type="submit" className="btnAddUser">
+                            {org_id ? "Update" : "Submit"}
+                          </button>
                       </div>
                     </div>
                   </Form>

@@ -267,13 +267,13 @@ const AddProduct = () => {
                       </div>
                     </div>
 
-                    <div className="buttonBox mt-4">
+                    <div className="buttonBox ">
                       <button type="button" className="btnCancel" onClick={() => navigate("/admin/product-management")}>
                         Cancel
                       </button>
-                      <button type="submit" className="btnAddUser" disabled={loading}>
-                        {loading ? "Adding..." : "Add Product"}
-                      </button>
+                      <button type="submit" className="btnAddUser">
+                            {org_id ? "Submit" : "Update"}
+                          </button>
                     </div>
                   </Form>
                 </div>

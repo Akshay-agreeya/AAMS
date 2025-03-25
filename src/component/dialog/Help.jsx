@@ -1,7 +1,9 @@
 import React from "react";
+import Layout from "../Layout";
 
-const FAQ = () => {
+const Help = () => {
   return (
+    <Layout>
     <section className="adminControlContainer">
       <div className="container">
         <div className="row">
@@ -47,6 +49,7 @@ const FAQ = () => {
         </div>
       </div>
     </section>
+    </Layout>
   );
 };
 
@@ -82,4 +85,4 @@ const faqData = [
   },
 ];
 
-export default FAQ;
+export default Help;
