@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
 import { isSuperAdmin } from "../../../utils/Helper";
@@ -9,20 +9,38 @@ import ReportTable from "../../Report/ReportTable";
 import { useLocation, useParams } from "react-router";
 
 const UserReportListing = () => {
+    const [selectedUrl, setSelectedUrl] = useState("");
+    const [serviceId, setServiceId] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const superAdmin = isSuperAdmin();
-
     const { org_id } = useParams();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const product_id = queryParams.get('id');
+    const initialServiceId = queryParams.get("id");
 
-    const [selectedProduct, setSelectedProduct] = useState({ value: product_id });
+    useEffect(() => {
+        if (selectedUrl) {
+            fetchServiceId(selectedUrl);
+        }
+    }, [selectedUrl]);
 
+    const fetchServiceId = async (web_url) => {
+        try {
+            setLoading(true);
+            const response = await getData(`/report/get/urls/${org_id}`);
+            const selectedService = response.contents.find(item => item.web_url === web_url);
+            setServiceId(selectedService?.service_id || null);
+        } catch (error) {
+            console.error("Error fetching service ID:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const handleUrlChange = async (product) => {
-        setSelectedProduct(product);
-    }
+    const handleUrlChange = (e) => {
+        setSelectedUrl(e.target.value);
+    };
 
     const breadcrumbs = [
         { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
@@ -57,7 +75,7 @@ const UserReportListing = () => {
                                                         <div className="changeOptionContainer">
                                                             <div className="lable">Selected Site</div>
                                                             <div className="changeOptionDD">
-                                                                {<UrlSelect org_id={org_id} product_id={product_id} onChange={handleUrlChange} />}
+                                                                <UrlSelect org_id={org_id} onChange={handleUrlChange} selectFirst={true} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -66,7 +84,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable product_id={selectedProduct.value} />
+                                        <ReportTable product_id={serviceId || initialServiceId} />
 
                                         {/* Pagination */}
                                         <div className="col-12">

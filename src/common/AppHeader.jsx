@@ -34,7 +34,7 @@ const AppHeader = ({ topNav = true }) => {
                                             <ul>
 
                                                 <li>
-                                                    <a href="help.html"><img src={iconHelp} alt="Help" /></a>
+                                                    <a href="/help "><img src={iconHelp} alt="Help" /></a>
                                                 </li>
                                                 <li>
                                                     <a href="notification.html"><img src={iconNotification}

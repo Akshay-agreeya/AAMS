@@ -30,7 +30,7 @@ export const OrganizationDetails = ({org_id}) => {
                 <span className="title">Contact Email</span>
                 <span className="desc">{details.email}</span>
             </div>
-            <div className="userDetails">
+            <div className="userDetails contactPh">
                 <span className="title">Contact Phone</span>
                 <span className="desc">{details.phone_number}</span>
             </div>
