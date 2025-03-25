@@ -238,7 +238,8 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect mode="single" />}
+                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect isMulti={true} 
+                                onChange={(value)=>{formRef.current.setFieldValue("scan_day_ids",value?.[0]?.value)}}/>}
                               </FormItem>
                             </div>
 
