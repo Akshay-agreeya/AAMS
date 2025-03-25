@@ -10,27 +10,19 @@ import { useLocation, useParams } from "react-router";
 
 const UserReportListing = () => {
 
-    const [selectedUrl, setSelectedUrl] = useState("");
-
     const superAdmin = isSuperAdmin();
-   
-    const {org_id} = useParams();
+
+    const { org_id } = useParams();
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);     
-    const service_id = queryParams.get('id'); 
- 
-    
-    const handleUrlChange = async (web_url) => {
-        setSelectedUrl(web_url);
-        try {
-            const response = await getData(`/report/get/urls/${org_id}`);
-            
-            // const selectedService = response.contents.find(item => item.web_url === web_url);
-            // setServiceId(selectedService?.service_id || null);
-        } catch (error) {
-            console.error("Error fetching service ID:", error);
-        }
-    };
+    const queryParams = new URLSearchParams(location.search);
+    const product_id = queryParams.get('id');
+
+    const [selectedProduct, setSelectedProduct] = useState({ value: product_id });
+
+
+    const handleUrlChange = async (product) => {
+        setSelectedProduct(product);
+    }
 
     const breadcrumbs = [
         { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
@@ -46,7 +38,7 @@ const UserReportListing = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="pageTitle">
-                                    <h1>Reports - {selectedUrl || "Select a URL"}</h1>
+                                    <h1>Reports - {selectedProduct?.label || "Select a URL"}</h1>
                                 </div>
                             </div>
                             <div className="col-12">
@@ -59,13 +51,13 @@ const UserReportListing = () => {
                                                         <div className="siteIcon">
                                                             <img src={blackSiteIcon} alt="Site logo" />
                                                         </div>
-                                                        <div className="siteName">{selectedUrl || "Select a URL"}</div>
+                                                        <div className="siteName">{selectedProduct?.label || "Select a URL"}</div>
                                                     </div>
                                                     <div className="box">
                                                         <div className="changeOptionContainer">
                                                             <div className="lable">Selected Site</div>
                                                             <div className="changeOptionDD">
-                                                                {<UrlSelect org_id={org_id} web_url={selectedUrl} onChange={handleUrlChange} />}
+                                                                {<UrlSelect org_id={org_id} product_id={product_id} onChange={handleUrlChange} />}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -74,7 +66,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable product_id={service_id} />
+                                        <ReportTable product_id={selectedProduct.value} />
 
                                         {/* Pagination */}
                                         <div className="col-12">

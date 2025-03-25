@@ -27,11 +27,23 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, ...rest }) => 
     };
 
     return (
-        <Select
-            name={name}
-            options={monhthDays}
-            multiple={mode === "multiple"}
-            {...rest}
-        />
+
+        <div className="dropdown form-control">
+
+            <div className="dropdown-toggle" id="dropdownTrigger" data-bs-toggle="dropdown" aria-expanded="false">
+
+                <span id="selectedText">Scan Day</span>
+                <span className="btn-clear">&times;</span>
+            </div>
+
+            <ul className="dropdown-menu w-100" aria-labelledby="dropdownTrigger">
+                {
+                    monhthDays.map(item => <li>
+                        <label className="dropdown-item"><input type="checkbox" value={item.value} />{item.label}</label>
+                    </li>)
+                }
+            </ul>
+
+        </div>
     );
 };
