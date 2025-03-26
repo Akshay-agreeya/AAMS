@@ -13,7 +13,16 @@ export const OverAllQuality = () => {
                 </div>
             </div>
             <div className="graphContainer text-center">
-                <img src={overallQualityScore} alt="Overall Quality" />
+                <div class="col-12 text-center">
+
+                    <div class="overAllQyalityCircle">
+                        <div class="overAllQyality-text">
+                            <span class="number">83%</span>
+                            <span class="text">have issues, worse than average</span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div className="commonErrorScoreContainer">
                 <div className="score">18255 <span>pages</span></div>

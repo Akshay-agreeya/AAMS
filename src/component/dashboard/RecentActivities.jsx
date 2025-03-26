@@ -26,7 +26,9 @@ const RecentActivities = () => {
 
     return (
         <div className="dashGraphicContainerWhite">
-            <div className="heading">Recent Activities <a href="#"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
+            <div className="heading">Recent Activities 
+                {/* <a href="#"><img src={iconMoveForward} alt="Click Here for next Page" /></a> */}
+            </div>
 
             {recentActivities.map((item, index) => <div className="activityContainer" key={index}>
                 <div className="activityLeft">

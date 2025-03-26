@@ -11,6 +11,7 @@ import RecentActivities from '../component/dashboard/RecentActivities';
 import OrganizationDashboard from '../component/dashboard/OrganizationDashboard';
 import { getData } from '../utils/CommonApi';
 import ExpiringClientServices from '../component/dashboard/ExpiringClientServices';
+import ComplieneGraph from '../component/dashboard/ComplieneGraph';
 
 const Dashboard = () => {
     const [countsData, setCountsData] = useState({});
@@ -70,9 +71,13 @@ const Dashboard = () => {
                                 <div className="col-12 col-lg-3">
                                     <div className="dashGraphicContainerWhite">
                                         <div className="heading">Total Product Compliance</div>
-                                        <div className="graphOuter">
-                                            <img src={dashboardGraph2} alt="Highly Utilized Service" />
+                                        <div className="activityContainer">
+                                            <div className="activityLeft">
+                                                <img src={dashboardGraph2} alt="Highly Utilized Service" />
+                                                {/* <ComplieneGraph /> */}
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-3">
@@ -91,7 +96,7 @@ const Dashboard = () => {
                                     <div className="dashGraphicContainerWhite">
                                         <div className="heading">Expiring Client Services</div>
                                         <div className="activityGrid">
-                                            <ExpiringClientServices/>
+                                            <ExpiringClientServices />
                                         </div>
                                     </div>
                                 </div>

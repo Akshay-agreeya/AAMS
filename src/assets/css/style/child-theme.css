@@ -12,6 +12,12 @@ body {
   padding: 0px;
   height: 100%;
 }
+@media (max-width: 1500px) {
+  html,
+body {
+    font-size: 15px;
+  }
+}
 
 html .formbg, body.formbg {
   background: #003D68;
@@ -1204,6 +1210,11 @@ table.issues a {
   width: 100%;
   align-items: center;
 }
+@media (max-width: 1536px) {
+  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView {
+    width: 85%;
+  }
+}
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .orgTitle {
   color: #000000;
   font-size: 1.12rem;
@@ -1212,11 +1223,32 @@ table.issues a {
   flex: 1;
   margin-right: 10px;
 }
+@media (max-width: 1536px) {
+  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .orgTitle {
+    flex: 1 0 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
   display: flex;
   flex-direction: column;
   flex: 1;
   margin-right: 10px;
+}
+.adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails.contactPh {
+  /* @include breakMaxOnly(1366px) {
+       flex:1 10%;
+   }*/
+}
+@media (max-width: 1536px) {
+  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
+    flex: 1 0 18.75%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails .title {
   color: #888;
@@ -1230,6 +1262,9 @@ table.issues a {
   font-size: 0.87rem;
   font-weight: 400;
   line-height: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-body {
   padding: 0;
@@ -2641,6 +2676,21 @@ table.issues a {
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
   flex: 1;
 }
+@media (max-width: 1535px) {
+  .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
+    flex: 1 0 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 1535px) {
+  .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .activityDesc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .actheading {
   color: #000000;
   font-size: 0.87rem;
@@ -2673,6 +2723,9 @@ table.issues a {
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.report {
   background: #06C;
 }
+.adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.productComp {
+  background: #626F7F;
+}
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .activityRole {
   color: #626F7F;
   font-size: 0.75rem;
@@ -2680,6 +2733,11 @@ table.issues a {
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
   flex: 1;
+}
+@media (max-width: 1500px) {
+  .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
+    flex: 1 0 40%;
+  }
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight .actDate {
   font-size: 0.75rem;
@@ -2749,6 +2807,12 @@ table.issues a {
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table a:hover {
   color: #003D68;
+}
+.adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid {
+  max-height: 260px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table {
   background-color: #fff;
