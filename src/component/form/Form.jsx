@@ -17,7 +17,7 @@ const Form = forwardRef((props, ref) => {
             setFormData(values);
         },
         setFieldValue(keyName, value) {
-            setFormData((prev)=>({ ...prev, [keyName]: value }));
+            setFormData((prev) => ({ ...prev, [keyName]: value }));
         },
         getFieldValue(keyName) {
             return formData?.[keyName] || '';
@@ -134,9 +134,9 @@ const Form = forwardRef((props, ref) => {
     // Example usage in the context of your form
     const handleChange = (e) => {
         const { name, selectedOptions, multiple, value } = e.target;
-        const newValue = multiple ? Array.from(selectedOptions).map(option => option.value) : value
-        
-        setFormData((prev)=>({ ...prev, [name]: newValue }));
+        const newValue = multiple && selectedOptions.length > 0 ? Array.from(selectedOptions).map(option => option.value) : value
+
+        setFormData((prev) => ({ ...prev, [name]: newValue }));
 
         // Find the child (or nested child) by its name
         const foundChild = findChildByName(children, name);

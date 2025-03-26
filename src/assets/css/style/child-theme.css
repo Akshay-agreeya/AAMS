@@ -12,12 +12,6 @@ body {
   padding: 0px;
   height: 100%;
 }
-@media (max-width: 1500px) {
-  html,
-body {
-    font-size: 15px;
-  }
-}
 
 html .formbg, body.formbg {
   background: #003D68;
@@ -1218,26 +1212,11 @@ table.issues a {
   flex: 1;
   margin-right: 10px;
 }
-@media (max-width: 1536px) {
-  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .orgTitle {
-    flex: 1 0 20%;
-  }
-}
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
   display: flex;
   flex-direction: column;
   flex: 1;
   margin-right: 10px;
-}
-@media (max-width: 1536px) {
-  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails.contactPh {
-    flex: 1 10%;
-  }
-}
-@media (max-width: 1536px) {
-  .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
-    flex: 1 0 20%;
-  }
 }
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails .title {
   color: #888;
@@ -2662,11 +2641,6 @@ table.issues a {
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
   flex: 1;
 }
-@media (max-width: 1500px) {
-  .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
-    flex: 1 0 60%;
-  }
-}
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .actheading {
   color: #000000;
   font-size: 0.87rem;
@@ -2706,11 +2680,6 @@ table.issues a {
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
   flex: 1;
-}
-@media (max-width: 1500px) {
-  .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
-    flex: 1 0 40%;
-  }
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight .actDate {
   font-size: 0.75rem;

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Select } from '../input/Select';
 import { getData } from '../../utils/CommonApi';
 
-export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, ...rest }) => {
-
-    const [monhthDays, setMonthDays] = useState([]);
+export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, onChange, ...rest }) => {
+    const [monthDays, setMonthDays] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     useEffect(() => {
         loadScanMonthDays();
@@ -13,37 +12,62 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, ...rest }) => 
     const loadScanMonthDays = async () => {
         try {
             const resp = await getData("/lookup/scan-days");
-            const options = Array.isArray(resp.content)
-                ? resp.content.filter(item => item.Scan_day_id > 7).map((item) => ({
+            const options = Array.isArray(resp.contents)
+                ? resp.contents.filter(item => item.Scan_day_id > 7).map((item) => ({
                     value: item.Scan_day_id,
                     label: item.day_name,
                 }))
                 : [];
-            options.unshift({ value: "", label: "Select Scan Days", props: { defaultValue: '', disabled: true } });
+
+            options.unshift({ value: "", label: "Select Scan Days", disabled: true });
             setMonthDays(options);
         } catch (error) {
             console.error("Error fetching scan days:", error);
         }
     };
 
+    useEffect(() => {
+        const options = { target: { name, multiple: true, selectedOptions: selectedOptions.map(item => ({ value: item })) } };
+        if (onChange)
+            onChange(options);
+    }, [selectedOptions]);
+
+    const handleCheckboxChange = (event) => {
+        const { value, checked } = event.target;
+
+        setSelectedOptions(prevSelected =>
+            checked && prevSelected.length < 2 ? [...prevSelected, Number(value)] : prevSelected.filter(item => item !== Number(value))
+        );
+    };
+
+    const clearSelections = () => {
+        setSelectedOptions([]);
+    };
+
     return (
-
         <div className="dropdown form-control">
-
             <div className="dropdown-toggle" id="dropdownTrigger" data-bs-toggle="dropdown" aria-expanded="false">
-
-                <span id="selectedText">Scan Day</span>
-                <span className="btn-clear">&times;</span>
+                <span id="selectedText">{selectedOptions.length > 0 ? monthDays.filter(item => selectedOptions.includes(item.value)).map(item => item.label).join(", ") : "Scan Day"}</span>
+                <span className="btn-clear" onClick={clearSelections} style={{ display: selectedOptions.length > 0 ? 'inline' : 'none' }}>&times;</span>
             </div>
 
-            <ul className="dropdown-menu w-100" aria-labelledby="dropdownTrigger">
-                {
-                    monhthDays.map(item => <li>
-                        <label className="dropdown-item"><input type="checkbox" value={item.value} />{item.label}</label>
-                    </li>)
-                }
+            <ul className="dropdown-menu w-100" aria-labelledby="dropdownTrigger"
+                style={{ overflowY: 'auto', maxHeight: '200px' }}>
+                {monthDays.map(item => (
+                    <li key={item.value} >
+                        <label className="dropdown-item">
+                            {item.value && <input
+                                type="checkbox"
+                                value={item.value}
+                                checked={selectedOptions.includes(item.value)}
+                                onChange={handleCheckboxChange}
+                                disabled={item.disabled}
+                            />}
+                            {item.label}
+                        </label>
+                    </li>
+                ))}
             </ul>
-
         </div>
     );
 };

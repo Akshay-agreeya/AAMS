@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
 import { isSuperAdmin } from "../../../utils/Helper";
@@ -9,11 +9,9 @@ import ReportTable from "../../Report/ReportTable";
 import { useLocation, useParams } from "react-router";
 
 const UserReportListing = () => {
-    const [selectedUrl, setSelectedUrl] = useState("");
-    const [serviceId, setServiceId] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     const superAdmin = isSuperAdmin();
+
     const { org_id } = useParams();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -58,7 +56,7 @@ const UserReportListing = () => {
                                                         <div className="changeOptionContainer">
                                                             <div className="lable">Selected Site</div>
                                                             <div className="changeOptionDD">
-                                                                <UrlSelect org_id={org_id} onChange={handleUrlChange} selectFirst={true} />
+                                                                {<UrlSelect org_id={org_id} product_id={product_id} onChange={handleUrlChange} />}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -67,7 +65,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable product_id={serviceId || initialServiceId} />
+                                        <ReportTable product_id={selectedProduct.value} />
 
                                         {/* Pagination */}
                                         <div className="col-12">
