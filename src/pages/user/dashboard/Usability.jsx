@@ -1,8 +1,12 @@
 import React from 'react';
 import usabilityScore from '../../../assets/images/usabilityScore.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
+import { getPages, getPercentValue } from '../../../utils/Helper';
 
-export const Usability = () => {
+export const Usability = ({summary}) => {
+
+    const percent = getPercentValue(summary.issues);
+        const pages = getPages(summary.pages) || {};
     
     return (
 
@@ -17,8 +21,8 @@ export const Usability = () => {
                 <img src={usabilityScore} alt="Usability" />
             </div>
             <div className="commonErrorScoreContainer">
-                <div className="score">3127 <span>pages</span></div>
-                <div className="message">with usability issues</div>
+                <div className="score">{pages.pages} <span>pages</span></div>
+                <div className="message">{pages.text}</div>
 
             </div>
             <div className="showHistoryContainer">

@@ -12,7 +12,7 @@ export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
       loadUrls(org_id);
   }, [org_id]);
 
-  useEffect(() => {debugger
+  useEffect(() => {
     if (product_id && options?.length > 0)
       handleUrlChange({ target: { value: product_id } });
   }, [options, product_id]);

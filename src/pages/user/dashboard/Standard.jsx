@@ -1,8 +1,13 @@
 import React from 'react';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
 import iconStandardScore from '../../../assets/images/standardScore.svg';
+import { getPages, getPercentValue } from '../../../utils/Helper';
 
-export const Standard = () => {
+export const Standard = ({summary}) => {
+
+    const percent = getPercentValue(summary.issues);
+        const pages = getPages(summary.pages) || {};
+
     return (
 
         <section className="otherComplianceContainer standardContainer">
@@ -16,8 +21,8 @@ export const Standard = () => {
                 <img src={iconStandardScore} alt="Standard" />
             </div>
             <div className="commonErrorScoreContainer">
-                <div className="score">3120 <span>pages</span></div>
-                <div className="message">have W3C standards issues</div>
+                <div className="score">{pages.pages} <span>pages</span></div>
+                <div className="message">{pages.text}</div>
 
             </div>
             <div className="showHistoryContainer">

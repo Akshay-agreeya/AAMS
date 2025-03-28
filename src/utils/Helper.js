@@ -193,3 +193,36 @@ export const handleApiError = (title, message) => {
         message,
     });
 }
+
+export const getDashboardItem = (contents, key) => {
+    if (!contents || contents.length === 0)
+        return {}
+    return contents.find(item => item.category === key) || {};
+}
+
+export const getPercentValue = (value) => {
+    if (!value)
+        return '';
+    const values = value.split("%");
+
+    let tPercent = 0;
+    values?.forEach(item => {
+
+        if (!isNaN(item.trim()))
+            tPercent += Number(item.trim());
+    });
+
+    return tPercent || '';
+}
+
+export const getPages = (value) => {
+    if(!value)
+        return {pages:0, text:''}
+
+    const parts = value.split(" ");
+
+    const pages = parts[0] || 0;
+    const text = parts.slice(2).join(" ")?.trim();
+    
+    return { pages, text,textParts: parts};
+}

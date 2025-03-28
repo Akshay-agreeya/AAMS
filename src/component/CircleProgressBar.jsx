@@ -2,15 +2,15 @@ import React from 'react'
 
 export const CircleProgressBar = () => {
     return (
-        <div class="col-12 col-lg-4">
+        <div className="col-12 col-lg-4">
 
-            <div class="accessibilityCircle">
+            <div className="accessibilityCircle">
 
-                <div class="accessibility-text">
+                <div className="accessibility-text">
 
-                    <span class="number">85%</span>
+                    <span className="number">85%</span>
 
-                    <span class="text">have issues, worse than average</span>
+                    <span className="text">have issues, worse than average</span>
 
                 </div>
 

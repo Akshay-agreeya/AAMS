@@ -2421,8 +2421,8 @@ table.issues a {
 
 .accessibilityCircle {
   position: relative;
-  width: 240px;
-  height: 240px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2433,8 +2433,8 @@ table.issues a {
 .accessibilityCircle::before {
   content: "";
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   background: #003D68;
   border-radius: 50%;
   z-index: 1;

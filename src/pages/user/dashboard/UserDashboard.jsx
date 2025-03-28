@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../../../component/Layout';
 import iconSite from '../../../assets/images/iconSite.svg';
 import iconDocument from '../../../assets/images/iconDocument.svg';
@@ -14,8 +14,32 @@ import { Usability } from './Usability';
 import { OverAllQuality } from './OverAllQuality';
 import { OrganizationSelection } from './OrganizationSelection';
 import { ReportSelection } from './ReportSelection';
+import { getData } from '../../../utils/CommonApi';
+import { getDashboardItem, getPercentValue } from '../../../utils/Helper';
+import { AccessibilityDashboard } from './AccessibilityDashboard';
+import AccessibilityErrorScore from './AccessibilityErrorScore';
 
 const UserDashboard = () => {
+
+    const [reportData, setReportData] = useState({});
+
+    const getSummaryData = useCallback(async () => {
+        if (reportData.assessment?.assessment_id) {
+            try {
+                const resp = await getData(`/dashboard/summary-report/${reportData.assessment?.assessment_id}`);
+                setReportData(prev => ({ ...prev, summary: resp.contents || [] }));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    }, [reportData.assessment]);
+
+
+    useEffect(() => {
+        getSummaryData();
+    }, [getSummaryData]);
+
     return (
         <Layout>
             <div className="adaMainContainer">
@@ -32,7 +56,7 @@ const UserDashboard = () => {
                                             </div>
                                             <div className="siteInformation">
                                                 <span className="siteStatus">Tested Site</span>
-                                                <OrganizationSelection />
+                                                <OrganizationSelection onChange={(product) => { setReportData(prev => ({ ...prev, product })) }} />
                                             </div>
                                         </div>
                                         <div className="reportArchiveContainer">
@@ -40,7 +64,8 @@ const UserDashboard = () => {
                                                 <img src={iconDocument} alt="Report Information" />
                                             </div>
                                             <div className="reportArchiveDD">
-                                                <ReportSelection/>
+                                                {reportData.product?.service_id && <ReportSelection product_id={reportData.product?.service_id}
+                                                    onChange={(assessment) => { setReportData(prev => ({ ...prev, assessment })) }} />}
                                             </div>
 
 
@@ -50,13 +75,13 @@ const UserDashboard = () => {
                                     </div>
                                     <div className="dashboardRight">
                                         <div className="moveBackward">
-                                            <a href="addNewSite.html" className="btn btn-light border">Add New Site</a>
+                                            {/* <a href="addNewSite.html" className="btn btn-light border">Add New Site</a> */}
                                         </div>
                                         <div className="filetypeContainer">
                                             <div className="dropdown">
-                                                <a className="btn custDDViewReport dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {/* <a className="btn custDDViewReport dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Export
-                                                </a>
+                                                </a> */}
 
                                                 <ul className="dropdown-menu">
                                                     <li className="viewReportFormat"><a className="dropdown-item" href="#">PDF</a></li>
@@ -86,13 +111,13 @@ const UserDashboard = () => {
                                     </div>
                                     <div className="row">
                                         <div className="col-12 col-lg-3">
-                                            <img src={iconAccessibility} alt="Accessibility Score" className="img-fluid" />
+                                            <div class="col-12 col-lg-4">
+
+                                                <AccessibilityDashboard summary={getDashboardItem(reportData.summary, "Accessibility")} />
+                                            </div>
                                         </div>
                                         <div className="col-12 col-lg-9">
-                                            <div className="accessibilityErrorScoreContainer">
-                                                <div className="score">18203</div>
-                                                <div className="message">page with<br /> accessibility problems</div>
-                                            </div>
+                                            <AccessibilityErrorScore summary={getDashboardItem(reportData.summary, "Accessibility")} />
                                             <div className="accessibilityWCAGLevelContainer">
                                                 <div className="levelMessage">Level of Conformance and Severity</div>
                                                 <div className="wcagLevelRepeat">
@@ -113,21 +138,21 @@ const UserDashboard = () => {
                                 </section>
                             </div>
                             <div className="col-12 col-lg-3">
-                                <OverAllQuality />
+                                <OverAllQuality summary={getDashboardItem(reportData.summary, "Overall Quality")} />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-12 col-lg-3">
-                                <Errors />
+                                <Errors summary={getDashboardItem(reportData.summary, "Errors")} />
                             </div>
                             <div className="col-12 col-lg-3">
-                                <Compatibility />
+                                <Compatibility summary={getDashboardItem(reportData.summary, "Compatibility")} />
                             </div>
                             <div className="col-12 col-lg-3">
-                                <Standard />
+                                <Standard summary={getDashboardItem(reportData.summary, "Standards")} />
                             </div>
                             <div className="col-12 col-lg-3">
-                                <Usability />
+                                <Usability summary={getDashboardItem(reportData.summary, "Usability")} />
                             </div>
                         </div>
                     </div>

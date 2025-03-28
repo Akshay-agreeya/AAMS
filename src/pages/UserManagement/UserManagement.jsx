@@ -11,34 +11,20 @@ import notification from "../../component/notification/Notification";
 import { getAllowedOperations, isSuperAdmin } from "../../utils/Helper";
 import { USER_MGMT } from "../../utils/Constants";
 import Loading from "../../component/Loading";
+import useFetch from "../../hooks/useFetch";
 
 
 const UserManagement = () => {
-  const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state added
+ // const [organizations, setOrganizations] = useState([]);
+  // const [loading, setLoading] = useState(false); // Loading state added
   const [openOrgDeleteModal, setOpenOrgDeleteModal] = useState(false); // Loading state added
 
   const navigate = useNavigate();
 
   const superAdmin = isSuperAdmin();
 
-  useEffect(() => {
-    getOrganizations();
-  }, []);
-
-  const getOrganizations = async () => {
-
-    try {
-      setLoading(true);
-      const resp = await getData("/org/list");
-      setOrganizations(resp.contents);
-    } catch (error) {
-      console.log(error);
-    }
-    finally {
-      setLoading(false);
-    }
-  };
+  const {response, loading, setResponse} = useFetch("/org/list");
+  const organizations = response.contents||[];
 
   const handleDeleteOrganization = async () => {
     const selectedOrg = organizations.filter(item => item.selected);
@@ -97,7 +83,7 @@ const UserManagement = () => {
                       {organizations.map((org, index) => (
                         <Accordian title={org.org_name} key={index} prefix={<div className="form-check me-2 custCheck">
                           {superAdmin && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
-                            value="Add" onChange={(e) => { org.selected = e.target.checked; setOrganizations([...organizations]) }} />}
+                            value="Add" onChange={(e) => { org.selected = e.target.checked; setResponse({contents:[...organizations]}) }} />}
                         </div>} extra={<div className="addNewUserCont">
                           {superAdmin && <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization

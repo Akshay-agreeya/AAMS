@@ -25,9 +25,9 @@ const ComplieneGraph = () => {
     return (
         <div className='activityLeft'>
             <div className="graphOuter">
-                <div class="overAllQyalityCircle">
-                    <div class="overAllQyality-text">
-                        <span class="number">{compliant.non_compliant_percentage}</span>
+                <div className="overAllQyalityCircle">
+                    <div className="overAllQyality-text">
+                        <span className="number">{compliant.non_compliant_percentage}</span>
                     </div>
                 </div>
             </div>

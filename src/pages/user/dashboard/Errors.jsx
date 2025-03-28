@@ -1,8 +1,13 @@
 import React from 'react';
 import errorScore from '../../../assets/images/errorScore.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
+import { getPages, getPercentValue } from '../../../utils/Helper';
 
-export const Errors = () => {
+export const Errors = ({ summary = {} }) => {
+
+    const percent = getPercentValue(summary.issues);
+    const pages = getPages(summary.pages) || {};
+
     return (
         <section className="otherComplianceContainer errorContainer">
             <div className="headingSection">
@@ -15,8 +20,8 @@ export const Errors = () => {
                 <img src={errorScore} alt="Error" />
             </div>
             <div className="commonErrorScoreContainer">
-                <div className="score">2476 <span>pages</span></div>
-                <div className="message">with broken links or other errors</div>
+                <div className="score">{pages.pages} <span>pages</span></div>
+                <div className="message">{pages.text}</div>
 
             </div>
             <div className="showHistoryContainer">

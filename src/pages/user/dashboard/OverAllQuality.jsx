@@ -1,32 +1,35 @@
 import React from 'react';
-import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import overallQualityScore from '../../../assets/images/overallQualityScore.svg';
+import { getPages, getPercentValue } from '../../../utils/Helper';
 
-export const OverAllQuality = () => {
+export const OverAllQuality = ({ summary }) => {
+
+    const percent = getPercentValue(summary.issues);
+    const pages = getPages(summary.pages) || {};
+
     return (
 
         <section className="overallQualityContainer">
             <div className="headingSection">
                 <h4>Overall Quality</h4>
                 <div className="moveNext">
-                    <a href="showHistory.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
+                    {/* <a href="showHistory.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a> */}
                 </div>
             </div>
             <div className="graphContainer text-center">
-                <div class="col-12 text-center">
+                <div className="col-12 text-center">
 
-                    <div class="overAllQyalityCircle">
-                        <div class="overAllQyality-text">
-                            <span class="number">83%</span>
-                            <span class="text">have issues, worse than average</span>
+                    <div className="overAllQyalityCircle">
+                        <div className="overAllQyality-text">
+                            <span className="number">{`${percent}`}%</span>
+                            <span className="text">have issues, worse than average</span>
                         </div>
                     </div>
 
                 </div>
             </div>
             <div className="commonErrorScoreContainer">
-                <div className="score">18255 <span>pages</span></div>
-                <div className="message">with quality issues</div>
+                <div className="score">{pages.pages} <span>pages</span></div>
+                <div className="message">{pages.text}</div>
 
             </div>
             <div className="showHistoryContainer">
