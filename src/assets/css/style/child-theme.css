@@ -2433,12 +2433,13 @@ table.issues a {
 .accessibilityCircle::before {
   content: "";
   position: absolute;
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   background: #003D68;
   border-radius: 50%;
   z-index: 1;
 }
+
 .accessibilityCircle .accessibility-text {
   position: relative;
   z-index: 2;

@@ -1,12 +1,12 @@
 import React from 'react';
-import compatibilityScore from '../../../assets/images/compatibilityScore.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import { getPages, getPercentValue } from '../../../utils/Helper';
+import { getPages } from '../../../utils/Helper';
+import { CategoryProgressBar } from './CategoryProgressBar';
 
 export const Compatibility = ({ summary }) => {
 
-    const percent = getPercentValue(summary.issues);
     const pages = getPages(summary.pages) || {};
+    
     return (
         <section className="otherComplianceContainer compatibilityContainer">
             <div className="headingSection">
@@ -16,7 +16,7 @@ export const Compatibility = ({ summary }) => {
                 </div>
             </div>
             <div className="graphContainer text-center">
-                <img src={compatibilityScore} alt="Compatibility" />
+                <CategoryProgressBar summary={summary}/>
             </div>
             <div className="commonErrorScoreContainer">
                 <div className="score">{pages.pages} <span>pages</span></div>

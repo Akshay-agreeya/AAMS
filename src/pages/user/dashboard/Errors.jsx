@@ -1,11 +1,10 @@
 import React from 'react';
-import errorScore from '../../../assets/images/errorScore.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import { getPages, getPercentValue } from '../../../utils/Helper';
+import { getPages } from '../../../utils/Helper';
+import { CategoryProgressBar } from './CategoryProgressBar';
 
 export const Errors = ({ summary = {} }) => {
 
-    const percent = getPercentValue(summary.issues);
     const pages = getPages(summary.pages) || {};
 
     return (
@@ -17,7 +16,7 @@ export const Errors = ({ summary = {} }) => {
                 </div>
             </div>
             <div className="graphContainer text-center">
-                <img src={errorScore} alt="Error" />
+                <CategoryProgressBar summary={summary}/>
             </div>
             <div className="commonErrorScoreContainer">
                 <div className="score">{pages.pages} <span>pages</span></div>

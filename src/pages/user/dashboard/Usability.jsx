@@ -1,11 +1,11 @@
 import React from 'react';
 import usabilityScore from '../../../assets/images/usabilityScore.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import { getPages, getPercentValue } from '../../../utils/Helper';
+import { getPages } from '../../../utils/Helper';
+import { CategoryProgressBar } from './CategoryProgressBar';
 
 export const Usability = ({summary}) => {
 
-    const percent = getPercentValue(summary.issues);
         const pages = getPages(summary.pages) || {};
     
     return (
@@ -18,7 +18,7 @@ export const Usability = ({summary}) => {
                 </div>
             </div>
             <div className="graphContainer text-center">
-                <img src={usabilityScore} alt="Usability" />
+                <CategoryProgressBar summary={summary}/>
             </div>
             <div className="commonErrorScoreContainer">
                 <div className="score">{pages.pages} <span>pages</span></div>

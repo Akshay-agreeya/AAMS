@@ -226,3 +226,13 @@ export const getPages = (value) => {
     
     return { pages, text,textParts: parts};
 }
+
+export const getProgressColor = (score = 0) => {
+
+    if (score >= 0 && score < 76)
+        return '#D61821';
+    if (score >= 76 && score < 95)
+        return '#f4a261';
+
+    return '#41AF46';
+}
