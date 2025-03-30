@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../component/Layout';
 import dashboardGraph2 from '../assets/images/dashboardGraph2.png';
-import iconMoveForward from '../assets/images/iconMoveForward.svg';
 import RoleBox from '../component/dashboard/RoleBox';
 import UserBox from '../component/dashboard/UserBox';
 import OrganizationBox from '../component/dashboard/OrganizationBox';
@@ -41,7 +40,6 @@ const Dashboard = () => {
                                     <h1>Dashboard</h1>
                                     <div className="buttonContainer">
                                         <a href="/admin/user-management/addorg" className="add"> <i className="fa-solid fa-plus"></i> Add Organization</a>
-
                                     </div>
                                 </div>
 
@@ -73,8 +71,8 @@ const Dashboard = () => {
                                         <div className="heading">Total Product Compliance</div>
                                         <div className="activityContainer">
                                             <div className="activityLeft">
-                                                <img src={dashboardGraph2} alt="Highly Utilized Service" />
-                                                {/* <ComplieneGraph /> */}
+                                                {/* <img src={dashboardGraph2} alt="Highly Utilized Service" /> */}
+                                                <ComplieneGraph />
                                             </div>
                                         </div>
 
