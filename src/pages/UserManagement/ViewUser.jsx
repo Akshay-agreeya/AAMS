@@ -7,6 +7,8 @@ import Form from "../../component/form/Form";
 import { FormItem } from "../../component/form/FormItem";
 import { Input } from "../../component/input/Input";
 import iconEdit from "../../assets/images/iconEditDeails.svg";
+import { getAllowedOperations } from "../../utils/Helper";
+import { USER_MGMT } from "../../utils/Constants";
 
 const ViewUserDetails = () => {
   const { user_id } = useParams();
@@ -31,7 +33,7 @@ const ViewUserDetails = () => {
       notification.error({ title: "Error", message: "An error occurred while fetching user details." });
     }
   };
-
+  const operations = getAllowedOperations(USER_MGMT);
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -51,9 +53,9 @@ const ViewUserDetails = () => {
                     Role: <span>{userDetails.role_name || "N/A"}</span>
                   </div>
                   <div className="editDetails">
-                    <a href={`/admin/user-management/edituser/${user_id}`}>
+                  {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/edituser/${user_id}`}>
                       <img src={iconEdit} alt="Edit User Details" />
-                    </a>
+                    </a>}
                   </div>
                 </div>
               </div>

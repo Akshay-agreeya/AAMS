@@ -30,7 +30,7 @@ const ExpiringClientServices = () => {
             width: "60%",
             render: (_, record) => (<>
                 <div className="orgname">{record.organization_name}</div>
-                <div className="prodDetail"><a href="#">{record.service_type}</a></div>
+                <div className="prodDetail"><a href={`/admin/user-management/vieworganization/${record.org_id}`}>{record.service_type}</a></div>
             </>
             )
         },
