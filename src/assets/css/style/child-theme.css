@@ -2421,8 +2421,8 @@ table.issues a {
 
 .accessibilityCircle {
   position: relative;
-  width: 180px;
-  height: 180px;
+  width: 240px;
+  height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2433,13 +2433,12 @@ table.issues a {
 .accessibilityCircle::before {
   content: "";
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   background: #003D68;
   border-radius: 50%;
   z-index: 1;
 }
-
 .accessibilityCircle .accessibility-text {
   position: relative;
   z-index: 2;
@@ -2456,6 +2455,41 @@ table.issues a {
   color: #fff;
   width: 140px;
   display: inline-block;
+}
+
+.smallAccessibilityCircle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(#f4a261 0% 83%, #e0e0e0 83% 100%);
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.smallAccessibilityCircle::before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  z-index: 1;
+}
+.smallAccessibilityCircle .smallAccessibilityCircle-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.smallAccessibilityCircle .smallAccessibilityCircle-text span.number {
+  display: block;
+  font-size: 0.8rem;
+  color: #000;
+  font-weight: 600;
+  /*border-bottom:1px solid #CCC;
+  padding-bottom:8px;
+  margin-bottom: 6px;*/
 }
 
 .adaMainContainer {
@@ -2723,9 +2757,6 @@ table.issues a {
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.report {
   background: #06C;
-}
-.adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.productComp {
-  background: #626F7F;
 }
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .activityRole {
   color: #626F7F;

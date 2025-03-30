@@ -6,6 +6,7 @@ import iconMsWord from "../../assets/images/iconMsWord.svg";
 import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 
 const ViewReport = (assessment_id, icon, text) => {
     return <a href={`/admin/reports/listing/viewReport/${assessment_id}`} rel="noopener noreferrer">
@@ -35,21 +36,10 @@ export const ReportTable = ({ product_id }) => {
         try {
             setLoading(true);
             const response = await getData(`/report/get/assessments/${selectedProductId}`);
-            if (response?.contents) {
-                const formattedReports = response.contents.map((item) => ({
-                    report_name: item.report_name,
-                    url: item.web_url,
-                    last_scan_date: item.scan_date,
-                    issues_found: item.issues,
-                    accessibility_score: item.benchmark,
-                    guidelines: item.guideline,
-                    assessment_id: item.assessment_id
-                }));
-                setReports(formattedReports);
-            } else {
-                setReports([]);
+            
+                setReports(response.contents);
             }
-        } catch (error) {
+         catch (error) {
             console.error("Error fetching reports:", error);
             notification.error({
                 title: "Fetch Reports",
@@ -76,14 +66,14 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "url",
             width: "20%",
             render: (_, record) => (
-                <a href={record.url || "#"} target="_blank" rel="noopener noreferrer">
-                    {record.url || "N/A"}
+                <a href={record.web_url || "#"} target="_blank" rel="noopener noreferrer">
+                    {record.web_url || "N/A"}
                 </a>
             ),
         },
         {
             title: "Last Scan Date & Time",
-            dataIndex: "last_scan_date",
+            dataIndex: "scan_date",
             width: "14%",
             render: (text) => (
                 <span>{getFormattedDateWithTime(new Date(text))}</span>
@@ -91,13 +81,13 @@ export const ReportTable = ({ product_id }) => {
         },
         {
             title: "Issues Found",
-            dataIndex: "issues_found",
+            dataIndex: "issues",
             width: "10%",
             className: "text-center",
         },
         {
             title: "Guidelines",
-            dataIndex: "guidelines",
+            dataIndex: "guideline",
             width: "10%",
             className: "text-center",
         },
@@ -106,6 +96,9 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "accessibility_score",
             width: "13%",
             className: "text-center",
+            render : (_,record)=>(
+                <AccesibilitySmallCircle product ={record}/>
+            )
         },
         {
             title: "View",

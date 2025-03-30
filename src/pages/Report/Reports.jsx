@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from '../../component/Layout';
-import blackSiteIcon from '../../assets/images/blackSiteIcon.svg';
-import smallAccessibilityNumber from '../../assets/images/smallAccessibilityNumber.svg';
-import iconMoveRight from '../../assets/images/iconMoveRight.svg';
+import Layout from "../../component/Layout";
+import blackSiteIcon from "../../assets/images/blackSiteIcon.svg";
+import smallAccessibilityNumber from "../../assets/images/smallAccessibilityNumber.svg";
+import iconMoveRight from "../../assets/images/iconMoveRight.svg";
 import { OrganizationSelect } from "../../component/select/OrganizationSelect";
 import { getData } from "../../utils/CommonApi";
-import { getPagenationFromResponse } from "../../utils/Helper";
+import {
+  getPagenationFromResponse,
+  getProgressColor,
+} from "../../utils/Helper";
 import Pagenation from "../../component/Pagenation";
 import Loading from "../../component/Loading";
+import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
@@ -39,7 +43,7 @@ const Reports = () => {
     }
   };
 
-  const handleNavigate = (service_id,org_id) => {
+  const handleNavigate = (service_id, org_id) => {
     navigate(`/admin/reports/listing/${org_id}?id=${service_id}`);
   };
 
@@ -59,7 +63,10 @@ const Reports = () => {
                   <div className="d-flex mb-4 align-items-center">
                     <h3 className="mb-0 me-3">Selected Organization</h3>
                     <div>
-                      <OrganizationSelect  onChange={handleOrganizationChange} selectFirst={true} />
+                      <OrganizationSelect
+                        onChange={handleOrganizationChange}
+                        selectFirst={true}
+                      />
                     </div>
                   </div>
 
@@ -79,20 +86,28 @@ const Reports = () => {
                                   <div className="siteName">{site.web_url}</div>
                                 </div>
                                 <div className="box">
-                                  <div className="accessbilityIcon">
-                                    <img src={smallAccessibilityNumber} alt="Accessibility Score" />
-                                  </div>
+                                  <AccesibilitySmallCircle product ={site}/>
                                   <div className="accessbilityDescription">
                                     <div className="title">Accessibility</div>
-                                    <div className="desc">Have issues, worse than average</div>
+                                    <div className="desc">
+                                      Have issues, worse than average
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="navigateICon">
                                   <button
-                                    onClick={() => handleNavigate(site.service_id,selectedOrg)}
+                                    onClick={() =>
+                                      handleNavigate(
+                                        site.service_id,
+                                        selectedOrg
+                                      )
+                                    }
                                     className="btn btn-link"
                                   >
-                                    <img src={iconMoveRight} alt="Click here to view Report" />
+                                    <img
+                                      src={iconMoveRight}
+                                      alt="Click here to view Report"
+                                    />
                                   </button>
                                 </div>
                               </div>
