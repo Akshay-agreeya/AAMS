@@ -3,7 +3,6 @@ import Layout from '../../../component/Layout';
 import iconSite from '../../../assets/images/iconSite.svg';
 import iconDocument from '../../../assets/images/iconDocument.svg';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import iconAccessibility from '../../../assets/images/accessibilityScrore.svg';
 import iconLevelA from '../../../assets/images/iconLevelA.svg';
 import iconLevelAA from '../../../assets/images/iconLevelAA.svg';
 import iconLevelAAA from '../../../assets/images/iconLevelAAA.svg';
@@ -113,7 +112,7 @@ const UserDashboard = () => {
                                         <div className="col-12 col-lg-3">
                                             <div class="col-12 col-lg-4">
 
-                                                <AccessibilityDashboard summary={getDashboardItem(reportData.summary, "Accessibility")} />
+                                                <AccessibilityDashboard summary={{...getDashboardItem(reportData.summary, "Accessibility"),accessibility_score:reportData.product?.accessibility_score}} />
                                             </div>
                                         </div>
                                         <div className="col-12 col-lg-9">

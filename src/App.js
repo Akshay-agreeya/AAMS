@@ -21,11 +21,11 @@ import AddProduct from './pages/ProductManagement/AddProduct';
 import AddOrganization from '../src/pages/Organization/AddOrg';
 import ViewOrganization from './pages/Organization/ViewOrganization';
 import UserDashboard from './pages/user/dashboard/UserDashboard';
-import ReportView from './pages/user/report/ReportView';
 import UserReport from './pages/user/report/UserReport';
 import UserReportListing from './pages/user/report/UserReportListing';
 import ViewReport from './pages/Report/ViewReport';
 import Help from './component/dialog/Help';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 
 
@@ -46,6 +46,7 @@ export const routesMap = [
     { path: "/user/reports/view/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
     { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
+    { path: "/user/admin/dashboard", element: <PrivateRoute element={AdminDashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
     { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
     { path: "/admin/user-management/editorganization/:org_id", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Edit Organization" },

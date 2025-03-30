@@ -7,7 +7,8 @@ import { useAuth } from './AuthContext';
 import { getData, postData } from '../../utils/CommonApi'; // Import API utility
 import { InputPassword } from '../../component/input/InputPassword';
 import { Input } from '../../component/input/Input';
-import { MENU_PERMISSION, SUPER_ADMIN, TOKEN, USER, USER_ROLE, USER_ROLE_KEY } from '../../utils/Constants';
+import { MENU_PERMISSION, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
+import { goto } from '../../utils/Helper';
 
 const LoginForm = () => {
     const [rememberMe, setRememberMe] = useState(true);
@@ -44,29 +45,14 @@ const LoginForm = () => {
             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
             const resp = await getData("/lookup/permissions");
             localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
-            goto(response.role_key);
+            goto(response.role_key,navigate);
         }
         catch (error) {
             console.log(error);
             setError(error.data?.message || 'Login failed.');
             setLoading(false);
         }
-    }
-
-    const goto = (key) => {
-
-        switch (key) {
-            case SUPER_ADMIN:
-                navigate("/admin/dashboard");
-                break;
-            case USER_ROLE_KEY:
-                navigate("/user/dashboard");
-                break;
-            default:
-                navigate("/admin/dashboard");
-        }
-
-    }
+    }    
 
     return (
         <div className="formLogin">

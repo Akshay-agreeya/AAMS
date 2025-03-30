@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getMenuDetails, getUserRole, isSuperAdmin, menuPermissions } from '../utils/Helper';
+import { getMenuDetails, getUserRole, getUserRoleKey, gotoPath, isSuperAdmin, menuPermissions } from '../utils/Helper';
 
 import { USER_MENU } from '../utils/Constants';
 
@@ -14,7 +14,7 @@ const Navbar = () => {
 
 
   const urlMapping = {
-    dashboard: superAdmin ? '/admin/dashboard' : '/user/dashboard',
+    dashboard: gotoPath(getUserRoleKey()),
     user_management: '/admin/user-management',
     role_management: '/admin/role-management',
     product_permission: '/admin/product-permission',

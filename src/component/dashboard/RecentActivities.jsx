@@ -3,14 +3,14 @@ import iconMoveForward from '../../assets/images/iconMoveForward.svg';
 import { getData } from '../../utils/CommonApi';
 import { getFormattedDateWithTime } from '../input/DatePicker';
 
-const RecentActivities = () => {
+const RecentActivities = ({org_id}) => {
 
     const [recentActivities, setRecentActivities] = useState([]);
 
 
     const getRecentActivities = useCallback(async () => {
         try {
-            const resp = await getData(`/dashboard/recent-activities?days=30&size=5`);
+            const resp = await getData(`/dashboard/recent-activities?org_id=${org_id}&days=30&size=5`);
             setRecentActivities(resp.contents);
         }
         catch (error) {

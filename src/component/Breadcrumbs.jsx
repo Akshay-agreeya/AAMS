@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { routesMap } from '../App';
-import { isSuperAdmin } from '../utils/Helper';
+import { getUserRoleKey, gotoPath } from '../utils/Helper';
 
 
 // Utility to detect edit actions (e.g., "edituser", "editrole")
@@ -13,8 +13,6 @@ const isViewAction = (path) => {
   return /view/.test(path);
 };
 
-const superAdmin = isSuperAdmin();
-
 // Generates breadcrumbs dynamically based on the current URL path
 export const generateBreadcrumbs = (addHome = true, pathnames) => {
   // Initialize breadcrumbs array
@@ -22,11 +20,10 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
 
   // Add "Home" breadcrumb if required
   if (addHome) {
-    breadcrumbs.push({ url: `/${superAdmin ? 'admin' : 'user'}/dashboard`, label: "Home" });
+    breadcrumbs.push({ url: gotoPath(getUserRoleKey()), label: "Home" });
   }
 
   let currentPath = "";
-  let entityId = null;  // Variable to hold the dynamic ID (e.g., user_id, role_id)
 
   // Iterate over the path segments to generate breadcrumbs
   pathnames.forEach((value, index) => {
@@ -46,7 +43,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
       // Check if it's an edit action (like edituser, editrole, etc.)
       if (isEditAction(route.path)||isViewAction(route.path)) {
         // Set the dynamic entity ID from the next path segment (like user_id, role_id)
-        entityId = pathnames[index];
+        // entityId = pathnames[index];
         label = `${label} `;  // e.g., Edit User #123
       }
 

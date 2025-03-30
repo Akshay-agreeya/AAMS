@@ -1,6 +1,6 @@
 import { formattedDate } from "../component/input/DatePicker";
 import notification from "../component/notification/Notification";
-import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE } from "./Constants";
+import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE, USER_ROLE_KEY } from "./Constants";
 
 export const getUserRoleKey = () => {
     const storedUser = sessionStorage.getItem(USER);
@@ -25,6 +25,21 @@ export const getUserRoleIdFromSession = () => {
     return null;
 }
 
+export const getOrganizationIdFromSession = () => {
+    const storedUser = sessionStorage.getItem(USER);
+    if (storedUser) {
+        let org_id = null;
+        try {
+            const parsedUser = JSON.parse(storedUser);
+            org_id = parsedUser.org_id;
+            console.log("User ID:", org_id);
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+        }
+        return org_id;
+    }
+    return null;
+}
 export const getUserIdFromSession = () => {
     const storedUser = sessionStorage.getItem(USER);
     if (storedUser) {
@@ -40,7 +55,6 @@ export const getUserIdFromSession = () => {
     }
     return null;
 }
-
 export const getUserRole = () => {
     const storedRole = localStorage.getItem(USER_ROLE);
     if (storedRole)
@@ -176,7 +190,7 @@ export const convertProductPermission = (prodPermissions) => {
 }
 
 export const addLeadingZero = (num) => {
-    if (!num) return;
+    if (!num) return 0;
     return num < 10 ? num.toString().padStart(2, '0') : num.toString();
 }
 
@@ -216,15 +230,15 @@ export const getPercentValue = (value) => {
 }
 
 export const getPages = (value) => {
-    if(!value)
-        return {pages:0, text:''}
+    if (!value)
+        return { pages: 0, text: '' }
 
     const parts = value.split(" ");
 
     const pages = parts[0] || 0;
     const text = parts.slice(2).join(" ")?.trim();
-    
-    return { pages, text,textParts: parts};
+
+    return { pages, text, textParts: parts };
 }
 
 export const getProgressColor = (score = 0) => {
@@ -235,4 +249,32 @@ export const getProgressColor = (score = 0) => {
         return '#f4a261';
 
     return '#41AF46';
+}
+
+export const goto = (key, navigate) => {
+
+    switch (key) {
+        case SUPER_ADMIN:
+            navigate("/admin/dashboard");
+            break;
+        case USER_ROLE_KEY:
+            navigate("/user/dashboard");
+            break;
+        default:
+            navigate("/user/admin/dashboard");
+    }
+
+}
+
+export const gotoPath = (key) => {
+
+    switch (key) {
+        case SUPER_ADMIN:
+            return "/admin/dashboard";
+        case USER_ROLE_KEY:
+            return "/user/dashboard";
+        default:
+            return "/user/admin/dashboard";
+    }
+
 }

@@ -8,7 +8,8 @@ const useFetch = (url) => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchData();
+        if (url)
+            fetchData();
     }, [url]);
 
     const fetchData = async () => {
@@ -26,7 +27,7 @@ const useFetch = (url) => {
         }
     };
 
-    return { response, loading, error,setResponse };
+    return { response, loading, error, setResponse };
 }
 
 export default useFetch;

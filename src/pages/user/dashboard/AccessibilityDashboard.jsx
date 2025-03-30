@@ -4,7 +4,7 @@ import { getPercentValue, getProgressColor } from '../../../utils/Helper';
 
 export const AccessibilityDashboard = ({ summary = {} }) => {
 
-    const percent = getPercentValue(summary.issues);
+    const percent = summary.accessibility_score;
 
     return (
         <div class="accessibilityCircle" style={{ background: `conic-gradient(${getProgressColor(percent)} 0% ${percent}%, #E6F3FA ${percent}% 100%)` }}>
