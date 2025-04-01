@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getData } from '../../utils/CommonApi';
 
-export const ScanMonthDaySelect = ({ name = "scan_day_ids", mode, onChange, ...rest }) => {
+export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values=[] }) => {
     const [monthDays, setMonthDays] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState(values);
+
+    useEffect(() => {
+        setSelectedOptions(values);
+    }, [values]);
 
     useEffect(() => {
         loadScanMonthDays();

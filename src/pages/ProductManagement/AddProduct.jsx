@@ -65,9 +65,10 @@ const AddProduct = () => {
       const productData = resp || {};
       setInitialValues({
         ...productData, guideline_version_id: productData.guidline_version_id,
-        schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm")
+        schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm"),
+        scan_day_ids: productData.frequency_id === 2 ? productData.scan_day_ids?.split(",").map(item=>parseInt(item.trim())) : productData.scan_day_ids,
       });
-
+      setSelectedFrequency(productData.frequency_id + '');
       setOrganization({
         org_name: productData.organization_name,
         contact_person_name: productData.contact_person_name,
@@ -96,7 +97,10 @@ const AddProduct = () => {
       let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
 
       // Convert the date to UTC and get it in ISO format
-      const reqData = { ...formData, schedule_time: localDate.toISOString() };
+      const reqData = {
+        ...formData, schedule_time: localDate.toISOString(),
+        scan_day_ids: Array(formData.scan_day_ids) ? formData.scan_day_ids.join(",") : formData.scan_day_ids
+      };
 
 
       const response = product_id ? await patchData(`/product/edit/${product_id}`, reqData) :
@@ -238,7 +242,7 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect
+                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect values={initialValues.scan_day_ids}
                                   onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} />}
                               </FormItem>
                             </div>
