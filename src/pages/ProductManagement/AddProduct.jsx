@@ -99,7 +99,7 @@ const AddProduct = () => {
       // Convert the date to UTC and get it in ISO format
       const reqData = {
         ...formData, schedule_time: localDate.toISOString(),
-        scan_day_ids: Array(formData.scan_day_ids) ? formData.scan_day_ids.join(",") : formData.scan_day_ids
+        scan_day_ids: Array.isArray(formData.scan_day_ids) ? formData.scan_day_ids.join(",") : formData.scan_day_ids
       };
 
 
@@ -242,7 +242,7 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect values={initialValues.scan_day_ids}
+                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect values={initialValues?.scan_day_ids}
                                   onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} />}
                               </FormItem>
                             </div>

@@ -93,10 +93,10 @@ const AdminDashboard = () => {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-12 col-lg-3">
+                                            <div className="col-12 col-lg-4">
                                                 <AccessibilityDashboard summary={product} />
                                             </div>
-                                            <div className="col-12 col-lg-9">
+                                            <div className="col-12 col-lg-8">
                                                 <AccessibilityErrorScore summary={product} />
                                                 <div className="accessibilityWCAGLevelContainer">
                                                     <div className="levelMessage">Level of Conformance and Severity</div>

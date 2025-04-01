@@ -5,7 +5,7 @@ import { getData } from '../../utils/CommonApi';
 export const ScanDaySelect = ({ name = "scan_day_ids", ...rest }) => {
 
     const [days, setDays] = useState([]);
-
+    // const newValue =   Array.isArray(value) ? "" : value
     useEffect(() => {
         loadScanDays();
     }, []);

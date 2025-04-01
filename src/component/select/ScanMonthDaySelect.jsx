@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { getData } from '../../utils/CommonApi';
 
-export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values=[] }) => {
+export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values = [] }) => {
+      
     const [monthDays, setMonthDays] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState(values);
 
     useEffect(() => {
-        setSelectedOptions(values);
+        const newValue  = Array.isArray(values) ?values : []
+        setSelectedOptions(newValue);
     }, [values]);
 
     useEffect(() => {
@@ -31,7 +33,7 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values=[] 
     };
 
     useEffect(() => {
-        const options = { target: { name, multiple: true, selectedOptions: selectedOptions.map(item => ({ value: item })) } };
+        const options = { target: { name, multiple: true, selectedOptions: selectedOptions?.map(item => ({ value: item })) } };
         if (onChange)
             onChange(options);
     }, [selectedOptions]);

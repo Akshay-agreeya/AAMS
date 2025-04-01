@@ -10,5 +10,5 @@ export const USER_MGMT = "user_mgmt";
 export const ROLE_MGMT = "role_mgmt";
 export const PRODUCT_MGMT = "product_mgmt";
 export const SUPER_ADMIN ="Super_Admin";
-export const USER_ROLE_KEY = "Users";
+export const USER_ROLE_KEY = "User";
 export const ADMIN_ROLE_KEY = "Admin";

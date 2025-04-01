@@ -4,6 +4,7 @@ import { deleteData, getData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
+import viewicon from "../../assets/images/iconView.svg";
 import { getAllowedOperations, getPagenationFromResponse } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
@@ -110,9 +111,12 @@ const ProductTable = ({ org_id }) => {
         title: "Action",
         dataIndex: "action",
         width: "8%",
-        className: "text-center",
+        className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
+                {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/user-management/viewproduct/${record.service_id}`} className="me-3">
+                        <img src={viewicon} alt="View Details" />
+                    </a>}
 
                 {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/product-management/editproduct/${record.service_id}`} className="me-3">
                     <img src={editicon} alt="Edit Details" />
