@@ -66,7 +66,7 @@ const AddProduct = () => {
       setInitialValues({
         ...productData, guideline_version_id: productData.guidline_version_id,
         schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm"),
-        scan_day_ids: productData.frequency_id === 2 ? productData.scan_day_ids?.split(",").map(item=>parseInt(item.trim())) : productData.scan_day_ids,
+        scan_day_ids: productData.frequency_id === 2 ? productData.scan_day_ids?.split(",").map(item => parseInt(item.trim())) : productData.scan_day_ids,
       });
       setSelectedFrequency(productData.frequency_id + '');
       setOrganization({
@@ -103,7 +103,7 @@ const AddProduct = () => {
       };
 
 
-      const response = product_id ? await patchData(`/product/edit/${product_id}`, reqData) :
+      product_id ? await patchData(`/product/edit/${product_id}`, reqData) :
         await postData(`/product/add/${org_id}`, reqData);
 
 
@@ -233,7 +233,9 @@ const AddProduct = () => {
                                 requiredMark={true}
                               >
                                 <FrequencySelect name="frequency_id"
-                                  onChange={(e) => { setSelectedFrequency(e.target.value) }} />
+                                  onChange={(e) => { setSelectedFrequency(e.target.value);
+                                    formRef.current.setFieldValue("scan_day_ids","");
+                                   }} />
                               </FormItem>
                             </div>
 
