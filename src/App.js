@@ -27,6 +27,7 @@ import UserReportListing from './pages/user/report/UserReportListing';
 import ViewReport from './pages/Report/ViewReport';
 import Help from './component/dialog/Help';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import MyProduct from './pages/user/dashboard/MyProduct'
 
 
 
@@ -43,9 +44,10 @@ export const routesMap = [
    
     { path: "/user/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},
-    { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},
+    { path: "/user/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
     { path: "/user/reports/view/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
     { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
+    { path: "/user/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
     { path: "/user/admin/dashboard", element: <PrivateRoute element={AdminDashboard} />, breadcrumb: "Dashboard" },
     { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
