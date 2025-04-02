@@ -126,7 +126,7 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    formRef.current.setFieldsValue(initialValues);
+    formRef.current.setFieldsValue({...initialValues});
   }, [initialValues])
 
   return (

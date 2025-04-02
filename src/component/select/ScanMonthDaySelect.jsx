@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { getData } from '../../utils/CommonApi';
 
 export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values = [] }) => {
-      
+
     const [monthDays, setMonthDays] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState(values);
 
     useEffect(() => {
-        const newValue  = Array.isArray(values) ?values : []
-        setSelectedOptions(newValue);
-    }, [values]);
+        // Only update selectedOptions if the values have changed
+        if (JSON.stringify(values) !== JSON.stringify(selectedOptions)) {
+            const newValue = Array.isArray(selectedOptions) ? selectedOptions : [];
+            setSelectedOptions(newValue);
+        }
+    }, [values]); // Dependency array is just values
 
     useEffect(() => {
         loadScanMonthDays();
@@ -34,16 +37,22 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values = [
 
     useEffect(() => {
         const options = { target: { name, multiple: true, selectedOptions: selectedOptions?.map(item => ({ value: item })) } };
-        if (onChange)
-            onChange(options);
+        if (onChange) onChange(options);
     }, [selectedOptions]);
 
     const handleCheckboxChange = (event) => {
         const { value, checked } = event.target;
+        const numValue = Number(value);
 
-        setSelectedOptions(prevSelected =>
-            checked && prevSelected.length < 2 ? [...prevSelected, Number(value)] : prevSelected.filter(item => item !== Number(value))
-        );
+        setSelectedOptions((prevSelected) => {
+            if (checked && prevSelected.length < 2) {
+                return [...prevSelected, numValue];
+            }
+            if (!checked) {
+                return prevSelected.filter(item => item !== numValue);
+            }
+            return prevSelected;
+        });
     };
 
     const clearSelections = () => {
@@ -60,7 +69,7 @@ export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values = [
             <ul className="dropdown-menu w-100" aria-labelledby="dropdownTrigger"
                 style={{ overflowY: 'auto', maxHeight: '200px' }}>
                 {monthDays.map(item => (
-                    <li key={item.value} >
+                    <li key={item.value}>
                         <label className="dropdown-item">
                             {item.value && <input
                                 type="checkbox"
