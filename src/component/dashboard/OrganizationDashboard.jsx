@@ -4,6 +4,7 @@ import Table from '../table/Table';
 import { postData } from '../../utils/CommonApi';
 import { getFullName, getShortAddress } from '../../utils/Helper';
 import { formattedDate } from '../input/DatePicker';
+import { DATE_FORMAT } from '../../utils/Constants';
 
 
 const OrganizationDashboard = () => {
@@ -77,7 +78,7 @@ const OrganizationDashboard = () => {
             scope: 'col',
             width: '20%',
             render: (text)=>(
-                <span>{formattedDate(new Date(text),"dd-MM-yyyy")}</span>
+                <span>{formattedDate(new Date(text),DATE_FORMAT)}</span>
             )
         }
     ];

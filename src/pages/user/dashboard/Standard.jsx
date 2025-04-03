@@ -12,9 +12,9 @@ export const Standard = ({ summary }) => {
         <section className="otherComplianceContainer standardContainer">
             <div className="headingSection">
                 <h4>Standard</h4>
-                <div className="moveNext">
+                {/* <div className="moveNext">
                     <a href="#"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
-                </div>
+                </div> */}
             </div>
             <div className="graphContainer text-center">
                 <CategoryProgressBar summary={summary} />
@@ -24,9 +24,9 @@ export const Standard = ({ summary }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            <div className="showHistoryContainer">
+            {/* <div className="showHistoryContainer">
                 <a href="#">Show History</a>
-            </div>
+            </div> */}
 
         </section>
     )

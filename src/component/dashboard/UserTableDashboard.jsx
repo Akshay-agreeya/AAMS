@@ -4,7 +4,7 @@ import Table from '../table/Table';
 import { convertUtcToLocal, getAllowedOperations } from '../../utils/Helper';
 import { formattedDate } from '../input/DatePicker';
 import useFetch from '../../hooks/useFetch';
-import { USER_MGMT } from '../../utils/Constants';
+import { DATE_FORMAT, USER_MGMT } from '../../utils/Constants';
 
 
 const UserTableDashboard = ({ org_id }) => {
@@ -38,7 +38,7 @@ const UserTableDashboard = ({ org_id }) => {
             dataIndex: "created_on",
             width: "20%",
             render: (text) => (
-                <span>{formattedDate(convertUtcToLocal(text), "dd-MM-yyyy")}</span>
+                <span>{formattedDate(convertUtcToLocal(text), DATE_FORMAT)}</span>
             )
         },
     ];

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../component/Layout';
-import dashboardGraph2 from '../assets/images/dashboardGraph2.png';
 import RoleBox from '../component/dashboard/RoleBox';
 import UserBox from '../component/dashboard/UserBox';
 import OrganizationBox from '../component/dashboard/OrganizationBox';

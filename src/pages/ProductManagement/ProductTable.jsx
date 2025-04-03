@@ -9,7 +9,7 @@ import { getAllowedOperations, getPagenationFromResponse } from '../../utils/Hel
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
-import { PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
+import { DATE_FORMAT, PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
 
 const ProductTable = ({ org_id }) => {
 
@@ -77,7 +77,7 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Frequency',
         dataIndex: 'frequency',
-        width: '8%',
+        width: '7%',
         className: "text-center"
     },
     {
@@ -90,10 +90,10 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Scan Date',
         dataIndex: 'next_scan_date',
-        width: '8%',
+        width: '9%',
         className: "text-center",
         render: (text) => (
-            <span>{formattedDate(new Date(text), "dd/MM/yyyy")}</span>
+            <span>{formattedDate(new Date(text), DATE_FORMAT)}</span>
         )
     },
 

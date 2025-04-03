@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { getData } from '../../utils/CommonApi';
 import { getFormattedDateWithTime } from '../input/DatePicker';
+import { DATE_TIME_FORMAT } from '../../utils/Constants';
 
 const RecentActivities = ({org_id=''}) => {
 
@@ -38,7 +39,7 @@ const RecentActivities = ({org_id=''}) => {
                     <div className="activityRole">{`by ${item.role_name}${item.org_name ? '- ' : ''} ${item.org_name || ''}`}</div>
                 </div>
                 <div className="activityRight">
-                    <div className="actDate">{getFormattedDateWithTime(new Date(item.action_datetime), "MMM dd, hh:mm a")}</div>
+                    <div className="actDate">{getFormattedDateWithTime(new Date(item.action_datetime), DATE_TIME_FORMAT)}</div>
                 </div>
             </div>
             )}

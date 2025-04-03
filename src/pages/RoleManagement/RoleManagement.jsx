@@ -5,12 +5,12 @@ import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import Layout from '../../component/Layout';
 import { deleteData, getData } from "../../utils/CommonApi";
 import Table from "../../component/table/Table";
-import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { formattedDate } from "../../component/input/DatePicker";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
 import { getAllowedOperations, getPagenationFromResponse, operationExist } from "../../utils/Helper";
-import { ROLE_MGMT, SUPER_ADMIN, TABLE_RECORD_SIZE } from "../../utils/Constants";
+import { DATE_FORMAT, ROLE_MGMT, SUPER_ADMIN, TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 const RoleManagement = () => {
 
@@ -85,7 +85,7 @@ const RoleManagement = () => {
     scop: 'col',
     width: '25%',
     render: (text) => (
-      <span>{getFormattedDateWithTime(new Date(text))}</span>
+      <span>{formattedDate(new Date(text),DATE_FORMAT)}</span>
     )
   },
   {

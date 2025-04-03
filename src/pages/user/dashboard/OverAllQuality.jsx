@@ -32,9 +32,9 @@ export const OverAllQuality = ({ summary }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            <div className="showHistoryContainer">
-                <a href="showHistory.html">Show History</a>
-            </div>
+            {/* <div className="showHistoryContainer">
+                    <a href="showHistory.html">Show History</a>
+            </div> */}
 
         </section>
     )

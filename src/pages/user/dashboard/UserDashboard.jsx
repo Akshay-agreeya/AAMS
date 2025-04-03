@@ -104,9 +104,9 @@ const UserDashboard = () => {
                                 <section className="accessibilityContainer">
                                     <div className="headingSection">
                                         <h3>Accessibility</h3>
-                                        <div className="moveNext">
+                                        {/* <div className="moveNext">
                                             <a href="viewReport.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="row">
                                         <div className="col-12 col-lg-4">

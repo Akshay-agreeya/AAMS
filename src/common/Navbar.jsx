@@ -20,7 +20,7 @@ const Navbar = () => {
     product_permission: '/admin/product-permission',
     product_management: '/admin/product-management',
     reports: superAdmin ? '/admin/reports' : '/user/reports',
-    my_product:'/user/myproduct'
+    my_product: '/user/myproduct'
   }
 
   const getMenu = useCallback(async () => {
@@ -28,8 +28,8 @@ const Navbar = () => {
 
       // Extract just the permission IDs
       const menu = menuPermissions(menu_permissions, permissions)
-      if(getUserRoleKey()===USER_ROLE_KEY)
-      menu.splice(1,0,{menu_detail_name:"My Product"})
+      if (getUserRoleKey() === USER_ROLE_KEY)
+        menu.splice(0, 0, { menu_detail_name: "My Product" })
       setMenuDetails(menu);
       localStorage.setItem(USER_MENU, JSON.stringify(menu));
     }
