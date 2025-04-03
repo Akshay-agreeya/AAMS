@@ -12,3 +12,5 @@ export const PRODUCT_MGMT = "product_mgmt";
 export const SUPER_ADMIN ="Super_Admin";
 export const USER_ROLE_KEY = "User";
 export const ADMIN_ROLE_KEY = "Admin";
+export const USER_PRODUCT_PERMISSION = "Product_View";
+export const USER_REPORT_PERMISSION = "Report_View";

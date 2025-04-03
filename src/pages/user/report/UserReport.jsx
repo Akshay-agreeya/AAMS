@@ -7,6 +7,7 @@ import { getData } from "../../../utils/CommonApi";
 import { getPagenationFromResponse } from "../../../utils/Helper";
 import Loading from "../../../component/Loading";
 import AccesibilitySmallCircle from "../../Report/AccesibilitySmallCircle";
+import {USER_REPORT_PERMISSION} from "../../../utils/Constants";
 
 const UserReport = () => {
   const [reports, setReports] = useState([]);
@@ -20,7 +21,7 @@ const UserReport = () => {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const response = await getData("/report/get/user-urls");
+      const response = await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
       setReports(response.contents || []);
       setPagenation(getPagenationFromResponse(response));
     } catch (error) {

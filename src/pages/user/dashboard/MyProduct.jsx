@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../../component/Layout";
 import Pagenation from "../../../component/Pagenation";
 import { getData } from "../../../utils/CommonApi"; 
+import {USER_PRODUCT_PERMISSION} from "../../../utils/Constants";
 
 const MyProduct = () => {
   const [products, setProducts] = useState([]);
@@ -9,7 +10,7 @@ const MyProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getData("/report/get/user-urls"); 
+        const response = await getData(`/report/get/user-urls?permission_name=${USER_PRODUCT_PERMISSION}`); 
         if (response.success) {
           setProducts(response.contents); 
         } else {
