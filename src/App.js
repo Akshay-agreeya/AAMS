@@ -45,7 +45,7 @@ export const routesMap = [
     { path: "/user/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},
     { path: "/user/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
-    { path: "/user/reports/view/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
+    { path: "/user/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
     { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
     { path: "/user/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
     { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },

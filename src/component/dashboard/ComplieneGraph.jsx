@@ -23,7 +23,7 @@ const ComplieneGraph = () => {
                 display: false,
             }
         },
-        cutout: '60%',
+        cutout: '70%',
     }
 
     const getCompliant = useCallback(async () => {
