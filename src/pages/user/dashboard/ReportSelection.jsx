@@ -31,7 +31,8 @@ export const ReportSelection = ({product_id, onChange }) => {
         navigate(`/user/reports/view/${item.assessment_id}`);
     }
 
-
+if (response.contents?.length===0)
+return<></>
     return (
         <span className="dropdown">
             <a className="reportArchiveName dropdown-toggle" href={`/user/reports/view/${selectedReport?.assessment_id}`} role="button" data-bs-toggle="dropdown" aria-expanded="false">
