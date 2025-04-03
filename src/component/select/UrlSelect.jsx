@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "../input/Select";
 import { getData } from "../../utils/CommonApi";
+import {USER_REPORT_PERMISSION} from "../../utils/Constants"
 
 export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
@@ -45,7 +46,7 @@ export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
 
   const loadUserUrls = async () => {
     try {
-      const userResp = await getData("/report/get/user-urls");
+      const userResp = await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
       const userUrlOptions = userResp.contents?.map((item) => ({
         value: item.service_id,
         label: item.web_url,

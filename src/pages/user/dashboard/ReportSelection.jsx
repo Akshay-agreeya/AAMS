@@ -28,13 +28,14 @@ export const ReportSelection = ({product_id, onChange }) => {
         setSelectedReport(item);
         if (onChange)
             onChange(item);
-        navigate(`/user/reports/view/${item.assessment_id}`);
+        navigate(`/user/reports/listing/viewreport/${item.assessment_id}`);
     }
 
-
+if (response.contents?.length===0)
+return<></>
     return (
         <span className="dropdown">
-            <a className="reportArchiveName dropdown-toggle" href={`/user/reports/view/${selectedReport?.assessment_id}`} role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a className="reportArchiveName dropdown-toggle" href={`/user/reports/listing/viewreport/${selectedReport?.assessment_id}`} role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {selectedReport?.report_name}
             </a>
             <ul className="dropdown-menu">
