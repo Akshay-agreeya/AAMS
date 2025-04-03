@@ -4,7 +4,7 @@ import { getData } from '../../utils/CommonApi';
 export const ScanMonthDaySelect = ({ name = "scan_day_ids", onChange, values = [] }) => {
 
     const [monthDays, setMonthDays] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState(values);
+    const [selectedOptions, setSelectedOptions] = useState(Array.isArray(values) ? values : []);
 
     useEffect(() => {
         // Only update selectedOptions if the values have changed
