@@ -46,7 +46,7 @@ const ProductTable = ({ org_id }) => {
     const operations = getAllowedOperations(PRODUCT_MGMT);
 
     const columns = [{
-        title: 'Service Name',
+        title: 'Product Name',
         dataIndex: 'service_type_name',
         width: '18%'
     },

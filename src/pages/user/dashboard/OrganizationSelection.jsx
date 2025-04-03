@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import useFetch from '../../../hooks/useFetch';
 import Loading from '../../../component/Loading';
+import {USER_PRODUCT_PERMISSION} from "../../../utils/Constants";
 
 
 export const OrganizationSelection = ({ onChange }) => {
 
 
     const [selectedProduct, setSelectedProduct] = useState('');
-    const {response,loading} = useFetch(`/report/get/user-urls`);
+    const {response,loading} = useFetch(`/report/get/user-urls?permission_name=${USER_PRODUCT_PERMISSION}`);
 
 
     useEffect(() => {
