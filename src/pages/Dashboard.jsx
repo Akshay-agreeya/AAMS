@@ -69,13 +69,7 @@ const Dashboard = () => {
                                 <div className="col-12 col-lg-3">
                                     <div className="dashGraphicContainerWhite">
                                         <div className="heading">Total Product Compliance</div>
-                                        <div className="activityContainer">
-                                            <div className="activityLeft">
-                                                {/* <img src={dashboardGraph2} alt="Highly Utilized Service" /> */}
-                                                <ComplieneGraph />
-                                            </div>
-                                        </div>
-
+                                        <ComplieneGraph />
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-3">

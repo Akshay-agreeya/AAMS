@@ -1,5 +1,4 @@
 import React from 'react';
-import dashboardGraph1 from '../../assets/images/dashboardGraph1.png';
 import ProductAccessibilityChart from './ProductAccessibilityChart';
 
 const ProductGraph = () => {
