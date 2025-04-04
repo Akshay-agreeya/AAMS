@@ -3,13 +3,16 @@ import Layout from "../../../component/Layout";
 import Pagenation from "../../../component/Pagenation";
 import { getData } from "../../../utils/CommonApi"; 
 import {USER_PRODUCT_PERMISSION} from "../../../utils/Constants";
+import Loading from '../../../component/Loading'
 
 const MyProduct = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const response = await getData(`/report/get/user-urls?permission_name=${USER_PRODUCT_PERMISSION}`); 
         if (response.success) {
           setProducts(response.contents); 
@@ -18,6 +21,9 @@ const MyProduct = () => {
         }
       } catch (error) {
         console.error("Error fetching product data:", error);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -33,7 +39,11 @@ const MyProduct = () => {
               <div className="pageTitle">
                 <h1>My Product</h1>
               </div>
+              
               <div className="gridContainer">
+              {loading ? (
+                          <Loading />
+                        ) : (
                 <table>
                   <thead>
                     <tr>
@@ -64,6 +74,7 @@ const MyProduct = () => {
                     )}
                   </tbody>
                 </table>
+                 )}
               </div>
             </div>
 
