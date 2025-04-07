@@ -75,6 +75,7 @@ h4 {
 .headerContainer .siteLogo img {
   margin-right: 12px;
   border-right: 1px solid #276FA1;
+  padding-right: 10px;
 }
 .headerContainer .topNav {
   display: flex;

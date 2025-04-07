@@ -8,7 +8,7 @@ const AccessibilityErrorScore = ({ summary }) => {
     return (
         <div className="accessibilityErrorScoreContainer">
             <div className="score">{pages.pages || 0}</div>
-            <div className="message">pages with<br /> {pages.textParts?.slice(3)?.join(" ")?.trim()||' accessibility problems'}</div>
+            <div className="message">page(s) with<br /> {pages.textParts?.slice(3)?.join(" ")?.trim()||' accessibility problems'}</div>
         </div>
     )
 }

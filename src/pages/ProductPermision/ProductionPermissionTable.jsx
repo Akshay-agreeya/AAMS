@@ -192,37 +192,41 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     const handlePermissionChanged = (e, record, menu_key) => {
         const mKey = productPermissions?.find(item => item.product_permission_opr_name === menu_key)?.product_permission_opr_id;
         const { value, checked } = e.target;
-
+   
         // Create a copy of usersWithServices to avoid direct mutation
         const updatedUsersWithServices = [...usersWithServices];
-
+   
         // Find the existing user-service pair
-        const existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === Number(value));
-
+        let existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === Number(value));
+   
         if (checked) {
             if (existData) {
                 // Add the permission operation ID if it doesn't exist
                 if (!existData.product_permission_opr_ids.includes(mKey)) {
-                    existData.product_permission_opr_ids.push(mKey);
+                    existData.product_permission_opr_ids = [...existData.product_permission_opr_ids, mKey];
                 }
             } else {
-                // Add new user-service pair
+                // If user-service pair doesn't exist, create a new entry
                 updatedUsersWithServices.push({
                     user_id: record.user_id,
-                    service_id: value,
-                    product_permission_opr_ids: [mKey]
+                    service_id: Number(value),
+                    product_permission_opr_ids: [mKey] // Initialize with selected permission
                 });
             }
         } else {
             if (existData) {
                 // Remove the permission operation ID
                 existData.product_permission_opr_ids = existData.product_permission_opr_ids.filter(item => item !== mKey);
+               
+                // Ensure an empty array is present instead of removing the object
+                existData.product_permission_opr_ids = existData.product_permission_opr_ids.length ? existData.product_permission_opr_ids : [];
             }
         }
-
-        // Filter out users with empty product_permission_opr_ids
-        setUsersWithServices(updatedUsersWithServices);
+   
+        // Update state with modified array
+        setUsersWithServices([...updatedUsersWithServices]);
     };
+ 
 
 
     if (loading)
