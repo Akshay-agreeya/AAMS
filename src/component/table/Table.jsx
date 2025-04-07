@@ -1,5 +1,6 @@
 import React from 'react'
 import Pagenation from '../Pagenation';
+import Loading from '../../component/Loading';
 
 const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loading = false,
     pagenation = true }) => {
@@ -17,7 +18,7 @@ const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loa
                 </thead>}
                 <tbody>
                     {loading ?
-                        <tr><td>Loading data, please wait...</td></tr>
+                        <tr><td colSpan={columns.length} style={{height: '100px'}}><Loading style={{ position: 'unset' }}/></td></tr>
                         :
                         dataSource.map((record, index) => (
                             <tr key={record[rowKey] || index}>
