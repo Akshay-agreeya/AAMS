@@ -28,7 +28,7 @@ const AppHeader = ({ topNav = true }) => {
                             <div className="col-12">
                                 <div className="headerNavigation">
                                     <div className="siteLogo"><img src={siteLogo}
-                                        alt="Site Logo" /><span>Accessibility Monitoring System</span></div>
+                                        alt="Site Logo" /><span>AgreeYa Accessibility Monitoring System</span></div>
                                     {topNav && <div className="topNav">
                                         <div className="topUtilities">
                                             <ul>
