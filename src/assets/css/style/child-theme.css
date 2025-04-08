@@ -75,6 +75,7 @@ h4 {
 .headerContainer .siteLogo img {
   margin-right: 12px;
   border-right: 1px solid #276FA1;
+  padding-right: 10px;
 }
 .headerContainer .topNav {
   display: flex;
@@ -2490,6 +2491,71 @@ table.issues a {
   /*border-bottom:1px solid #CCC;
   padding-bottom:8px;
   margin-bottom: 6px;*/
+}
+
+.profilePicture .profile-img {
+  width: 185px;
+  height: 185px;
+  object-fit: cover;
+}
+.profilePicture .edit {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+.profilePicture .edit img {
+  width: 35px;
+  height: 35px;
+}
+.profilePicture input[type=file] {
+  display: none;
+}
+.profilePicture .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.profilePicture .preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.profilePicture .preview-overlay button {
+  margin: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.profilePicture .preview-overlay .confirm {
+  background: #4caf50;
+  color: white;
+}
+.profilePicture .preview-overlay .cancel {
+  background: #f44336;
+  color: white;
 }
 
 .adaMainContainer {
