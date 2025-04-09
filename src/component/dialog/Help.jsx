@@ -4,6 +4,7 @@ import Layout from "../Layout";
 const Help = () => {
   return (
     <Layout>
+      <div className="adaMainContainer">
     <section className="adminControlContainer">
       <div className="container">
         <div className="row">
@@ -49,6 +50,7 @@ const Help = () => {
         </div>
       </div>
     </section>
+    </div>
     </Layout>
   );
 };

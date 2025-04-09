@@ -7,10 +7,9 @@ import { getUserRoleKey } from '../utils/Helper';
 const ReportWrapper = (props) => {
     const roleKey = getUserRoleKey();
 
-    if (roleKey === USER_ROLE_KEY)
+    if (roleKey === USER_ROLE_KEY||roleKey === ADMIN_ROLE_KEY)
         return <UserReport {...props} />
-    if (roleKey === ADMIN_ROLE_KEY)
-        return <Reports {...props} />
+  
 
     return (
         <Reports {...props} />

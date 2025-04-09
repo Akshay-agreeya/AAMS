@@ -24,8 +24,8 @@ const UserReportListing = () => {
     }
 
     const breadcrumbs = [
-        { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
-        { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
+        { url: `/dashboard`, label: "Home" },
+        { url: `/reports`, label: "Website Listing" },
         { label: "Reports" }
     ];
 

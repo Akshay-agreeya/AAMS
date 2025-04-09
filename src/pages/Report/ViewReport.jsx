@@ -95,9 +95,9 @@ const AccessibilityReport = () => {
   };
   
   const breadcrumbs = [
-    { url: `/${superAdmin ? "admin" : "user"}/dashboard`, label: "Home" },
-    { url: `/${superAdmin ? "admin" : "user"}/reports`, label: "Website Listing" },
-    { url: `/${superAdmin ? "admin" : "user"}/reports/listing/${accessibilityInfo.org_id}?id=${accessibilityInfo.service_id}`, label: "Report" },
+    { url: `/dashboard`, label: "Home" },
+    { url: `/reports`, label: "Website Listing" },
+    { url: `/reports/listing/${accessibilityInfo.org_id}?id=${accessibilityInfo.service_id}`, label: "Report" },
     { label: "View Report" }
   ];
 
