@@ -8,11 +8,20 @@ import notification from "../../component/notification/Notification";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 
-const ViewReport = (assessment_id, icon, text) => {
-    return <a href={`/admin/reports/listing/viewReport/${assessment_id}`} rel="noopener noreferrer">
-        {icon ? <img src={icon} alt="View Online" /> : text }
-    </a>
-}
+
+    const ViewReport = (assessment_id, icon, text) => {
+        const userData = JSON.parse(sessionStorage.getItem("user"));
+    const roleKey = userData?.role_key;
+        console.log("role_key")
+        const basePath = roleKey === "Super_Admin" ? "/admin" : "/user"; 
+    
+        return (
+            <a href={`${basePath}/reports/listing/viewReport/${assessment_id}`} rel="noopener noreferrer">
+                {icon ? <img src={icon} alt="View Online" /> : text}
+            </a>
+        );
+    };
+
 
 export const ReportTable = ({ product_id }) => {
 
