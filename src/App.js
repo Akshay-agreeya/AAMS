@@ -65,7 +65,7 @@ export const routesMap = [
     { path: "/admin/product-management", element: <PrivateRoute element={ProductManagement} />, breadcrumb: "Product Management" },
     { path: "/admin/product-management/addproduct/:org_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Add Product" },
     { path: "/admin/product-management/editproduct/:product_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Edit Product" },
-    { path: "/admin/user-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
+    { path: "/admin/product-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
     { path: "/admin/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/admin/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
 ];
