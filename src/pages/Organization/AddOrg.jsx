@@ -75,7 +75,7 @@ const AddOrganization = () => {
       console.log(formData)
       org_id ? await patchData(`/org/edit/${org_id}`, tempData) : await postData("/org/add", tempData);
       handleApiSuccess(`${org_id ? "Edit" : "Add"} Organization`, ORG_SAVE_SUCCESS_MSG);
-      navigate("/admin/user-management");
+      navigate("/user-management");
     }
     catch (error) {
       console.log(error);
@@ -216,7 +216,7 @@ const AddOrganization = () => {
 
                     <div className="col-12">
                       <div className="buttonBox">
-                        <a href="/admin/user-management" className="btnCancel">Cancel</a>
+                        <a href="/user-management" className="btnCancel">Cancel</a>
                         <button type="submit" className="btnAddUser">
                             {org_id ? "Update" : "Submit"}
                           </button>

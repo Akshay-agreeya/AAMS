@@ -44,7 +44,7 @@ const Reports = () => {
   };
 
   const handleNavigate = (service_id, org_id) => {
-    navigate(`/admin/reports/listing/${org_id}?id=${service_id}`);
+    navigate(`/reports/listing/${org_id}?id=${service_id}`);
   };
 
   return (

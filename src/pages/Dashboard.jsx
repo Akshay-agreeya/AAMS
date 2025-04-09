@@ -38,7 +38,7 @@ const Dashboard = () => {
                                 <div className="pageTitle">
                                     <h1>Dashboard</h1>
                                     <div className="buttonContainer">
-                                        <a href="/admin/user-management/addorg" className="add"> <i className="fa-solid fa-plus"></i> Add Organization</a>
+                                        <a href="/user-management/addorg" className="add"> <i className="fa-solid fa-plus"></i> Add Organization</a>
                                     </div>
                                 </div>
 

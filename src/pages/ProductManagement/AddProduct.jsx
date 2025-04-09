@@ -112,7 +112,7 @@ const AddProduct = () => {
         message: PRODUCT_SAVE_SUCCESS_MSG,
       });
 
-      navigate("/admin/product-management");
+      navigate("/product-management");
 
     } catch (error) {
       console.error("Error adding product:", error);
@@ -274,7 +274,7 @@ const AddProduct = () => {
                     </div>
 
                     <div className="buttonBox ">
-                      <button type="button" className="btnCancel" onClick={() => navigate("/admin/product-management")}>
+                      <button type="button" className="btnCancel" onClick={() => navigate("/product-management")}>
                         Cancel
                       </button>
                       <button type="submit" className="btnAddUser">

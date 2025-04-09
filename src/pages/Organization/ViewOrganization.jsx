@@ -60,7 +60,7 @@ const ViewOrganization = () => {
                         {/* Role: <span>Admin</span> */}
                       </div>
                       <div className="editDetails">
-                        <a href={`/admin/user-management/editorganization/${org_id}`}>
+                        <a href={`/user-management/editorganization/${org_id}`}>
                           <img src={iconEditDeails} alt="Edit User Details" />
                         </a>
                       </div>
@@ -113,7 +113,7 @@ const ViewOrganization = () => {
 
                       <div className="col-12">
                         <div className="buttonBox">
-                          <a href="/admin/user-management" className="btnAddUser">Back</a>
+                          <a href="/user-management" className="btnAddUser">Back</a>
                         </div>
                       </div>
                     </div>

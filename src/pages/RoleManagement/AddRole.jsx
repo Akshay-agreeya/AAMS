@@ -124,7 +124,7 @@ const AddRole = () => {
         title: role_id ? "Edit Role" : 'Add Role',
         message: ROLE_SAVE_SUCCESS_MSG
       });
-      navigate("/admin/role-management");
+      navigate("/role-management");
     }
     catch (error) {
       console.log(error);
@@ -188,7 +188,7 @@ const AddRole = () => {
 
                     <div className="buttonBox mt-4">
 
-                      <a href="/admin/role-management" className="btnCancel">
+                      <a href="/role-management" className="btnCancel">
                         Cancel
                       </a>
                       <button type="submit" className="btnAddUser">

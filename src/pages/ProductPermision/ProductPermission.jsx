@@ -113,7 +113,7 @@ const ProductPermission = () => {
                                         </div>
 
                                         <div className="buttonBox mt-4">
-                                            <a href="/admin/product-permission" className="btnCancel">Cancel</a>
+                                            <a href="/product-permission" className="btnCancel">Cancel</a>
                                             <button type="submit" className="btnAddUser" onClick={handleSubmit}>Save</button>
                                         </div>
                                     </form>

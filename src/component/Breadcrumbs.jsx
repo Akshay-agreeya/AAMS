@@ -31,7 +31,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
 
     // Find the matching route from the routesMap
     const route = routesMap.find(r => {
-      // Handle dynamic routes like /admin/user-management/editorganization/:org_id
+      // Handle dynamic routes like 
       const pathRegExp = new RegExp(`^${r.path.replace(/(:\w+)/g, '([^/]+)')}$`);
       return pathRegExp.test(currentPath);
     });

@@ -10,17 +10,16 @@ const Navbar = () => {
   const [menuDetails, setMenuDetails] = useState([]);
   const permissions = getUserRole();
   const menu_permissions = getMenuDetails();
-  const superAdmin = isSuperAdmin();
 
 
   const urlMapping = {
     dashboard: gotoPath(getUserRoleKey()),
-    user_management: '/admin/user-management',
-    role_management: '/admin/role-management',
-    product_permission: '/admin/product-permission',
-    product_management: '/admin/product-management',
-    reports: superAdmin ? '/admin/reports' : '/user/reports',
-    my_product: '/user/myproduct'
+    user_management: '/user-management',
+    role_management: '/role-management',
+    product_permission: '/product-permission',
+    product_management: '/product-management',
+    reports: '/reports',
+    my_product: '/myproduct'
   }
 
   const getMenu = useCallback(async () => {

@@ -66,7 +66,7 @@ const ViewProduct = () => {
                     </div>
                     <div className="editDetails">
                       {operations?.find(item => item.operation_type_id === 2) && (
-                        <a href={`/admin/product-management/editproduct/${product_id}`}>
+                        <a href={`/product-management/editproduct/${product_id}`}>
                           <img src={iconEdit} alt="Edit Product Details" />
                         </a>
                       )}

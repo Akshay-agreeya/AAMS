@@ -133,7 +133,7 @@ const EditService = () => {
                     </div>
 
                     <div className="buttonBox mt-4">
-                      <a href="/admin/product-management" className="btnCancel">
+                      <a href="/product-management" className="btnCancel">
                         Cancel
                       </a>
                       <button type="submit" className="btnAddUser">

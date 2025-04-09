@@ -66,7 +66,7 @@ const UserManagement = () => {
                     }} className="delete me-1" >
                       <i className="fa-regular fa-trash-can"></i> Delete
                     </a>}
-                    {superAdmin && <a href="/admin/user-management/addorg" className="add">
+                    {superAdmin && <a href="/user-management/addorg" className="add">
                       <i className="fa-solid fa-plus"></i> Add New Organization
                     </a>}
                   </div>
@@ -85,13 +85,13 @@ const UserManagement = () => {
                           {superAdmin && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
                             value="Add" onChange={(e) => { org.selected = e.target.checked; setResponse({contents:[...organizations]}) }} />}
                         </div>} extra={<div className="addNewUserCont">
-                          {superAdmin && <a href={`/admin/user-management/editorganization/${org.org_id}`} className="edit me-1">
+                          {superAdmin && <a href={`/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
                           </a>}
-                          {superAdmin && <a href={`/admin/user-management/vieworganization/${org.org_id}`} className="view me-1">
+                          {superAdmin && <a href={`/user-management/vieworganization/${org.org_id}`} className="view me-1">
                             <img src={viewOrgicon} alt="View Organization" /> View Organization
                           </a>}
-                          {operations?.find(item => item.operation_type_id === 1) && <a href={`/admin/user-management/adduser/${org.org_id}`} className="add">
+                          {operations?.find(item => item.operation_type_id === 1) && <a href={`/user-management/adduser/${org.org_id}`} className="add">
                             <i className="fa-solid fa-plus"></i> Add New User
                           </a>
                           }

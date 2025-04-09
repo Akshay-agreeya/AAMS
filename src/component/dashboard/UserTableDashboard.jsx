@@ -50,7 +50,7 @@ const UserTableDashboard = ({ org_id }) => {
     return (
         <div className="dashGraphicContainerWhite">
             <div className="heading">{`All Users (${response.total_count})`}
-                {operations?.find(item => item.operation_type_id === 1) && <a href="/admin/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a>}
+                {operations?.find(item => item.operation_type_id === 1) && <a href="/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a>}
             </div>
             <div className="gridContainer">
                 <Table columns={columns} dataSource={response.contents} pagenation={false} loading={loading} />

@@ -58,7 +58,7 @@ const OrganizationDashboard = () => {
             scope: 'col',
             width: '20%',
             render: (text, record) => (
-                <a href={`/admin/user-management/vieworganization/${record.org_id}`}>{
+                <a href={`/user-management/vieworganization/${record.org_id}`}>{
                     getFullName(record.first_name, record.last_name)
                 }</a>
             )
@@ -86,7 +86,7 @@ const OrganizationDashboard = () => {
 
     return (
         <div className="dashGraphicContainerWhite">
-            <div className="heading">{`All Organization(${totalOrganizations})`}  <a href="/admin/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
+            <div className="heading">{`All Organization(${totalOrganizations})`}  <a href="/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
             <div className="gridContainer">
                 <Table columns={columns} dataSource={organizations} pagenation={false} loading={loading} />
             </div>

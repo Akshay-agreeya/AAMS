@@ -96,7 +96,7 @@ const RoleManagement = () => {
     className: "text-center",
     render: (_, record) => (
       <>
-        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a href={`/admin/role-management/editrole/${record.role_id}`}
+        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a href={`/role-management/editrole/${record.role_id}`}
           className="me-3">
           <img src={editicon} alt="Edit Role" />
         </a>}
@@ -128,7 +128,7 @@ const RoleManagement = () => {
                   <div className="pageTitle">
                     <h1>Role Management</h1>
                     <div className="buttonContainer">
-                      {operationExist(operations, 1) && <a href="/admin/role-management/addrole" className="add">
+                      {operationExist(operations, 1) && <a href="/role-management/addrole" className="add">
                         + New Role
                       </a>}
                     </div>

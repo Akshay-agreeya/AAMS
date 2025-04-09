@@ -53,7 +53,7 @@ const ViewUserDetails = () => {
                     Role: <span>{userDetails.role_name || "N/A"}</span>
                   </div>
                   <div className="editDetails">
-                  {operations?.find(item => item.operation_type_id === 2) && <a href={`/admin/user-management/edituser/${user_id}`}>
+                  {operations?.find(item => item.operation_type_id === 2) && <a href={`/user-management/edituser/${user_id}`}>
                       <img src={iconEdit} alt="Edit User Details" />
                     </a>}
                   </div>

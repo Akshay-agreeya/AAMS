@@ -71,7 +71,7 @@ const UserReport = () => {
 
                         
                         <div className="navigateICon">
-                          <a href={`/user/reports/listing?id=${site.service_id}`}>
+                          <a href={`/reports/listing?id=${site.service_id}`}>
                             <img src={iconMoveRight} alt="Click here to view Report" />
                           </a>
                         </div>

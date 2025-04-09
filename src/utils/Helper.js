@@ -254,14 +254,14 @@ export const getProgressColor = (score = 0) => {
 export const goto = (key, navigate) => {
 
     switch (key) {
-        case SUPER_ADMIN:
-            navigate("/admin/dashboard");
-            break;
-        case USER_ROLE_KEY:
-            navigate("/user/dashboard");
-            break;
+        // case SUPER_ADMIN:
+        //     navigate("/dashboard");
+        //     break;
+        // case USER_ROLE_KEY:
+        //     navigate("/dashboard");
+        //     break;
         default:
-            navigate("/user/admin/dashboard");
+            navigate("/dashboard");
     }
 
 }
@@ -269,12 +269,12 @@ export const goto = (key, navigate) => {
 export const gotoPath = (key) => {
 
     switch (key) {
-        case SUPER_ADMIN:
-            return "/admin/dashboard";
-        case USER_ROLE_KEY:
-            return "/user/dashboard";
+        // case SUPER_ADMIN:
+        //     return "/dashboard";
+        // case USER_ROLE_KEY:
+        //     return "/user/dashboard";
         default:
-            return "/user/admin/dashboard";
+            return "/dashboard";
     }
 
 }

@@ -66,7 +66,7 @@ const ProductManagement = () => {
                             </div>
                           </div>
                           {operationExist(operations, 1) && <div className="addNewService">
-                            <a href={`/admin/product-management/addproduct/${item.org_id}`} className="add">
+                            <a href={`/product-management/addproduct/${item.org_id}`} className="add">
                               <i className="fa-solid fa-plus"></i> Add Product
                             </a>
                           </div>}

@@ -76,7 +76,7 @@ const EditUser = () => {
                     </div>
 
                     <div className="buttonBox mt-4">
-                      <a href="/admin/user-management" className="btnCancel">
+                      <a href="/user-management" className="btnCancel">
                         Cancel
                       </a>
                       <button type="submit" className="btnAddUser">

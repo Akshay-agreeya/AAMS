@@ -56,8 +56,8 @@ const ReportView = () => {
         }
     }, [frameLoad]);
 
-    const breadcrumbs = [{ url: "/user/dashboard", label: "Home" },
-        { url: "/user/reports/listing", label: "Report" },{ label: fileName }
+    const breadcrumbs = [{ url: "/dashboard", label: "Home" },
+        { url: "/reports/listing", label: "Report" },{ label: fileName }
     ];
 
     return (

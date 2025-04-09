@@ -100,7 +100,7 @@ const AddUser = () => {
           message: USER_SAVE_SUCCESS_MSG,
         });
 
-        navigate("/admin/user-management");
+        navigate("/user-management");
       
     } catch (error) {
       console.error("Error handling user:", error);
@@ -220,7 +220,7 @@ const AddUser = () => {
 
                       <div className="col-12">
                         <div className="buttonBox">
-                          <button type="button" className="btnCancel" onClick={() => navigate("/admin/user-management")}>
+                          <button type="button" className="btnCancel" onClick={() => navigate("/user-management")}>
                             Cancel
                           </button>
                           <button type="submit" className="btnAddUser">

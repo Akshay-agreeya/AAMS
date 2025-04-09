@@ -77,15 +77,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
 
-                  {/* <div className="buttonContainer">
-                    <a
-                      href={`/admin/user-management/adduser/${org_id}`}
-                      className="add"
-                    >
-                      {" "}
-                      <i className="fa-solid fa-plus"></i> Add User
-                    </a>
-                  </div> */}
+                 
                 </div>
               </div>
             </div>

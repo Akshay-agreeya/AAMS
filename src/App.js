@@ -3,7 +3,6 @@ import { AuthProvider } from './common/auth/AuthContext';
 import Login from './common/auth/Login';
 import ResetPassword from './common/auth/ResetPassword';
 import PrivateRoute from './route/PrivateRoute';
-import Dashboard from './pages/Dashboard';
 import UserManagement from './pages/UserManagement/UserManagement';
 import NotFound from './component/NotFound';
 import ErrorBoundary from './component/ErrorBoundary';
@@ -21,14 +20,13 @@ import AddProduct from './pages/ProductManagement/AddProduct';
 import ViewProduct from './pages/ProductManagement/ViewProduct';
 import AddOrganization from '../src/pages/Organization/AddOrg';
 import ViewOrganization from './pages/Organization/ViewOrganization';
-import UserDashboard from './pages/user/dashboard/UserDashboard';
-import UserReport from './pages/user/report/UserReport';
 import UserReportListing from './pages/user/report/UserReportListing';
 import ViewReport from './pages/Report/ViewReport';
 import Help from './component/dialog/Help';
-import AdminDashboard from './pages/admin/AdminDashboard';
 import MyProduct from './pages/user/dashboard/MyProduct'
 import ProfileSetting from './pages/ProfileSetting';
+import DashboardWrapper from './pages/DashboardWrapper';
+import ReportWrapper from './pages/ReportWrapper';
 
 
 
@@ -40,34 +38,34 @@ export const routesMap = [
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
-    { path: "/admin/reports/listing/:org_id", element: <UserReportListing /> },
-    { path: "/admin/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
+    { path: "/reports/listing/:org_id", element: <UserReportListing /> },
+    { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
    
-    { path: "/user/reports/listing/:org_id", element: <UserReportListing /> },
-    { path: "/user/reports", element: <PrivateRoute element={UserReport} /> ,breadcrumb: "Report"},
-    { path: "/user/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
-    { path: "/user/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
-    { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
-    { path: "/user/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
-    { path: "/admin/dashboard", element: <PrivateRoute element={Dashboard} />, breadcrumb: "Dashboard" },
-    { path: "/user/admin/dashboard", element: <PrivateRoute element={AdminDashboard} />, breadcrumb: "Dashboard" },
-    { path: "/admin/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
-    { path: "/admin/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
-    { path: "/admin/user-management/editorganization/:org_id", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Edit Organization" },
-    { path: "/admin/user-management/vieworganization/:org_id", element: <PrivateRoute element={ViewOrganization} />, breadcrumb: "View Organization" },
-    { path: "/admin/user-management/adduser/:org_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Add User" },
-    { path: "/admin/user-management/edituser/:user_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Edit User" },
-    { path: "/admin/user-management/viewuser/:user_id", element: <PrivateRoute element={ViewUser} />, breadcrumb: "View User" },
-    { path: "/admin/role-management", element: <PrivateRoute element={RoleManagement} />, breadcrumb: "Role Management" },
-    { path: "/admin/role-management/addrole", element: <PrivateRoute element={AddRole} />, breadcrumb: "Add Role " },
-    { path: "/admin/role-management/editrole/:role_id", element: <PrivateRoute element={AddRole} />, breadcrumb: "Edit Role " },
-    { path: "/admin/product-permission", element: <PrivateRoute element={ProductPermission} />, breadcrumb: "ProductPermission" },
-    { path: "/admin/product-management", element: <PrivateRoute element={ProductManagement} />, breadcrumb: "Product Management" },
-    { path: "/admin/product-management/addproduct/:org_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Add Product" },
-    { path: "/admin/product-management/editproduct/:product_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Edit Product" },
-    { path: "/admin/product-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
-    { path: "/admin/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
-    { path: "/admin/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
+    { path: "/reports/listing/:org_id", element: <UserReportListing /> },
+    { path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
+    { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
+    { path: "/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
+    // { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
+    { path: "/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
+    { path: "/dashboard", element: <PrivateRoute element={DashboardWrapper} />, breadcrumb: "Dashboard" },
+    // { path: "/user/admin/dashboard", element: <PrivateRoute element={AdminDashboard} />, breadcrumb: "Dashboard" },
+    { path: "/user-management", element: <PrivateRoute element={UserManagement} />, breadcrumb: "User Management" },
+    { path: "/user-management/addorg", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Add Organization" },
+    { path: "/user-management/editorganization/:org_id", element: <PrivateRoute element={AddOrganization} />, breadcrumb: "Edit Organization" },
+    { path: "/user-management/vieworganization/:org_id", element: <PrivateRoute element={ViewOrganization} />, breadcrumb: "View Organization" },
+    { path: "/user-management/adduser/:org_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Add User" },
+    { path: "/user-management/edituser/:user_id", element: <PrivateRoute element={AddUser} />, breadcrumb: "Edit User" },
+    { path: "/user-management/viewuser/:user_id", element: <PrivateRoute element={ViewUser} />, breadcrumb: "View User" },
+    { path: "/role-management", element: <PrivateRoute element={RoleManagement} />, breadcrumb: "Role Management" },
+    { path: "/role-management/addrole", element: <PrivateRoute element={AddRole} />, breadcrumb: "Add Role " },
+    { path: "/role-management/editrole/:role_id", element: <PrivateRoute element={AddRole} />, breadcrumb: "Edit Role " },
+    { path: "/product-permission", element: <PrivateRoute element={ProductPermission} />, breadcrumb: "ProductPermission" },
+    { path: "/product-management", element: <PrivateRoute element={ProductManagement} />, breadcrumb: "Product Management" },
+    { path: "/product-management/addproduct/:org_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Add Product" },
+    { path: "/product-management/editproduct/:product_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Edit Product" },
+    { path: "/product-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
+    { path: "/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
+    { path: "/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
 ];
 
 function App() {
