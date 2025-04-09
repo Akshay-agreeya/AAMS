@@ -13,7 +13,7 @@ const ScanDashboard = ({ product_id }) => {
         <div className="dashGraphicContainerWhite">
             <div className="heading">Last Scan Date & Time</div>
             {response.contents?.map(item => <div className="activityContainer flex-column">
-                <div className="scannedTitle"><a href={`/user/reports/view/${item.assessment_id}`}>{item.report_name}</a></div>
+                <div className="scannedTitle"><a href={`/user/reports/listing/viewreport/${item.assessment_id}`}>{item.report_name}</a></div>
                 <div className="scannedIssueTime">{`Issues Found - ${getPercentValue(item.issues)}% | ${formattedDate(new Date(item.scan_date),DATE_FORMAT)}`}</div>
             </div>
             )}

@@ -114,7 +114,7 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/user-management/viewproduct/${record.service_id}`} className="me-3">
+                {operations?.find(item => item.operation_type_id === 3) && <a href={`/admin/product-management/viewproduct/${record.service_id}`} className="me-3">
                         <img src={viewicon} alt="View Details" />
                     </a>}
 

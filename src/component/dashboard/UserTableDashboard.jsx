@@ -21,6 +21,9 @@ const UserTableDashboard = ({ org_id }) => {
             title: "Email Address",
             dataIndex: "email",
             width: "20%",
+            render: (email) => (
+                <a href={`mailto:${email}`} className="text-primary underline">{email}</a>
+            )
         },
         {
             title: "Phone",
