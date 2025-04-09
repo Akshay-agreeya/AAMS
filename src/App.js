@@ -28,7 +28,7 @@ import ViewReport from './pages/Report/ViewReport';
 import Help from './component/dialog/Help';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import MyProduct from './pages/user/dashboard/MyProduct'
-import UpdateProfile from './pages/UpdateProfile';
+import ProfileSetting from './pages/ProfileSetting';
 
 
 
@@ -39,8 +39,7 @@ export const routesMap = [
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
-    { path: "/updateprofile", element: <UpdateProfile /> },
-   
+    { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
     { path: "/admin/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/admin/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
    

@@ -55,6 +55,7 @@ const AppHeader = ({ topNav = true }) => {
                                                     </a>
 
                                                     <ul className="dropdown-menu">
+                                                        <li><a className="dropdown-item" href={`/profile-setting`}>Profile Setting</a></li>
                                                         <li><a className="dropdown-item" href={`#`} onClick={() => {
                                                             setIsModalVisible(true);
                                                         }}>Change Password</a></li>
