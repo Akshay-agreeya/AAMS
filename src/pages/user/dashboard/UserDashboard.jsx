@@ -17,10 +17,15 @@ import { getData } from '../../../utils/CommonApi';
 import { getDashboardItem, getPercentValue } from '../../../utils/Helper';
 import { AccessibilityDashboard } from './AccessibilityDashboard';
 import AccessibilityErrorScore from './AccessibilityErrorScore';
+import RecentReportDialog from '../../../component/dialog/RecentReportDialog';
 
 const UserDashboard = () => {
 
     const [reportData, setReportData] = useState({});
+
+    useEffect(() => {
+
+    }, []);
 
     const getSummaryData = useCallback(async () => {
         if (reportData.assessment?.assessment_id) {
@@ -110,10 +115,10 @@ const UserDashboard = () => {
                                     </div>
                                     <div className="row">
                                         <div className="col-12 col-lg-4">
-                                            
 
-                                                <AccessibilityDashboard summary={{...getDashboardItem(reportData.summary, "Accessibility"),accessibility_score:reportData.product?.accessibility_score}} />
-                                           
+
+                                            <AccessibilityDashboard summary={{ ...getDashboardItem(reportData.summary, "Accessibility"), accessibility_score: reportData.product?.accessibility_score }} />
+
                                         </div>
                                         <div className="col-12 col-lg-8">
                                             <AccessibilityErrorScore summary={getDashboardItem(reportData.summary, "Accessibility")} />
@@ -159,6 +164,7 @@ const UserDashboard = () => {
 
                 </div>
             </div>
+            <RecentReportDialog />
         </Layout>
     )
 }
