@@ -11,7 +11,7 @@ const RecentReportDialog = () => {
     const fetchData = async () => {
 
         try {
-            const resp = await getData(`/dashboard/latest-notification/${userId}`);
+            const resp = await getData(`/dashboard/notifications/${userId}?latest_flag=1`);
             setUnseenReport(resp);
         } catch (error) {
             console.log(error);
