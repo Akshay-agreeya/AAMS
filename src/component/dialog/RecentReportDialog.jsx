@@ -20,7 +20,7 @@ const RecentReportDialog = () => {
 
     const updateNotification = async()=>{
         try{
-            await patchData(`/update-notification-status`,{notification_id:unseenReport.contents?.notification_id});
+            await patchData(`/dashboard/update-notification-status`,{notification_id:unseenReport.contents?.notification_id});
         }
         catch(error){
             console.log(error);
