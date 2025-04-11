@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import siteLogo from "../assets/images/siteLogo.svg";
 import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
 import dummyUserPic from "../assets/images/dummyUserPic.jpg";
-import { getUserFromSession } from '../utils/Helper';
+import { getImageUrlFromBlob, getUserFromSession } from '../utils/Helper';
 import { useAuth } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ChangePasswordModal from './auth/ChangePassword';
@@ -20,24 +20,17 @@ const AppHeader = ({ topNav = true }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchUserImage = async () => {
-            try {
-                const response = await apiRequest(
-                    `/user/display-image/${user_id}`,
-                    "GET",
-                    null,
-                    { responseType: "blob" }
-                );
-                const objectUrl = URL.createObjectURL(response);
-                setImageSrc(objectUrl);
-            } catch (error) {
-                console.error("Failed to load profile image", error);
-            }
-        };
+    const fetchImage = useCallback( async () => {
+        if (!user_id) return;
+    
+        const imageUrl = await getImageUrlFromBlob(`/user/display-image/${user_id}`);
+        if (imageUrl) setImageSrc(imageUrl);
+    },[getUserFromSession]);
 
-        if (user_id) fetchUserImage();
-    }, [user_id]);
+    useEffect(() => {
+        
+        if (user_id) fetchImage();
+    }, [fetchImage]);
 
     return (
         <div>

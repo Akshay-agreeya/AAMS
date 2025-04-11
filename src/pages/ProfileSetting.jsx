@@ -4,6 +4,8 @@ import iconEditDeails from '../assets/images/iconEditDeails.svg';
 import Form from "../component/form/Form";
 import { useNavigate } from 'react-router-dom';
 import { apiRequest } from '../utils/CommonApi';
+import { getImageUrlFromBlob } from '../utils/Helper';
+import dummyuser from "../assets/images/dummyUserPic.jpg"
 
 
 const ProfileSetting = () => {
@@ -18,24 +20,21 @@ const ProfileSetting = () => {
 
     useEffect(() => {
         const fetchImage = async () => {
-            if (user_id) {
-                try {
-                    const response = await apiRequest(
-                        `/user/display-image/${user_id}`,
-                        "GET",
-                        null,
-                        {
-                            responseType: "blob",
-                        }
-                    );
-    
-                    const imageUrl = URL.createObjectURL(response); // response is the Blob
-                    setImageSrc(imageUrl);
-                } catch (error) {
-                    console.error("Error loading image:", error);
-                }
+            if (!user_id) {
+                setImageSrc(dummyuser);
+                return;
+            }
+        
+            const imageUrl = await getImageUrlFromBlob(`/user/display-image/${user_id}`);
+            if (imageUrl) {
+                setImageSrc(imageUrl);
+            }
+            else {
+                setImageSrc(dummyuser);
             }
         };
+        
+        
     
         fetchImage();
     }, [user_id]);
@@ -85,14 +84,6 @@ const ProfileSetting = () => {
             const response = apiRequest('/user/update/image',"POST",formData,{headers: {
                 'Content-Type': 'multipart/form-data', 
               }})
-            
-
-            // if (response.ok) {
-            //     setImageSrc(`http://localhost:8080/api/user/display-image/${user_id}?t=${Date.now()}`); // Add cache buster
-            //     setSelectedFile(null);
-            // } else {
-            //     alert('Failed to upload image');
-            // }
         } catch (error) {
             console.error('Upload Error:', error);
         }

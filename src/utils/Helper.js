@@ -1,5 +1,6 @@
 import { formattedDate } from "../component/input/DatePicker";
 import notification from "../component/notification/Notification";
+import { apiRequest } from "./CommonApi";
 import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE, USER_ROLE_KEY } from "./Constants";
 
 export const getUserRoleKey = () => {
@@ -278,3 +279,16 @@ export const gotoPath = (key) => {
     }
 
 }
+
+export const getImageUrlFromBlob = async (url) => {
+    try {
+        const response = await apiRequest(url, "GET", null, {
+            responseType: "blob",
+        });
+
+        return URL.createObjectURL(response);
+    } catch (error) {
+        console.error("Failed to fetch image blob from", url, error);
+        return null;
+    }
+};

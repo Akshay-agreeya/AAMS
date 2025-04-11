@@ -94,10 +94,8 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
             default:
                 throw new Error(`Unsupported method: ${method}`);
         }
-
-        if (config.responseType === 'blob') {
             return response.data;
-        }
+        
         
     } catch (error) {
         console.error('Error during API request', error);
