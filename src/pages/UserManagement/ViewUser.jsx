@@ -92,7 +92,7 @@ const ViewUserDetails = () => {
                           { label: "First Name", name: "first_name", type: "text", placeholder: "First Name" },
                           { label: "Last Name", name: "last_name", type: "text", placeholder: "Last Name" },
                           { label: "Email address", name: "email", type: "email", placeholder: "name@example.com" },
-                          { label: "Contact Number", name: "contact", type: "text", placeholder: "Contact Number" },
+                          { label: "Contact Number", name: "phone_number", type: "text", placeholder: "Contact Number" },
                         ].map((field, index) => (
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
