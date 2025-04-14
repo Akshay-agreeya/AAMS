@@ -15,7 +15,7 @@ import useFetch from "../../hooks/useFetch";
 
 
 const UserManagement = () => {
- // const [organizations, setOrganizations] = useState([]);
+  // const [organizations, setOrganizations] = useState([]);
   // const [loading, setLoading] = useState(false); // Loading state added
   const [openOrgDeleteModal, setOpenOrgDeleteModal] = useState(false); // Loading state added
 
@@ -23,8 +23,8 @@ const UserManagement = () => {
 
   const superAdmin = isSuperAdmin();
 
-  const {response, loading, setResponse} = useFetch("/org/list");
-  const organizations = response.contents||[];
+  const { response, loading, setResponse } = useFetch("/org/list");
+  const organizations = response.contents || [];
 
   const handleDeleteOrganization = async () => {
     const selectedOrg = organizations.filter(item => item.selected);
@@ -63,8 +63,8 @@ const UserManagement = () => {
                       e.preventDefault();
                       if (organizations.filter(item => item.selected)?.length > 0)
                         setOpenOrgDeleteModal(true);
-                    }} className="delete me-1" >
-                      <i className="fa-regular fa-trash-can"></i> Delete
+                    }} className={`${organizations.filter(item => item.selected)?.length > 0?"delete-active":"delete"} me-1`}>
+                      <i className={`fa-regular fa-trash-can`}></i> Delete
                     </a>}
                     {superAdmin && <a href="/user-management/addorg" className="add">
                       <i className="fa-solid fa-plus"></i> Add New Organization
@@ -83,7 +83,7 @@ const UserManagement = () => {
                       {organizations.map((org, index) => (
                         <Accordian title={org.org_name} key={index} prefix={<div className="form-check me-2 custCheck">
                           {superAdmin && <input className="form-check-input" type="checkbox" id={`addcheck-${org.org_id}`}
-                            value="Add" onChange={(e) => { org.selected = e.target.checked; setResponse({contents:[...organizations]}) }} />}
+                            value="Add" onChange={(e) => { org.selected = e.target.checked; setResponse({ contents: [...organizations] }) }} />}
                         </div>} extra={<div className="addNewUserCont">
                           {superAdmin && <a href={`/user-management/editorganization/${org.org_id}`} className="edit me-1">
                             <img src={editOrgicon} alt="Edit Organization" /> Edit Organization
