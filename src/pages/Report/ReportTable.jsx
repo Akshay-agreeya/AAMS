@@ -7,6 +7,7 @@ import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
+import DownloadDocx from "../../component/download/DownloadDocx";
 
 const ViewReport = (assessment_id, icon, text) => {
     return <a href={`/reports/listing/viewreport/${assessment_id}`} rel="noopener noreferrer">
@@ -116,9 +117,7 @@ export const ReportTable = ({ product_id }) => {
             className: "text-center",
             render: (_, record) => (
                 <>
-                    <a href={record.word_download || "#"} className="me-3" onClick={(e) => e.preventDefault()}>
-                        <img src={iconMsWord} alt="Download Document in Microsoft Word" />
-                    </a>
+                    <DownloadDocx record={record} product_id={product_id}/>
                     <a href={record.pdf_download || "#"} onClick={(e) => e.preventDefault()}>
                         <img src={iconPDF} alt="Download Document in PDF Format" />
                     </a>

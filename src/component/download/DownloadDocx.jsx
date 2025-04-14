@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import htmlDocx from 'html-docx-js/dist/html-docx';
+import React, { useEffect, useState } from "react";
+import PizZip from "pizzip";
+import Docxtemplater from "docxtemplater";
+import ImageModule from "docxtemplater-image-module-free";
+import { saveAs } from "file-saver";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
+import { getData } from "../../utils/CommonApi";
+import { formattedDate, getFormattedDateWithTime } from "../input/DatePicker";
 
-const DownloadStyledDocx = () => {
-
-    const [base64Image, setBase64Image] = useState('');
+const DownloadDocx = ({ record = {}, product_id }) => {
+  
+  const [base64Image, setBase64Image] = useState("");
+  const [product, setProduct] = useState({});
 
   useEffect(() => {
     const convertImageToBase64 = async (imageUrl) => {
@@ -12,78 +18,85 @@ const DownloadStyledDocx = () => {
         const response = await fetch(imageUrl);
         const blob = await response.blob();
         const reader = new FileReader();
-
         reader.onloadend = () => {
           setBase64Image(reader.result);
         };
-
         reader.readAsDataURL(blob);
       } catch (error) {
-        console.error('Error converting image to Base64:', error);
+        console.error("Error converting image to Base64:", error);
       }
     };
 
-    // Provide the relative or absolute URL of the image you want to convert
-    convertImageToBase64('/logo192.png');
-  }, [])
+    convertImageToBase64("/logo192.png"); // or your custom image
+  }, []);
 
-    const generateDocx = () => {
-        // HTML content with inline CSS styles
-        const content = `
-      <html>
-        <head>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              margin: 20px;
-              background-color: #f9f9f9;
-            }
-            h1 {
-              color: #4CAF50;
-              text-align: center;
-            }
-            p {
-              font-size: 16px;
-              color: #333;
-              line-height: 1.5;
-            }
-            .important {
-              font-weight: bold;
-              color: #D32F2F;
-            }
-            .footer {
-              font-size: 14px;
-              color: #777;
-              text-align: center;
-              margin-top: 30px;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>My Styled Document</h1>
-          <p>This is a sample document with inline styles.</p>
-          <p class="important">This paragraph is important and has a different color.</p>
-          <p class="footer">Footer text that is styled at the bottom.</p>
-          <img src="${base64Image}">
-        </body>
-      </html>
-    `;
 
-        // Convert HTML to DOCX
-        const converted = htmlDocx.asBlob(content);
+  useEffect(() => {
+    if (product_id)
+      getProductInfo();
 
-        // Create a link to download the DOCX file
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(converted);
-        link.download = 'styled-document.docx';
-        link.click();
-    };
+  }, [product_id]);
 
-    return (
-        <a href="#" className="me-3" onClick={(e) => {e.preventDefault(); generateDocx()}}>
-            <img src={iconMsWord} alt="Download Document in Microsoft Word" />
-        </a>
-    );
+
+  const getProductInfo = async () => {
+    try {
+      const resp = await getData(`/product/view/${product_id}`);
+      const productData = resp || {};
+      setProduct(productData);
+
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+
+  const generateDocx = async () => {
+    try {
+      const templateRes = await fetch("/templatedocx.docx"); // place it in `public/` folder
+      const templateBlob = await templateRes.blob();
+      const arrayBuffer = await templateBlob.arrayBuffer();
+      const zip = new PizZip(arrayBuffer);
+
+      const imageModule = new ImageModule({
+        centered: false,
+        getImage: (tagValue) => {
+          const base64 = tagValue.split(",")[1];
+          return Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+        },
+        getSize: () => [200, 100], // Width, Height
+      });
+
+      const doc = new Docxtemplater(zip, {
+        modules: [imageModule],
+        paragraphLoop: true,
+        linebreaks: true,
+      });
+
+      doc.setData({
+        org_name: product.organization_name,
+        project_manager: product.contact_person_name,
+        product_name: product.web_url,
+        access_tester: "NA",
+        testing_device: 'System',
+        test_environment: "Win11/Chrome/Edge/Mozilla",
+        wcag_standard: product.compliance_level,
+        start_date: record.scan_date?getFormattedDateWithTime(new Date(record.scan_date),"MMM dd, yyyy"):"NA",
+        end_date: record.scan_date?getFormattedDateWithTime(new Date(record.scan_date),"MMM dd, yyyy"):"NA"
+      });
+
+      doc.render();
+      const out = doc.getZip().generate({ type: "blob" });
+      saveAs(out, "generated-document.docx");
+    } catch (err) {
+      console.error("Docx generation failed:", err);
+    }
+  };
+
+  return (
+    <a href="#" className="me-3" onClick={(e) => { e.preventDefault(); generateDocx(); }}>
+      <img src={iconMsWord} alt="Download Document in Microsoft Word" />
+    </a>
+  );
 };
 
-export default DownloadStyledDocx;
+export default DownloadDocx;

@@ -4,13 +4,10 @@ import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
 import { isSuperAdmin } from "../../../utils/Helper";
 import Pagenation from "../../../component/Pagenation";
 import { UrlSelect } from "../../../component/select/UrlSelect";
-import { getData } from "../../../utils/CommonApi";
 import ReportTable from "../../Report/ReportTable";
 import { useLocation, useParams } from "react-router";
 
 const UserReportListing = () => {
-
-    const superAdmin = isSuperAdmin();
 
     const { org_id } = useParams();
     const location = useLocation();
