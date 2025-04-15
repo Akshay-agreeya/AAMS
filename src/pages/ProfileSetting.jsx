@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../component/Layout";
 import iconEditDeails from "../assets/images/iconEditDeails.svg";
-import dummyuser from "../assets/images/dummyUserPic.jpg";
+import dummyuser from "../assets/images/noUserImage.svg";
 import Form from "../component/form/Form";
 import { useNavigate, useParams } from "react-router-dom";
 import { getData, patchData, apiRequest } from "../utils/CommonApi";

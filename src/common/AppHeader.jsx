@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import siteLogo from "../assets/images/siteLogo.svg";
 import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
-import dummyUserPic from "../assets/images/dummyUserPic.jpg";
+import dummyUserPic from "../assets/images/noUserImage.svg";
 import { getImageUrlFromBlob, getUserFromSession } from '../utils/Helper';
 import { useAuth } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
