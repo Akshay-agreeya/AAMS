@@ -79,6 +79,7 @@ const AddOrganization = () => {
     }
     catch (error) {
       console.log(error);
+      formRef.current.setFieldsError(error.data?.errors || {});
       handleApiError(`${org_id ? "Edit" : "Add"} Organization`, (error?.data?.errors?.[0] || OPERATION_FAILED_MSG));
     }
   }
