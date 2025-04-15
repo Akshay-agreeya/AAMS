@@ -11,6 +11,7 @@ import { getFormattedAddress } from "../../utils/Helper";
 import { UserStatusSelect } from "../../component/select/UserStatusSelect";
 import Loading from "../../component/Loading";
 import { OPERATION_FAILED_MSG, USER_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
+import { emailPattern } from "../../constants";
 
 const AddUser = () => {
 
@@ -183,7 +184,7 @@ const AddUser = () => {
                                   ? [
                                       {
                                         pattern:
-                                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/,
+                                        emailPattern,
                                         message: field.patternMsg,
                                       },
                                     ]

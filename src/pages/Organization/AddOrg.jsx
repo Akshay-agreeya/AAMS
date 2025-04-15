@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import { convertUtcToLocal, handleApiError, handleApiSuccess } from '../../utils/Helper';
 import { OPERATION_FAILED_MSG, ORG_SAVE_SUCCESS_MSG } from "../../constants/MessageConstants";
 import { CitySelect } from '../../component/select/CitySelect';
+import { emailPattern } from '../../constants';
 
 const AddOrganization = () => {
 
@@ -209,7 +210,7 @@ const AddOrganization = () => {
                                   ? [
                                       {
                                         pattern:
-                                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/,
+                                        emailPattern,
                                         message: field.patternMsg,
                                       },
                                     ]
