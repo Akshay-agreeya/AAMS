@@ -7,7 +7,6 @@ import { getImageUrlFromBlob, getUserFromSession } from '../utils/Helper';
 import { useAuth } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ChangePasswordModal from './auth/ChangePassword';
-import { apiRequest } from '../utils/CommonApi'; // make sure this path is correct
 
 const AppHeader = ({ topNav = true }) => {
     

@@ -1,5 +1,6 @@
 // src/utils/api.js
 
+import notification from '../component/notification/Notification';
 import axiosInstance from './AxiosInstance';
 
 
@@ -107,6 +108,10 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
 const handleError = (error) => {
     if (error.response) {
         // Return the response data from the error
+        if(error.response.status === 403){
+            sessionStorage.clear();
+            window.location = "/login?session_expired=1";
+        }
         return {
             message: 'Server error',
             statusCode: error.response.status,

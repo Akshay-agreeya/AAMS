@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Years_Logo_Horizontal1 from "../../assets/images/Final_25-Years_Logo_Horizontal1.png";
 import { FormItem } from '../../component/form/FormItem';
 import Form from '../../component/form/Form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { getData, postData } from '../../utils/CommonApi'; // Import API utility
 import { InputPassword } from '../../component/input/InputPassword';
@@ -11,9 +11,14 @@ import { MENU_PERMISSION, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
 import { goto } from '../../utils/Helper';
 
 const LoginForm = () => {
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const session_error = queryParams.get('session_expired') === "1" ? "Session token is  expired" : null;
+
     const [rememberMe, setRememberMe] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(session_error);
 
     const navigate = useNavigate();
 
@@ -45,14 +50,14 @@ const LoginForm = () => {
             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
             const resp = await getData("/lookup/permissions");
             localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
-            goto(response.role_key,navigate);
+            goto(response.role_key, navigate);
         }
         catch (error) {
             console.log(error);
             setError(error.data?.message || 'Login failed.');
             setLoading(false);
         }
-    }    
+    }
 
     return (
         <div className="formLogin">

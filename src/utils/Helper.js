@@ -1,7 +1,7 @@
 import { formattedDate } from "../component/input/DatePicker";
 import notification from "../component/notification/Notification";
 import { apiRequest } from "./CommonApi";
-import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE, USER_ROLE_KEY } from "./Constants";
+import { MENU_PERMISSION, SUPER_ADMIN, USER, USER_MENU, USER_ROLE } from "./Constants";
 
 export const getUserRoleKey = () => {
     const storedUser = sessionStorage.getItem(USER);
