@@ -178,8 +178,16 @@ const AddUser = () => {
                             <div className="col-12 col-lg-4" key={index}>
                               <div className="mb-3">
                                 <FormItem name={field.name} label={field.label} rules={[
-                                  { required: true,type:"email", message: `${field.label} is required` },
-                                  
+                                  { required: true, message: `${field.label} is required` },
+                                  ...(field.patternType === "email"
+                                  ? [
+                                      {
+                                        pattern:
+                                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/,
+                                        message: field.patternMsg,
+                                      },
+                                    ]
+                                  : []),
                                 ]} requiredMark={true}>
                                   <Input type={field.type} placeholder={field.placeholder} />
                                 </FormItem>

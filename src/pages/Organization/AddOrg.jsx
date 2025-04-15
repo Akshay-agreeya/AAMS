@@ -79,7 +79,6 @@ const AddOrganization = () => {
     }
     catch (error) {
       console.log(error);
-      formRef.current.setFieldsError(error.data?.errors || {});
       handleApiError(`${org_id ? "Edit" : "Add"} Organization`, (error?.data?.errors?.[0] || OPERATION_FAILED_MSG));
     }
   }
@@ -204,8 +203,16 @@ const AddOrganization = () => {
                           <div className="col-12 col-lg-4" key={index}>
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
-                                rules={[{ required: true,type:"email", message: field.messagerequired },
-                                
+                                rules={[{ required: true, message: field.messagerequired },
+                                  ...(field.patternType === "email"
+                                  ? [
+                                      {
+                                        pattern:
+                                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/,
+                                        message: field.patternMsg,
+                                      },
+                                    ]
+                                  : []),
                   
                                 ]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
