@@ -204,7 +204,16 @@ const AddOrganization = () => {
                             <div className="mb-3">
                               <FormItem name={field.name} label={field.label}
                                 rules={[{ required: true, message: field.messagerequired },
-                                { type: field.patternType, message: field.patternMsg }
+                                  ...(field.patternType === "email"
+                                  ? [
+                                      {
+                                        pattern:
+                                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                        message: field.patternMsg,
+                                      },
+                                    ]
+                                  : []),
+                  
                                 ]} requiredMark={true}>
                                 <Input type={field.type} placeholder={field.placeholder} />
                               </FormItem>

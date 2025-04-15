@@ -114,15 +114,15 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {operations?.find(item => item.operation_type_id === 3) && <a href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
+                {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
                         <img src={viewicon} alt="View Details" />
                     </a>}
 
-                {operations?.find(item => item.operation_type_id === 2) && <a href={`/product-management/editproduct/${record.service_id}`} className="me-3">
+                {operations?.find(item => item.operation_type_id === 2) && <a title="Edit Details" href={`/product-management/editproduct/${record.service_id}`} className="me-3">
                     <img src={editicon} alt="Edit Details" />
                 </a>
                 }
-                {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={() => {
+                {operations?.find(item => item.operation_type_id === 4) && <a title="Delete Details" href="#" onClick={() => {
                     setSelectedProductId(record.service_id);
                     setOpenProductDeleteModal(true);
                 }}>

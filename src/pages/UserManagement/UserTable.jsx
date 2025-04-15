@@ -140,14 +140,14 @@ export const UserTable = ({ org_id }) => {
             className: "text-center",
             render: (_text, record) => (
                 <>
-                    {operations?.find(item => item.operation_type_id === 3) && <a href={`/user-management/viewuser/${record.user_id}`} className="me-3">
+                    {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/user-management/viewuser/${record.user_id}`} className="me-3">
                         <img src={viewicon} alt="View Details" />
                     </a>}
-                    {operations?.find(item => item.operation_type_id === 2) && <a href={`/user-management/edituser/${record.user_id}`} className="me-3">
+                    {operations?.find(item => item.operation_type_id === 2) && <a title="Edit Details" href={`/user-management/edituser/${record.user_id}`} className="me-3">
                         <img src={editicon} alt="Edit Details" />
                     </a>
                     }
-                    {operations?.find(item => item.operation_type_id === 4) && <a href="#" onClick={() => {
+                    {operations?.find(item => item.operation_type_id === 4) && <a title="Delete Details"  href="#" onClick={() => {
                         setSelectedUserId(record.user_id);
                         setOpenUserDeleteModal(true);
                     }}>

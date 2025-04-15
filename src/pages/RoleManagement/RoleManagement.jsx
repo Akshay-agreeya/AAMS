@@ -96,11 +96,11 @@ const RoleManagement = () => {
     className: "text-center",
     render: (_, record) => (
       <>
-        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a href={`/role-management/editrole/${record.role_id}`}
+        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a title="Edit Role" href={`/role-management/editrole/${record.role_id}`}
           className="me-3">
           <img src={editicon} alt="Edit Role" />
         </a>}
-        {record.role_key !== SUPER_ADMIN && operationExist(operations, 4) && <a href="/">
+        {record.role_key !== SUPER_ADMIN && operationExist(operations, 4) && <a title="Delete Role"href="/">
           <img src={deleteicon} className="disabled" alt="Delete Role" onClick={(e) => {
             e.preventDefault();
             setSelectedRoleId(record.role_id);
