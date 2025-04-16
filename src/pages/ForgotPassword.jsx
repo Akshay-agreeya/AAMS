@@ -27,7 +27,7 @@ const ForgotPassword = () => {
         setLoading(true);
         setError(null);
         try {
-            await postData("/forgot-password", { email: formData.email });
+            await postData("/user/forgot-password", { email: formData.email });
             setSuccessMessage("A password reset link has been sent to your registered email.");
         } catch (error) {
             setError(error.data?.message || "Something went wrong, please try again.");

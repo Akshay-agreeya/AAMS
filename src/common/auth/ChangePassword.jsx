@@ -31,7 +31,7 @@ const ChangePasswordModal = (props) => {
         setMessage("");
         const reqData = { oldPassword: formData.oldPassword, newPassword: formData.password };
         try {
-            const response = await patchData(`/change-password`, reqData);
+            const response = await patchData(`/user/change-password`, reqData);
 
             if (response.success) {
                 setMessage("Password changed successfully!");
