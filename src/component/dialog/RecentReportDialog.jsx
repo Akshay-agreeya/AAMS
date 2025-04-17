@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getUserIdFromSession } from '../../utils/Helper';
 import iconDocument from '../../assets/images/iconDocument.svg';
 import { getData, patchData } from '../../utils/CommonApi';
+import { getFormattedDateWithTime } from '../input/DatePicker';
+import { DATE_TIME_FORMAT } from '../../utils/Constants';
 
 const RecentReportDialog = () => {
 
@@ -13,6 +15,7 @@ const RecentReportDialog = () => {
         try {
             const resp = await getData(`/dashboard/notifications/${userId}?latest_flag=1`);
             setUnseenReport(resp);
+            console.log(resp)
         } catch (error) {
             console.log(error);
         }
@@ -69,8 +72,8 @@ const RecentReportDialog = () => {
                                     <img src={iconDocument} alt="Report Information" />
                                 </div>
                                 <div className="reportDescription">
-                                    <div className="name">AQMD Site Assessment Report-3</div>
-                                    <div className="date">16 Jan 2025</div>
+                                    <div className="name">{unseenReport.contents?.summary_report_name}</div>
+                                    <div className="date">{getFormattedDateWithTime (new Date(unseenReport.contents?.created_at), DATE_TIME_FORMAT)}</div>
                                 </div>
 
 
