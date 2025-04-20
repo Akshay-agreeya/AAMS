@@ -12,6 +12,7 @@
     "country-state-city": "^3.2.1",
     "docxtemplater": "^3.61.1",
     "docxtemplater-image-module-free": "^1.1.1",
+    "docxtemplater-link-module": "^0.2.4",
     "file-saver": "^2.0.5",
     "pizzip": "^3.1.8",
     "react": "^19.0.0",

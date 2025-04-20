@@ -292,3 +292,96 @@ export const getImageUrlFromBlob = async (url) => {
         return null;
     }
 };
+
+  /**
+   * Replace link placeholders with actual hyperlinks in the DOCX document
+   * @param {Object} doc - Docxtemplater instance
+   * @param {Object} data - Template data
+   */
+  export function replaceLinks(doc, data) {
+    try {
+      // Get document.xml content
+      let docXml = doc.getZip().file("word/document.xml").asText();
+      
+      // Get or create the relationships file
+      let relsXml;
+      try {
+        relsXml = doc.getZip().file("word/_rels/document.xml.rels").asText();
+      } catch (e) {
+        // Create relationships file if it doesn't exist
+        relsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
+      }
+      
+      // Find highest existing relationship ID
+      const relRegex = /Id="rId(\d+)"/g;
+      let match;
+      let highestRelId = 0;
+      while ((match = relRegex.exec(relsXml)) !== null) {
+        const id = parseInt(match[1], 10);
+        if (id > highestRelId) highestRelId = id;
+      }
+      
+      // Start new IDs after the highest existing one
+      let relId = highestRelId + 1;
+      
+      // Create a regex pattern to find {link} placeholder
+      // We need to be careful with the regex as the XML might have special formatting
+      const linkPlaceholderPattern = /\{link\}/g;
+      
+      // Process each issue and its pages
+      if (data.issues && Array.isArray(data.issues)) {
+        for (const issue of data.issues) {
+          if (issue.pages && Array.isArray(issue.pages)) {
+            for (const page of issue.pages) {
+              if (page.link && typeof page.link === 'object' && page.link.url && page.link.text) {
+                // XML-escape the URL and text
+                const escapedUrl = escapeXml(page.link.url);
+                const escapedText = escapeXml(page.link.text);
+                
+                // Create hyperlink XML
+                const hyperlinkXml = `<w:hyperlink r:id="rId${relId}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:r><w:rPr><w:color w:val="0000FF"/><w:u w:val="single"/></w:rPr><w:t>${escapedText}</w:t></w:r></w:hyperlink>`;
+                
+                // Replace the first occurrence of {link} with this hyperlink
+                // Note: We replace only one occurrence at a time to ensure correct matching
+                if (docXml.match(linkPlaceholderPattern)) {
+                  docXml = docXml.replace(linkPlaceholderPattern, hyperlinkXml);
+                  
+                  // Add relationship for this hyperlink
+                  const relXml = `<Relationship Id="rId${relId}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="${escapedUrl}" TargetMode="External"/>`;
+                  
+                  // Add relationship before closing tag
+                  if (relsXml.includes('</Relationships>')) {
+                    relsXml = relsXml.replace('</Relationships>', `${relXml}\n</Relationships>`);
+                  } else {
+                    relsXml += `<Relationships>${relXml}</Relationships>`;
+                  }
+                  
+                  relId++;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      // Save the updated XML back to the document
+      doc.getZip().file("word/document.xml", docXml);
+      doc.getZip().file("word/_rels/document.xml.rels", relsXml);
+    } catch (error) {
+      console.error("Error in replaceLinks:", error);
+    }
+  }
+  
+  /**
+   * Escape special characters for XML content
+   * @param {string} str - String to escape
+   * @return {string} XML-escaped string
+   */
+  function escapeXml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
