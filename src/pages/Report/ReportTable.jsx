@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Table from "../../component/table/Table";
 import { getData } from "../../utils/CommonApi";
 import iconViewInternet from "../../assets/images/iconViewInternet.svg";
-import iconMsWord from "../../assets/images/iconMsWord.svg";
-import iconPDF from "../../assets/images/iconPDF.svg";
 import notification from "../../component/notification/Notification";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import DownloadDocx from "../../component/download/DownloadDocx";
+import DownloadPDF from "../../component/download/DownloadPDF";
 
 const ViewReport = (assessment_id, icon, text) => {
     return <a href={`/reports/listing/viewreport/${assessment_id}`} rel="noopener noreferrer">
@@ -118,9 +117,7 @@ export const ReportTable = ({ product_id }) => {
             render: (_, record) => (
                 <>
                     <DownloadDocx record={record} product_id={product_id}/>
-                    <a href={record.pdf_download || "#"} onClick={(e) => e.preventDefault()}>
-                        <img src={iconPDF} alt="Download Document in PDF Format" />
-                    </a>
+                    <DownloadPDF record={record} product_id={product_id}/>
                 </>
             ),
         },
