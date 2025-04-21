@@ -5,18 +5,18 @@ import { postData } from '../../utils/CommonApi';
 import { getFullName, getShortAddress } from '../../utils/Helper';
 import { formattedDate } from '../input/DatePicker';
 import { DATE_FORMAT } from '../../utils/Constants';
-
-
+ 
+ 
 const OrganizationDashboard = () => {
-
+ 
     const [loading, setLoading] = useState(false);
     const [organizations, setOrganizations] = useState([]);
     const [totalOrganizations, setTotalOrganizations] = useState(0);
-
+ 
     const getOrganizations = useCallback(async () => {
         try {
             const resp = await postData(`/org/get?size=5`);
-
+ 
             // Await the result of each individual `postData` call
             // const organizationsWithDetails = await Promise.all(
             //     resp.contents.map(async (item) => {
@@ -24,7 +24,7 @@ const OrganizationDashboard = () => {
             //         return { ...item, ...details.contents?.[0] }; // Add details to each item
             //     })
             // );
-
+ 
             setOrganizations(resp.contents);
             setTotalOrganizations(resp.total_count);
         }
@@ -32,19 +32,24 @@ const OrganizationDashboard = () => {
             console.log(error);
         }
     }, []);
-
-
+ 
+ 
     useEffect(() => {
         getOrganizations();
     }, [getOrganizations]);
-
-
+ 
+ 
     const columns = [
         {
             title: 'Organization Name',
             dataIndex: 'org_name',
             scope: 'col',
             width: '20%',
+            render: (text, record) => (
+                <a href={`/user-management/vieworganization/${record.org_id}`}>
+                    {text}
+                </a>
+            )
         },
         {
             title: 'Type',
@@ -82,8 +87,8 @@ const OrganizationDashboard = () => {
             )
         }
     ];
-
-
+ 
+ 
     return (
         <div className="dashGraphicContainerWhite">
             <div className="heading">{`All Organization(${totalOrganizations})`}  <a href="/user-management"><img src={iconMoveForward} alt="Click Here for next Page" /></a></div>
@@ -93,5 +98,6 @@ const OrganizationDashboard = () => {
         </div>
     )
 }
-
+ 
 export default OrganizationDashboard
+ 

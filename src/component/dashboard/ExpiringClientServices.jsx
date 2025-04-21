@@ -28,10 +28,15 @@ const ExpiringClientServices = () => {
             dataIndex: 'expiry',
             scope: "col",
             width: "60%",
-            render: (_, record) => (<>
-                <div className="orgname">{record.organization_name}</div>
-                <div className="prodDetail"><a href={`/user-management/vieworganization/${record.org_id}`}>{record.service_type}</a></div>
-            </>
+            render: (text, record) => (
+                <>
+                    <div className="orgname">
+                        <a href={`/user-management/vieworganization/${record.org_id}`}>
+                            {record.organization_name}
+                        </a>
+                    </div>
+                    <div className="prodDetail">{record.service_type}</div>
+                </>
             )
         },
         {
