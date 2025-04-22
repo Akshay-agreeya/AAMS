@@ -7,6 +7,7 @@ import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
+import { DATE_FORMAT } from "../../utils/Constants";
 
 const ViewReport = (assessment_id, icon, text) => {
     return <a href={`/reports/listing/viewreport/${assessment_id}`} rel="noopener noreferrer">
@@ -72,11 +73,11 @@ export const ReportTable = ({ product_id }) => {
             ),
         },
         {
-            title: "Last Scan Date & Time",
+            title: "Last Scan Date ",
             dataIndex: "scan_date",
             width: "14%",
             render: (text) => (
-                <span>{getFormattedDateWithTime(new Date(text))}</span>
+                <span>{getFormattedDateWithTime(new Date(text),DATE_FORMAT)}</span>
             )
         },
         {
