@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "../input/Select";
 import { getData } from "../../utils/CommonApi";
+import { ORG_ID } from "../../utils/Constants";
 
 
 export const OrganizationSelect = ({ name = "organization", defaultValue, selectFirst = false,
@@ -8,6 +9,7 @@ export const OrganizationSelect = ({ name = "organization", defaultValue, select
 
   const [organizations, setOrganizations] = useState([]);
   const [options, setOptions] = useState([]);
+  const [selectedValue, setSelectedvalue] = useState(defaultValue);
 
   useEffect(() => {
     loadOrganizations();
@@ -33,17 +35,30 @@ export const OrganizationSelect = ({ name = "organization", defaultValue, select
 
   useEffect(() => {
 
-    if (selectFirst) {
-      const selectedOption = {
+    if (sessionStorage.getItem(ORG_ID)) {
+      onChange({
+        target: {
+          value: sessionStorage.getItem(ORG_ID)
+        }
+      })
+    }
+    else if (selectFirst) {
+      setSelectedvalue(options?.[1]?.value);
+      onChange({
         target: {
           value: options?.[1]?.value
         }
-      };
-      onChange(selectedOption);
+      })
     }
+
   }, [options]);
 
+  const handleChange = (e) => {
+    sessionStorage.setItem(ORG_ID, e.target.value);
+    setSelectedvalue(e.target.value);
+    onChange(e);
+  }
 
   return <Select options={options} name={name} defaultValue={defaultValue} {...rest}
-    onChange={onChange} />;
+    onChange={handleChange} value={selectedValue}/>;
 };

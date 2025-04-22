@@ -184,7 +184,7 @@ const AddOrganization = () => {
                             <FormItem name="contract_expiry_date" label="Hub Contract Expiry Date"
                               rules={[{ required: true, message: "Hub Contract Expiry Date is required" }]}
                               requiredMark={true}>
-                              <DatePicker minDate={initialValues?.contract_expiry_date ? new Date(initialValues.contract_expiry_date) : new Date()}
+                              <DatePicker minDate={ new Date()}
                                 name="contract_expiry_date"
                                 value={initialValues.contract_expiry_date ? convertUtcToLocal(initialValues.contract_expiry_date) : ''} />
                             </FormItem>

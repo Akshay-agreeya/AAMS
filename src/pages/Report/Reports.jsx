@@ -13,6 +13,7 @@ import {
 import Pagenation from "../../component/Pagenation";
 import Loading from "../../component/Loading";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
+import { ORG_ID } from "../../utils/Constants";
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
@@ -66,6 +67,7 @@ const Reports = () => {
                       <OrganizationSelect
                         onChange={handleOrganizationChange}
                         selectFirst={true}
+                        defaultValue={sessionStorage.getItem(ORG_ID)}
                       />
                     </div>
                   </div>

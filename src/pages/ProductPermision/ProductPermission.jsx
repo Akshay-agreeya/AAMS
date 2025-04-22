@@ -5,6 +5,7 @@ import { postData } from '../../utils/CommonApi';
 import { getFormattedAddress, getFullName } from '../../utils/Helper';
 import ProductionPermissionTable from './ProductionPermissionTable';
 import notification from '../../component/notification/Notification';
+import { ORG_ID } from '../../utils/Constants';
 
 
 const ProductPermission = () => {
@@ -42,11 +43,11 @@ const ProductPermission = () => {
             return;
         }
         try {
-           await postData(`/permission/update`, {usersWithServices:formData});
-           notification.success({
-            title: `Product Permission`,
-            message: "Permission saved successfully!",
-          });
+            await postData(`/permission/update`, { usersWithServices: formData });
+            notification.success({
+                title: `Product Permission`,
+                message: "Permission saved successfully!",
+            });
         }
         catch (error) {
             console.log(error);
@@ -72,6 +73,7 @@ const ProductPermission = () => {
                                             <h3 className="mb-0 me-3">Selected Organization</h3>
                                             <div>
                                                 <OrganizationSelect id="selUser" name="role" type="object"
+                                                    defaultValue={sessionStorage.getItem(ORG_ID)}
                                                     selectFirst={true}
                                                     onChange={(e) => { setSelectedOrganizationId(e.target.value) }} />
                                             </div>
