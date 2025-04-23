@@ -4,21 +4,33 @@ import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
 import { getData } from "../../utils/CommonApi";
-import { replaceLinks } from "../../utils/Helper";
+import {  generateScoreCardImage, replaceLinks } from "../../utils/Helper";
 import { getFormattedDateWithTime } from "../input/DatePicker";
+import ImageModule from 'docxtemplater-image-module-free';
 
 const DownloadDocx = ({ record = {} }) => {
 
   const [reportData, setReportData] = useState({});
 
 
+
   useEffect(() => {
     getReportData();
   }, [record.assessment_id]);
 
+  const getBase64Image = async (url) => {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]); // remove data prefix
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const getReportData = async () => {
     try {
-      debugger
+      
       const response = await getData(`report/get/category-data/${record.assessment_id}`);
       const summaryResp = await getData(`/dashboard/summary-report/${record?.assessment_id}`);
       setReportData({ ...response, summary: summaryResp.contents, accessibility_score: summaryResp.accessibility_score });
@@ -39,12 +51,24 @@ const DownloadDocx = ({ record = {} }) => {
       const arrayBuffer = await templateBlob.arrayBuffer();
       const zip = new PizZip(arrayBuffer);
 
-      // Create Docxtemplater instance
-      const doc = new Docxtemplater(zip, {
-        paragraphLoop: true,
-        linebreaks: true,
-      });
+      const base64WithPrefix = generateScoreCardImage(70,'',600,350); // e.g. 70% progress
+      const base64 = base64WithPrefix.split(',')[1];
 
+      const imageOpts = {
+        centered: false,
+        getImage: (tagValue) => {
+          return Uint8Array.from(atob(tagValue), (c) => c.charCodeAt(0));
+        },
+        getSize: () => [600, 350], // width, height in pixels
+      };
+
+      const imageModule = new ImageModule(imageOpts);
+      // Create Docxtemplater instance
+      const doc = new Docxtemplater();
+      doc.loadZip(zip);
+      doc.attachModule(imageModule);
+
+      
       // IMPORTANT: For the template, we need to handle the link placeholder differently
       // We use an empty string for {link} as we'll replace it with hyperlinks after rendering
       const data = {
@@ -78,7 +102,7 @@ const DownloadDocx = ({ record = {} }) => {
           }))
         })),
         summary_data: reportData.summary,
-        accessibility_score: reportData.accessibility_score || 0
+        audit_score: base64,
       };
 
       // First, render the template with placeholders
