@@ -4,6 +4,7 @@ import iconDocument from '../../assets/images/iconDocument.svg';
 import { getData, patchData } from '../../utils/CommonApi';
 import { getFormattedDateWithTime } from '../input/DatePicker';
 import { DATE_TIME_FORMAT } from '../../utils/Constants';
+import DownloadDocx from '../download/DownloadDocx';
 
 const RecentReportDialog = () => {
 
@@ -21,11 +22,11 @@ const RecentReportDialog = () => {
         }
     };
 
-    const updateNotification = async()=>{
-        try{
-            await patchData(`/dashboard/update-notification-status`,{notification_id:unseenReport.contents?.notification_id});
+    const updateNotification = async () => {
+        try {
+            await patchData(`/dashboard/update-notification-status`, { notification_id: unseenReport.contents?.notification_id });
         }
-        catch(error){
+        catch (error) {
             console.log(error);
         }
     }
@@ -73,7 +74,7 @@ const RecentReportDialog = () => {
                                 </div>
                                 <div className="reportDescription">
                                     <div className="name">{unseenReport.contents?.summary_report_name}</div>
-                                    <div className="date">{getFormattedDateWithTime (new Date(unseenReport.contents?.created_at), DATE_TIME_FORMAT)}</div>
+                                    <div className="date">{getFormattedDateWithTime(new Date(unseenReport.contents?.created_at), DATE_TIME_FORMAT)}</div>
                                 </div>
 
 
@@ -81,7 +82,11 @@ const RecentReportDialog = () => {
 
                         </div>
                         <div className="modal-footer">
-                            <a href="#" className="downloadReport">Download Report</a>
+                            <DownloadDocx record={{
+                                assessment_id: unseenReport.contents?.assessment_id,
+                                scan_date: ''
+                            }} titleText="Download Report" className="downloadReport"/>
+                            {/* <a href="#" className="downloadReport">Download Report</a> */}
                             <a href={`/reports/listing/viewReport/${unseenReport.contents?.assessment_id}`} className="viewDetails">View Details</a>
                         </div>
                     </div>

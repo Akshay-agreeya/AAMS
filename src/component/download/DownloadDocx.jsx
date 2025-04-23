@@ -4,11 +4,11 @@ import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import iconMsWord from "../../assets/images/iconMsWord.svg";
 import { getData } from "../../utils/CommonApi";
-import {  generateScoreCardImage, replaceLinks } from "../../utils/Helper";
+import { generateScoreCardImage, replaceLinks } from "../../utils/Helper";
 import { getFormattedDateWithTime } from "../input/DatePicker";
 import ImageModule from 'docxtemplater-image-module-free';
 
-const DownloadDocx = ({ record = {} }) => {
+const DownloadDocx = ({ record = {}, titleText, className = "me-3" }) => {
 
   const [reportData, setReportData] = useState({});
 
@@ -30,7 +30,7 @@ const DownloadDocx = ({ record = {} }) => {
 
   const getReportData = async () => {
     try {
-      
+
       const response = await getData(`report/get/category-data/${record.assessment_id}`);
       const summaryResp = await getData(`/dashboard/summary-report/${record?.assessment_id}`);
       setReportData({ ...response, summary: summaryResp.contents, accessibility_score: summaryResp.accessibility_score });
@@ -51,7 +51,7 @@ const DownloadDocx = ({ record = {} }) => {
       const arrayBuffer = await templateBlob.arrayBuffer();
       const zip = new PizZip(arrayBuffer);
 
-      const base64WithPrefix = generateScoreCardImage(70,'',600,350); // e.g. 70% progress
+      const base64WithPrefix = generateScoreCardImage(70, '', 600, 350); // e.g. 70% progress
       const base64 = base64WithPrefix.split(',')[1];
 
       const imageOpts = {
@@ -68,7 +68,7 @@ const DownloadDocx = ({ record = {} }) => {
       doc.loadZip(zip);
       doc.attachModule(imageModule);
 
-      
+
       // IMPORTANT: For the template, we need to handle the link placeholder differently
       // We use an empty string for {link} as we'll replace it with hyperlinks after rendering
       const data = {
@@ -138,8 +138,8 @@ const DownloadDocx = ({ record = {} }) => {
   }
 
   return (
-    <a href="#" className="me-3" onClick={(e) => { e.preventDefault(); generateDocx(); }}>
-      <img src={iconMsWord} alt="Download Document in Microsoft Word" />
+    <a href="#" className={className} onClick={(e) => { e.preventDefault(); generateDocx(); }}>
+      {titleText ? titleText : <img src={iconMsWord} alt="Download Document in Microsoft Word" />}
     </a>
   );
 };
