@@ -44,66 +44,99 @@ const Form = forwardRef((props, ref) => {
     }));
 
     // Validate individual input field
-    const validateInput = useCallback((newErrors, child, newFormData = formData) => {
-        if (child.props.name) {
-            const rules = child.props.rules || [];
-
-            rules.forEach((rule) => {
-                const value = newFormData[child.props.name] || '';
-
-                if (rule.required && !value) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
-                } else if (rule.type === "email" && value && !emailPattern.test(value)) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
-                }
-                else if (rule.pattern && !rule.pattern.test(value)) {
+    const validateInput = useCallback(async (newErrors, child, newFormData = formData) => {
+        if (!child.props.name) return true;
+    
+        const rules = child.props.rules || [];
+        const value = newFormData[child.props.name] || '';
+    
+        for (const rule of rules) {
+            if (rule.required && !value) {
+                newErrors[child.props.name] = rule.message || `${child.props.name} is required`;
+                return false;
+            }
+    
+            if (rule.type === "email" && value && !emailPattern.test(value)) {
+                newErrors[child.props.name] = rule.message || `${child.props.name} is invalid email`;
+                return false;
+            }
+    
+            if (rule.pattern && !rule.pattern.test(value)) {
+                newErrors[child.props.name] = rule.message || `${child.props.name} is invalid`;
+                return false;
+            }
+    
+            if (rule.minLength && value.length < rule.minLength) {
+                newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
+                return false;
+            }
+    
+            // Optional: support async custom rule
+            if (rule.asyncValidator) {
+                const isValid = await rule.asyncValidator(value);
+                if (!isValid) {
                     newErrors[child.props.name] = rule.message || `${child.props.name} is invalid`;
-                } else if (rule.minLength && value.length < rule.minLength) {
-                    newErrors[child.props.name] = rule.message || `${child.props.name} must be at least ${rule.minLength} characters long`;
+                    return false;
                 }
-
-                if (child.props.name === 'password' && newFormData['confirmPassword'] && newFormData['password'] !== newFormData['confirmPassword']) {
-                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
-                }
-
-                if (child.props.name === 'confirmPassword' && newFormData['password'] && newFormData['password'] !== newFormData['confirmPassword']) {
-                    newErrors['confirmPassword'] = 'Password and Confirm Password must match';
-                }
-            });
+            }
         }
+    
+        // Cross-field match
+        if (child.props.name === 'password' && newFormData['confirmPassword'] && newFormData['password'] !== newFormData['confirmPassword']) {
+            newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+            return false;
+        }
+    
+        if (child.props.name === 'confirmPassword' && newFormData['password'] && newFormData['password'] !== newFormData['confirmPassword']) {
+            newErrors['confirmPassword'] = 'Password and Confirm Password must match';
+            return false;
+        }
+    
+        return true;
     }, [formData]);
+    
 
     // Memoize validateForm function to avoid unnecessary re-creations
-    const validateForm = useCallback(async() => {
+    const validateForm = useCallback(async () => {
         const newErrors = {};
-        let firstErrorField = null; // Track the first error field
-
+        let firstErrorField = null;
+    
+        // Collect async validation promises
+        const validationPromises = [];
+    
         const validateChildrenRecursively = (children) => {
             React.Children.forEach(children, (child) => {
-                if (child?.type?.name === "FormItem") {
-                    validateInput(newErrors, child);
-                    if (!firstErrorField && newErrors[child.props.name]) {
-                        firstErrorField = child; // Store the first error field
-                    }
+                if (child?.type === FormItem) {
+                    const promise = validateInput(newErrors, child).then((isValid) => {
+                        if (!isValid && !firstErrorField) {
+                            firstErrorField = child;
+                        }
+                    });
+                    validationPromises.push(promise);
                 } else if (child?.props?.children) {
-                    validateChildrenRecursively(child.props.children); // Recurse if there are nested children
+                    validateChildrenRecursively(child.props.children);
                 }
             });
         };
-
+    
         validateChildrenRecursively(children);
+    
+        // Wait for all async validations to complete
+        await Promise.all(validationPromises);
+    
         setErrors(newErrors);
-
+    
         if (firstErrorField) {
             const fieldElement = document.querySelector(`[name="${firstErrorField.props.name}"]`);
             if (fieldElement) {
                 fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                fieldElement.focus(); // Focus the field as well
+                fieldElement.focus();
             }
         }
-
+    
         return Object.keys(newErrors).length === 0;
-    }, [children, validateInput]); // Include dependencies
+    }, [children, validateInput]);
+    
 
     // Handle input change
     const findChildByName = (children, name) => {
