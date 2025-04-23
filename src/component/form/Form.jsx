@@ -74,7 +74,7 @@ const Form = forwardRef((props, ref) => {
     }, [formData]);
 
     // Memoize validateForm function to avoid unnecessary re-creations
-    const validateForm = useCallback(() => {
+    const validateForm = useCallback(async() => {
         const newErrors = {};
         let firstErrorField = null; // Track the first error field
 
@@ -148,10 +148,10 @@ const Form = forwardRef((props, ref) => {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-
-        if (validateForm()) {
+        const status = await validateForm();
+        if (status) {
             onSubmit(formData); // Pass formData to the parent onSubmit handler
         }
     };
