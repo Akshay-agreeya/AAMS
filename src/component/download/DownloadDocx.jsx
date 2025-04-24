@@ -50,8 +50,8 @@ const DownloadDocx = ({ record = {}, titleText, className = "me-3" }) => {
       const templateBlob = await templateRes.blob();
       const arrayBuffer = await templateBlob.arrayBuffer();
       const zip = new PizZip(arrayBuffer);
-
-      const base64WithPrefix = generateScoreCardImage(70, '', 600, 350); // e.g. 70% progress
+      const text = (reportData.accessibility_score >= 95) ? "Your product is ADA Compliant" : "Score above 95% ensures ADA compliant";
+      const base64WithPrefix = generateScoreCardImage(reportData.accessibility_score, text, 600, 350); // e.g. 70% progress
       const base64 = base64WithPrefix.split(',')[1];
 
       const imageOpts = {
@@ -61,7 +61,7 @@ const DownloadDocx = ({ record = {}, titleText, className = "me-3" }) => {
         },
         getSize: () => [600, 350], // width, height in pixels
       };
-
+     
       const imageModule = new ImageModule(imageOpts);
       // Create Docxtemplater instance
       const doc = new Docxtemplater();

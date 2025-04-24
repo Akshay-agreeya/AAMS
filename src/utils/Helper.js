@@ -544,7 +544,7 @@ export const generateScoreCardImage = (score = 66,message='', width = 600, heigh
 
     // Progress arc
     ctx.beginPath();
-    ctx.strokeStyle = '#d4aa00';
+    ctx.strokeStyle = getProgressColor(score);
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.arc(centerX, centerY, radius, startAngle, endAngle);
