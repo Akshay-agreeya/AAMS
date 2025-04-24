@@ -59,7 +59,7 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "report_name",
             width: "20%",
             render: (text, record) => {
-                return ViewReport(record.assessment_id, undefined, text);
+                return ViewReport(record.assessment_id, undefined, text || "");
             },
         },
         {
@@ -68,38 +68,47 @@ export const ReportTable = ({ product_id }) => {
             width: "20%",
             render: (_, record) => (
                 <a href={record.web_url || "#"} target="_blank" rel="noopener noreferrer">
-                    {record.web_url || "N/A"}
+                    {record.web_url || ""}
                 </a>
             ),
         },
         {
-            title: "Last Scan Date ",
+            title: "Last Scan Date",
             dataIndex: "scan_date",
             width: "14%",
-            render: (text) => (
-                <span>{getFormattedDateWithTime(new Date(text),DATE_FORMAT)}</span>
-            )
+            className: "text-center",
+            render: (text) => {
+                if (!text) return "";
+                try {
+                    const date = new Date(text);
+                    if (isNaN(date)) return "";
+                    return <span>{getFormattedDateWithTime(date, DATE_FORMAT)}</span>;
+                } catch {
+                    return "";
+                }
+            }
         },
         {
             title: "Issues Found",
             dataIndex: "issues",
             width: "10%",
             className: "text-center",
+            render: (text) => text ?? "",
         },
         {
             title: "Guidelines",
             dataIndex: "guideline",
             width: "10%",
             className: "text-center",
+            render: (text) => text ?? "",
         },
         {
             title: "Accessibility Score",
             dataIndex: "accessibility_score",
             width: "13%",
             className: "text-center",
-            render : (_,record)=>(
-                <AccesibilitySmallCircle product ={record}/>
-            )
+            render: (_, record) =>
+                record ? <AccesibilitySmallCircle product={record} /> : "",
         },
         {
             title: "View",
@@ -107,7 +116,7 @@ export const ReportTable = ({ product_id }) => {
             width: "5%",
             className: "text-center",
             render: (_, record) => {
-                return ViewReport(record.assessment_id, iconViewInternet);
+                return record?.assessment_id ? ViewReport(record.assessment_id, iconViewInternet) : "";
             },
         },
         {
@@ -115,12 +124,20 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "download",
             width: "8%",
             className: "text-center",
-            render: (_, record) => (
-                <>
-                    <DownloadDocx record={record} product_id={product_id}/>
-                    <DownloadPDF record={record} product_id={product_id}/>
-                </>
-            ),
+            render: (_, record) =>
+                record?.status === "Completed" ? (
+                    <>
+                        <DownloadDocx record={record} product_id={product_id} />
+                        <DownloadPDF record={record} product_id={product_id} />
+                    </>
+                ) : null,
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            width: "8%",
+            className: "text-center",
+            
         },
     ];
 
