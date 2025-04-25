@@ -4,16 +4,16 @@ import iconSiteBlack from "../../../assets/images/blackSiteIcon.svg";
 import iconMoveRight from "../../../assets/images/iconMoveRight.svg";
 import Pagenation from "../../../component/Pagenation";
 import { getData } from "../../../utils/CommonApi";
-import { getPagenationFromResponse } from "../../../utils/Helper";
+import { getOrganizationIdFromSession, getPagenationFromResponse, getUserRoleKey } from "../../../utils/Helper";
 import Loading from "../../../component/Loading";
 import AccesibilitySmallCircle from "../../Report/AccesibilitySmallCircle";
-import {USER_REPORT_PERMISSION} from "../../../utils/Constants";
+import {ADMIN_ROLE_KEY, USER_REPORT_PERMISSION} from "../../../utils/Constants";
 
 const UserReport = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagenation, setPagenation] = useState({});
-
+   const roleKey = getUserRoleKey();
   useEffect(() => {
     fetchReports();
   }, []);
@@ -21,7 +21,7 @@ const UserReport = () => {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const response = await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
+      const response = roleKey === ADMIN_ROLE_KEY? await getData(`report/get/urls/${getOrganizationIdFromSession()}`):await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
       setReports(response.contents || []);
       setPagenation(getPagenationFromResponse(response));
     } catch (error) {
