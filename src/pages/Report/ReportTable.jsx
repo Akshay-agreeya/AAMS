@@ -8,6 +8,9 @@ import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
 import { DATE_FORMAT } from "../../utils/Constants";
+import MSdisable from '../../assets/images/iconMsWordDisable.svg'
+import PDFdisable from '../../assets/images/iconPDFDisable.svg'
+import Viewdisable from '../../assets/images/iconViewDisable.svg'
 
 const ViewReport = (assessment_id, icon, text) => {
     return <a href={`/reports/listing/viewreport/${assessment_id}`} rel="noopener noreferrer">
@@ -115,23 +118,51 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "view",
             width: "5%",
             className: "text-center",
-            render: (_, record) => {
-                return record?.assessment_id ? ViewReport(record.assessment_id, iconViewInternet) : "";
-            },
+            render: (_, record) => (
+                record?.status === "Completed" && record?.assessment_id ? (
+                    ViewReport(record.assessment_id, iconViewInternet)
+                ) : (
+                    <img
+                        src={Viewdisable}
+                        alt="View disabled"
+                        title="View unavailable"
+                        style={{ cursor: "not-allowed" }}
+                    />
+                )
+            ),
         },
+        
+        
         {
             title: "Download",
             dataIndex: "download",
             width: "8%",
             className: "text-center",
-            render: (_, record) =>
+            render: (_, record) => (
                 record?.status === "Completed" ? (
                     <>
                         <DownloadDocx record={record} product_id={product_id} />
                         <DownloadPDF record={record} product_id={product_id} />
                     </>
-                ) : null,
+                ) : (
+                    <>
+                        <img
+                            src={MSdisable}
+                            alt="DOCX download disabled"
+                            title="DOCX download unavailable"
+                            style={{  marginRight: "14px" ,cursor: "not-allowed" }}
+                        />
+                        <img
+                            src={PDFdisable} 
+                            alt="PDF download disabled"
+                            title="PDF download unavailable"
+                            style={{  cursor: "not-allowed" }}
+                        />
+                    </>
+                )
+            ),
         },
+        
         {
             title: "Status",
             dataIndex: "status",
