@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import useFetch from '../../../hooks/useFetch';
 import Loading from '../../../component/Loading';
-import {USER_REPORT_PERMISSION} from "../../../utils/Constants";
+import { ADMIN_ROLE_KEY, USER_REPORT_PERMISSION } from "../../../utils/Constants";
+import { getOrganizationIdFromSession, getUserRoleKey } from '../../../utils/Helper';
 
 
 export const OrganizationSelection = ({ onChange }) => {
 
-
+    const roleKey = getUserRoleKey();
     const [selectedProduct, setSelectedProduct] = useState('');
-    const {response,loading} = useFetch(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
-
+    const { response, loading } = useFetch(roleKey === ADMIN_ROLE_KEY ? `report/get/urls/${getOrganizationIdFromSession()}` :
+        `/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
 
     useEffect(() => {
         setSelectedProduct(response?.contents?.[0].web_url);
@@ -25,8 +26,8 @@ export const OrganizationSelection = ({ onChange }) => {
             onChange(item);
     }
 
-    if(loading)
-        return <Loading/>
+    if (loading)
+        return <Loading />
 
     return (
         <span className="dropdown">
@@ -34,7 +35,7 @@ export const OrganizationSelection = ({ onChange }) => {
                 {selectedProduct}
             </a>
             <ul className="dropdown-menu">
-                {response?.contents?.map((item,index) => <li className="viewSiteReportName" key={index}><a className="dropdown-item" href="#"
+                {response?.contents?.map((item, index) => <li className="viewSiteReportName" key={index}><a className="dropdown-item" href="#"
                     onClick={(e) => { handleClick(e, item) }}>{item.web_url}</a></li>)
                 }
             </ul>
