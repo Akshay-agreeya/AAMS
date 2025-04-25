@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "../input/Select";
 import { getData } from "../../utils/CommonApi";
-import {USER_REPORT_PERMISSION} from "../../utils/Constants"
+import {ADMIN_ROLE_KEY, USER_REPORT_PERMISSION} from "../../utils/Constants"
+import { getOrganizationIdFromSession, getUserRoleKey } from "../../utils/Helper";
 
 export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [options, setOptions] = useState([]);
+   const roleKey = getUserRoleKey();
 
   useEffect(() => {
     if (org_id) {
@@ -46,7 +48,7 @@ export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
 
   const loadUserUrls = async () => {
     try {
-      const userResp = await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
+      const userResp = roleKey === ADMIN_ROLE_KEY? await getData(`report/get/urls/${getOrganizationIdFromSession()}`):await getData(`/report/get/user-urls?permission_name=${USER_REPORT_PERMISSION}`);
       const userUrlOptions = userResp.contents?.map((item) => ({
         value: item.service_id,
         label: item.web_url,
