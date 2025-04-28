@@ -153,7 +153,7 @@ const UserDashboard = () => {
                   <div className="headingSection">
                     <h3>
                       Accessibility assessment{" "}
-                      {reportData.assessment?.guideline}
+                      ({reportData.assessment?.guideline})
                     </h3>
                     {/* <div className="moveNext">
                                             <a href="viewReport.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
