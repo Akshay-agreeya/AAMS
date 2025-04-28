@@ -3000,3 +3000,23 @@ table.issues a {
 }
 
 /*# sourceMappingURL=child-theme.css.map */
+
+.wcagLevelDashboardGrid table {
+  color: #fff;
+  width: 100%;
+}
+.wcagLevelDashboardGrid table thead th {
+  
+  
+  padding: 8px;
+  border-bottom: 2px solid #C8D2DE;
+  
+}
+
+.wcagLevelDashboardGrid table tbody tr {
+  border-bottom: 1px solid #C8D2DE;
+}
+
+.wcagLevelDashboardGrid table td {
+  padding: 8px;
+}

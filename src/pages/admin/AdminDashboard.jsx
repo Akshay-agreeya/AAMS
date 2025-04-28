@@ -39,6 +39,29 @@ const AdminDashboard = () => {
 
   const { response = {} } = useFetch(`/dashboard/org-user-count/${org_id}`);
 
+  const getLevelPageValue = (level) => {
+    const guideline = assessment?.guideline || "";
+  
+    if (level === "A") {
+      return guideline.includes("A") ? (assessment?.issues_A ?? "0") : "N/A";
+    }
+  
+    if (level === "AA") {
+      return guideline.includes("AA") || guideline.includes("AAA")
+        ? (assessment?.issues_AA ?? "0")
+        : "N/A";
+    }
+  
+    if (level === "AAA") {
+      return guideline.includes("AAA")
+        ? (assessment?.issues_AAA ?? "0")
+        : "N/A";
+    }
+  
+    return "N/A";
+  };
+  console.log(getLevelPageValue("A"));
+
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -76,8 +99,6 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </div>
-
-                 
                 </div>
               </div>
             </div>
@@ -116,7 +137,9 @@ const AdminDashboard = () => {
                 <div className="col-12 col-lg-9">
                   <div className="dashGraphicContainer">
                     <div className="headingSection">
-                      <h3>Accessibility</h3>
+                      <h3>
+                        Accessibility assessment ({assessment?.guideline}){" "}
+                      </h3>
                       <div className="moveNext"></div>
                     </div>
                     <div className="row">
@@ -129,35 +152,70 @@ const AdminDashboard = () => {
                           <div className="levelMessage">
                             Level of Conformance and Severity
                           </div>
-                          <div className="wcagLevelRepeat">
-                            <div className="wcagLevelName">
-                              <img src={iconLevelA} alt="Level A" />
-                              Level A
-                            </div>
-                            <div className="wcagLevelDesc">
-                              Pages with level A issues are unusable for some
-                              people
-                            </div>
-                          </div>
-                          <div className="wcagLevelRepeat">
-                            <div className="wcagLevelName">
-                              <img src={iconLevelAA} alt="Level AA" />
-                              Level AA
-                            </div>
-                            <div className="wcagLevelDesc">
-                              Pages with level AA issues are very difficult to
-                              use
-                            </div>
-                          </div>
-                          <div className="wcagLevelRepeat">
-                            <div className="wcagLevelName">
-                              <img src={iconLevelAAA} alt="Level AAA" />
-                              Level AAA
-                            </div>
-                            <div className="wcagLevelDesc">
-                              Pages with Level with AAA issues can be difficult
-                              to use
-                            </div>
+
+                          {/* Table structure */}
+                          <div className="wcagLevelDashboardGrid">
+                          <table >
+                            <thead>
+                              <tr>
+                                <th>Level</th>
+                                <th>Description</th>
+                                <th className= "text-center">Pages</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {/* Level A */}
+                              <tr>
+                                <td>
+                                  <img className="pe-2" src={iconLevelA} alt="Level A" />
+                                  Level A
+                                </td>
+                                <td>
+                                  Level A issues are unusable for some people
+                                </td>
+                                <td className= "text-center">
+                                  <strong>
+                                  {getLevelPageValue("A")}
+                                  </strong>
+                                  {assessment?.issues_A !== 0 && " "}
+                                </td>
+                              </tr>
+
+                              {/* Level AA */}
+                              <tr>
+                                <td>
+                                  <img className="pe-2" src={iconLevelAA} alt="Level AA" />
+                                  Level AA
+                                </td>
+                                <td>
+                                  Level AA issues are very difficult to use
+                                </td>
+                                <td className= "text-center">
+                                  <strong>
+                                  {getLevelPageValue("AA")}
+                                  </strong>
+                                  {assessment?.issues_AA !== 0 &&"" }
+                                </td>
+                              </tr>
+
+                              {/* Level AAA */}
+                              <tr>
+                                <td>
+                                  <img className="pe-2" src={iconLevelAAA} alt="Level AAA" />
+                                  Level AAA
+                                </td>
+                                <td>
+                                  Level AAA issues can be difficult to use
+                                </td>
+                                <td className= "text-center">
+                                  <strong>
+                                  {getLevelPageValue("AAA")}
+                                  </strong>
+                                  {assessment?.issues_AAA !== 0 && " "}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           </div>
                         </div>
                       </div>
