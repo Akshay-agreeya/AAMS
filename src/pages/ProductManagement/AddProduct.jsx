@@ -21,7 +21,7 @@ const AddProduct = () => {
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
-  const [selectedFrequency, setSelectedFrequency] = useState(1);
+  const [selectedFrequency, setSelectedFrequency] = useState("1");
 
   const { org_id, product_id } = useParams();
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    formRef.current.setFieldsValue({...initialValues});
+    formRef.current.setFieldsValue({ ...initialValues });
   }, [initialValues])
 
   return (
@@ -233,9 +233,10 @@ const AddProduct = () => {
                                 requiredMark={true}
                               >
                                 <FrequencySelect name="frequency_id"
-                                  onChange={(e) => { setSelectedFrequency(e.target.value);
-                                    formRef.current.setFieldValue("scan_day_ids","");
-                                   }} />
+                                  onChange={(e) => {
+                                    setSelectedFrequency(e.target.value);
+                                    formRef.current.setFieldValue("scan_day_ids", "");
+                                  }} />
                               </FormItem>
                             </div>
 
@@ -244,8 +245,14 @@ const AddProduct = () => {
                                 rules={[{ required: true, message: "Scan Day is required" }]}
                                 requiredMark={true}
                               >
-                                {selectedFrequency !== "2" ? <ScanDaySelect /> : <ScanMonthDaySelect values={initialValues?.scan_day_ids}
-                                  onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} />}
+                                {selectedFrequency === "1" ? <ScanDaySelect /> : selectedFrequency === "2" ? <ScanMonthDaySelect values={initialValues?.scan_day_ids}
+                                  onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} /> :
+                                  <Input
+                                    type="date"
+                                    name="oneTime"
+                                    className="form-control"
+                                    onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
+                                  />}
                               </FormItem>
                             </div>
 

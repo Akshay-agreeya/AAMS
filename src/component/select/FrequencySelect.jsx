@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select } from '../input/Select'; 
+import { Select } from '../input/Select';
 import { getData } from '../../utils/CommonApi';
 
 export const FrequencySelect = ({ name = "frequency_id", ...rest }) => {
@@ -30,7 +30,7 @@ export const FrequencySelect = ({ name = "frequency_id", ...rest }) => {
     return (
         <Select
             name={name}
-            options={frequencies}            
+            options={frequencies}
             {...rest}
         />
     );
