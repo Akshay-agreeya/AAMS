@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useLocation } from "react-router-dom";
 import Layout from "../../component/Layout";
 import Table from "../../component/table/Table";
 import benchWorseIcon from "../../assets/images/bench-worse.svg";
 import { getData } from "../../utils/CommonApi";
 import { extractPercentage } from "../../utils/Helper";
 
+
 const Summary = () => {
   const { assessment_id } = useParams();
   const [summaryData, setSummaryData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+    const queryParams = new URLSearchParams(location.search);
+    const product_id = queryParams.get('id');
+    const org_id = queryParams.get('org_id');
 
   useEffect(() => {
     if (assessment_id) {
@@ -85,9 +91,15 @@ const Summary = () => {
         ) : ""
     }
   ];
+  const breadcrumbs = [
+    { url: `/dashboard`, label: "Home" },
+    { url: `/reports`, label: "Website Listing" },
+    { label: "Reports",url:`/reports/listing/${org_id}?id=${product_id}` },
+    { label: "Summary Report" }
+];
 
   return (
-    <Layout>
+    <Layout breadcrumbs={breadcrumbs}>
       <div className="adaMainContainer">
         <section className="adminControlContainer">
           <div className="container">
@@ -98,7 +110,7 @@ const Summary = () => {
                 </div>
               </div>
 
-              <div className="col-12">
+              <div className="summaryGrid">
                 <Table
                   columns={columns}
                   dataSource={summaryData}

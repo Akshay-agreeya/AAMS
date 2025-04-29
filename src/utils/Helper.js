@@ -574,3 +574,39 @@ export const extractPercentage = (text) => {
       nonCritical: matches && matches[1] ? parseInt(matches[1]) : 0,
     };
   };
+
+  
+
+//   export const appendIssueTotals = (contents) => {
+//     let totalPages = 0;
+//     let criticalPages = 0;
+//     let nonCriticalPages = 0;
+  
+//     contents.forEach((item) => {
+//       // Skip Totals category as it's just the summary row
+//       if (item.category === "Totals") return;
+  
+//       const pages = parseInt(item.pages.split(" ")[0]); // Extract numeric pages from "x pages"
+//       const { critical, nonCritical } = extractPercentage(item.issues || "");
+  
+//       totalPages += pages;
+//       criticalPages += (critical / 100) * pages;
+//       nonCriticalPages += (nonCritical / 100) * pages;
+//     });
+  
+//     const criticalPercent = totalPages ? ((criticalPages / totalPages) * 100).toFixed(2) : 0;
+//     const nonCriticalPercent = totalPages ? ((nonCriticalPages / totalPages) * 100).toFixed(2) : 0;
+  
+//     // Update the Totals category with the calculated percentages
+//     const updatedContents = contents.map((item) => {
+//       if (item.category === "Totals") {
+//         return {
+//           ...item,
+//           issues: `${criticalPercent}% pages have critical issues, ${nonCriticalPercent}% pages have non-critical issues`,
+//         };
+//       }
+//       return item;
+//     });
+  
+//     return updatedContents;
+//   };

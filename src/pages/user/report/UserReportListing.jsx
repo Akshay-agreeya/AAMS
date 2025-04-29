@@ -62,7 +62,7 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable product_id={selectedProduct.value} />
+                                        <ReportTable product_id={selectedProduct.value} org_id={org_id} />
 
                                         {/* Pagination */}
                                         <div className="col-12">

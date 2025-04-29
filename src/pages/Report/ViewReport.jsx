@@ -97,7 +97,8 @@ const AccessibilityReport = () => {
   const breadcrumbs = [
     { url: `/dashboard`, label: "Home" },
     { url: `/reports`, label: "Website Listing" },
-    { url: `/reports/listing/${accessibilityInfo.org_id}?id=${accessibilityInfo.service_id}`, label: "Report" },
+    { url: `/reports/listing/${accessibilityInfo.org_id}?id=${accessibilityInfo.service_id}`, label: "Reports" },
+    { url: `/reports/listing/summaryreport/${assessment_id}?id=${accessibilityInfo.service_id}&org_id=${accessibilityInfo.org_id}`, label: "Summary Report" },
     { label: "View Report" }
   ];
 

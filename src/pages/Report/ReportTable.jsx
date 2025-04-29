@@ -12,13 +12,14 @@ import MSdisable from '../../assets/images/iconMsWordDisable.svg'
 import PDFdisable from '../../assets/images/iconPDFDisable.svg'
 import Viewdisable from '../../assets/images/iconViewDisable.svg'
 
-const ViewReport = (assessment_id, icon, text) => {
-    return <a href={`/reports/listing/summaryreport/${assessment_id}`} rel="noopener noreferrer">
+const ViewReport = (assessment_id, icon, text,selectedProductId,org_id) => {
+    
+    return <a href={`/reports/listing/summaryreport/${assessment_id}?id=${selectedProductId}&org_id=${org_id}`} rel="noopener noreferrer">
         {icon ? <img src={icon} alt="View Online" /> : text }
     </a>
 }
 
-export const ReportTable = ({ product_id }) => {
+export const ReportTable = ({ product_id ,org_id}) => {
 
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ export const ReportTable = ({ product_id }) => {
             dataIndex: "report_name",
             width: "20%",
             render: (text, record) => {
-                return ViewReport(record.assessment_id, undefined, text || "");
+                return ViewReport(record.assessment_id, undefined, text || "",selectedProductId,org_id);
             },
         },
         {
@@ -120,7 +121,7 @@ export const ReportTable = ({ product_id }) => {
             className: "text-center",
             render: (_, record) => (
                 record?.status === "Completed" && record?.assessment_id ? (
-                    ViewReport(record.assessment_id, iconViewInternet)
+                    ViewReport(record.assessment_id, iconViewInternet,null,selectedProductId,org_id)
                 ) : (
                     <img
                         src={Viewdisable}
