@@ -27,6 +27,7 @@ import MyProduct from './pages/user/dashboard/MyProduct'
 import ProfileSetting from './pages/ProfileSetting';
 import DashboardWrapper from './pages/DashboardWrapper';
 import ReportWrapper from './pages/ReportWrapper';
+import SummaryReport from './pages/Report/SummaryReport';
 
 
 
@@ -40,11 +41,13 @@ export const routesMap = [
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
+    {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},
    
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
     { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
     { path: "/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
+    { path: "/reports/listing/summaryreport/:assessment_id", element: <PrivateRoute element={SummaryReport} /> ,breadcrumb: "Summaryreport"},
     // { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
     { path: "/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
     { path: "/dashboard", element: <PrivateRoute element={DashboardWrapper} />, breadcrumb: "Dashboard" },

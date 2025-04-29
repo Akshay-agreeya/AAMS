@@ -567,4 +567,10 @@ export const generateScoreCardImage = (score = 66,message='', width = 600, heigh
 
     return canvas.toDataURL('image/png');
 };
-
+export const extractPercentage = (text) => {
+    const matches = text.match(/(\d+)%/g);
+    return {
+      critical: matches && matches[0] ? parseInt(matches[0]) : 0,
+      nonCritical: matches && matches[1] ? parseInt(matches[1]) : 0,
+    };
+  };

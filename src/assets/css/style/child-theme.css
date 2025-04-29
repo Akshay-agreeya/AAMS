@@ -3020,3 +3020,80 @@ table.issues a {
 .wcagLevelDashboardGrid table td {
   padding: 8px;
 }
+.summaryGrid table {
+  background: #fff;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+ }
+ .summaryGrid table th {
+  padding: 8px;
+  background: #003D68;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+ }
+ .summaryGrid table tr:nth-child(odd) {
+  background: #e9f6ff;
+ }
+ .summaryGrid table td {
+  padding: 8px;
+  font-size: 0.9rem;
+ }
+ .progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #eee;
+  overflow: hidden;
+  display: flex;
+ }
+ .progress-part {
+  height: 100%;
+ }
+ .part1 {
+  width: 40%;
+  /* Change this to your desired percentage */
+  background-color: #d22;
+ }
+ .summaryGrid table {
+  background: #fff;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+ }
+ .summaryGrid table th {
+  padding: 8px;
+  background: #003D68;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+ }
+ .summaryGrid table tr:nth-child(odd) {
+  background: #e9f6ff;
+ }
+ .summaryGrid table td {
+  padding: 8px;
+  font-size: 0.9rem;
+ }
+  
+ .progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #eee;
+  overflow: hidden;
+  display: flex;
+ }
+  
+ .progress-part {
+  height: 100%;
+ }
+  
+ .part1 {
+  width: 40%;
+  /* Change this to your desired percentage */
+  background-color: #d22;
+ }
+  
+ .part2 {
+  width: 35%;
+  background-color: #ffaa22;
+ }
+  

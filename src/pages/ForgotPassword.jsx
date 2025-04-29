@@ -34,6 +34,9 @@ const ForgotPassword = () => {
         }
         setLoading(false);
     };
+    const handleBackToLogin = () => {
+        navigate("/login");  
+    };
 
     return (
         <div className="formLogin">
@@ -65,7 +68,8 @@ const ForgotPassword = () => {
                     </Form>
                 ) : (
                     <div className="text-center mt-4 fw-bold">
-                        <p id="successMessage">{successMessage}</p>
+                        <p id="successMessage"></p>
+                        <button className="btn signInAdmin mt-3" onClick={handleBackToLogin}>Back to Login</button>
                     </div>
                 )}
             </div>

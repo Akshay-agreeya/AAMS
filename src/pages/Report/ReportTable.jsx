@@ -13,7 +13,7 @@ import PDFdisable from '../../assets/images/iconPDFDisable.svg'
 import Viewdisable from '../../assets/images/iconViewDisable.svg'
 
 const ViewReport = (assessment_id, icon, text) => {
-    return <a href={`/reports/listing/viewreport/${assessment_id}`} rel="noopener noreferrer">
+    return <a href={`/reports/listing/summaryreport/${assessment_id}`} rel="noopener noreferrer">
         {icon ? <img src={icon} alt="View Online" /> : text }
     </a>
 }
