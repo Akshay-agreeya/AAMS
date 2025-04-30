@@ -40,15 +40,21 @@ const Summary = () => {
   const renderIssueProgress = (issues) => {
     const { critical, nonCritical } = extractPercentage(issues);
     return (
-      <>
+      <div className="issue-tooltip-wrapper" title={issues}>
         <div className="progress-container">
-          <div className="progress-part part1" style={{ width: `${critical}%` }}></div>
-          <div className="progress-part part2" style={{ width: `${nonCritical}%` }}></div>
+          <div
+            className="progress-part part1"
+            style={{ width: `${critical}%` }}
+          ></div>
+          <div
+            className="progress-part part2"
+            style={{ width: `${nonCritical}%` }}
+          ></div>
         </div>
-        <div>{issues}</div>
-      </>
+      </div>
     );
   };
+  
 
   const columns = [
     {
