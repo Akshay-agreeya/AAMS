@@ -249,7 +249,7 @@ const AddProduct = () => {
                                   onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} /> :
                                   <Input
                                     type="date"
-                                    name="oneTime"
+                                    name="scan_day_ids"
                                     className="form-control"
                                     onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
                                   />}

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
-import { isSuperAdmin } from "../../../utils/Helper";
 import Pagenation from "../../../component/Pagenation";
 import { UrlSelect } from "../../../component/select/UrlSelect";
 import ReportTable from "../../Report/ReportTable";

@@ -84,7 +84,11 @@ const ProductTable = ({ org_id }) => {
         title: 'Day',
         dataIndex: 'scan_days',
         width: '8%',
-        className: "text-center"
+        className: "text-center",
+        render: (text, record) => (
+            <span>{record.frequency_id === 3 ? record.next_scan_date ? formattedDate(new Date(record.next_scan_date), DATE_FORMAT)
+                : formattedDate(new Date(record.last_scan_date), DATE_FORMAT) : text}</span>
+        )
     },
 
     {
@@ -93,7 +97,7 @@ const ProductTable = ({ org_id }) => {
         width: '9%',
         className: "text-center",
         render: (text) => (
-            <span>{formattedDate(new Date(text), DATE_FORMAT)}</span>
+            <span>{text?formattedDate(new Date(text), DATE_FORMAT):'NA'}</span>
         )
     },
 
@@ -115,8 +119,8 @@ const ProductTable = ({ org_id }) => {
         render: (_text, record) => (
             <>
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
-                        <img src={viewicon} alt="View Details" />
-                    </a>}
+                    <img src={viewicon} alt="View Details" />
+                </a>}
 
                 {operations?.find(item => item.operation_type_id === 2) && <a title="Edit Details" href={`/product-management/editproduct/${record.service_id}`} className="me-3">
                     <img src={editicon} alt="Edit Details" />
