@@ -12,8 +12,8 @@ import notification from "../../component/notification/Notification";
 import { FrequencySelect } from "../../component/select/FrequencySelect";
 import { ScanDaySelect } from "../../component/select/ScanDaySelect";
 import { ScanMonthDaySelect } from "../../component/select/ScanMonthDaySelect";
-import { getFormattedAddress, getFullName } from "../../utils/Helper";
-import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { convertUtcToLocal, getFormattedAddress, getFullName } from "../../utils/Helper";
+import DatePicker, { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import { PRODUCT_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from "../../constants/MessageConstants";
 
 const AddProduct = () => {
@@ -247,12 +247,18 @@ const AddProduct = () => {
                               >
                                 {selectedFrequency === "1" ? <ScanDaySelect /> : selectedFrequency === "2" ? <ScanMonthDaySelect values={initialValues?.scan_day_ids}
                                   onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} /> :
-                                  <Input
-                                    type="date"
+                                  // <Input
+                                  //   type="date"
+                                  //   name="scan_day_ids"
+                                  //   className="form-control"
+                                  //   minDate={ new Date()}
+                                  //   onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
+                                  // />
+                                  <DatePicker minDate={new Date()}
                                     name="scan_day_ids"
-                                    className="form-control"
                                     onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
-                                  />}
+                                    value={initialValues.scan_day_ids ? convertUtcToLocal(initialValues.scan_day_ids) : ''} />
+                                }
                               </FormItem>
                             </div>
 
