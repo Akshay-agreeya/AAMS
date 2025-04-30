@@ -574,6 +574,8 @@ export const extractPercentage = (text) => {
       nonCritical: matches && matches[1] ? parseInt(matches[1]) : 0,
     };
   };
+ 
+  
 
   
 

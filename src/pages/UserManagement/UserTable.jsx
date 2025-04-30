@@ -128,10 +128,18 @@ export const UserTable = ({ org_id }) => {
             title: "Status",
             dataIndex: "status",
             width: "12%",
-            render: (_text, record) => (
-                <UserStatusSelect value={record.status_id}
-                    onChange={(e) => { handleStatusChanged(e, record) }} />
-            ),
+            render: (_text, record) => {
+                const canEdit = operations?.some(item => item.operation_type_id === 2);
+                return canEdit ? (
+                    <UserStatusSelect
+                        value={record.status_id}
+                        onChange={(e) => { handleStatusChanged(e, record) }}
+                    />
+                ) : (
+                    
+                    <span>{record.status}</span>
+                );
+            },
         },
         {
             title: "Action",

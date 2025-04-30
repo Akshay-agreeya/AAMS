@@ -4,7 +4,7 @@ import { FormItem } from '../../component/form/FormItem';
 import Form from '../../component/form/Form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
-import { getData, postData } from '../../utils/CommonApi'; // Import API utility
+import { getData, postData } from '../../utils/CommonApi'; 
 import { InputPassword } from '../../component/input/InputPassword';
 import { Input } from '../../component/input/Input';
 import { MENU_PERMISSION, TOKEN, USER, USER_ROLE } from '../../utils/Constants';
@@ -14,7 +14,7 @@ const LoginForm = () => {
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const session_error = queryParams.get('session_expired') === "1" ? "Session token is  expired" : null;
+    const session_error = queryParams.get('session_expired') === "1" ? "Session expired, please login again" : null;
 
     const [rememberMe, setRememberMe] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -26,6 +26,13 @@ const LoginForm = () => {
         document.body.classList.add("formbg", "loginFormContainer");
         const root = document.getElementById('root');
         if (root) root.style.width = '100%';
+        // Clear the session_expired query param after showing it
+    const params = new URLSearchParams(location.search);
+    if (params.get('session_expired') === "1") {
+        setError("Session expired, please login again");
+        params.delete('session_expired');
+        window.history.replaceState({}, '', `${location.pathname}?${params}`);
+    }
 
         return () => {
             document.body.classList.remove("formbg", "loginFormContainer");
