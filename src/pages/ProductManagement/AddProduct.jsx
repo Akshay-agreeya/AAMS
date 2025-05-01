@@ -247,13 +247,7 @@ const AddProduct = () => {
                               >
                                 {selectedFrequency === "1" ? <ScanDaySelect /> : selectedFrequency === "2" ? <ScanMonthDaySelect values={initialValues?.scan_day_ids}
                                   onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} /> :
-                                  // <Input
-                                  //   type="date"
-                                  //   name="scan_day_ids"
-                                  //   className="form-control"
-                                  //   minDate={ new Date()}
-                                  //   onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
-                                  // />
+                                  
                                   <DatePicker minDate={new Date()}
                                     name="scan_day_ids"
                                     onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
