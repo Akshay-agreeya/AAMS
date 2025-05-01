@@ -9,12 +9,15 @@ import notification from "../../component/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { RoleTypeSelect } from "../../component/select/RoleTypeSelect";
 import { AT_LEAST_ONE_PERMISSION,ROLE_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from "../../constants/MessageConstants";
+import { OrganizationSelect } from "../../component/select/OrganizationSelect";
+import { ORG_ID } from "../../utils/Constants";
 
 
 const AddRole = () => {
 
   const [roleSeedData, setRoleSeedData] = useState([]);
   const [selectedPermission, setSelectedPermission] = useState([]);
+  const[selectedRoleType, setselectedRoleType] = useState()
 
   const actions = [{ label: "Add", id: 1 }, { label: "Edit", id: 2 }, { label: "View", id: 3 }, { label: "Delete", id: 4 }];
 
@@ -98,6 +101,8 @@ const AddRole = () => {
               value={permissionId}
               checked={selectedPermission.includes(permissionId)}
               onChange={handleChange}
+              disabled={(selectedRoleType==="Admin"||selectedRoleType==="User")&&record.menu_detail_name==="Role Management"&&item.id!==3}
+
             />
           </div>
         );
@@ -108,7 +113,7 @@ const AddRole = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const roleData = { ...formData, role_permissions: selectedPermission };
+      const roleData = { ...formData, role_permissions: selectedPermission, };
       if (selectedPermission?.length === 0) {
         notification.error({
           title: role_id ? "Edit Role" : 'Add Role',
@@ -116,6 +121,7 @@ const AddRole = () => {
         });
         return;
       }
+      console.log(formData)
 
       const resp = role_id ? await patchData(`/role/edit/${role_id}`, roleData) :
         await postData("/role/add", roleData);
@@ -165,16 +171,31 @@ const AddRole = () => {
                             required: true,
                             message: "Role Type is required"
                           }]} requiredMark={true}>
-                            <RoleTypeSelect />
+                            <RoleTypeSelect onChange={(value)=>{setselectedRoleType(value.target.value);
+                          setSelectedPermission([]);  
+                          }}
+                            />
                           </FormItem>
                         </div>
                         <div className="col-12 col-lg-4">
+                        <div className="mb-3">
                           <FormItem name="description" label="Description" rules={[{
                             required: true,
                             message: "Description is required"
                           }]} requiredMark={true}>
                             <Input type="text" placeholder="Description" />
                           </FormItem>
+                        </div>
+                        </div>
+                        <div className="col-12 col-lg-4">
+                        <div className="mb-3">
+                          <FormItem name="org_id" label="Organization" rules={[{
+                            required: true,
+                            message: "Organization Select is required"
+                          }]} requiredMark={true}>
+                            <OrganizationSelect name="org_id"/>
+                          </FormItem>
+                        </div>
                         </div>
                       </div>
                     </div>

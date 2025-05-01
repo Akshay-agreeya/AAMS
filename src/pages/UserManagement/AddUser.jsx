@@ -47,8 +47,12 @@ const AddUser = () => {
         contact_first_name: userData.contact_first_name, contact_last_name: userData.contact_last_name,
         contact_email: userData.contact_email, contact: userData.contact,
         address_line: userData.address_line, city: userData.city, state: userData.state,
-        country: userData.country
+        country: userData.country,
+        role_name:userData.role_name
+
+
       })
+      console.log(userData)
     } catch (error) {
       console.error("Error fetching user details:", error);
       notification.error({
@@ -68,8 +72,13 @@ const AddUser = () => {
       setOrganization({
         ...orgData,
         contact_first_name: orgData.first_name, contact_last_name: orgData.last_name,
-        contact_email: orgData.email, contact: orgData.phone_number
+        contact_email: orgData.email, contact: orgData.phone_number,
+        role_name:orgData.role_name
+
+
+
       })
+      console.log(orgData)
     } catch (error) {
       console.error("Error fetching organization details:", error);
       notification.error({
@@ -165,7 +174,8 @@ const AddUser = () => {
                                 rules={[{ required: true, message: "Role is required" }]}
                                 requiredMark={true}
                               >
-                                <RoleSelect value={initialValues.role_id} />
+                                <RoleSelect  org_id={user_id?initialValues.org_id:org_id} />
+                                {/* value={initialValues.role_id} */}
                               </FormItem>
                             </div>
                           </div>

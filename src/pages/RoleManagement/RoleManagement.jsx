@@ -9,7 +9,7 @@ import { formattedDate } from "../../component/input/DatePicker";
 import { useNavigate } from "react-router-dom";
 import notification from "../../component/notification/Notification";
 import Loading from "../../component/Loading";
-import { getAllowedOperations, getPagenationFromResponse, operationExist } from "../../utils/Helper";
+import { getAllowedOperations, getPagenationFromResponse, operationExist, getOrganizationIdFromSession,getUserRoleKey } from "../../utils/Helper";
 import { DATE_FORMAT, ROLE_MGMT, SUPER_ADMIN, TABLE_RECORD_SIZE } from "../../utils/Constants";
 
 const RoleManagement = () => {
@@ -26,9 +26,16 @@ const RoleManagement = () => {
 
   const getRoles = useCallback(async (page = 1) => {
     try {
+      let resp;
       setLoading(true);
-      const resp = await getData(`/role/list?page=${page}&size=${TABLE_RECORD_SIZE}`);
-      setRoles(resp.contents);
+     const role_key = getUserRoleKey();
+     if(role_key == SUPER_ADMIN){
+     
+      resp = await getData(`/role/list?page=${page}&size=${TABLE_RECORD_SIZE}`);
+     }else{
+       resp = await getData(`/role/list?page=${page}&size=${TABLE_RECORD_SIZE}&org_id=${getOrganizationIdFromSession()}`);
+     
+     }setRoles(resp.contents);
       setPagenation(getPagenationFromResponse(resp));
     }
     catch (error) {
@@ -65,7 +72,7 @@ const RoleManagement = () => {
     title: 'Role Name',
     dataIndex: 'role_name',
     scop: "col",
-    width: '25%'
+    width: '15%'
   },
   {
     title: 'Role Type',
@@ -80,10 +87,16 @@ const RoleManagement = () => {
     width: '25%'
   },
   {
+    title: 'Organization Name',
+    dataIndex: 'org_name',
+    scop: 'col',
+    width: '15%'
+  },
+  {
     title: 'Created',
     dataIndex: 'creation_date',
     scop: 'col',
-    width: '25%',
+    width: '15%',
     render: (text) => (
       <span>{formattedDate(new Date(text),DATE_FORMAT)}</span>
     )
@@ -96,17 +109,17 @@ const RoleManagement = () => {
     className: "text-center",
     render: (_, record) => (
       <>
-        {record.role_key !== SUPER_ADMIN && operationExist(operations, 2) && <a title="Edit Role" href={`/role-management/editrole/${record.role_id}`}
+        <a title="Edit Role" href={`/role-management/editrole/${record.role_id}`}
           className="me-3">
           <img src={editicon} alt="Edit Role" />
-        </a>}
-        {record.role_key !== SUPER_ADMIN && operationExist(operations, 4) && <a title="Delete Role"href="/">
+        </a>
+         <a title="Delete Role"href="/">
           <img src={deleteicon} className="disabled" alt="Delete Role" onClick={(e) => {
             e.preventDefault();
             setSelectedRoleId(record.role_id);
             setIsModalVisible(true);
           }} />
-        </a>}
+        </a>
       </>
     )
   }];

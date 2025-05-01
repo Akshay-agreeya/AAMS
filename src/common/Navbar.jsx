@@ -16,8 +16,8 @@ const Navbar = () => {
     dashboard: gotoPath(getUserRoleKey()),
     user_management: '/user-management',
     role_management: '/role-management',
-    product_permission: '/product-permission',
     product_management: '/product-management',
+    product_permission: '/product-permission',
     reports: '/reports',
     my_product: '/myproduct'
   }

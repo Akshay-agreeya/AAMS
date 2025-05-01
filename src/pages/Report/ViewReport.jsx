@@ -57,9 +57,17 @@ const AccessibilityReport = () => {
           </td>
           <td className="desc">{category.issue_description}</td>
           <td>
-            <a href={category.guideline_url} target="_blank" rel="noopener noreferrer">
-              {category.guideline}
-            </a>
+          {category.guideline.split("\r\n") .slice(1) .map((text, index) => {
+  const urls = category.guideline_url.split("\r\n");
+  const url = urls[index] || "#";
+  return (
+    <div key={index}>
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {text}
+      </a>
+    </div>
+  );
+})}
           </td>
           <td className="optional">{category.failing_page} pages</td>
         </tr>
