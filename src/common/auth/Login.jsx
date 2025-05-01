@@ -52,7 +52,7 @@ const LoginForm = () => {
             const response = await postData('/login', formData);
             login();
             sessionStorage.setItem(TOKEN, response.token);
-            sessionStorage.setItem(USER, JSON.stringify(response));
+            sessionStorage.setItem(USER, JSON.stringify({...response,email:formData.email}));
             const roleResp = await getData(`/role/get/${response.role_id}`);
             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
             const resp = await getData("/lookup/permissions");

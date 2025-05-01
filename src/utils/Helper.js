@@ -42,6 +42,20 @@ export const getOrganizationIdFromSession = () => {
     }
     return null;
 }
+export const getUserEmailFromSession = () => {
+    const storedUser = sessionStorage.getItem(USER);
+    if (storedUser) {
+        let email = null;
+        try {
+            const parsedUser = JSON.parse(storedUser);
+            email = parsedUser.email;
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+        }
+        return email;
+    }
+    return null;
+}
 export const getUserIdFromSession = () => {
     const storedUser = sessionStorage.getItem(USER);
     if (storedUser) {

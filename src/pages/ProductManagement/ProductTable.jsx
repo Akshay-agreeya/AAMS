@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Table from '../../component/table/Table';
 import { deleteData, getData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
-import { getAllowedOperations, getPagenationFromResponse } from '../../utils/Helper';
+import browseIcon from "../../assets/images/iconViewDisable.svg";
+import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
 import { DATE_FORMAT, PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
+import { handleClick, handleFileChange } from '../../utils/ReportFileUpload';
 
 const ProductTable = ({ org_id }) => {
 
@@ -18,6 +20,10 @@ const ProductTable = ({ org_id }) => {
     const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
+
+    const userEmail = getUserEmailFromSession();
+    const fileInputRef = useRef(null);
+
 
     const navigate = useNavigate();
 
@@ -97,7 +103,7 @@ const ProductTable = ({ org_id }) => {
         width: '9%',
         className: "text-center",
         render: (text) => (
-            <span>{text?formattedDate(new Date(text), DATE_FORMAT):'NA'}</span>
+            <span>{text ? formattedDate(new Date(text), DATE_FORMAT) : 'NA'}</span>
         )
     },
 
@@ -118,6 +124,16 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
+                {userEmail === "jitendra.khare@agreeya.com" && <a title="Browse Files" href={`#`}
+                    className="me-3" onClick={(e)=>{handleClick(e,fileInputRef)}}>
+                    <img src={browseIcon} alt="View Details" />
+                </a>}
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={(event)=>{handleFileChange(event,record)}}
+                />
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
                     <img src={viewicon} alt="View Details" />
                 </a>}

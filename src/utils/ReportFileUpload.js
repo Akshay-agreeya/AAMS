@@ -1,0 +1,23 @@
+import { apiRequest } from "./CommonApi";
+
+
+export const handleClick = (e, fileInputRef) => {
+    e.preventDefault();
+    fileInputRef.current.click(); // Triggers the hidden input
+};
+
+export const handleFileChange = async(event,record) => {
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append("zipfile", file);
+        //formData.append("product".JSON.stringfy(record));
+        try {
+            await apiRequest(`/misc/upload`, "POST", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+        } catch (err) {
+            console.error("Image upload failed:", err);
+        }
+    }
+};

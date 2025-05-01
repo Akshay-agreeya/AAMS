@@ -5,9 +5,9 @@ import axiosInstance from './AxiosInstance';
 
 
 // Create a function to make GET requests
-export const getData = async (requestUrl,data) => {
+export const getData = async (requestUrl, data) => {
     try {
-        const response = await axiosInstance.get(requestUrl,{data});
+        const response = await axiosInstance.get(requestUrl, { data });
         return response.data; // You can return the data directly here or process it if needed
     } catch (error) {
         console.error('Error during GET request:', error);
@@ -47,7 +47,7 @@ export const putData = async (requestUrl, data) => {
 // Create a function to make DELETE requests
 export const deleteData = async (requestUrl, data) => {
     try {
-        const response = await axiosInstance.delete(requestUrl,{data});
+        const response = await axiosInstance.delete(requestUrl, { data });
         return response.data;
     } catch (error) {
         console.error('Error during DELETE request:', error);
@@ -72,6 +72,18 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
     try {
         const config = {
             ...configData, // Custom headers, params, etc.
+            timeout: configData?.timeout || 900000,
+            // Enable retry on network failures (if using axios-retry)
+            'axios-retry': {
+                retries: 3,
+                retryDelay: (retryCount) => retryCount * 1000, // Progressive delay
+                retryCondition: (error) => {
+                    return error.code === 'ECONNABORTED' ||
+                        error.code === 'ERR_CONNECTION_REFUSED' ||
+                        error.code === 'ERR_CONNECTION_RESET' ||
+                        error.message.includes('Network Error');
+                }
+            }
         };
 
         // Handle dynamic HTTP methods (GET, POST, etc.)
@@ -95,9 +107,9 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
             default:
                 throw new Error(`Unsupported method: ${method}`);
         }
-            return response.data;
-        
-        
+        return response.data;
+
+
     } catch (error) {
         console.error('Error during API request', error);
 
@@ -108,7 +120,7 @@ export const apiRequest = async (requestUrl, method, requestData, configData) =>
 const handleError = (error) => {
     if (error.response) {
         // Return the response data from the error
-        if(error.response.status === 403){
+        if (error.response.status === 403) {
             sessionStorage.clear();
             window.location = "/login?session_expired=1";
         }
