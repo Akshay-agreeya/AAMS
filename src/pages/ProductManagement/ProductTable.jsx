@@ -124,7 +124,7 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {userEmail === "jitendra.khare@agreeya.com" && <a title="Browse Files" href={`#`}
+                {userEmail === "superAdmin12@gmail.com" && <a title="Browse Files" href={`#`}
                     className="me-3" onClick={(e)=>{handleClick(e,fileInputRef)}}>
                     <img src={browseIcon} alt="View Details" />
                 </a>}
@@ -132,7 +132,7 @@ const ProductTable = ({ org_id }) => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    onChange={(event)=>{handleFileChange(event,record)}}
+                    onChange={(event)=>{handleFileChange(event,record,org_id)}}
                 />
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
                     <img src={viewicon} alt="View Details" />
