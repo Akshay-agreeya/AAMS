@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../component/Layout";
 import { getData } from "../../utils/CommonApi";
 import { useParams } from "react-router-dom";
+import { formatTime, getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../utils/Constants";
 
 const AccessibilityReport = () => {
 
@@ -115,7 +117,14 @@ const AccessibilityReport = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Accessibility Report - {accessibilityInfo.summary_report_name} </h1>
+                <h1>
+  Accessibility Report - {accessibilityInfo.web_url}{" "}
+  {accessibilityInfo.assessment_date && getFormattedDateWithTime(new Date(accessibilityInfo.assessment_date), DATE_FORMAT)}
+  {" at "}
+  {accessibilityInfo.schedule_time && formatTime(new Date(accessibilityInfo.schedule_time))}
+</h1>
+
+
                 </div>
               </div>
 

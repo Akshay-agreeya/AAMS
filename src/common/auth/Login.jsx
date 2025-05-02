@@ -71,7 +71,7 @@ const LoginForm = () => {
             <div className="loginLogo">
                 <img src={Years_Logo_Horizontal1} alt="Agreeya Logo" className="w-75" />
             </div>
-            <div className="loginHeading">ADA CMS Sign In</div>
+            <div className="loginHeading">AAMS Sign In</div>
             <div className="loginSubHeading">Sign in to your account to continue</div>
             {error && <div className="alert alert-danger" role="alert">{error}</div>
             }

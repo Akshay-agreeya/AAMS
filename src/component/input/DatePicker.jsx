@@ -61,6 +61,10 @@ export const getFormattedDateWithTime = (date, dateFormat = "dd MMM yyyy - HH:mm
     // Replace the date format with corresponding values from the map
     return dateFormat.replace(/yyyy|MMM|MMMM|MM|dd|HH|hh|mm|ss|a/g, match => formats[match]);
 };
+export const formatTime = (date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+  
 
 
 

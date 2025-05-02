@@ -5,7 +5,7 @@ import { formattedDate, getFormattedDateWithTime } from '../../component/input/D
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
-import browseIcon from "../../assets/images/iconViewDisable.svg";
+import browseIcon from "../../assets/images/browseIcon.svg";
 import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
@@ -71,7 +71,7 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Version',
         dataIndex: 'guidline_version_id',
-        width: '8%',
+        width: '5%',
         className: "text-center"
     },
     {

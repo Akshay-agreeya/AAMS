@@ -42,6 +42,7 @@ const AddRole = () => {
     try {
       const resp = await getData(`/role/get/${role_id}`);
       formRef.current.setFieldsValue(resp.role);
+      setselectedRoleType(resp.role.role_key);
       setSelectedPermission(resp.details?.map(id => id.menu_detail_permission_id));
     }
     catch (error) {

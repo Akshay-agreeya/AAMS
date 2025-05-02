@@ -209,12 +209,18 @@ const AddProduct = () => {
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem name="guideline_version_id" label="WCAG Version">
+                              <FormItem name="guideline_version_id" label="Enter WCAG Version"rules={[{
+                                required: true,
+                                message: "WCAG Version is required"
+                              }]} requiredMark={true}>
                                 <WCAGVersionSelect />
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem name="compliance_level_id" label="WCAG Compliance Level">
+                              <FormItem name="compliance_level_id" label=" Enter WCAG Compliance Level" rules={[{
+                                required: true,
+                                message: "WCAG Compliance Level is required"
+                              }]} requiredMark={true}>
                                 <WCAGComplianceLevelSelect />
                               </FormItem>
                             </div>

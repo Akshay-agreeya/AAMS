@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useParams,useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Layout from "../../component/Layout";
 import Table from "../../component/table/Table";
 import benchWorseIcon from "../../assets/images/bench-worse.svg";
 import { getData } from "../../utils/CommonApi";
 import { extractPercentage } from "../../utils/Helper";
-
+import {
+  formatTime,
+  getFormattedDateWithTime,
+} from "../../component/input/DatePicker";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../utils/Constants";
 
 const Summary = () => {
   const { assessment_id } = useParams();
   const [summaryData, setSummaryData] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const [webUrl, setWebUrl] = useState("");
+  const [assessmentDate, setAssessmentDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
 
-    const queryParams = new URLSearchParams(location.search);
-    const product_id = queryParams.get('id');
-    const org_id = queryParams.get('org_id');
+  const queryParams = new URLSearchParams(location.search);
+  const product_id = queryParams.get("id");
+  const org_id = queryParams.get("org_id");
 
   useEffect(() => {
     if (assessment_id) {
@@ -28,7 +35,10 @@ const Summary = () => {
       setLoading(true);
       const res = await getData(`/dashboard/summary-report/${assessment_id}`);
       if (res.success) {
-        setSummaryData(res.contents); // assuming backend always returns an array
+        setSummaryData(res.contents);
+        setWebUrl(res.web_url);
+        setAssessmentDate(res.assessment_date); // assuming backend always returns an array
+        setScheduleTime(res.schedule_time); // assuming backend always returns an array
       }
     } catch (err) {
       console.error("Failed to fetch summary report:", err);
@@ -54,29 +64,29 @@ const Summary = () => {
       </div>
     );
   };
-  
 
   const columns = [
     {
       title: "Category",
       dataIndex: "category",
       width: "20%",
-      render: (text) => (
+      render: (text) =>
         text === "Accessibility" ? (
           <a href={`/reports/listing/viewreport/${assessment_id}`}>{text}</a>
-        ) : text
-      )
+        ) : (
+          text
+        ),
     },
     {
       title: "Issues",
       dataIndex: "issues",
       width: "20%",
-      render: renderIssueProgress
+      render: renderIssueProgress,
     },
     {
       title: "Pages",
       dataIndex: "pages",
-      width: "30%"
+      width: "30%",
     },
     {
       title: "Benchmark",
@@ -94,15 +104,17 @@ const Summary = () => {
             />{" "}
             {text}
           </>
-        ) : ""
-    }
+        ) : (
+          ""
+        ),
+    },
   ];
   const breadcrumbs = [
     { url: `/dashboard`, label: "Home" },
     { url: `/reports`, label: "Website Listing" },
-    { label: "Reports",url:`/reports/listing/${org_id}?id=${product_id}` },
-    { label: "Summary Report" }
-];
+    { label: "Reports", url: `/reports/listing/${org_id}?id=${product_id}` },
+    { label: "Summary Report" },
+  ];
 
   return (
     <Layout breadcrumbs={breadcrumbs}>
@@ -112,7 +124,18 @@ const Summary = () => {
             <div className="row">
               <div className="col-12">
                 <div className="pageTitle">
-                  <h1>Summary</h1>
+                  <div className="pageTitle">
+                    <h1>
+                      Summary Report - {webUrl}{" "}
+                      {assessmentDate &&
+                        getFormattedDateWithTime(
+                          new Date(assessmentDate),
+                          DATE_FORMAT
+                        )}
+                      {" at "}
+                      {scheduleTime && formatTime(new Date(scheduleTime))}
+                    </h1>
+                  </div>
                 </div>
               </div>
 

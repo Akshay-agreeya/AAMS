@@ -61,6 +61,7 @@ const ProductManagement = () => {
                             aria-controls={`collapse${index}`}
                           >
                             <div className="customerManagmentShortView">
+                              
                               <div className="orgTitle">{item.org_name}</div>
                               <OrganizationDetails org_id={item.org_id} />
                             </div>
