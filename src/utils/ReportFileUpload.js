@@ -4,12 +4,13 @@ import { ORG_ID } from "./Constants";
 
 export const handleClick = (e, fileInputRef) => {
     e.preventDefault();
+    fileInputRef.current.value = '';
     fileInputRef.current.click(); // Triggers the hidden input
 };
 
 export const handleFileChange = async(event,record,org_id) => {
     const file = event.target.files[0];
-    if (file) {debugger;
+    if (file) {
         const formData = new FormData();
         formData.append("zipfile", file);
         formData.append(ORG_ID, org_id);
