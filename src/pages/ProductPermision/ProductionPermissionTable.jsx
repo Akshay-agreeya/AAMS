@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Table from '../../component/table/Table';
 import { getData } from '../../utils/CommonApi';
-import { convertProductPermission, getFullName,  getOperationsFromPermission, operationExist } from '../../utils/Helper';
+import { convertProductPermission, getAllowedOperations, getFullName, getOperationsFromPermission, operationExist } from '../../utils/Helper';
 import Loading from '../../component/Loading';
+import { PRODUCT_PERMISSION } from '../../utils/Constants';
 
 const ProductionPermissionTable = ({ org_id, onChange }) => {
 
@@ -12,6 +13,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     const [loading, setLoading] = useState(false);
     const [usersWithServices, setUsersWithServices] = useState([]);
 
+    const operations = getAllowedOperations(PRODUCT_PERMISSION );
 
     const getOrganizationData = useCallback(async () => {
         try {
@@ -20,7 +22,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             setProducts([]);
             setUsersWithServices([]);
             // Fetch users and products in parallel
-            const {Users, Service, allPermissions, prod_permissions} = await getData(`/permission/get/${org_id}`);
+            const { Users, Service, allPermissions, prod_permissions } = await getData(`/permission/get/${org_id}`);
 
             // Handle users data
             if (Users) {
@@ -47,7 +49,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
                 setProductPermissions(allPermissions); // Assuming you want to set products to state
             }
             // Handle products permission data
-            if (prod_permissions){
+            if (prod_permissions) {
                 setUsersWithServices(Object.values(convertProductPermission(prod_permissions)));
             }
 
@@ -86,11 +88,11 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
         )
     }
 
-    const permissionExist = useCallback((service_id,user_id, menu_key)=>{
+    const permissionExist = useCallback((service_id, user_id, menu_key) => {
         const mKey = productPermissions?.find(item => item.product_permission_opr_name === menu_key)?.product_permission_opr_id;
-        const operationIds = usersWithServices.find(item=>item.user_id === user_id && item.service_id===service_id)?.product_permission_opr_ids;
+        const operationIds = usersWithServices.find(item => item.user_id === user_id && item.service_id === service_id)?.product_permission_opr_ids;
         return operationIds?.includes(mKey);
-    },[usersWithServices,productPermissions]);
+    }, [usersWithServices, productPermissions]);
 
     const columns = [
         {
@@ -141,7 +143,7 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: () => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map((item,index) => <li key={index}><div className="form-check custCheck">{item.web_url}</div></li>)}
+                        {products?.map((item, index) => <li key={index}><div className="form-check custCheck">{item.web_url}</div></li>)}
                     </ul>
                 </div>
 
@@ -156,11 +158,12 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map((item,index) => <li key={index}>
+                        {products?.map((item, index) => <li key={index}>
                             <div className="form-check custCheck">
                                 <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
-                                checked={permissionExist(item.service_id, record.user_id, 'Product_View')}
-                                    value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Product_View') }} />
+                                    checked={permissionExist(item.service_id, record.user_id, 'Product_View')}
+                                    value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Product_View') }}
+                                    disabled={!operationExist(operations, 2)} />
                                 <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                             </div></li>)}
                     </ul>
@@ -176,10 +179,11 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <div className="selectOptionRepeat">
                     <ul>
-                        {products?.map((item,index) => <li key={index}><div className="form-check custCheck">
+                        {products?.map((item, index) => <li key={index}><div className="form-check custCheck">
                             <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
-                            checked={permissionExist(item.service_id, record.user_id, 'Report_View')}
-                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} />
+                                checked={permissionExist(item.service_id, record.user_id, 'Report_View')}
+                                value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} 
+                                disabled={!operationExist(operations, 2)} />
                             <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
                         </div></li>)}
                     </ul>
@@ -192,13 +196,13 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
     const handlePermissionChanged = (e, record, menu_key) => {
         const mKey = productPermissions?.find(item => item.product_permission_opr_name === menu_key)?.product_permission_opr_id;
         const { value, checked } = e.target;
-   
+
         // Create a copy of usersWithServices to avoid direct mutation
         const updatedUsersWithServices = [...usersWithServices];
-   
+
         // Find the existing user-service pair
         let existData = updatedUsersWithServices.find(item => item.user_id === record.user_id && item.service_id === Number(value));
-   
+
         if (checked) {
             if (existData) {
                 // Add the permission operation ID if it doesn't exist
@@ -217,23 +221,23 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             if (existData) {
                 // Remove the permission operation ID
                 existData.product_permission_opr_ids = existData.product_permission_opr_ids.filter(item => item !== mKey);
-               
+
                 // Ensure an empty array is present instead of removing the object
                 existData.product_permission_opr_ids = existData.product_permission_opr_ids.length ? existData.product_permission_opr_ids : [];
             }
         }
-   
+
         // Update state with modified array
         setUsersWithServices([...updatedUsersWithServices]);
     };
- 
+
 
 
     if (loading)
         return <Loading />
 
     return (
-        <Table columns={columns} dataSource={users} pagenation={false} rowKey='user_id'/>
+        <Table columns={columns} dataSource={users} pagenation={false} rowKey='user_id' />
     )
 }
 
