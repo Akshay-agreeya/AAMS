@@ -38,7 +38,7 @@ const Summary = () => {
         setSummaryData(res.contents);
         setWebUrl(res.web_url);
         setAssessmentDate(res.assessment_date); // assuming backend always returns an array
-        setScheduleTime(res.schedule_time); // assuming backend always returns an array
+        setScheduleTime(res.assessment_timestamp); // assuming backend always returns an array
       }
     } catch (err) {
       console.error("Failed to fetch summary report:", err);
@@ -129,11 +129,10 @@ const Summary = () => {
                       Summary Report - {webUrl}{" "}
                       {assessmentDate &&
                         getFormattedDateWithTime(
-                          new Date(assessmentDate),
-                          DATE_FORMAT
+                          new Date(scheduleTime),
+                          DATE_TIME_FORMAT
                         )}
-                      {" at "}
-                      {scheduleTime && formatTime(new Date(scheduleTime))}
+                      
                     </h1>
                   </div>
                 </div>
