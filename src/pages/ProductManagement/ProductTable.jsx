@@ -132,7 +132,9 @@ const ProductTable = ({ org_id }) => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    onChange={(event)=>{handleFileChange(event,record,org_id)}}
+                    onChange={(event)=>{
+                        handleFileChange(event,record,org_id,setLoading)
+                    }}
                 />
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
                     <img src={viewicon} alt="View Details" />
