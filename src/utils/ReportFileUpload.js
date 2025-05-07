@@ -9,7 +9,7 @@ export const handleClick = (e, fileInputRef) => {
     fileInputRef.current.click(); // Triggers the hidden input
 };
 
-export const handleFileChange = async (event, record, org_id) => {
+export const handleFileChange = async (event, record, org_id,setLoading) => {
 
     const file = event.target.files[0];
     if (file) {
@@ -25,7 +25,7 @@ export const handleFileChange = async (event, record, org_id) => {
             });
             return;
         }
-
+        
         // Optional: Check binary signature (magic number)
         const buffer = await file.slice(0, 4).arrayBuffer();
         const signature = new Uint8Array(buffer);
@@ -38,7 +38,7 @@ export const handleFileChange = async (event, record, org_id) => {
             });
             return;
         }
-
+        setLoading(true);
         const formData = new FormData();
         formData.append("zipfile", file);
         formData.append("org_id", org_id); // Assuming ORG_ID should be a string key
@@ -70,6 +70,9 @@ export const handleFileChange = async (event, record, org_id) => {
                 title: 'Upload',
                 message
             });
+        }
+        finally{
+            setLoading(false);
         }
     }
 };
