@@ -35,10 +35,21 @@ const Summary = () => {
       setLoading(true);
       const res = await getData(`/dashboard/summary-report/${assessment_id}`);
       if (res.success) {
-        setSummaryData(res.contents);
+        let sortedData = [...res.contents];
+  
+        
+        sortedData.sort((a, b) => {
+          if (a.category === "Accessibility") return -1;
+          if (b.category === "Accessibility") return 1;
+          if (a.category === "Totals") return 1;
+          if (b.category === "Totals") return -1;
+          return 0;
+        });
+  
+        setSummaryData(sortedData);
         setWebUrl(res.web_url);
-        setAssessmentDate(res.assessment_date); // assuming backend always returns an array
-        setScheduleTime(res.assessment_timestamp); // assuming backend always returns an array
+        setAssessmentDate(res.assessment_date);
+        setScheduleTime(res.assessment_timestamp);
       }
     } catch (err) {
       console.error("Failed to fetch summary report:", err);
@@ -46,6 +57,7 @@ const Summary = () => {
       setLoading(false);
     }
   };
+  
 
   const renderIssueProgress = (issues) => {
     const { critical, nonCritical } = extractPercentage(issues);

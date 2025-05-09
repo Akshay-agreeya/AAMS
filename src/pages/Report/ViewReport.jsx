@@ -198,7 +198,7 @@ const AccessibilityReport = () => {
                     
                   </h1>
                   <div className="buttonContainer">
-                                        <a href="/user-management/addorg" className="add"> <i className="fa-solid fa-plus"></i>Add Manual Assessment</a>
+                                        <a href="/manualassesment" className="add"> <i className="fa-solid fa-plus"></i>Add Manual Assessment</a>
                                     </div>
                 </div>
               </div>

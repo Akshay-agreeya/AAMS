@@ -28,6 +28,7 @@ import ProfileSetting from './pages/ProfileSetting';
 import DashboardWrapper from './pages/DashboardWrapper';
 import ReportWrapper from './pages/ReportWrapper';
 import SummaryReport from './pages/Report/SummaryReport';
+import ManualAssessment from './pages/Report/ManualAssesment';
 
 
 
@@ -39,6 +40,7 @@ export const routesMap = [
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
+    { path: "/manualassesment", element: <ManualAssessment /> },
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
     {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},
