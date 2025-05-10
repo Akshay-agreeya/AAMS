@@ -12,6 +12,7 @@ import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
 import { DATE_FORMAT, PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
 import { handleClick, handleFileChange } from '../../utils/ReportFileUpload';
+import "./Spinner.css";
 
 const ProductTable = ({ org_id }) => {
 
@@ -20,6 +21,7 @@ const ProductTable = ({ org_id }) => {
     const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
+    const [reportExtractLoading, setReportExtractLoading] = useState(false);
 
     const userEmail = getUserEmailFromSession();
     const fileInputRef = useRef(null);
@@ -125,15 +127,18 @@ const ProductTable = ({ org_id }) => {
         render: (_text, record) => (
             <>
                 {userEmail === "superAdmin12@gmail.com" && <a title="Browse Files" href={`#`}
-                    className="me-3" onClick={(e)=>{handleClick(e,fileInputRef)}}>
-                    <img src={browseIcon} alt="View Details" />
+                    className="me-3 icon-wrapper" onClick={(e) => { if(!reportExtractLoading)handleClick(e, fileInputRef) }}>
+                    <div className="icon-wrapper">
+                        <img src={browseIcon} alt="View Details" />
+                        {reportExtractLoading && <div className="spinner" />}
+                    </div>
                 </a>}
                 <input
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    onChange={(event)=>{
-                        handleFileChange(event,record,org_id,setLoading)
+                    onChange={(event) => {
+                        handleFileChange(event, record, org_id, setReportExtractLoading)
                     }}
                 />
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
