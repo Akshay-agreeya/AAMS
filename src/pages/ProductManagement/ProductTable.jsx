@@ -12,6 +12,7 @@ import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
 import { DATE_FORMAT, PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
 import { handleClick, handleFileChange } from '../../utils/ReportFileUpload';
+import "./Spinner.css";
 
 const ProductTable = ({ org_id }) => {
 
@@ -133,8 +134,8 @@ const ProductTable = ({ org_id }) => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    onChange={(event)=>{
-                        handleFileChange(event,record,org_id,setLoading)
+                    onChange={(event) => {
+                        handleFileChange(event, record, org_id, setReportExtractLoading)
                     }}
                 />
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
