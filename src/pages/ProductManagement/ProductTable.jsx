@@ -6,7 +6,7 @@ import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
 import browseIcon from "../../assets/images/browseIcon.svg";
-import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession } from '../../utils/Helper';
+import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession ,isSuperAdmin} from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const ProductTable = ({ org_id }) => {
     const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
+    const superAdmin = isSuperAdmin();
 
     const userEmail = getUserEmailFromSession();
     const fileInputRef = useRef(null);
@@ -124,7 +125,7 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {userEmail === "superAdmin12@gmail.com" && <a title="Browse Files" href={`#`}
+                {superAdmin && <a title="Browse Files" href={`#`}
                     className="me-3" onClick={(e)=>{handleClick(e,fileInputRef)}}>
                     <img src={browseIcon} alt="View Details" />
                 </a>}
