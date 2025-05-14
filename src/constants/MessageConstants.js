@@ -4,3 +4,4 @@ export const ORG_SAVE_SUCCESS_MSG = "Organization saved successfully!";
 export const ROLE_SAVE_SUCCESS_MSG = "Role saved successfully!";
 export const PRODUCT_SAVE_SUCCESS_MSG = "Product saved successfully!";
 export const OPERATION_FAILED_MSG = "Failed to process the request.";
+export const MANUAL_ASSESSMENT_SAVE_SUCCESS_MSG = "Manual assessment saved successfully";

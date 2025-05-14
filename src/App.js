@@ -40,7 +40,7 @@ export const routesMap = [
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
-    { path: "/manualassesment", element: <ManualAssessment /> },
+    { path: "/product-management/manual-testing/:product_id", element: <ManualAssessment /> },
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
     {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},

@@ -5,6 +5,7 @@ import { formattedDate, getFormattedDateWithTime } from '../../component/input/D
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
+import manualTestingIcon from "../../assets/images/manual-testing.svg";
 import browseIcon from "../../assets/images/browseIcon.svg";
 import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession ,isSuperAdmin} from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
@@ -138,6 +139,9 @@ const ProductTable = ({ org_id }) => {
                         handleFileChange(event, record, org_id)
                     }}
                 />
+                {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Testing" href={`/product-management/manual-testing/${record.service_id}`} className="me-3">
+                    <img src={manualTestingIcon} alt="Manual Testing" />
+                </a>}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">
                     <img src={viewicon} alt="View Details" />
                 </a>}
