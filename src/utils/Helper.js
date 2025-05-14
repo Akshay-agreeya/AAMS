@@ -232,7 +232,7 @@ export const getDashboardItem = (contents, key) => {
 
 export const getPercentValue = (value) => {
     if (!value)
-        return '';
+        return 0
     const values = value.split("%");
 
     let tPercent = 0;
@@ -242,7 +242,7 @@ export const getPercentValue = (value) => {
             tPercent += Number(item.trim());
     });
 
-    return tPercent || '';
+    return tPercent || 0;
 }
 
 export const getPages = (value) => {

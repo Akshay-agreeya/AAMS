@@ -108,28 +108,7 @@ const AccessibilityReport = () => {
             })()}
           </td>
           <td className="optional">{category.failing_page} pages</td>
-          <td className="optional">
-          {/* Action buttons */}
-         
-          {operations?.find((item) => item.operation_type_id === 2) && (
-            <a
-              title="Edit Details"
-              href={`/user-management/edituser`}
-              className="me-3"
-            >
-              <img src={editicon} alt="Edit Details" />
-            </a>
-          )}
-          {operations?.find((item) => item.operation_type_id === 4) && (
-            <a
-              title="Delete Details"
-              href="#"
-              
-            >
-              <img src={deleteicon} alt="Delete Details" />
-            </a>
-          )}
-        </td>
+          {/*  */}
         </tr>
 
         {expandedIssues[category.category_id] &&
@@ -197,9 +176,9 @@ const AccessibilityReport = () => {
                       )}
                     
                   </h1>
-                  <div className="buttonContainer">
+                  {/* <div className="buttonContainer">
                                         <a href="/manualassesment" className="add"> <i className="fa-solid fa-plus"></i>Add Manual Assessment</a>
-                                    </div>
+                                    </div> */}
                 </div>
               </div>
 
@@ -328,7 +307,7 @@ const AccessibilityReport = () => {
                           <th>Description and URL</th>
                           <th>Guideline and Line#</th>
                           <th className="optional">Count</th>
-                          <th className="optional">Action</th>
+                          {/* <th className="optional">Action</th> */}
                         </tr>
                       </thead>
                       <tbody>
