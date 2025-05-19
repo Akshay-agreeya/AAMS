@@ -4,7 +4,7 @@ import Layout from "../../component/Layout";
 import Table from "../../component/table/Table";
 import benchWorseIcon from "../../assets/images/bench-worse.svg";
 import { getData } from "../../utils/CommonApi";
-import { extractPercentage } from "../../utils/Helper";
+import { extractPercentage,getPercentValue } from "../../utils/Helper";
 import {
   formatTime,
   getFormattedDateWithTime,

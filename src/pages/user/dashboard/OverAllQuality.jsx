@@ -3,7 +3,7 @@ import { getPages, getPercentValue } from '../../../utils/Helper';
 
 export const OverAllQuality = ({ summary }) => {
 
-    const percent = getPercentValue(summary.issues);
+    const percent = getPercentValue(summary.benchmark);
     const pages = getPages(summary.pages) || {};
 
     return (
