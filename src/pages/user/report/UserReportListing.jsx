@@ -5,6 +5,7 @@ import Pagenation from "../../../component/Pagenation";
 import { UrlSelect } from "../../../component/select/UrlSelect";
 import ReportTable from "../../Report/ReportTable";
 import { useLocation, useParams } from "react-router";
+import TabReportsListing from "./TabReportsListing";
 
 const UserReportListing = () => {
 
@@ -12,6 +13,7 @@ const UserReportListing = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const product_id = queryParams.get('id');
+    const selected_tab = queryParams.get('selected_tab') || "1";
 
     const [selectedProduct, setSelectedProduct] = useState({ value: product_id });
 
@@ -61,12 +63,10 @@ const UserReportListing = () => {
                                         </div>
 
                                         {/* Reports Table */}
-                                        <ReportTable product_id={selectedProduct.value} org_id={org_id} />
+                                        {/* <ReportTable product_id={selectedProduct.value} org_id={org_id} /> */}
+                                        <TabReportsListing product_id={selectedProduct.value} org_id={org_id}
+                                            selected_tab={selected_tab} />
 
-                                        {/* Pagination */}
-                                        <div className="col-12">
-                                            <Pagenation />
-                                        </div>
                                     </div>
                                 </div>
                             </div>

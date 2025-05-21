@@ -29,6 +29,7 @@ import DashboardWrapper from './pages/DashboardWrapper';
 import ReportWrapper from './pages/ReportWrapper';
 import SummaryReport from './pages/Report/SummaryReport';
 import ManualAssessment from './pages/Report/ManualAssesment';
+import ManaualViewReport from './pages/Report/ManaualViewReport';
 
 
 
@@ -48,6 +49,7 @@ export const routesMap = [
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
     { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
+    { path: "/reports/listing/manual-viewreport/:assessment_id", element: <PrivateRoute element={ManaualViewReport} /> ,breadcrumb: "View"},
     { path: "/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
     { path: "/reports/listing/summaryreport/:assessment_id", element: <PrivateRoute element={SummaryReport} /> ,breadcrumb: "Summaryreport"},
     // { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },

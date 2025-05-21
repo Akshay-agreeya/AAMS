@@ -2,6 +2,7 @@
  * Global variables
  */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 html,
 body {
   font-family: "Roboto", serif;
@@ -12,14 +13,17 @@ body {
   padding: 0px;
   height: 100%;
 }
+
 @media (max-width: 1500px) {
+
   html,
-body {
+  body {
     font-size: 15px;
   }
 }
 
-html .formbg, body.formbg {
+html .formbg,
+body.formbg {
   background: #003D68;
 }
 
@@ -28,6 +32,7 @@ html .formbg, body.formbg {
     max-width: 88vw;
   }
 }
+
 @media (max-width: 991px) {
   .container {
     max-width: 94vw;
@@ -36,6 +41,12 @@ html .formbg, body.formbg {
 
 h1 {
   font-size: 1.5rem;
+  font-weight: 500;
+  line-height: normal;
+}
+
+h2 {
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: normal;
 }
@@ -52,18 +63,37 @@ h4 {
   line-height: normal;
 }
 
+.headerContainer {
+  position: relative;
+}
+
 .headerContainer .headerSubContainer {
   background: #003D68;
 }
+
 .headerContainer .headerNavigation {
   display: flex;
   justify-content: space-between;
 }
+
+@media (max-width: 767px) {
+  .headerContainer .headerNavigation {
+    justify-content: flex-start;
+  }
+}
+
 .headerContainer .siteLogo {
   display: flex;
   align-items: center;
   padding: 20px 0;
 }
+
+@media (max-width: 767px) {
+  .headerContainer .siteLogo {
+    flex-direction: column;
+  }
+}
+
 .headerContainer .siteLogo span {
   font-family: "Poppins", serif;
   color: #fff;
@@ -72,39 +102,67 @@ h4 {
   font-weight: 300;
   line-height: 23px;
 }
+
+@media (max-width: 767px) {
+  .headerContainer .siteLogo span {
+    display: none;
+  }
+}
+
 .headerContainer .siteLogo img {
   margin-right: 12px;
   border-right: 1px solid #276FA1;
   padding-right: 10px;
 }
+
+@media (max-width: 767px) {
+  .headerContainer .siteLogo img {
+    border-right: 0;
+  }
+}
+
 .headerContainer .topNav {
   display: flex;
 }
+
+@media (max-width: 767px) {
+  .headerContainer .topNav .topUtilities {
+    display: none;
+  }
+}
+
 .headerContainer .topNav .topUtilities ul {
   margin: 0;
   padding: 0;
 }
+
 .headerContainer .topNav .topUtilities ul li {
   list-style-type: none;
   display: inline-block;
   margin-right: 20px;
   padding: 20px 0;
 }
+
 .headerContainer .topNav .userInformationContainer {
   border-left: 1px solid #0E75A5;
   padding: 0px 0 0px 15px;
   display: flex;
   align-items: center;
 }
+
+.headerContainer .topNav .userInformationContainer .userProfilePic {
+  background: #fff;
+  border-radius: 50%;
+}
+
 .headerContainer .topNav .userInformationContainer .userProfilePic img {
   width: 35px;
   height: 35px;
   outline: 2px solid #fff;
-  background:#fff;
-	border-radius:50%;
-  
+  border-radius: 50%;
   filter: drop-shadow(0px 2px 14px rgba(0, 0, 0, 0.25));
 }
+
 .headerContainer .topNav .userInformationContainer .custProfileDropDown {
   color: #A3CFEE;
   font-size: 0.87rem;
@@ -112,6 +170,7 @@ h4 {
   padding: 3px;
   margin-left: 7px;
 }
+
 .headerContainer .topNav .userInformationContainer .userProfileType {
   font-size: 0.75rem;
   color: #fff;
@@ -119,31 +178,169 @@ h4 {
   margin-left: 11px;
   line-height: 11px;
 }
+
 .headerContainer .topNav .userInformationContainer .dropdown-menu.show {
   top: -3px !important;
+}
+
+.activityContainer {
+  padding: 8px;
+  border-bottom: 1px solid #E9E9E9;
+  display: flex;
+}
+
+.activityContainer .activityLeft {
+  flex: 1;
+}
+
+@media (max-width: 1535px) {
+  .activityContainer .activityLeft {
+    flex: 1 0 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 1535px) {
+  .activityContainer .activityLeft .activityDesc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.activityContainer .activityLeft .actheading {
+  color: #000000;
+  font-size: 0.87rem;
+  font-weight: 600;
+}
+
+.activityContainer .activityLeft .actheading a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.activityContainer .activityLeft .actheading a:hover {
+  text-decoration: underline;
+  color: #022e4d;
+}
+
+.activityContainer .activityLeft .userAddStatus {
+  width: 8px;
+  height: 8px;
+  display: inline-flex;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.activityContainer .activityLeft .userAddStatus.add {
+  background: #22A06B;
+}
+
+.activityContainer .activityLeft .userAddStatus.update {
+  background: #FFBA60;
+}
+
+.activityContainer .activityLeft .userAddStatus.delete {
+  background: #D61821;
+}
+
+.activityContainer .activityLeft .userAddStatus.report {
+  background: #06C;
+}
+
+.activityContainer .activityLeft .activityRole {
+  color: #626F7F;
+  font-size: 0.75rem;
+  margin-left: 19px;
+}
+
+.activityContainer .activityRight {
+  flex: 1;
+}
+
+@media (max-width: 1500px) {
+  .activityContainer .activityRight {
+    flex: 1 0 40%;
+  }
+}
+
+.activityContainer .activityRight .actDate {
+  font-size: 0.75rem;
+  text-align: right;
+  margin-top: 3px;
+}
+
+.popover {
+  width: 300px;
+}
+
+.popover-body:has(.dashGraphicContainerWhite) {
+  padding: 0;
 }
 
 .siteNavigationContainer {
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
 }
+
 .siteNavigationContainer .navigation .navbar {
   padding: 0;
 }
+
+@media (max-width: 767px) {
+  .siteNavigationContainer .navigation .navbar {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    z-index: 99;
+    display: flex;
+    justify-content: flex-end;
+    /*width: 100%;*/
+  }
+}
+
+.siteNavigationContainer .navigation .navbar .navbar-collapse.collapse.show {
+  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .siteNavigationContainer .navigation .navbar .navbar-toggler {
+    background: #fff;
+    margin-right: 10px;
+  }
+}
+
 .siteNavigationContainer .navigation .nav-item {
   margin-left: 50px;
 }
+
+@media (max-width: 767px) {
+  .siteNavigationContainer .navigation .nav-item {
+    margin-left: 0px;
+  }
+}
+
 .siteNavigationContainer .navigation .nav-link {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 500;
   padding: 12px 8px;
 }
+
+@media (max-width: 767px) {
+  .siteNavigationContainer .navigation .nav-link {
+    border-bottom: 1px solid #003D68;
+  }
+}
+
 .siteNavigationContainer .navigation .nav-link:hover {
   color: #003D68;
   border-bottom: 3px solid #003D68;
   padding: 12px 8px 9px 8px;
 }
+
 .siteNavigationContainer .navigation .nav-link.active {
   color: #003D68;
   font-weight: 700;
@@ -157,9 +354,11 @@ h4 {
   color: #000000;
   font-size: 0.9rem;
 }
+
 .breadcrumbsContainer span {
   color: #5E6977;
 }
+
 .breadcrumbsContainer a {
   color: #06C;
   font-weight: 500;
@@ -169,28 +368,34 @@ h4 {
 .dashboardTitleContainer {
   margin: 15px 0;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter {
   display: flex;
   justify-content: space-between;
   align-content: center;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft {
   display: flex;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .title {
   color: #000000;
   font-size: 1.62rem;
   font-weight: 600;
   margin-right: 20px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer {
   border-left: 1px solid #C8D2DE;
   padding-left: 12px;
   display: flex;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer .siteInformation {
   margin-left: 5px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer .siteInformation .dropdown .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2225%22 height%3D%2225%22 viewBox%3D%220 0 25 25%22 fill%3D%22none%22%3E%3Cpath d%3D%22M19.3652 7.8125L20.3125 8.82324L12.5 17.1875L4.6875 8.82324L5.62988 7.8125L12.5 15.1611L19.3652 7.8125Z%22 fill%3D%22black%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -202,13 +407,16 @@ h4 {
   margin-top: -3px;
   margin-left: 0px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer .siteInformation span {
   display: block;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer .siteInformation .siteStatus {
   color: #5E6977;
   font-size: 0.75rem;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .dashboradTestedSiteContainer .siteInformation .custSiteReportName {
   color: #000000;
   font-size: 1.25rem;
@@ -216,6 +424,7 @@ h4 {
   line-height: 18px;
   text-decoration: none;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .reportArchiveContainer {
   border-left: 1px solid #C8D2DE;
   padding-left: 20px;
@@ -223,9 +432,11 @@ h4 {
   display: flex;
   align-items: center;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .reportArchiveContainer .reportArchiveDD {
   margin-left: 5px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .reportArchiveContainer .reportArchiveDD .dropdown .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2213%22 height%3D%228%22 viewBox%3D%220 0 13 8%22 fill%3D%22none%22%3E%3Cpath d%3D%22M11.8643 0L12.63 0.817003L6.315 7.578L0 0.817003L0.761747 0L6.315 5.94005L11.8643 0Z%22 fill%3D%22%23003D68%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -236,25 +447,31 @@ h4 {
   margin-left: 10px;
   vertical-align: 0;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .reportArchiveContainer .reportArchiveDD span {
   display: block;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardLeft .reportArchiveContainer .reportArchiveDD .reportArchiveName {
   color: #003D68;
   font-size: 0.87rem;
   font-weight: 600;
   text-decoration: none;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardRight {
   display: flex;
   align-items: center;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardRight .moveBackward {
   margin-right: 15px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardRight .moveBackward img {
   margin-right: 10px;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .dashboardRight .moveBackward a {
   color: #003D68;
   font-size: 0.87rem;
@@ -264,6 +481,7 @@ h4 {
   padding: 8px 12px;
   font-weight: 500;
 }
+
 .dashboardTitleContainer .dashboardTitleOuter .filetypeContainer .custDDViewReport {
   border-radius: 5px;
   border: 1px solid #C8D2DE;
@@ -277,10 +495,12 @@ h4 {
   border-bottom: 0;
   padding-bottom: 0;
 }
+
 .popUpAccessibilityContainer .modal-footer {
   border-top: 0;
   justify-content: center;
 }
+
 .popUpAccessibilityContainer .modal-footer a {
   width: 45%;
   text-align: center;
@@ -290,25 +510,31 @@ h4 {
   text-decoration: none;
   border-radius: 4px;
 }
+
 .popUpAccessibilityContainer .modal-footer .downloadReport {
   background: #F6B662;
   color: #000000;
   margin-right: 10px;
 }
+
 .popUpAccessibilityContainer .modal-footer .downloadReport:hover {
   background: #FFAA39;
 }
+
 .popUpAccessibilityContainer .modal-footer .viewDetails {
   border: 1px solid #003D68;
   color: #003D68;
   margin-left: 10px;
 }
+
 .popUpAccessibilityContainer .modal-footer .viewDetails:hover {
   background: #f1f1f1;
 }
+
 .popUpAccessibilityContainer .modal-body {
   padding-top: 0;
 }
+
 .popUpAccessibilityContainer .heading {
   color: #003D68;
   text-align: center;
@@ -317,9 +543,11 @@ h4 {
   line-height: 35px;
   margin-bottom: 10px;
 }
+
 .popUpAccessibilityContainer .heading span {
   display: block;
 }
+
 .popUpAccessibilityContainer .message {
   color: #5E6977;
   text-align: center;
@@ -327,21 +555,26 @@ h4 {
   border-bottom: 1px solid #C8D2DE;
   padding-bottom: 10px;
 }
+
 .popUpAccessibilityContainer .message span {
   display: block;
 }
+
 .popUpAccessibilityContainer .reportNameContainer {
   display: flex;
   padding-top: 20px;
 }
+
 .popUpAccessibilityContainer .reportNameContainer .reportIcon {
   margin-right: 10px;
 }
+
 .popUpAccessibilityContainer .reportNameContainer .reportDescription .name {
   color: #003D68;
   font-size: 0.87rem;
   font-weight: 600;
 }
+
 .popUpAccessibilityContainer .reportNameContainer .reportDescription .date {
   color: #5E6977;
   font-size: 0.87rem;
@@ -352,20 +585,24 @@ h4 {
   display: flex;
   align-items: center;
 }
+
 .loginFormContainer .formLogin {
   background: #fff;
   padding: 60px;
   margin: auto;
   border-radius: 8px;
 }
+
 @media (min-width: 768px) {
   .loginFormContainer .formLogin {
     width: 600px;
   }
 }
+
 .loginFormContainer .loginLogo {
   text-align: center;
 }
+
 .loginFormContainer .loginHeading {
   font-weight: bold;
   font-size: 1.25rem;
@@ -374,6 +611,7 @@ h4 {
   margin-top: 10px;
   text-align: center;
 }
+
 .loginFormContainer .loginSubHeading {
   margin: 10px 0 20px !important;
   font-size: 0.875rem;
@@ -381,14 +619,17 @@ h4 {
   color: #000000;
   text-align: center;
 }
+
 .loginFormContainer .formFieldborder {
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   border-radius: 0;
 }
+
 .loginFormContainer .btnContainer {
   margin-top: 20px;
 }
+
 .loginFormContainer .signInAdmin {
   background: #003D68;
   border-radius: 4px;
@@ -400,6 +641,7 @@ h4 {
   padding: 12px 0;
   margin-right: 10px;
 }
+
 .loginFormContainer .signInCustomer {
   background: #E9E9E9;
   border-radius: 4px;
@@ -411,9 +653,11 @@ h4 {
   padding: 12px 0;
   margin-left: 10px;
 }
+
 .loginFormContainer .forgotPassword {
   margin-top: 20px;
 }
+
 .loginFormContainer .forgotPassword a {
   color: #003D68;
 }
@@ -426,19 +670,23 @@ h4 {
   margin-bottom: 35px;
   height: calc(100% - 35px);
 }
+
 .accessibilityContainer .headingSection {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
 .accessibilityContainer .headingSection h3 {
   color: #fff;
 }
+
 .accessibilityContainer .accessibilityErrorScoreContainer {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
 }
+
 .accessibilityContainer .accessibilityErrorScoreContainer .score {
   color: #fff;
   font-size: 2.93rem;
@@ -447,6 +695,7 @@ h4 {
   line-height: 17px;
   margin-right: 15px;
 }
+
 .accessibilityContainer .accessibilityErrorScoreContainer .message {
   color: #fff;
   font-size: 1.25rem;
@@ -454,12 +703,14 @@ h4 {
   font-weight: 400;
   line-height: 23px;
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .levelMessage {
   color: #fff;
   font-weight: 400;
   line-height: 17px;
   margin-bottom: 20px;
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat {
   display: flex;
   width: 60%;
@@ -467,15 +718,18 @@ h4 {
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
+
 @media (min-width: 1280px) and (max-width: 1536px) {
   .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat {
     width: 100%;
   }
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat:last-child {
   margin-bottom: 0px;
   border-bottom: 0;
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelName {
   color: #fff;
   font-size: 1.12rem;
@@ -484,9 +738,11 @@ h4 {
   min-width: 120px;
   display: flex;
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelName img {
   margin-right: 10px;
 }
+
 .accessibilityContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelDesc {
   color: #fff;
   font-size: 0.87rem;
@@ -500,11 +756,13 @@ h4 {
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
   padding-bottom: 30px;
 }
+
 @media (max-width: 991px) {
   .otherComplianceContainer.errorContainer {
     margin-bottom: 30px;
   }
 }
+
 .otherComplianceContainer.errorContainer .headingSection {
   border-bottom: 1px solid #E9E9E9;
   padding: 15px 20px;
@@ -513,13 +771,16 @@ h4 {
   margin-bottom: 25px;
   align-items: center;
 }
+
 .otherComplianceContainer.errorContainer .headingSection h4 {
   color: #000000;
   margin-bottom: 0;
 }
+
 .otherComplianceContainer.errorContainer .graphContainer {
   margin-bottom: 20px;
 }
+
 .otherComplianceContainer.errorContainer .commonErrorScoreContainer {
   display: flex;
   flex-direction: column;
@@ -527,21 +788,25 @@ h4 {
   padding-bottom: 25px;
   justify-content: center;
 }
+
 .otherComplianceContainer.errorContainer .commonErrorScoreContainer .score {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 700;
   line-height: 18px;
 }
+
 .otherComplianceContainer.errorContainer .commonErrorScoreContainer .score span {
   font-weight: 400;
 }
+
 .otherComplianceContainer.errorContainer .commonErrorScoreContainer .message {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
+
 .otherComplianceContainer.errorContainer .showHistoryContainer a {
   color: #0E75A5;
   text-align: center;
@@ -556,21 +821,25 @@ h4 {
   display: block;
   margin: auto;
 }
+
 .otherComplianceContainer.errorContainer .showHistoryContainer a:hover {
   background: #0E75A5;
   color: #fff;
 }
+
 .otherComplianceContainer.compatibilityContainer {
   border-radius: 7px;
   background: #fff;
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
   padding-bottom: 30px;
 }
+
 @media (max-width: 991px) {
   .otherComplianceContainer.compatibilityContainer {
     margin-bottom: 30px;
   }
 }
+
 .otherComplianceContainer.compatibilityContainer .headingSection {
   border-bottom: 1px solid #E9E9E9;
   padding: 15px 20px;
@@ -579,13 +848,16 @@ h4 {
   margin-bottom: 25px;
   align-items: center;
 }
+
 .otherComplianceContainer.compatibilityContainer .headingSection h4 {
   color: #000000;
   margin-bottom: 0;
 }
+
 .otherComplianceContainer.compatibilityContainer .graphContainer {
   margin-bottom: 20px;
 }
+
 .otherComplianceContainer.compatibilityContainer .commonErrorScoreContainer {
   display: flex;
   flex-direction: column;
@@ -593,21 +865,25 @@ h4 {
   padding-bottom: 25px;
   justify-content: center;
 }
+
 .otherComplianceContainer.compatibilityContainer .commonErrorScoreContainer .score {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 700;
   line-height: 18px;
 }
+
 .otherComplianceContainer.compatibilityContainer .commonErrorScoreContainer .score span {
   font-weight: 400;
 }
+
 .otherComplianceContainer.compatibilityContainer .commonErrorScoreContainer .message {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
+
 .otherComplianceContainer.compatibilityContainer .showHistoryContainer a {
   color: #0E75A5;
   text-align: center;
@@ -622,21 +898,25 @@ h4 {
   display: block;
   margin: auto;
 }
+
 .otherComplianceContainer.compatibilityContainer .showHistoryContainer a:hover {
   background: #0E75A5;
   color: #fff;
 }
+
 .otherComplianceContainer.standardContainer {
   border-radius: 7px;
   background: #fff;
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
   padding-bottom: 30px;
 }
+
 @media (max-width: 991px) {
   .otherComplianceContainer.standardContainer {
     margin-bottom: 30px;
   }
 }
+
 .otherComplianceContainer.standardContainer .headingSection {
   border-bottom: 1px solid #E9E9E9;
   padding: 15px 20px;
@@ -645,13 +925,16 @@ h4 {
   margin-bottom: 25px;
   align-items: center;
 }
+
 .otherComplianceContainer.standardContainer .headingSection h4 {
   color: #000000;
   margin-bottom: 0;
 }
+
 .otherComplianceContainer.standardContainer .graphContainer {
   margin-bottom: 20px;
 }
+
 .otherComplianceContainer.standardContainer .commonErrorScoreContainer {
   display: flex;
   flex-direction: column;
@@ -659,21 +942,25 @@ h4 {
   padding-bottom: 25px;
   justify-content: center;
 }
+
 .otherComplianceContainer.standardContainer .commonErrorScoreContainer .score {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 700;
   line-height: 18px;
 }
+
 .otherComplianceContainer.standardContainer .commonErrorScoreContainer .score span {
   font-weight: 400;
 }
+
 .otherComplianceContainer.standardContainer .commonErrorScoreContainer .message {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
+
 .otherComplianceContainer.standardContainer .showHistoryContainer a {
   color: #0E75A5;
   text-align: center;
@@ -688,21 +975,25 @@ h4 {
   display: block;
   margin: auto;
 }
+
 .otherComplianceContainer.standardContainer .showHistoryContainer a:hover {
   background: #0E75A5;
   color: #fff;
 }
+
 .otherComplianceContainer.usabilityContainer {
   border-radius: 7px;
   background: #fff;
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
   padding-bottom: 30px;
 }
+
 @media (max-width: 991px) {
   .otherComplianceContainer.usabilityContainer {
     margin-bottom: 30px;
   }
 }
+
 .otherComplianceContainer.usabilityContainer .headingSection {
   border-bottom: 1px solid #E9E9E9;
   padding: 15px 20px;
@@ -711,13 +1002,16 @@ h4 {
   margin-bottom: 25px;
   align-items: center;
 }
+
 .otherComplianceContainer.usabilityContainer .headingSection h4 {
   color: #000000;
   margin-bottom: 0;
 }
+
 .otherComplianceContainer.usabilityContainer .graphContainer {
   margin-bottom: 20px;
 }
+
 .otherComplianceContainer.usabilityContainer .commonErrorScoreContainer {
   display: flex;
   flex-direction: column;
@@ -725,21 +1019,25 @@ h4 {
   padding-bottom: 25px;
   justify-content: center;
 }
+
 .otherComplianceContainer.usabilityContainer .commonErrorScoreContainer .score {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 700;
   line-height: 18px;
 }
+
 .otherComplianceContainer.usabilityContainer .commonErrorScoreContainer .score span {
   font-weight: 400;
 }
+
 .otherComplianceContainer.usabilityContainer .commonErrorScoreContainer .message {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
+
 .otherComplianceContainer.usabilityContainer .showHistoryContainer a {
   color: #0E75A5;
   text-align: center;
@@ -754,6 +1052,7 @@ h4 {
   display: block;
   margin: auto;
 }
+
 .otherComplianceContainer.usabilityContainer .showHistoryContainer a:hover {
   background: #0E75A5;
   color: #fff;
@@ -766,6 +1065,7 @@ h4 {
   padding-bottom: 30px;
   margin-bottom: 35px;
 }
+
 .overallQualityContainer .headingSection {
   border-bottom: 1px solid #E9E9E9;
   padding: 15px 20px;
@@ -774,13 +1074,16 @@ h4 {
   margin-bottom: 25px;
   align-items: center;
 }
+
 .overallQualityContainer .headingSection h4 {
   color: #000000;
   margin-bottom: 0;
 }
+
 .overallQualityContainer .graphContainer {
   margin-bottom: 20px;
 }
+
 .overallQualityContainer .commonErrorScoreContainer {
   display: flex;
   flex-direction: column;
@@ -788,21 +1091,25 @@ h4 {
   padding-bottom: 25px;
   justify-content: center;
 }
+
 .overallQualityContainer .commonErrorScoreContainer .score {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 700;
   line-height: 18px;
 }
+
 .overallQualityContainer .commonErrorScoreContainer .score span {
   font-weight: 400;
 }
+
 .overallQualityContainer .commonErrorScoreContainer .message {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
+
 .overallQualityContainer .showHistoryContainer a {
   color: #0E75A5;
   text-align: center;
@@ -817,6 +1124,7 @@ h4 {
   display: block;
   margin: auto;
 }
+
 .overallQualityContainer .showHistoryContainer a:hover {
   background: #0E75A5;
   color: #fff;
@@ -826,19 +1134,23 @@ h4 {
   margin-top: 20px;
   flex: 1;
 }
+
 .mySitesGridContainer h1 {
   margin-bottom: 20px;
 }
+
 .mySitesGridContainer .gridContainer {
   max-height: 520px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
 }
+
 .mySitesGridContainer .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
+
 .mySitesGridContainer .gridContainer table thead th {
   position: sticky;
   top: 0;
@@ -850,24 +1162,31 @@ h4 {
   border-bottom: 2px solid #C8D2DE;
   background: #fff;
 }
+
 .mySitesGridContainer .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .mySitesGridContainer .gridContainer table tbody tr {
   border-bottom: 1px solid #C8D2DE;
 }
+
 .mySitesGridContainer .gridContainer table tbody tr:nth-child(odd) {
   background: #F4F9FF;
 }
+
 .mySitesGridContainer .gridContainer table td {
   padding: 12px;
 }
+
 .mySitesGridContainer .gridContainer table a {
   color: #003D68;
 }
+
 .mySitesGridContainer .paginationContainer {
   margin-top: 30px;
 }
+
 .mySitesGridContainer .paginationContainer .page-item.active .page-link {
   background: #003D68;
 }
@@ -876,12 +1195,25 @@ h4 {
   margin-top: 20px;
   flex: 1;
 }
+
 .myReportsGridContainer h1 {
   margin-bottom: 20px;
 }
+
 .myReportsGridContainer h2 {
   margin-top: 16px;
 }
+
+.myReportsGridContainer .nav-item .nav-link:not(.active) {
+  color: #333 !important;
+  /* font-weight: 500; */
+}
+
+.myReportsGridContainer .nav-item .nav-link.active {
+  color: #003D68 !important;
+  font-weight: 500;
+}
+
 .myReportsGridContainer .gridContainer {
   max-height: 520px;
   overflow-x: hidden;
@@ -890,11 +1222,14 @@ h4 {
   border-radius: 7px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
 }
+
 .myReportsGridContainer .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
-.myReportsGridContainer .gridContainer table thead th {
+
+.myReportsGridContainer .gridContainer table thead th,
+.myReportsGridContainer .gridContainer table thead td {
   position: sticky;
   top: 0;
   /* Sticks to the top */
@@ -904,36 +1239,46 @@ h4 {
   padding: 12px;
   background: #fff;
 }
+
 .myReportsGridContainer .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .myReportsGridContainer .gridContainer table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .myReportsGridContainer .gridContainer table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .myReportsGridContainer .gridContainer table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .myReportsGridContainer .gridContainer table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .myReportsGridContainer .gridContainer table a {
   color: #003D68;
 }
+
 .myReportsGridContainer .paginationContainer {
   margin-top: 30px;
 }
+
 .myReportsGridContainer .paginationContainer .page-item.active .page-link {
   background: #003D68;
 }
+
 .myReportsGridContainer .reportListingGridContainer {
   max-height: 600px;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat {
   border-radius: 6px;
   background: #fff;
@@ -942,6 +1287,7 @@ h4 {
   justify-content: space-around;
   margin-bottom: 16px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box {
   flex: 1;
   display: flex;
@@ -949,9 +1295,11 @@ h4 {
   padding: 25px 30px;
   align-items: center;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box:first-child {
   border-left: 0;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .siteName {
   color: #000000;
   font-size: 1.12rem;
@@ -959,9 +1307,11 @@ h4 {
   line-height: 18px;
   margin-left: 10px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .accessbilityDescription {
   padding-left: 10px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .accessbilityDescription .title {
   color: #000000;
   font-size: 0.87rem;
@@ -969,12 +1319,14 @@ h4 {
   line-height: normal;
   margin-bottom: 5px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .accessbilityDescription .desc {
   color: #393939;
   color: #000000;
   font-size: 0.75rem;
   line-height: 13px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .changeOptionContainer {
   border-radius: 5px;
   border: 1px solid #DBDBDB;
@@ -983,21 +1335,25 @@ h4 {
   flex: 1;
   align-items: center;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .changeOptionContainer .lable {
   padding: 17px;
   border-right: 1px solid #DBDBDB;
   font-size: 0.87rem;
   color: #7C7C7C;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .changeOptionContainer .changeOptionDD {
   flex: 1;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .box .changeOptionContainer .changeOptionDD .form-select {
   border: 0;
   color: #003D68;
   font-size: 0.87rem;
   line-height: 18px;
 }
+
 .myReportsGridContainer .reportListingGridContainer .reportListingRepeat .navigateICon {
   display: flex;
   align-items: center;
@@ -1054,15 +1410,15 @@ table.issues tbody tr {
   border-bottom: 1px solid #C8D2DE;
 }
 
-.issues > tbody > tr:nth-child(odd) {
+.issues>tbody>tr:nth-child(odd) {
   background: #F4F9FF;
 }
 
-.issues > tbody > tr:nth-child(even) {
+.issues>tbody>tr:nth-child(even) {
   background: #fff;
 }
 
-.issues > tbody.expando tr:nth-child(odd) {
+.issues>tbody.expando tr:nth-child(odd) {
   background: #F9F9F9;
 }
 
@@ -1083,16 +1439,20 @@ table.issues a {
   flex-direction: column;
   height: 100%;
 }
+
 .adaMainContainer .form-check-input {
   border-color: #c9c7c7;
 }
+
 .adaMainContainer .gridContainer .form-select {
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer {
   margin-top: 20px;
   flex: 1;
 }
+
 .adaMainContainer .adminControlContainer code {
   font: inherit;
   padding: 0 2px;
@@ -1101,15 +1461,18 @@ table.issues a {
   background-color: #f8f8f8;
   color: inherit;
 }
+
 .adaMainContainer .adminControlContainer .pageTitle {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   align-items: center;
 }
+
 .adaMainContainer .adminControlContainer .pageTitle h1 {
   margin-bottom: 0px;
 }
+
 .adaMainContainer .adminControlContainer .pageTitle .buttonContainer .add {
   border-radius: 3px;
   background: #06C;
@@ -1119,6 +1482,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .pageTitle .buttonContainer .btnDisable {
   background-color: #ccc;
   color: #666;
@@ -1130,6 +1494,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .pageTitle .buttonContainer .delete {
   border-radius: 3px;
   background: #888;
@@ -1139,15 +1504,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
-.adaMainContainer .adminControlContainer .pageTitle .buttonContainer .delete-active{
-  border-radius: 3px;
-  background: #dc3545;
-  padding: 12px 20px;
-  color: #fff;
-  font-size: 0.87rem;
-  font-weight: 500;
-  text-decoration: none;
-}
+
 .adaMainContainer .adminControlContainer .pageTitle .buttonContainer .edit {
   border-radius: 3px;
   background: #125A8D;
@@ -1157,76 +1514,93 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .custCheck {
   display: inline-flex;
   align-items: center;
 }
+
 .adaMainContainer .adminControlContainer .custCheck .form-check-input[type=checkbox] {
   width: 18px;
   height: 18px;
   margin-right: 8px;
   margin-top: 0;
 }
+
 .adaMainContainer .adminControlContainer .custCheckRol {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .adaMainContainer .adminControlContainer .custCheckRol .form-check-input[type=checkbox] {
   width: 20px;
   height: 20px;
   margin-top: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleContainer {
   font-size: 1.37rem;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
 }
+
 .adaMainContainer .adminControlContainer .roleContainer span {
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer h3 {
   margin-bottom: 15px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .accordion-button {
   pointer-events: none;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .accordion-button::after {
   pointer-events: all;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .userStaticInfo .title {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .userStaticInfo .value {
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater {
   position: relative;
   margin-bottom: 16px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button {
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.09);
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-item {
   border: 0;
   border-radius: 0;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
   align-items: center;
 }
+
 @media (max-width: 1536px) {
   .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView {
     width: 85%;
   }
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .orgTitle {
   color: #000000;
   font-size: 1.12rem;
@@ -1235,6 +1609,7 @@ table.issues a {
   flex: 1;
   margin-right: 10px;
 }
+
 @media (max-width: 1536px) {
   .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .orgTitle {
     flex: 1 0 25%;
@@ -1243,17 +1618,20 @@ table.issues a {
     white-space: nowrap;
   }
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
   display: flex;
   flex-direction: column;
   flex: 1;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails.contactPh {
   /* @include breakMaxOnly(1366px) {
        flex:1 10%;
    }*/
 }
+
 @media (max-width: 1536px) {
   .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails {
     flex: 1 0 18.75%;
@@ -1262,6 +1640,7 @@ table.issues a {
     white-space: nowrap;
   }
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails .title {
   color: #888;
   font-size: 0.75rem;
@@ -1269,6 +1648,7 @@ table.issues a {
   line-height: normal;
   margin-bottom: 4px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .customerManagmentShortView .userDetails .desc {
   color: #000000;
   font-size: 0.87rem;
@@ -1278,6 +1658,7 @@ table.issues a {
   overflow: hidden;
   white-space: nowrap;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-body {
   padding: 0;
   border: 1px solid #003D68;
@@ -1287,30 +1668,38 @@ table.issues a {
   overflow: hidden;
   position: relative;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed) {
   background-color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed) .title {
   color: #fff;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed) .desc {
   color: #A3CFEE;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed) .resourceContainer a {
   color: #A3CFEE;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed) .orgTitle {
   color: #fff;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .accordion-button:not(.collapsed)::after {
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .addNewService {
   position: absolute;
   top: 8px;
   right: 55px;
   z-index: 99;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .customerManagmentRepeater .addNewService a {
   border-radius: 3px;
   background: #06C;
@@ -1320,6 +1709,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer {
   max-height: 520px;
   overflow-x: hidden;
@@ -1328,13 +1718,16 @@ table.issues a {
   border-radius: 7px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer .hidden-row {
   display: none;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table thead th {
   position: sticky;
   top: 0;
@@ -1347,37 +1740,48 @@ table.issues a {
   font-size: 0.81rem;
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table tbody:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table td table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table td table tbody tr:nth-child(odd) {
   background: rgba(200, 210, 222, 0.4);
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table td table tbody:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer table a {
   color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer .btnMod {
   background: #A3CFEE;
   color: #003D68;
@@ -1386,10 +1790,12 @@ table.issues a {
   line-height: normal;
   padding: 8px 15px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .gridContainer .screenshotView {
   width: 100px;
   height: 100px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer {
   border-radius: 5px;
   background: #fff;
@@ -1397,23 +1803,29 @@ table.issues a {
   padding: 20px;
   margin-bottom: 30px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .required {
   color: #FF131E;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer label {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
-.adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .form-control, .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .form-select {
+
+.adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .form-control,
+.adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .form-select {
   border-radius: 4px;
   border: 1px solid rgba(200, 210, 222, 0.8);
   padding: 10px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .passwordContainer {
   position: relative;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .passwordContainer .passEye {
   position: absolute;
   right: 15px;
@@ -1421,14 +1833,17 @@ table.issues a {
   color: #C8D2DE;
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .formContainer .checkBoxOptionContainer {
   display: flex;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .buttonBox {
   display: flex;
   justify-content: end;
   margin-top: 10px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .buttonBox .btnCancel {
   background: #6E6E6E;
   border-radius: 3px;
@@ -1441,6 +1856,7 @@ table.issues a {
   text-decoration: none;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .buttonBox .btnAddUser {
   background: #06C;
   border-radius: 3px;
@@ -1453,6 +1869,7 @@ table.issues a {
   text-decoration: none;
   border: 0;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .buttonBox .btnNext {
   background: #125A8D;
   border-radius: 3px;
@@ -1466,9 +1883,11 @@ table.issues a {
   border: 0;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent {
   margin-top: 15px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent .scanDayMonth .btn-clear {
   cursor: pointer;
   font-weight: bold;
@@ -1476,10 +1895,12 @@ table.issues a {
   color: #000000;
   display: none;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent .scanDayMonth .dropdown-menu {
   max-height: 200px;
   overflow-y: auto;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent .scanDayMonth .dropdown .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2225%22 height%3D%2225%22 viewBox%3D%220 0 25 25%22 fill%3D%22none%22%3E%3Cpath d%3D%22M19.3652 7.8125L20.3125 8.82324L12.5 17.1875L4.6875 8.82324L5.62988 7.8125L12.5 15.1611L19.3652 7.8125Z%22 fill%3D%22black%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -1491,18 +1912,23 @@ table.issues a {
   margin-top: 4px;
   float: right;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent .scanDayMonth .dropdown label.dropdown-item {
   display: flex;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .webAccessibilityContent .scanDayMonth .dropdown label input[type=checkbox] {
   margin-right: 5px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .pdfAccessibilityContent {
   margin-top: 15px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .mobileAccessibilityContent {
   margin-top: 15px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .btnBlue {
   border-radius: 3px;
   background: #125A8D;
@@ -1512,29 +1938,35 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .resourceContainer .webIcon {
   display: inline;
   color: #003D68;
   margin-right: 6px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .resourceContainer .andriodIcon {
   display: inline;
   color: #A4C639;
   margin-right: 6px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .resourceContainer .iosIcon {
   display: inline;
   color: #0484eb;
   margin-right: 6px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .resourceContainer .pdfIcon {
   display: inline;
   color: #F40F02;
   margin-right: 6px;
 }
+
 .adaMainContainer .adminControlContainer .customerManagmentContainer .resourceContainer a {
   color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer {
   /*.accordion-button {
       pointer-events: none;
@@ -1545,34 +1977,42 @@ table.issues a {
 
   }*/
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer h3 {
   margin-bottom: 15px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater {
   position: relative;
   margin-bottom: 16px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button {
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.09);
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button::after {
   display: none;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-item {
   border: 0;
   border-radius: 0;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .userManagmentShortView {
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .userManagmentShortView .manageOrg {
   display: flex;
   align-items: center;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .userManagmentShortView .manageOrg .title {
   color: #000000;
   font-size: 1.12rem;
@@ -1581,12 +2021,14 @@ table.issues a {
   flex: 1;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .addNewUserCont {
   position: absolute;
   top: 4px;
   right: 15px;
   z-index: 99;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .addNewUserCont a {
   border-radius: 3px;
   background: #06C;
@@ -1596,6 +2038,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .addNewUserCont .edit {
   border-radius: 3px;
   background: #125A8D;
@@ -1605,6 +2048,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .addNewUserCont .view {
   border-radius: 3px;
   background: #5E6977;
@@ -1614,6 +2058,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-body {
   padding: 0;
   border: 1px solid #003D68;
@@ -1622,18 +2067,23 @@ table.issues a {
   border-bottom-right-radius: 6px;
   overflow: hidden;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button:not(.collapsed) {
   background-color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button:not(.collapsed) .title {
   color: #fff;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button:not(.collapsed) .arrowDown {
   color: #fff;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-button:not(.collapsed)::after {
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer {
   max-height: 520px;
   overflow-x: hidden;
@@ -1642,10 +2092,12 @@ table.issues a {
   border-radius: 7px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table thead th {
   position: sticky;
   top: 0;
@@ -1658,34 +2110,44 @@ table.issues a {
   font-weight: 600;
   font-size: 0.81rem;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table tbody tr:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table a {
   color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table a.edit {
   color: #0E75A5;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer table a.delete {
   color: #bd2020;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .gridContainer .btnMod {
   background: #A3CFEE;
   color: #003D68;
@@ -1694,6 +2156,7 @@ table.issues a {
   line-height: normal;
   padding: 8px 15px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer {
   border-radius: 5px;
   background: #fff;
@@ -1701,23 +2164,29 @@ table.issues a {
   padding: 20px;
   margin-bottom: 30px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .required {
   color: #FF131E;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer label {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
-.adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .form-control, .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .form-select {
+
+.adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .form-control,
+.adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .form-select {
   border-radius: 4px;
   border: 1px solid rgba(200, 210, 222, 0.8);
   padding: 10px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .passwordContainer {
   position: relative;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .passwordContainer .passEye {
   position: absolute;
   right: 15px;
@@ -1725,14 +2194,17 @@ table.issues a {
   color: #C8D2DE;
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .formContainer .checkBoxOptionContainer {
   display: flex;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .buttonBox {
   display: flex;
   justify-content: end;
   margin-top: 10px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .buttonBox .btnCancel {
   background: #6E6E6E;
   border-radius: 3px;
@@ -1745,6 +2217,7 @@ table.issues a {
   text-decoration: none;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .buttonBox .btnAddUser {
   background: #06C;
   border-radius: 3px;
@@ -1757,39 +2230,48 @@ table.issues a {
   text-decoration: none;
   border: 0;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userStaticInfoShowOuter .userStaticInfo {
   margin-bottom: 25px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userStaticInfoShowOuter .userStaticInfo .title {
   color: #888;
   font-size: 0.75rem;
   font-weight: 500;
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userStaticInfoShowOuter .userStaticInfo .value {
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userStaticInfo .title {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .userManagmentContainer .userStaticInfo .value {
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer h3 {
   margin-bottom: 15px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .userStaticInfo .title {
   color: #888;
   font-size: 0.87rem;
   font-weight: 400;
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .userStaticInfo .value {
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer {
   max-height: 520px;
   overflow-x: hidden;
@@ -1798,10 +2280,12 @@ table.issues a {
   border-radius: 7px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.16);
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table thead th {
   position: sticky;
   top: 0;
@@ -1814,34 +2298,44 @@ table.issues a {
   font-size: 0.81rem;
   font-weight: 600;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table tbody tr:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table a {
   color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table a.edit {
   color: #0E75A5;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table a.delete {
   color: #bd2020;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .viewPermission {
   border-radius: 4px;
   background: #CCE9F7;
@@ -1854,6 +2348,7 @@ table.issues a {
   margin-right: 2px;
   font-size: 0.75rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .addEditPermission {
   border-radius: 4px;
   background: #C4F1DB;
@@ -1866,6 +2361,7 @@ table.issues a {
   margin-right: 2px;
   font-size: 0.75rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .deletePermission {
   border-radius: 4px;
   background: #FDDFE0;
@@ -1878,12 +2374,15 @@ table.issues a {
   margin-right: 2px;
   font-size: 0.75rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .active {
   color: #22A971;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .inActive {
   color: #505050;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .btnMod {
   background: #A3CFEE;
   color: #003D68;
@@ -1892,12 +2391,14 @@ table.issues a {
   line-height: normal;
   padding: 8px 15px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .dropdown-toggle {
   display: flex;
   min-height: 38px;
   padding-right: 10px;
   justify-content: space-between;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2213%22 height%3D%228%22 viewBox%3D%220 0 13 8%22 fill%3D%22none%22%3E%3Cpath d%3D%22M11.8643 0L12.63 0.817003L6.315 7.578L0 0.817003L0.761747 0L6.315 5.94005L11.8643 0Z%22 fill%3D%22%23003D68%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -1908,21 +2409,26 @@ table.issues a {
   margin-left: 10px;
   vertical-align: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .dropdown-menu {
   width: 100%;
   /* Full width dropdown */
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .dropdown-menu li {
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .dropdown-menu li input[type=checkbox] {
   margin-right: 10px;
   margin-top: 5px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .selected-items {
   display: flex;
   flex-wrap: wrap;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .selected-item {
   display: inline-flex;
   align-items: center;
@@ -1933,40 +2439,49 @@ table.issues a {
   margin: 2px;
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .multi-select .selected-item span {
   margin-left: 5px;
   cursor: pointer;
   font-weight: bold;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .tblDataOuter {
   /*display:flex;
   flex-direction: column;*/
   vertical-align: top;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .roletype {
   font-weight: 500;
   margin-top: 5px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .roletype span {
   font-weight: normal;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .selectOptionRepeat {
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .selectOptionRepeat ul {
   margin: 0;
   padding: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .selectOptionRepeat ul li {
   margin: 0;
   list-style-type: none;
   padding-top: 5px;
   padding-bottom: 15px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer .selectCheckRepeat {
   margin-top: 5px;
   margin-bottom: 11px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer {
   border-radius: 5px;
   background: #fff;
@@ -1974,28 +2489,35 @@ table.issues a {
   padding: 20px;
   margin-bottom: 30px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .permHead {
   font-size: 0.87rem;
   font-weight: 600;
   margin-bottom: 10px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .required {
   color: #FF131E;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer label {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
-.adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .form-control, .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .form-select {
+
+.adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .form-control,
+.adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .form-select {
   border-radius: 4px;
   border: 1px solid rgba(200, 210, 222, 0.8);
   padding: 10px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .passwordContainer {
   position: relative;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .passwordContainer .passEye {
   position: absolute;
   right: 15px;
@@ -2003,14 +2525,17 @@ table.issues a {
   color: #C8D2DE;
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .formContainer .checkBoxOptionContainer {
   display: flex;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .buttonBox {
   display: flex;
   justify-content: end;
   margin-top: 10px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .buttonBox .btnCancel {
   background: #6E6E6E;
   border-radius: 3px;
@@ -2023,6 +2548,7 @@ table.issues a {
   text-decoration: none;
   margin-right: 10px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .buttonBox .btnAddUser {
   background: #06C;
   border-radius: 3px;
@@ -2035,46 +2561,56 @@ table.issues a {
   text-decoration: none;
   border: 0;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .userStaticInfoShowOuter .userStaticInfo {
   margin-bottom: 25px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .userStaticInfoShowOuter .userStaticInfo .title {
   color: #888;
   font-size: 0.75rem;
   font-weight: 500;
   margin-bottom: 5px;
 }
+
 .adaMainContainer .adminControlContainer .roleManagmentContainer .userStaticInfoShowOuter .userStaticInfo .value {
   font-size: 0.87rem;
 }
+
 .adaMainContainer .adminControlContainer .paginationContainer {
   margin-top: 30px;
 }
+
 .adaMainContainer .adminControlContainer .paginationContainer .page-item.active .page-link {
   background: #003D68;
 }
+
 .adaMainContainer .adminControlContainer.errorContainer {
   display: flex;
   align-items: center;
 }
+
 .adaMainContainer .adminControlContainer.errorContainer .errorTextContainer {
   display: flex;
   justify-content: center;
   flex-direction: column;
   height: 100%;
 }
+
 .adaMainContainer .adminControlContainer.errorContainer .errorTextContainer .errorCode {
   color: #818C9A;
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 25px;
 }
+
 .adaMainContainer .adminControlContainer.errorContainer .errorTextContainer .errorMessageTitle {
   color: #06C;
   font-size: 6.6rem;
   font-weight: 800;
   line-height: normal;
 }
+
 .adaMainContainer .adminControlContainer.errorContainer .errorTextContainer .errorDesc {
   color: #000000;
   font-size: 1.8rem;
@@ -2082,34 +2618,42 @@ table.issues a {
   line-height: 44px;
   /* 146.667% */
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table {
   background-color: #fff;
   width: 100%;
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
   margin-bottom: 15px;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table tbody tr:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter {
   display: flex;
   flex-wrap: wrap;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter .multiScreen {
   display: flex;
   flex-direction: column;
   margin-right: 15px;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table td .multiScreenOuter .multiScreen .screenName {
   margin-bottom: 8px;
   white-space: nowrap;
@@ -2117,36 +2661,45 @@ table.issues a {
   text-overflow: ellipsis;
   width: 135px;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table th {
   padding: 12px;
   font-weight: 500;
   vertical-align: top;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table caption {
   caption-side: top;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table a {
   color: #003D68;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table a.edit {
   color: #0E75A5;
 }
+
 .adaMainContainer .adminControlContainer .reportGrid table a.delete {
   color: #bd2020;
 }
+
 .adaMainContainer .faqContainer {
   position: relative;
   margin-bottom: 16px;
 }
+
 .adaMainContainer .faqContainer .accordion-button {
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.09);
 }
+
 .adaMainContainer .faqContainer .accordion-item {
   border: 0;
   border-radius: 0;
   margin-bottom: 16px;
 }
+
 .adaMainContainer .faqContainer .accordion-body {
   border: 1px solid #003D68;
   border-top: 0;
@@ -2154,6 +2707,7 @@ table.issues a {
   border-bottom-right-radius: 6px;
   overflow: hidden;
 }
+
 .adaMainContainer .faqContainer .accordion-button:not(.collapsed) {
   background-color: #003D68;
   color: #fff;
@@ -2161,9 +2715,11 @@ table.issues a {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
+
 .adaMainContainer .faqContainer .accordion-button:not(.collapsed)::after {
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
 }
+
 .adaMainContainer .dataLoadContainer {
   background: rgba(0, 0, 0, 0.6);
   width: 100%;
@@ -2174,16 +2730,19 @@ table.issues a {
   flex-direction: column;
   justify-content: center;
 }
+
 .adaMainContainer .dataLoadContainer .progressBarContainer {
   width: 50%;
   margin: auto;
 }
+
 .adaMainContainer .dataLoadContainer .message {
   color: #fff;
   font-weight: 500;
   text-align: center;
   margin-bottom: 8px;
 }
+
 .adaMainContainer .viewReportContainer h2 {
   font-size: 1.3rem;
   font-weight: 500;
@@ -2195,10 +2754,12 @@ table.issues a {
   border-bottom: 0;
   padding-bottom: 0;
 }
+
 .popUpMessageContainer .modal-footer {
   border-top: 0;
   justify-content: center;
 }
+
 .popUpMessageContainer .modal-footer a {
   width: 45%;
   text-align: center;
@@ -2208,26 +2769,32 @@ table.issues a {
   text-decoration: none;
   border-radius: 4px;
 }
+
 .popUpMessageContainer .modal-footer .btnpassword {
   background: #003D68;
   color: #fff;
   margin-right: 10px;
 }
+
 .popUpMessageContainer .modal-footer .btnpassword:hover {
   background: #022e4d;
 }
+
 .popUpMessageContainer .modal-footer .btnCancel {
   border: 1px solid #003D68;
   color: #003D68;
   margin-left: 10px;
 }
+
 .popUpMessageContainer .modal-footer .btnCancel:hover {
   background: #f1f1f1;
 }
+
 .popUpMessageContainer .modal-body {
   padding-top: 0;
   padding-bottom: 0;
 }
+
 .popUpMessageContainer .heading {
   color: #003D68;
   text-align: center;
@@ -2236,9 +2803,11 @@ table.issues a {
   line-height: 35px;
   margin-bottom: 10px;
 }
+
 .popUpMessageContainer .heading span {
   display: block;
 }
+
 .popUpMessageContainer .message {
   color: #5E6977;
   text-align: center;
@@ -2246,30 +2815,38 @@ table.issues a {
   /*border-bottom:1px solid $lightGrey;*/
   padding-bottom: 10px;
 }
+
 .popUpMessageContainer .message span {
   display: block;
 }
+
 .popUpMessageContainer .formContainer {
   /*box-shadow: 0px 0px 12px 0px rgba($primary, .06);*/
   padding: 20px;
 }
+
 .popUpMessageContainer .formContainer .required {
   color: #FF131E;
 }
+
 .popUpMessageContainer .formContainer label {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 400;
   line-height: 18px;
 }
-.popUpMessageContainer .formContainer .form-control, .popUpMessageContainer .formContainer .form-select {
+
+.popUpMessageContainer .formContainer .form-control,
+.popUpMessageContainer .formContainer .form-select {
   border-radius: 4px;
   border: 1px solid rgba(200, 210, 222, 0.8);
   padding: 10px;
 }
+
 .popUpMessageContainer .formContainer .passwordContainer {
   position: relative;
 }
+
 .popUpMessageContainer .formContainer .passwordContainer .passEye {
   position: absolute;
   right: 15px;
@@ -2277,6 +2854,7 @@ table.issues a {
   color: #C8D2DE;
   font-size: 0.87rem;
 }
+
 .popUpMessageContainer .formContainer .checkBoxOptionContainer {
   display: flex;
 }
@@ -2401,6 +2979,7 @@ table.issues a {
   border-radius: 50%;
   margin: 0 auto;
 }
+
 .overAllQyalityCircle::before {
   content: "";
   position: absolute;
@@ -2410,11 +2989,13 @@ table.issues a {
   border-radius: 50%;
   z-index: 1;
 }
+
 .overAllQyalityCircle .overAllQyality-text {
   position: relative;
   z-index: 2;
   text-align: center;
 }
+
 .overAllQyalityCircle .overAllQyality-text span.number {
   display: block;
   font-size: 1.68rem;
@@ -2424,6 +3005,7 @@ table.issues a {
   padding-bottom: 8px;
   margin-bottom: 6px;
 }
+
 .overAllQyalityCircle .overAllQyality-text span.text {
   font-size: 0.68rem;
   color: #313131;
@@ -2442,6 +3024,7 @@ table.issues a {
   border-radius: 50%;
   margin: 0 auto;
 }
+
 .accessibilityCircle::before {
   content: "";
   position: absolute;
@@ -2451,17 +3034,20 @@ table.issues a {
   border-radius: 50%;
   z-index: 1;
 }
+
 .accessibilityCircle .accessibility-text {
   position: relative;
   z-index: 2;
   text-align: center;
 }
+
 .accessibilityCircle .accessibility-text span.number {
   display: block;
   font-size: 3rem;
   color: #fff;
   font-weight: 700;
 }
+
 .accessibilityCircle .accessibility-text span.text {
   font-size: 0.87rem;
   color: #fff;
@@ -2480,6 +3066,7 @@ table.issues a {
   border-radius: 50%;
   margin: 0 auto;
 }
+
 .smallAccessibilityCircle::before {
   content: "";
   position: absolute;
@@ -2489,11 +3076,13 @@ table.issues a {
   border-radius: 50%;
   z-index: 1;
 }
+
 .smallAccessibilityCircle .smallAccessibilityCircle-text {
   position: relative;
   z-index: 2;
   text-align: center;
 }
+
 .smallAccessibilityCircle .smallAccessibilityCircle-text span.number {
   display: block;
   font-size: 0.8rem;
@@ -2508,21 +3097,24 @@ table.issues a {
   width: 185px;
   height: 185px;
   object-fit: cover;
-  
 }
+
 .profilePicture .edit {
   position: absolute;
   bottom: 25px;
   right: 25px;
   cursor: pointer;
 }
+
 .profilePicture .edit img {
   width: 35px;
   height: 35px;
 }
+
 .profilePicture input[type=file] {
   display: none;
 }
+
 .profilePicture .spinner {
   position: absolute;
   top: 50%;
@@ -2536,14 +3128,17 @@ table.issues a {
   animation: spin 1s linear infinite;
   display: none;
 }
+
 @keyframes spin {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
 .profilePicture .preview-overlay {
   position: absolute;
   inset: 0;
@@ -2553,6 +3148,7 @@ table.issues a {
   align-items: center;
   flex-direction: column;
 }
+
 .profilePicture .preview-overlay button {
   margin: 5px;
   padding: 6px 12px;
@@ -2561,10 +3157,12 @@ table.issues a {
   cursor: pointer;
   font-size: 14px;
 }
+
 .profilePicture .preview-overlay .confirm {
   background: #4caf50;
   color: white;
 }
+
 .profilePicture .preview-overlay .cancel {
   background: #f44336;
   color: white;
@@ -2576,31 +3174,38 @@ table.issues a {
   height: 100%;
   */
 }
+
 .adaMainContainer .dashGraphActivity {
   margin-bottom: 30px;
 }
+
 .adaMainContainer .dashboardControlContainer {
   margin-top: 20px;
   flex: 1;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   align-items: center;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft {
   display: flex;
   align-items: center;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer {
   border-left: 1px solid #C8D2DE;
   padding-left: 12px;
   display: flex;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer .siteInformation {
   margin-left: 5px;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer .siteInformation .dropdown .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2225%22 height%3D%2225%22 viewBox%3D%220 0 25 25%22 fill%3D%22none%22%3E%3Cpath d%3D%22M19.3652 7.8125L20.3125 8.82324L12.5 17.1875L4.6875 8.82324L5.62988 7.8125L12.5 15.1611L19.3652 7.8125Z%22 fill%3D%22black%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -2612,13 +3217,16 @@ table.issues a {
   margin-top: -3px;
   margin-left: 0px;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer .siteInformation span {
   display: block;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer .siteInformation .siteStatus {
   color: #5E6977;
   font-size: 0.75rem;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft .dashboradTestedSiteContainer .siteInformation .custSiteReportName {
   color: #000000;
   font-size: 1.25rem;
@@ -2626,10 +3234,12 @@ table.issues a {
   line-height: 18px;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .dashLeft h1 {
   margin-bottom: 0px;
   margin-right: 20px;
 }
+
 .adaMainContainer .dashboardControlContainer .pageTitle .buttonContainer .add {
   border-radius: 3px;
   background: #06C;
@@ -2639,6 +3249,7 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer {
   border-radius: 7px;
   background: #FFF;
@@ -2647,9 +3258,11 @@ table.issues a {
   display: flex;
   margin-bottom: 30px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashIcon {
   margin-right: 15px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashIcon .box {
   border-radius: 6px;
   padding: 12px;
@@ -2658,27 +3271,33 @@ table.issues a {
   display: flex;
   align-items: center;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashIcon .box.box-1 {
   background: #6201ED;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashIcon .box.box-2 {
   background: #E94094;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashIcon .box.box-3 {
   background: #121C9D;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashContent .number {
   color: #003D68;
   font-size: 2.12rem;
   font-weight: 700;
   line-height: normal;
 }
+
 .adaMainContainer .dashboardControlContainer .dashBoxContainer .dashContent .desc {
   color: #626F7F;
   font-size: 0.87rem;
   font-weight: 500;
   line-height: 21px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer {
   border-radius: 7px;
   background: #003D68;
@@ -2688,6 +3307,7 @@ table.issues a {
   min-height: 250px;
   height: 100%;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .heading {
   color: #FFF;
   font-size: 1.31rem;
@@ -2696,19 +3316,23 @@ table.issues a {
   left: -75px;
   top: 170px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .headingSection {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .headingSection h3 {
   color: #fff;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityErrorScoreContainer {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityErrorScoreContainer .score {
   color: #fff;
   font-size: 2.93rem;
@@ -2717,6 +3341,7 @@ table.issues a {
   line-height: 17px;
   margin-right: 15px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityErrorScoreContainer .message {
   color: #fff;
   font-size: 1.25rem;
@@ -2724,12 +3349,14 @@ table.issues a {
   font-weight: 400;
   line-height: 23px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .levelMessage {
   color: #fff;
   font-weight: 400;
   line-height: 17px;
   margin-bottom: 20px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat {
   display: flex;
   width: 60%;
@@ -2737,15 +3364,18 @@ table.issues a {
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
+
 @media (min-width: 1280px) and (max-width: 1536px) {
   .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat {
     width: 100%;
   }
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat:last-child {
   margin-bottom: 0px;
   border-bottom: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelName {
   color: #fff;
   font-size: 1.12rem;
@@ -2754,21 +3384,25 @@ table.issues a {
   min-width: 120px;
   display: flex;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelName img {
   margin-right: 10px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainer .accessibilityWCAGLevelContainer .wcagLevelRepeat .wcagLevelDesc {
   color: #fff;
   font-size: 0.87rem;
   line-height: 15px;
   margin-left: 35px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite {
   border-radius: 7px;
   background: #fff;
   box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.08);
   height: 100%;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .heading {
   border-bottom: 1px solid #E9E9E9;
   padding: 14px 20px;
@@ -2776,19 +3410,23 @@ table.issues a {
   display: flex;
   justify-content: space-between;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .graphOuter {
   display: flex;
   justify-content: center;
   padding: 30px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer {
   padding: 8px 18px;
   border-bottom: 1px solid #E9E9E9;
   display: flex;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
   flex: 1;
 }
+
 @media (max-width: 1535px) {
   .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft {
     flex: 1 0 60%;
@@ -2797,6 +3435,7 @@ table.issues a {
     white-space: nowrap;
   }
 }
+
 @media (max-width: 1535px) {
   .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .activityDesc {
     overflow: hidden;
@@ -2804,19 +3443,23 @@ table.issues a {
     white-space: nowrap;
   }
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .actheading {
   color: #000000;
   font-size: 0.87rem;
   font-weight: 600;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .actheading a {
   color: #000000;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .actheading a:hover {
   text-decoration: underline;
   color: #022e4d;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus {
   width: 8px;
   height: 8px;
@@ -2824,62 +3467,77 @@ table.issues a {
   border-radius: 50%;
   margin-right: 10px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.add {
   background: #22A06B;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.update {
   background: #FFBA60;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.delete {
   background: #D61821;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .userAddStatus.report {
   background: #06C;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityLeft .activityRole {
   color: #626F7F;
   font-size: 0.75rem;
   margin-left: 19px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
   flex: 1;
 }
+
 @media (max-width: 1500px) {
   .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight {
     flex: 1 0 40%;
   }
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .activityRight .actDate {
   font-size: 0.75rem;
   text-align: right;
   margin-top: 3px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .scannedTitle {
   color: #06C;
   font-size: 0.87rem;
   margin-bottom: 3px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .scannedTitle a {
   color: #06C;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .scannedTitle a:hover {
   color: #003D68;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityContainer .scannedIssueTime {
   font-size: 0.75rem;
   line-height: 18px;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer {
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table {
   background-color: #fff;
   width: 100%;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table thead th {
   position: sticky;
   top: 0;
@@ -2892,42 +3550,53 @@ table.issues a {
   font-size: 0.81rem;
   font-weight: 600;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table thead th:first-child {
   border-left: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table tbody tr {
   border-bottom: 1px solid #dbe2eb;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table tbody tr:nth-child(odd) {
   background: #e9f6ff;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table tbody:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table td {
   padding: 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table a {
   color: #06C;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table a:hover {
   color: #003D68;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid {
   max-height: 260px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table {
   background-color: #fff;
   width: 100%;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table thead th {
   border-left: 1px solid #fff;
   padding: 12px;
@@ -2936,29 +3605,37 @@ table.issues a {
   font-weight: 600;
   border-bottom: 1px solid #E9E9E9;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table thead th:first-child {
   border-left: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table thead tr {
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.16));
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table tbody tr {
   border-bottom: 1px solid #E9E9E9;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table tbody tr:last-child {
   border-bottom: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table td {
   padding: 6px 12px;
   font-size: 0.85rem;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table a {
   color: #06C;
   text-decoration: none;
 }
+
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .activityGrid table a:hover {
   color: #003D68;
 }
+
 .adaMainContainer .dashboardControlContainer .reportArchiveContainer {
   border-left: 1px solid #C8D2DE;
   padding-left: 20px;
@@ -2966,9 +3643,11 @@ table.issues a {
   display: flex;
   align-items: center;
 }
+
 .adaMainContainer .dashboardControlContainer .reportArchiveContainer .reportArchiveDD {
   margin-left: 5px;
 }
+
 .adaMainContainer .dashboardControlContainer .reportArchiveContainer .reportArchiveDD .dropdown .dropdown-toggle::after {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2213%22 height%3D%228%22 viewBox%3D%220 0 13 8%22 fill%3D%22none%22%3E%3Cpath d%3D%22M11.8643 0L12.63 0.817003L6.315 7.578L0 0.817003L0.761747 0L6.315 5.94005L11.8643 0Z%22 fill%3D%22%23003D68%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -2979,9 +3658,11 @@ table.issues a {
   margin-left: 10px;
   vertical-align: 0;
 }
+
 .adaMainContainer .dashboardControlContainer .reportArchiveContainer .reportArchiveDD span {
   display: block;
 }
+
 .adaMainContainer .dashboardControlContainer .reportArchiveContainer .reportArchiveDD .reportArchiveName {
   color: #003D68;
   font-size: 0.87rem;
@@ -2994,106 +3675,20 @@ table.issues a {
   border-top: 1px solid #C8D2DE;
   padding: 15px 0;
 }
+
 .footerContainer .footerText {
   color: #5E6977;
   font-size: 0.75rem;
 }
 
+.adaMainContainer .userManagmentContainer .manualAccContainer {
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+ .adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-header .error {
+  background-color: #fef3f3 !important;
+}
+
 /*# sourceMappingURL=child-theme.css.map */
-
-.wcagLevelDashboardGrid table {
-  color: #fff;
-  width: 100%;
-}
-.wcagLevelDashboardGrid table thead th {
-  
-  
-  padding: 8px;
-  border-bottom: 2px solid #C8D2DE;
-  
-}
-
-.wcagLevelDashboardGrid table tbody tr {
-  border-bottom: 1px solid #C8D2DE;
-}
-
-.wcagLevelDashboardGrid table td {
-  padding: 8px;
-}
-.summaryGrid table {
-  background: #fff;
-  width: 100%;
-  border: 1px solid #e1e1e1;
- }
- .summaryGrid table th {
-  padding: 8px;
-  background: #003D68;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #fff;
- }
- .summaryGrid table tr:nth-child(odd) {
-  background: #e9f6ff;
- }
- .summaryGrid table td {
-  padding: 8px;
-  font-size: 0.9rem;
- }
- .progress-container {
-  width: 100%;
-  height: 20px;
-  background-color: #eee;
-  overflow: hidden;
-  display: flex;
- }
- .progress-part {
-  height: 100%;
- }
- .part1 {
-  width: 40%;
-  /* Change this to your desired percentage */
-  background-color: #d22;
- }
- .summaryGrid table {
-  background: #fff;
-  width: 100%;
-  border: 1px solid #e1e1e1;
- }
- .summaryGrid table th {
-  padding: 8px;
-  background: #003D68;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #fff;
- }
- .summaryGrid table tr:nth-child(odd) {
-  background: #e9f6ff;
- }
- .summaryGrid table td {
-  padding: 8px;
-  font-size: 0.9rem;
- }
-  
- .progress-container {
-  width: 100%;
-  height: 20px;
-  background-color: #eee;
-  overflow: hidden;
-  display: flex;
- }
-  
- .progress-part {
-  height: 100%;
- }
-  
- .part1 {
-  width: 40%;
-  /* Change this to your desired percentage */
-  background-color: #d22;
- }
-  
- .part2 {
-  width: 35%;
-  background-color: #ffaa22;
- }
-  
