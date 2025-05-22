@@ -58,10 +58,11 @@ const ManualTesting = () => {
         return;
 
     try {
-      const tempData = assessmentData.filter(item => item.page_url !== formData.page_url);
-      const reqData = [...tempData, { page_url: formData.page_url, formData: formDataManual }];
+      const tempData = assessmentData.filter(item => item.pageUrl !== formData.page_url);
+const reqData = [...tempData, { pageUrl: formData.page_url, formData: formDataManual }];
 
-      await postData(`/manual/add/${product_id}`, reqData);
+await postData(`/manual/add/${product_id}`, { assessmentData: reqData });
+
       notification.success({
         title: "Add Manual Assessment",
         message: MANUAL_ASSESSMENT_SAVE_SUCCESS_MSG,
@@ -87,7 +88,7 @@ const ManualTesting = () => {
       return;
     try {
       const tempData = assessmentData.filter(item => item.page_url !== page_url);
-      const reqData = { page_url: page_url, formData: formDataManual }
+      const reqData = { pageUrl: page_url, formData: formDataManual }
       setAssessmentData([...tempData, reqData]);
       setFormDataManual([]);
       formRef.current.setFieldValue("page_url", "");
