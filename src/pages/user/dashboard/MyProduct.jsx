@@ -13,7 +13,7 @@ const MyProduct = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await getData(`/report/get/user-urls?permission_name=${USER_PRODUCT_PERMISSION}`); 
+        const response = await getData(`/product/my`); 
         if (response.success) {
           setProducts(response.contents); 
         } else {
