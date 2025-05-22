@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import Table from "../../component/table/Table";
 import { getData } from "../../utils/CommonApi";
 import iconViewInternet from "../../assets/images/iconViewInternet.svg";
-import notification from "../../component/notification/Notification";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import editicon from "../../assets/images/iconEdit.svg";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
 import { DATE_FORMAT } from "../../utils/Constants";
-import MSdisable from '../../assets/images/iconMsWordDisable.svg'
-import PDFdisable from '../../assets/images/iconPDFDisable.svg'
-import Viewdisable from '../../assets/images/iconViewDisable.svg'
+import MSdisable from '../../assets/images/iconMsWordDisable.svg';
+import PDFdisable from '../../assets/images/iconPDFDisable.svg';
+import { useNavigate } from "react-router-dom";
 
-const ViewReport = (transaction_id, icon, text, selectedProductId, org_id) => {
+const ViewReport = (transaction_id, icon, text, selectedProductId, org_id,web_url) => {
 
-    return <a href={`/reports/listing/manual-viewreport/${transaction_id}?id=${selectedProductId}&org_id=${org_id}`} rel="noopener noreferrer">
+    const navigate = useNavigate();
+
+    return <a href="#" rel="noopener noreferrer" onClick={(e) => {
+        e.preventDefault();
+        navigate(`/reports/listing/manual-viewreport/${transaction_id}?id=${selectedProductId}&org_id=${org_id}`,
+            {state:{web_url}}
+        )
+    }}>
         {icon ? <img src={icon} alt="View Online" /> : text}
     </a>
 }
@@ -45,7 +51,7 @@ export const ManualReportTable = ({ product_id, org_id }) => {
             setReports(response.contents);
         }
         catch (error) {
-            console.error("Error fetching reports:", error);           
+            console.error("Error fetching reports:", error);
             setReports([]);
         } finally {
             setLoading(false);
@@ -103,8 +109,8 @@ export const ManualReportTable = ({ product_id, org_id }) => {
             className: "text-center",
             render: (_, record) => (
                 (
-                    ViewReport(record.transaction_id, iconViewInternet, null, selectedProductId, org_id)
-                ) 
+                    ViewReport(record.txn_id, iconViewInternet, null, selectedProductId, org_id, record.web_url)
+                )
             ),
         },
 
