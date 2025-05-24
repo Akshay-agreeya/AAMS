@@ -1,0 +1,65 @@
+table.compat{
+	/*display:none;*/
+	 background-color: #fff;
+    width: 100%;
+	border-top: 1px solid #C8D2DE;
+	border-left: 1px solid #C8D2DE;
+	margin-bottom:30px;
+}
+table.compat td{
+	 border-right: 1px solid #C8D2DE;
+	 border-bottom: 1px solid #C8D2DE;
+	  font-size:.9rem;
+}
+table.compat th{
+	 border-right: 1px solid #C8D2DE;
+	 border-bottom: 1px solid #C8D2DE;
+	 background:#003D68!important;
+	 color:#fff;
+	 font-weight:600!important;
+}
+
+
+table.issues {
+  background-color: #fff;
+  width: 100%;
+  border-collapse: collapse; 
+  
+}
+table.issues thead th {
+  position: sticky;
+  top: 0;
+  /* Sticks to the top */
+  z-index: 1;
+  /* Ensures it stays on top of other content */
+  border-left: 1px solid #D1D6E2;
+  padding: 15px;
+  border-bottom: 2px solid #C8D2DE;
+  border-top: 2px solid #C8D2DE;
+  background: #fff;
+}
+ table.issues thead th:first-child {
+  border-left: 0;
+}
+ table.issues tbody tr {
+  border-bottom: 1px solid #C8D2DE;
+}
+.issues > tbody > tr:nth-child(odd) {
+  background: #F4F9FF;
+}
+.issues > tbody > tr:nth-child(even) {
+  background: #fff;
+}
+.issues > tbody.expando tr:nth-child(odd) {
+  background: #F9F9F9;
+}
+/*.issues > tbody.expando tr:nth-child(even) {
+  background: red;
+}*/
+table.issues td {
+  padding: 6px;
+  font-size:.9rem;
+}
+table.issues a {
+  color: #003D68;
+}
