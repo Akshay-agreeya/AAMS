@@ -5,27 +5,24 @@ import { useLocation, useParams } from 'react-router-dom';
 import { getData } from '../../utils/CommonApi';
 
 const ManaualViewReport = () => {
-
     const [manualReportData, setManualReportData] = useState([]);
     const [selectedPageUrl, setSelectedPageUrl] = useState("");
     const [pageUrls, setPageUrls] = useState([]);
     const [formData, setFormData] = useState([]);
+    const [expandedConditions, setExpandedConditions] = useState({});
+    const [expandedByCategory, setExpandedByCategory] = useState({});
 
     const { transaction_id } = useParams();
-
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const product_id = queryParams.get('id');
     const org_id = queryParams.get('org_id');
-
     const web_url = location.state?.web_url || '';
 
     useEffect(() => {
         const fetchReport = async () => {
             try {
-                const response = await getData(
-                    `manual/viewReport/${transaction_id}`
-                );
+                const response = await getData(`manual/viewReport/${transaction_id}`);
                 setManualReportData(response.contents);
                 const urls = response.contents?.map(item => item.pageUrl);
                 setPageUrls(urls);
@@ -38,13 +35,37 @@ const ManaualViewReport = () => {
     }, [transaction_id]);
 
     useEffect(() => {
-
         if (manualReportData && selectedPageUrl) {
             const data = manualReportData.find(item => item.pageUrl === selectedPageUrl);
-            setFormData(data?.formData);
+            setFormData(data?.formData || []);
         }
-
     }, [manualReportData, selectedPageUrl]);
+
+    const toggleCondition = (key) => {
+        setExpandedConditions(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
+    const toggleAllInCategory = (categoryIndex) => {
+        setExpandedByCategory(prev => {
+            const shouldExpand = !prev[categoryIndex];
+            const updatedConditions = { ...expandedConditions };
+
+            formData[categoryIndex].conditions?.forEach((_, idx) => {
+                const key = `${categoryIndex}-${idx}`;
+                updatedConditions[key] = shouldExpand;
+            });
+
+            setExpandedConditions(updatedConditions);
+
+            return {
+                ...prev,
+                [categoryIndex]: shouldExpand
+            };
+        });
+    };
 
     const breadcrumbs = [
         { url: `/dashboard`, label: "Home" },
@@ -56,7 +77,6 @@ const ManaualViewReport = () => {
         { label: "View Report" },
     ];
 
-
     return (
         <Layout breadcrumbs={breadcrumbs}>
             <div className="adaMainContainer">
@@ -65,15 +85,16 @@ const ManaualViewReport = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="pageTitle">
-                                    <h1>Manual Report - AQMD Site </h1>
+                                    <h1>Manual Report - AQMD Site</h1>
                                 </div>
-
                             </div>
-                            <div className="col-12 myReportsGridContainer ">
+
+                            <div className="col-12 myReportsGridContainer">
                                 <div className="reportListingGridContainer">
                                     <div className="reportListingRepeat">
                                         <div className="box">
-                                            <div className="siteIcon"><img src={blackSiteIcon} alt="Site logo" />
+                                            <div className="siteIcon">
+                                                <img src={blackSiteIcon} alt="Site logo" />
                                             </div>
                                             <div className="siteName">{web_url}</div>
                                         </div>
@@ -81,113 +102,136 @@ const ManaualViewReport = () => {
                                             <div className="changeOptionContainer">
                                                 <div className="lable">Selected Page</div>
                                                 <div className="changeOptionDD">
-                                                    <select className="form-select"
+                                                    <select
+                                                        className="form-select"
                                                         aria-label="Change your Selected Site"
-                                                        onChange={(e) => { setSelectedPageUrl(e.target.value) }}>
-                                                        {pageUrls.map(url => <option value={url}>{url}</option>)}
-
+                                                        onChange={(e) => setSelectedPageUrl(e.target.value)}
+                                                    >
+                                                        {pageUrls.map(url => (
+                                                            <option value={url} key={url}>{url}</option>
+                                                        ))}
                                                     </select>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-                            {formData.map(item => <div className="col-12">
-                                <div class="viewReportContainer mt-4">
-                                    <h3>{item.category}</h3>
-                                    <table class="issues ">
-                                        <thead class="parentCategory">
-                                            <tr>
-                                                <th>Category</th>
-                                                <th>Description</th>
-                                                <th>User Impact</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{item.category}</td>
-                                                <td>{item.description}</td>
-                                                <td>{item.user_impact} </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="p-0">
 
-                                                    <table class="issues m-0">
-
-                                                        <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th>Criteria/Checklist</th>
-                                                                <th class="optional">Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        {item.conditions?.map(condition => <>
-                                                            <tbody>
-
-                                                                <tr id="rule-AccHtmlFieldsetNoLegend">
-                                                                    <td class="nowrap"><button type="button"
-                                                                        class="chevron toggleChevron"
-                                                                        data-toggleid="IDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN"
-                                                                        id="anchorIDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN"
-                                                                        title="List Pages"><img
-                                                                            id="chevIDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN"
-                                                                            src="/images/chevron-down.svg" alt=""
-                                                                            class="absmiddle" width="20" height="20" /></button>
-                                                                    </td>
-                                                                    <td class="desc"
-                                                                        data-toggleid="IDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN"
-                                                                        id="descIDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN">
-                                                                        {condition.condition}
-
-                                                                    </td>
-                                                                    <td class="optional text-success fw-bold">{condition.status}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tbody class="expando"
-                                                                id="expand-IDZYVFPGVWGXWLM2RTOSBRLKXANCWH5YM52M1YXYOKQGLBKVG0KAXN">
+                            {formData.map((item, cId) => (
+                                <div className="col-12" key={cId}>
+                                    <div className="viewReportContainer mt-4">
+                                        <h3>{item.category}</h3>
+                                        <table className="issues">
+                                            <thead className="parentCategory">
+                                                <tr>
+                                                    <th style={{width:'33%'}}>Category</th>
+                                                    <th style={{width:'34%'}}>Description</th>
+                                                    <th style={{width:'33%'}}>User Impact</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style={{width:'33%'}}>{item.category}</td>
+                                                    <td style={{width:'34%'}}>{item.description}</td>
+                                                    <td style={{width:'33%'}}>{item.user_impact}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan="3" className="p-0">
+                                                        <table className="issues m-0">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td class="fw-bold">Remediation:</td>
-                                                                    <td>
-                                                                        {condition.remidiation}
-                                                                    </td>
-                                                                    <td class="optional"></td>
+                                                                    <th style={{width:'10%'}}></th>
+                                                                    <th style={{width:'80%'}}>Criteria/Checklist</th>
+                                                                    <th className="optional" style={{width:'10%'}}>Status</th>
                                                                 </tr>
+                                                            </thead>
 
-                                                            </tbody>
-                                                        </>)}
+                                                            {item.conditions?.map((condition, tId) => {
+                                                                const uniqueKey = `${cId}-${tId}`;
+                                                                return (
+                                                                    <React.Fragment key={uniqueKey}>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td className="nowrap" style={{width:'10%'}}>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="chevron toggleChevron"
+                                                                                        onClick={() => toggleCondition(uniqueKey)}
+                                                                                        title="Toggle Details"
+                                                                                    >
+                                                                                        <img
+                                                                                            src={
+                                                                                                expandedConditions[uniqueKey]
+                                                                                                    ? "/images/chevron-up.svg"
+                                                                                                    : "/images/chevron-down.svg"
+                                                                                            }
+                                                                                            alt=""
+                                                                                            className="absmiddle"
+                                                                                            width="20"
+                                                                                            height="20"
+                                                                                        />
+                                                                                    </button>
+                                                                                </td>
+                                                                                <td className="desc" style={{width:'80%'}}>{condition.condition}</td>
+                                                                                <td className="optional text-success fw-bold" style={{width:'10%'}}>{condition.status}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        {expandedConditions[uniqueKey] && (
+                                                                            <tbody className="expando" style={{display:'table-row-group'}}>
+                                                                                <tr>
+                                                                                    <td className="fw-bold">Remediation:</td>
+                                                                                    <td>{condition.remidiation}</td>
+                                                                                    <td className="optional"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        )}
+                                                                    </React.Fragment>
+                                                                );
+                                                            })}
 
-                                                        {/* <tfoot>
-                                                            <tr>
-                                                                <td><button type="button" class="chevron expandAll"
-                                                                    title="Expand Contract All"><img id="chevExpandAll"
-                                                                        src="/images/chevron-down.svg" alt=""
-                                                                        class="absmiddle" width="20" height="20" /></button>
-                                                                </td>
-                                                                <td class="expandAll">Expand all 16 issues</td>
-
-                                                                <td class="optional"></td>
-                                                            </tr>
-                                                        </tfoot> */}
-                                                    </table>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td>
+                                                                        <button
+                                                                            type="button"
+                                                                            className="chevron expandAll"
+                                                                            onClick={() => toggleAllInCategory(cId)}
+                                                                            title="Expand/Collapse All"
+                                                                        >
+                                                                            <img
+                                                                                src={
+                                                                                    expandedByCategory[cId]
+                                                                                        ? "/images/chevron-up.svg"
+                                                                                        : "/images/chevron-down.svg"
+                                                                                }
+                                                                                alt=""
+                                                                                className="absmiddle"
+                                                                                width="20"
+                                                                                height="20"
+                                                                            />
+                                                                        </button>
+                                                                    </td>
+                                                                    <td className="expandAll">
+                                                                        {`${expandedByCategory[cId]?"Collapse":"Expand"} all ${item.conditions?.length} issues`}
+                                                                    </td>
+                                                                    <td className="optional"></td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>)}
-
+                            ))}
                         </div>
                     </div>
                 </section>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
 export default ManaualViewReport;
