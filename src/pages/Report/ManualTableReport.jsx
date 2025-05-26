@@ -5,7 +5,6 @@ import iconViewInternet from "../../assets/images/iconViewInternet.svg";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
-import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
 import { DATE_FORMAT } from "../../utils/Constants";
 import MSdisable from '../../assets/images/iconMsWordDisable.svg';
@@ -13,6 +12,7 @@ import PDFdisable from '../../assets/images/iconPDFDisable.svg';
 import { useNavigate } from "react-router-dom";
 import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
 import notification from "../../component/notification/Notification";
+import ManualDownloadDocx from "../../component/download/ManualDownloadDocx";
 
 const ViewReport = (transaction_id, icon, text, selectedProductId, org_id, web_url) => {
 
@@ -132,27 +132,17 @@ export const ManualReportTable = ({ product_id, org_id }) => {
             width: "8%",
             className: "text-center",
             render: (_, record) => (
-                record?.status === "Completed" ? (
-                    <>
-                        <DownloadDocx record={record} product_id={product_id} />
-                        <DownloadPDF record={record} product_id={product_id} />
-                    </>
-                ) : (
-                    <>
-                        <img
-                            src={MSdisable}
-                            alt="DOCX download disabled"
-                            title="DOCX download unavailable"
-                            style={{ marginRight: "14px", cursor: "not-allowed" }}
-                        />
-                        <img
+
+                <>
+                    <ManualDownloadDocx record={record} product_id={product_id} />
+                    {/* <DownloadPDF record={record} product_id={product_id} /> */}
+                    <img
                             src={PDFdisable}
                             alt="PDF download disabled"
                             title="PDF download unavailable"
                             style={{ cursor: "not-allowed" }}
                         />
-                    </>
-                )
+                </>
             ),
         },
 
@@ -186,7 +176,7 @@ export const ManualReportTable = ({ product_id, org_id }) => {
                 title: `Delete Manual Report`,
                 message: resp.message
             });
-           navigate(`/reports/listing/${org_id}?id=${product_id}&selected_tab=2`);
+            navigate(`/reports/listing/${org_id}?id=${product_id}&selected_tab=2`);
         }
         catch (error) {
             notification.error({
@@ -199,11 +189,11 @@ export const ManualReportTable = ({ product_id, org_id }) => {
     return <>
         <Table columns={columns} dataSource={reports} rowKey="report_id" loading={loading} />
         <DeleteConfirmationModal
-                modalId="deleteReportModal"
-                open={openReportDeleteModal}
-                onDelete={handleDelete}
-                onClose={() => { setOpenReportDeleteModal(false) }}
-            />
+            modalId="deleteReportModal"
+            open={openReportDeleteModal}
+            onDelete={handleDelete}
+            onClose={() => { setOpenReportDeleteModal(false) }}
+        />
     </>
 };
 
