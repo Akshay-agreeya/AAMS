@@ -178,14 +178,12 @@ const EditManualAssessment = () => {
                                                             <FormItem name="page_url" rules={[{
                                                                 required: true,
                                                                 message: "Page URL is required",
-                                                                pattern: urlPattern
                                                             }]}>
                                                                 <select
                                                                     className="form-select"
                                                                     aria-label="Change your Selected Site"
                                                                     onChange={(e) => {
                                                                         setSelectedPageUrl(e.target.value);
-                                                                        formRef.current.setFieldValue("page_url", e.target.value);
                                                                     }}
                                                                 >
                                                                     {pageUrls.map(url => (

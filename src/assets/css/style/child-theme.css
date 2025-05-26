@@ -3148,5 +3148,7 @@ table.issues a {
   color: #5E6977;
   font-size: 0.75rem;
 }
-
+.adaMainContainer .adminControlContainer .userManagmentContainer .userManagmentRepeater .accordion-header .error {
+  background-color: #fef3f3 !important;
+}
 /*# sourceMappingURL=child-theme.css.map */
