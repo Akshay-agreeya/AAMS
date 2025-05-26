@@ -30,6 +30,7 @@ import ReportWrapper from './pages/ReportWrapper';
 import SummaryReport from './pages/Report/SummaryReport';
 import ManualAssessment from './pages/Report/ManualAssesment';
 import ManaualViewReport from './pages/Report/ManaualViewReport';
+import EditManualAssessment from './pages/Report/EditManualAssessment';
 
 
 
@@ -41,7 +42,8 @@ export const routesMap = [
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
-    { path: "/product-management/manual-testing/:product_id", element: <ManualAssessment /> },
+    { path: "/product-management/add-manual-report/:product_id", element: <ManualAssessment />,breadcrumb: "Add Manual Report" },
+    { path: "/product-management/edit-manual-report/:transaction_id", element: <EditManualAssessment/>, breadcrumb: "Edit Manual Report" },
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
     {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},

@@ -139,7 +139,7 @@ const ProductTable = ({ org_id }) => {
                         handleFileChange(event, record, org_id, setLoading)
                     }}
                 />
-                {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/manual-testing/${record.service_id}`} className="me-3">
+                {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">

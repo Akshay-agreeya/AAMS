@@ -10,7 +10,7 @@ import { MANUAL_ASSESSMENT_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from '../../
 import notification from '../../component/notification/Notification';
 import { urlPattern } from '../../constants';
 
-const ManualTesting = () => {
+const ManualAssessment = () => {
   const [loading, setLoading] = useState(false);
   const [seedData, setSeedData] = useState({});
   const [formDataManual, setFormDataManual] = useState([]);
@@ -309,4 +309,4 @@ await postData(`/manual/add/${product_id}`, { assessmentData: reqData });
   );
 };
 
-export default ManualTesting;
+export default ManualAssessment;

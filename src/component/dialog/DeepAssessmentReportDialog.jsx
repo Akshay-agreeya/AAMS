@@ -1,9 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import { getData } from '../../utils/CommonApi';
+import Table from '../table/Table';
+import { getFormattedDateWithTime } from '../input/DatePicker';
 
 export const DeepAssessmentReportDialog = (props) => {
     const [showModal, setShowModal] = useState(false);
 
-    const { modalId, onDelete, open, onClose = () => { } } = props;
+    const { product_id, open, onClose = () => { } } = props;
+
+    const [reports, setReports] = useState([]);
+    const [manualReports, setManualReports] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        const fetchReports = async () => {
+            try {
+                setLoading(true);
+                const response = await getData(`/report/get/assessments/${product_id}`);
+                setReports(response.contents);
+            }
+            catch (error) {
+                console.error("Error fetching reports:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchManualReports = async () => {
+            try {
+                setLoading(true);
+                const response = await getData(`/manual/list/${product_id}`);
+                response.contents = response.contents?.map(item=>({...item, scan_date: item.timestamp}))
+                setManualReports(response.contents);
+            }
+            catch (error) {
+                console.error("Error fetching reports:", error);
+                setManualReports([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchReports();
+        fetchManualReports();
+    }, [product_id]);
 
     useEffect(() => {
         if (open) {
@@ -29,6 +69,34 @@ export const DeepAssessmentReportDialog = (props) => {
     }
 
     if (!open) return null;
+
+    const reportColumns = [{
+        title: '',
+        dataIndex: 'checkbox',
+        render: (_, record,index) => (
+            <input
+                className="form-check-input"
+                type="radio"
+                name={record.assessment_id?"flexRadioDefault1":"flexRadioDefault"}
+                id={record.assessment_id || record.txn_id}
+                defaultChecked={index === 0 ?true:false}
+            />
+        )
+    },
+    {
+        title: "Report Name",
+        dataIndex: 'report_name',
+        scop:'col'
+    },
+    {
+        title: "Last Scan Date & Time",
+        dataIndex: 'scan_date',
+        scop:'col',
+        render: (text)=>(
+            <span>{text?getFormattedDateWithTime(new Date(text),"dd MMM yyyy - HH:mm:ss"):''}</span>
+        )
+    }
+]
 
     return (
         <>
@@ -68,7 +136,7 @@ export const DeepAssessmentReportDialog = (props) => {
                                 <div className="col-lg-6 col-12">
                                     <h6>Lite Assessment List</h6>
                                     <div className="gridContainer" style={{ maxHeight: "350px" }}>
-                                        <table>
+                                        {/* <table>
                                             <thead>
                                                 <tr>
                                                     <td></td>
@@ -149,14 +217,15 @@ export const DeepAssessmentReportDialog = (props) => {
                                                     <td>16 Jan 2025 - 20:55:12</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> */}
+                                        <Table columns={reportColumns} dataSource={reports} rowKey="report_id" loading={loading} />
                                     </div>
                                 </div>
 
                                 <div className="col-lg-6 col-12 mt-lg-0 mt-4">
                                     <h6>Manual Assessment List</h6>
                                     <div className="gridContainer" style={{ maxHeight: "350px" }}>
-                                        <table>
+                                        {/* <table>
                                             <thead>
                                                 <tr>
                                                     <td></td>
@@ -223,7 +292,8 @@ export const DeepAssessmentReportDialog = (props) => {
                                                     <td>16 Jan 2025 - 20:55:12</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> */}
+                                        <Table columns={reportColumns} dataSource={manualReports} rowKey="report_id" loading={loading} />
                                     </div>
                                 </div>
                             </div>

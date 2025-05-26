@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../component/table/Table";
-import { getData } from "../../utils/CommonApi";
+import { deleteData, getData } from "../../utils/CommonApi";
 import iconViewInternet from "../../assets/images/iconViewInternet.svg";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import editicon from "../../assets/images/iconEdit.svg";
+import deleteicon from "../../assets/images/iconDelete.svg";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
 import { DATE_FORMAT } from "../../utils/Constants";
 import MSdisable from '../../assets/images/iconMsWordDisable.svg';
 import PDFdisable from '../../assets/images/iconPDFDisable.svg';
 import { useNavigate } from "react-router-dom";
+import DeleteConfirmationModal from "../../component/dialog/DeleteConfirmation";
+import notification from "../../component/notification/Notification";
 
-const ViewReport = (transaction_id, icon, text, selectedProductId, org_id,web_url) => {
+const ViewReport = (transaction_id, icon, text, selectedProductId, org_id, web_url) => {
 
     const navigate = useNavigate();
 
     return <a href="#" rel="noopener noreferrer" onClick={(e) => {
         e.preventDefault();
         navigate(`/reports/listing/manual-viewreport/${transaction_id}?id=${selectedProductId}&org_id=${org_id}`,
-            {state:{web_url}}
+            { state: { web_url } }
         )
     }}>
         {icon ? <img src={icon} alt="View Online" /> : text}
@@ -30,6 +33,10 @@ export const ManualReportTable = ({ product_id, org_id }) => {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState(product_id);
+    const [selectedTxnId, setSelectedTxnId] = useState();
+    const [openReportDeleteModal, setOpenReportDeleteModal] = useState();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (product_id) {
@@ -58,7 +65,12 @@ export const ManualReportTable = ({ product_id, org_id }) => {
         }
     };
 
-
+    const handleEdit = (e, record) => {
+        e.preventDefault();
+        navigate(`/product-management/edit-manual-report/${record.txn_id}`,
+            { state: { org_id, product_id, web_url: record.web_url } }
+        )
+    }
 
     const columns = [
         {
@@ -151,15 +163,48 @@ export const ManualReportTable = ({ product_id, org_id }) => {
             className: "text-center text-nowrap",
             render: (_text, record) => (
                 <>
-                    <a title="Edit Details" href={`#`} className="me-3">
-                        <img src={editicon} alt="Edit Details" />
+                    <a title="Edit Manual Report" href="#" className="me-3"
+                        onClick={(e) => { handleEdit(e, record) }}>
+                        <img src={editicon} alt="Edit Manual Report" />
                     </a>
+                    {<a title="Delete Details" href="#" onClick={() => {
+                        setSelectedTxnId(record.txn_id);
+                        setOpenReportDeleteModal(true);
+                    }}>
+                        <img src={deleteicon} alt="Delete Details" />
+                    </a>
+                    }
                 </>
             )
         },
     ];
 
-    return <Table columns={columns} dataSource={reports} rowKey="report_id" loading={loading} />;
+    const handleDelete = async () => {
+        try {
+            const resp = await deleteData(`/manual/delete/${selectedTxnId}`);
+            notification.success({
+                title: `Delete Manual Report`,
+                message: resp.message
+            });
+           navigate(`/reports/listing/${org_id}?id=${product_id}&selected_tab=2`);
+        }
+        catch (error) {
+            notification.error({
+                title: 'Delete Manual Report',
+                message: error.data?.error
+            });
+        }
+    }
+
+    return <>
+        <Table columns={columns} dataSource={reports} rowKey="report_id" loading={loading} />
+        <DeleteConfirmationModal
+                modalId="deleteReportModal"
+                open={openReportDeleteModal}
+                onDelete={handleDelete}
+                onClose={() => { setOpenReportDeleteModal(false) }}
+            />
+    </>
 };
 
 export default ManualReportTable;

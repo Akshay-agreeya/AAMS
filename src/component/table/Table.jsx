@@ -24,7 +24,7 @@ const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loa
                             <tr key={record[rowKey] ?? index}>
                                 {columns.map((column, i) => (
                                     <td className={column.className} key={i}>{
-                                        column.render ? column.render(record[column.dataIndex], record) : record[column.dataIndex]
+                                        column.render ? column.render(record[column.dataIndex], record,index) : record[column.dataIndex]
                                     }</td>
                                 ))}
                             </tr>
