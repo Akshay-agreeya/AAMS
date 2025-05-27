@@ -85,7 +85,7 @@ const ManaualViewReport = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="pageTitle">
-                                    <h1>Manual Report - AQMD Site</h1>
+                                    <h1>Manual Report - {web_url}</h1>
                                 </div>
                             </div>
 
