@@ -21,7 +21,7 @@ const EditManualAssessment = () => {
 
     const { transaction_id } = useParams();
 
-    const {org_id, product_id, web_url} = useLocation().state||{};
+    const { org_id, product_id, web_url } = useLocation().state || {};
 
     const navigate = useNavigate();
 
@@ -68,14 +68,24 @@ const EditManualAssessment = () => {
     }, [manualReportData]);
 
     const handleSubmit = async (formData) => {
-       
-        if ( formDataManual.length > 0)
+
+        if (formDataManual.length > 0)
             if (!validateForm())
                 return;
 
         try {
             const tempData = manualReportData.filter(item => item.pageUrl !== formData.page_url);
-            const reqData = [...tempData, { pageUrl: formData.page_url, formData: formDataManual }];
+            debugger
+            const newTempData = tempData?.map(item => ({
+                pageUrl: item.pageUrl,
+                formData: item.formData.flatMap(category =>
+                    category.conditions.map(condition => ({
+                        condition_id: condition.condition_id,
+                        status_id: condition.status_id
+                    }))
+                )
+            }))
+            const reqData = [...newTempData, { pageUrl: formData.page_url, formData: formDataManual }];
 
             await patchData(`/manual/edit/${transaction_id}`, { assessmentData: reqData });
 
