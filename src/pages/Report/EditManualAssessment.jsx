@@ -75,7 +75,7 @@ const EditManualAssessment = () => {
 
         try {
             const tempData = manualReportData.filter(item => item.pageUrl !== formData.page_url);
-            debugger
+            
             const newTempData = tempData?.map(item => ({
                 pageUrl: item.pageUrl,
                 formData: item.formData.flatMap(category =>
