@@ -194,7 +194,13 @@ const AddRole = () => {
                             required: true,
                             message: "Organization Select is required"
                           }]} requiredMark={true}>
-                            <OrganizationSelect name="org_id"/>
+                            {/* <OrganizationSelect name="org_id"/> */}
+                            <OrganizationSelect
+  name="org_id"
+  disabled={!!role_id}
+  defaultValue={!role_id ? ORG_ID : undefined}
+/>
+
                           </FormItem>
                         </div>
                         </div>

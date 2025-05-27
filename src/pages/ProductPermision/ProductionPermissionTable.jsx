@@ -103,7 +103,9 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
             render: (_, record) => (
                 <>
                     {getFullName(record.first_name, record.last_name)}
+                    <div className="roletype">User Name: <span>{record.username}</span></div>
                     <div className="roletype">Role: <span>{record.role_name}</span></div>
+                    
                 </>
             )
         },

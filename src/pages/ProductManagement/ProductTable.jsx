@@ -22,6 +22,7 @@ const ProductTable = ({ org_id }) => {
     const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
+    const[selectedRecord , setSelectedRecord] = useState({});
     const superAdmin = isSuperAdmin();
 
     const userEmail = getUserEmailFromSession();
@@ -127,19 +128,19 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {superAdmin && <a title="Browse Files" href={`#`}
-                    className="me-3" onClick={(e)=>{handleClick(e,fileInputRef)}}>
+                {superAdmin && <> <a title="Browse Files" href={`#`}
+                    className="me-3" onClick={(e)=>{setSelectedRecord(record); handleClick(e,fileInputRef)}}>
                     <img src={browseIcon} alt="View Details" />
-                </a>}
+                </a>
                 <input
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
                     onChange={(event) => {
-                        handleFileChange(event, record, org_id, setLoading)
+                        handleFileChange(event, selectedRecord, org_id, setLoading)
                     }}
-                />
-                {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
+                /></>}
+                {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/manual-testing/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="View Details" href={`/product-management/viewproduct/${record.service_id}`} className="me-3">

@@ -1299,6 +1299,15 @@ table.issues a {
   font-weight: 500;
   text-decoration: none;
 }
+.adaMainContainer .adminControlContainer .pageTitle .buttonContainer .delete-active{
+  border-radius: 3px;
+  background: #dc3545;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 0.87rem;
+  font-weight: 500;
+  text-decoration: none;
+}
 .adaMainContainer .adminControlContainer .pageTitle .buttonContainer .edit {
   border-radius: 3px;
   background: #125A8D;
