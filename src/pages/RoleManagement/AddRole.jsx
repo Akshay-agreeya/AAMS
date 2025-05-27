@@ -134,14 +134,19 @@ const AddRole = () => {
       navigate("/role-management");
     }
     catch (error) {
-      console.log(error);
+      const errors = error?.data?.errors;
+      
+      // If it's a field-level error (like role_name), show it inside the form
+      if (errors?.role_name) {
+        formRef.current.setFieldError("role_name", errors.role_name);
+      } else {
       notification.error({
         title: role_id ? "Edit Role" : 'Add Role',
         message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG
       });
     }
   }
-
+};
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -160,12 +165,14 @@ const AddRole = () => {
                     <div className="formContainer">
                       <div className="row">
                         <div className="col-12 col-lg-4">
+                        <div className="mb-3">
                           <FormItem name="role_name" label="Role Name" rules={[{
                             required: true,
                             message: "Role name is required"
                           }]} requiredMark={true}>
                             <Input type="text" placeholder="Role Name" />
                           </FormItem>
+                        </div>
                         </div>
                         <div className="col-12 col-lg-4">
                           <FormItem name="role_key" label="Role Type" rules={[{

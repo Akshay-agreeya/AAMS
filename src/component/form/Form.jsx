@@ -14,34 +14,40 @@ const Form = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         setFieldsValue(values) {
-            setFormData(values);
+          setFormData(values);
         },
         setFieldValue(keyName, value) {
-            setFormData((prev) => ({ ...prev, [keyName]: value }));
+          setFormData((prev) => ({ ...prev, [keyName]: value }));
         },
         getFieldValue(keyName) {
-            return formData?.[keyName] || '';
+          return formData?.[keyName] || '';
         },
         setFieldsError(errs = {}) {
-
-            // Set the errors in state (assumed to be some form state handler)
-            setErrors(errs);
-
-            // Early return if there are no errors
-            const keys = Object.keys(errs);
-            if (keys.length === 0) return;
-
-
-            // Get the first field to focus
-            const fieldElement = document.querySelector(`[name="${keys[0]}"]`);
-
-            if (fieldElement) {
-                // Scroll the field into view and focus it
-                fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                fieldElement.focus();
-            }
+          setErrors(errs);
+      
+          const keys = Object.keys(errs);
+          if (keys.length === 0) return;
+      
+          const fieldElement = document.querySelector(`[name="${keys[0]}"]`);
+          if (fieldElement) {
+            fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            fieldElement.focus();
+          }
+        },
+        setFieldError(fieldName, errorMessage) {
+          setErrors(prev => ({
+            ...prev,
+            [fieldName]: errorMessage
+          }));
+      
+          const fieldElement = document.querySelector(`[name="${fieldName}"]`);
+          if (fieldElement) {
+            fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            fieldElement.focus();
+          }
         }
-    }));
+      }));
+      
 
     // Validate individual input field
     const validateInput = useCallback(async (newErrors, child, newFormData = formData) => {
