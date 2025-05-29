@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getData } from '../../utils/CommonApi';
 import Table from '../table/Table';
 import { getFormattedDateWithTime } from '../input/DatePicker';
+import { API_BASE_URL } from '../../utils/Constants';
 
 export const DeepAssessmentReportDialog = (props) => {
     const [showModal, setShowModal] = useState(false);
@@ -11,14 +12,18 @@ export const DeepAssessmentReportDialog = (props) => {
     const [reports, setReports] = useState([]);
     const [manualReports, setManualReports] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedAssessmentId, setSelectedAssessmentId] = useState();
+    const [selectedTransactionId, setSelectedTransactionId] = useState();
 
 
     useEffect(() => {
         const fetchReports = async () => {
             try {
+                setSelectedAssessmentId(undefined);
                 setLoading(true);
                 const response = await getData(`/report/get/assessments/${product_id}`);
                 setReports(response.contents);
+                setSelectedAssessmentId(response.contents?.[0]?.assessment_id);
             }
             catch (error) {
                 console.error("Error fetching reports:", error);
@@ -29,10 +34,12 @@ export const DeepAssessmentReportDialog = (props) => {
 
         const fetchManualReports = async () => {
             try {
+                setSelectedTransactionId(undefined);
                 setLoading(true);
                 const response = await getData(`/manual/list/${product_id}`);
-                response.contents = response.contents?.map(item=>({...item, scan_date: item.timestamp}))
+                response.contents = response.contents?.map(item => ({ ...item, scan_date: item.timestamp }))
                 setManualReports(response.contents);
+                setSelectedTransactionId(response.contents?.[0]?.txn_id);
             }
             catch (error) {
                 console.error("Error fetching reports:", error);
@@ -73,30 +80,43 @@ export const DeepAssessmentReportDialog = (props) => {
     const reportColumns = [{
         title: '',
         dataIndex: 'checkbox',
-        render: (_, record,index) => (
+        render: (_, record, index) => (
             <input
                 className="form-check-input"
                 type="radio"
-                name={record.assessment_id?"flexRadioDefault1":"flexRadioDefault"}
+                name={record.assessment_id ? "flexRadioDefault1" : "flexRadioDefault"}
                 id={record.assessment_id || record.txn_id}
-                defaultChecked={index === 0 ?true:false}
+                defaultChecked={index === 0 ? true : false}
+                onChange={() => {
+                    record.assessment_id ? setSelectedAssessmentId(record.assessment_id) :
+                        setSelectedTransactionId(record.txn_id);
+                }}
             />
         )
     },
     {
         title: "Report Name",
         dataIndex: 'report_name',
-        scop:'col'
+        scop: 'col'
     },
     {
         title: "Last Scan Date & Time",
         dataIndex: 'scan_date',
-        scop:'col',
-        render: (text)=>(
-            <span>{text?getFormattedDateWithTime(new Date(text),"dd MMM yyyy - HH:mm:ss"):''}</span>
+        scop: 'col',
+        render: (text) => (
+            <span>{text ? getFormattedDateWithTime(new Date(text), "dd MMM yyyy - HH:mm:ss") : ''}</span>
         )
+    }];
+
+    const handleGenerateAndDownload = () => {
+        try {
+            window.open(`${API_BASE_URL}/misc/download-deep-docx?assessment_id=${selectedAssessmentId}&txn_id=${selectedTransactionId}`);
+            return true;
+        } catch (err) {
+            console.error("Error downloading DOCX report:", err);
+            return false;
+        }
     }
-]
 
     return (
         <>
@@ -136,88 +156,6 @@ export const DeepAssessmentReportDialog = (props) => {
                                 <div className="col-lg-6 col-12">
                                     <h6>Lite Assessment List</h6>
                                     <div className="gridContainer" style={{ maxHeight: "350px" }}>
-                                        {/* <table>
-                                            <thead>
-                                                <tr>
-                                                    <td></td>
-                                                    <th scope="col">Report Name</th>
-                                                    <th scope="col">Last Scan Date & Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault1"
-                                                            id="flexRadioDefault1"
-                                                            defaultChecked
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault1"
-                                                            id="flexRadioDefault2"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault1"
-                                                            id="flexRadioDefault3"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault1"
-                                                            id="flexRadioDefault4"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault1"
-                                                            id="flexRadioDefault5"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                            </tbody>
-                                        </table> */}
                                         <Table columns={reportColumns} dataSource={reports} rowKey="report_id" loading={loading} />
                                     </div>
                                 </div>
@@ -225,74 +163,7 @@ export const DeepAssessmentReportDialog = (props) => {
                                 <div className="col-lg-6 col-12 mt-lg-0 mt-4">
                                     <h6>Manual Assessment List</h6>
                                     <div className="gridContainer" style={{ maxHeight: "350px" }}>
-                                        {/* <table>
-                                            <thead>
-                                                <tr>
-                                                    <td></td>
-                                                    <th scope="col">Report Name</th>
-                                                    <th scope="col">Last Scan Date & Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault"
-                                                            id="flexRadioDefault6"
-                                                            defaultChecked
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault"
-                                                            id="flexRadioDefault7"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault"
-                                                            id="flexRadioDefault8"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="flexRadioDefault"
-                                                            id="flexRadioDefault9"
-                                                        />
-                                                    </td>
-                                                    <td scope="row">
-                                                        <a href="viewAdminReport.html">AQMD Site Assessment Report-9</a>
-                                                    </td>
-                                                    <td>16 Jan 2025 - 20:55:12</td>
-                                                </tr>
-                                            </tbody>
-                                        </table> */}
+                                       
                                         <Table columns={reportColumns} dataSource={manualReports} rowKey="report_id" loading={loading} />
                                     </div>
                                 </div>
@@ -311,6 +182,8 @@ export const DeepAssessmentReportDialog = (props) => {
                                 type="button"
                                 className="btn btn-primary"
                                 style={{ backgroundColor: "#06C" }}
+                                onClick={handleGenerateAndDownload}
+                                disabled={!selectedAssessmentId || !selectedTransactionId}
                             >
                                 Generate & Download Report
                             </button>
