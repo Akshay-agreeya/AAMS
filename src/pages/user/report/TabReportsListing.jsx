@@ -4,8 +4,10 @@ import Pagenation from '../../../component/Pagenation';
 import ManualReportTable from '../../Report/ManualTableReport';
 import { DeepAssessmentReportDialog } from '../../../component/dialog/DeepAssessmentReportDialog';
 import downloadIcon from "../../../assets/images/download.svg";
+import { getOrganizationIdFromSession } from '../../../utils/Helper';
 
-const TabReportsListing = ({ product_id, org_id, selected_tab = "1" }) => {
+const TabReportsListing = ({ product_id, org_id = getOrganizationIdFromSession(), selected_tab = "1" }) => {
+    
 
     const [openModal, setOpenModal] = useState();
 

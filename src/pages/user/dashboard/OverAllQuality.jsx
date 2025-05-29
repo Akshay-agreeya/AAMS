@@ -1,10 +1,12 @@
 import React from 'react';
 import { getPages, getPercentValue } from '../../../utils/Helper';
+import { CategoryProgressBar } from './CategoryProgressBar';
 
 export const OverAllQuality = ({ summary }) => {
 
     const percent = getPercentValue(summary.benchmark);
     const pages = getPages(summary.pages) || {};
+    const benchmarkText = summary.benchmark?.replace(`${percent}%`, '').trim() || '';
 
     return (
 
@@ -19,10 +21,7 @@ export const OverAllQuality = ({ summary }) => {
                 <div className="col-12 text-center">
 
                     <div className="overAllQyalityCircle">
-                        <div className="overAllQyality-text">
-                            <span className="number">{`${percent}`}%</span>
-                            <span className="text">have issues, worse than average</span>
-                        </div>
+                    <CategoryProgressBar summary={summary}/>
                     </div>
 
                 </div>

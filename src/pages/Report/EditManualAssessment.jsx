@@ -20,9 +20,9 @@ const EditManualAssessment = () => {
     const formRef = useRef();
 
     const { transaction_id } = useParams();
-
-    const { org_id, product_id, web_url } = useLocation().state || {};
-
+const location = useLocation();
+    const { org_id, product_id, web_url } = location.state|| {};
+    
     const navigate = useNavigate();
 
     useEffect(() => {

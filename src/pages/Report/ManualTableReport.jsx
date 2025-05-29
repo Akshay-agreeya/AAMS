@@ -67,6 +67,7 @@ export const ManualReportTable = ({ product_id, org_id }) => {
 
     const handleEdit = (e, record) => {
         e.preventDefault();
+        
         navigate(`/product-management/edit-manual-report/${record.txn_id}`,
             { state: { org_id, product_id, web_url: record.web_url } }
         )
