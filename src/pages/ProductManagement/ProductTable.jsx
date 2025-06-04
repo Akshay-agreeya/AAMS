@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Table from '../../component/table/Table';
-import { deleteData, getData } from '../../utils/CommonApi';
+import { deleteData, getData, postData } from '../../utils/CommonApi';
 import { formattedDate, getFormattedDateWithTime } from '../../component/input/DatePicker';
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
 import manualTestingIcon from "../../assets/images/manual-testing.svg";
 import browseIcon from "../../assets/images/browseIcon.svg";
-import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession ,isSuperAdmin} from '../../utils/Helper';
+import iconDocument from "../../assets/images/iconDocument.svg";
+import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession, isSuperAdmin } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
 import { useNavigate } from 'react-router-dom';
 import { DATE_FORMAT, PRODUCT_MGMT, TABLE_RECORD_SIZE } from '../../utils/Constants';
 import { handleClick, handleFileChange } from '../../utils/ReportFileUpload';
 import "./Spinner.css";
+import FreeLiteAssessmentUrlInputDialog from '../../component/dialog/FreeLiteAssessmentUrlInputDialog';
 
 const ProductTable = ({ org_id }) => {
 
@@ -21,8 +23,9 @@ const ProductTable = ({ org_id }) => {
     const [loading, setLoading] = useState(false);
     const [pagenation, setPagenation] = useState({});
     const [openProductDeleteModal, setOpenProductDeleteModal] = useState();
+    const [openUrlModal, setOpenUrlModal] = useState();
     const [selectedProductId, setSelectedProductId] = useState(null);
-    const[selectedRecord , setSelectedRecord] = useState({});
+    const [selectedRecord, setSelectedRecord] = useState({});
     const superAdmin = isSuperAdmin();
 
     const userEmail = getUserEmailFromSession();
@@ -63,7 +66,7 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Resource Path',
         dataIndex: 'web_url',
-        width: '18%'
+        width: '14%'
     },
     {
         title: 'WCAG',
@@ -104,7 +107,7 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Scan Date',
         dataIndex: 'next_scan_date',
-        width: '9%',
+        width: '19%',
         className: "text-center",
         render: (text) => (
             <span>{text ? formattedDate(new Date(text), DATE_FORMAT) : 'NA'}</span>
@@ -128,18 +131,28 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
+                {superAdmin && <a title="FreeLiteAssessment" href={`#`}
+                    className="me-3" onClick={(e) => {
+                        e.preventDefault();
+                        setSelectedRecord(record);
+                        setTimeout(() => {
+                            setOpenUrlModal(true);
+                        }, 300);
+                    }}>
+                    <img src={iconDocument} alt="FreeLiteAssessment" />
+                </a>}
                 {superAdmin && <> <a title="Browse Files" href={`#`}
-                    className="me-3" onClick={(e)=>{setSelectedRecord(record); handleClick(e,fileInputRef)}}>
+                    className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>
                     <img src={browseIcon} alt="View Details" />
                 </a>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={(event) => {
-                        handleFileChange(event, selectedRecord, org_id, setLoading)
-                    }}
-                /></>}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        onChange={(event) => {
+                            handleFileChange(event, selectedRecord, org_id, setLoading)
+                        }}
+                    /></>}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}
@@ -180,6 +193,28 @@ const ProductTable = ({ org_id }) => {
         }
     }
 
+    const handleFreeLiteAssessment = async (url) => {
+        let message = "";
+        try {
+            setLoading(true);
+            setOpenUrlModal(false);
+            const formData = { freeLiteAssessmentUrl: url, service_id: selectedRecord?.service_id, org_id };
+            const resp = await postData(`/misc/free-lite-assessment`, formData);
+            notification.success({
+                title: 'FreeLiteAssessment',
+                message: resp.message || 'FreeLiteAssessment successfully completed'
+            });
+        } catch (err) {
+            message = err.response.data.message;
+            notification.error({
+                title: 'FreeLiteAssessment',
+                message
+            });
+        }
+        finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <>
@@ -190,6 +225,12 @@ const ProductTable = ({ org_id }) => {
                 open={openProductDeleteModal}
                 onDelete={handleDelete}
                 onClose={() => { setOpenProductDeleteModal(false) }}
+            />
+            <FreeLiteAssessmentUrlInputDialog
+                modalId="free-lite-assessment"
+                open={openUrlModal}
+                handleFreeLiteAssessment={handleFreeLiteAssessment}
+                onClose={() => { setOpenUrlModal(false) }}
             />
         </>
     )
