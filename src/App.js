@@ -31,6 +31,7 @@ import SummaryReport from './pages/Report/SummaryReport';
 import ManualAssessment from './pages/Report/ManualAssesment';
 import ManaualViewReport from './pages/Report/ManaualViewReport';
 import EditManualAssessment from './pages/Report/EditManualAssessment';
+import AssessmentProgress from './component/AssessmentProgress';
 
 
 
@@ -75,6 +76,7 @@ export const routesMap = [
     { path: "/product-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
     { path: "/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
+    { path: "/assessment-progress", element: <PrivateRoute element={AssessmentProgress} />, breadcrumb: "Assessment Progress" }
 ];
 
 function App() {

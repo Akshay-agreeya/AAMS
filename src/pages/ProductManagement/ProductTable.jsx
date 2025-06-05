@@ -134,10 +134,7 @@ const ProductTable = ({ org_id }) => {
                 {superAdmin && <a title="FreeLiteAssessment" href={`#`}
                     className="me-3" onClick={(e) => {
                         e.preventDefault();
-                        setSelectedRecord(record);
-                        setTimeout(() => {
-                            setOpenUrlModal(true);
-                        }, 300);
+                        handleFreeLiteAssessment(record);
                     }}>
                     <img src={iconDocument} alt="FreeLiteAssessment" />
                 </a>}
@@ -193,13 +190,21 @@ const ProductTable = ({ org_id }) => {
         }
     }
 
-    const handleFreeLiteAssessment = async (url) => {
+    const handleFreeLiteAssessment = async (record) => {
         let message = "";
         try {
-            setLoading(true);
-            setOpenUrlModal(false);
-            const formData = { freeLiteAssessmentUrl: url, service_id: selectedRecord?.service_id, org_id };
+           // setLoading(true);
+            const newTab = window.open('/assessment-progress', '_blank');
+            const formData = { freeLiteAssessmentUrl: record.web_url, service_id: record?.service_id, org_id };
             const resp = await postData(`/misc/free-lite-assessment`, formData);
+            // Send success message to new tab
+            if (newTab && !newTab.closed) {
+                newTab.postMessage({
+                    type: 'ASSESSMENT_COMPLETE',
+                    success: true,
+                    data: resp
+                }, window.location.origin);
+            }
             notification.success({
                 title: 'FreeLiteAssessment',
                 message: resp.message || 'FreeLiteAssessment successfully completed'
@@ -210,9 +215,6 @@ const ProductTable = ({ org_id }) => {
                 title: 'FreeLiteAssessment',
                 message
             });
-        }
-        finally {
-            setLoading(false);
         }
     }
 
@@ -225,12 +227,6 @@ const ProductTable = ({ org_id }) => {
                 open={openProductDeleteModal}
                 onDelete={handleDelete}
                 onClose={() => { setOpenProductDeleteModal(false) }}
-            />
-            <FreeLiteAssessmentUrlInputDialog
-                modalId="free-lite-assessment"
-                open={openUrlModal}
-                handleFreeLiteAssessment={handleFreeLiteAssessment}
-                onClose={() => { setOpenUrlModal(false) }}
             />
         </>
     )
