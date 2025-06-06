@@ -199,11 +199,7 @@ const ProductTable = ({ org_id }) => {
             const resp = await postData(`/misc/free-lite-assessment`, formData);
             // Send success message to new tab
             if (newTab && !newTab.closed) {
-                newTab.postMessage({
-                    type: 'ASSESSMENT_COMPLETE',
-                    success: true,
-                    data: resp
-                }, window.location.origin);
+               newTab.close();
             }
             notification.success({
                 title: 'FreeLiteAssessment',

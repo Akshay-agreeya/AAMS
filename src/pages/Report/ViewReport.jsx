@@ -11,6 +11,7 @@ import {
 } from "../../component/input/DatePicker";
 import { DATE_FORMAT, DATE_TIME_FORMAT, USER_MGMT } from "../../utils/Constants";
 import { getAllowedOperations } from "../../utils/Helper";
+import Table from "../../component/table/Table";
 
 const AccessibilityReport = () => {
   const { assessment_id } = useParams();
@@ -45,9 +46,17 @@ const AccessibilityReport = () => {
     (category) => category.level === "AA"
   );
   const importantIssues = categories.filter(
-    (category) => category.level === "Important"
+    (category) => category.level === "AAA"
   );
-  const operations = getAllowedOperations(USER_MGMT);
+  const pageColumns = [{
+    title: "Description",
+    dataIndex: "description"
+  },
+  {
+    title: "Line Number",
+    dataIndex: "line_numbers"
+  }
+  ]
 
   const renderIssues = (issues, icon) => {
     return issues.map((category) => (
@@ -91,7 +100,7 @@ const AccessibilityReport = () => {
               // Remove the first line only if it starts with "Text"
               const linesToUse =
                 guidelineLines.length > 0 &&
-                guidelineLines[0].trim().startsWith("Text")
+                  guidelineLines[0].trim().startsWith("Text")
                   ? guidelineLines.slice(1)
                   : guidelineLines;
 
@@ -113,33 +122,28 @@ const AccessibilityReport = () => {
 
         {expandedIssues[category.category_id] &&
           category.category_details.map((detail) => (
-            <tr key={detail.category_detail_id} className="expando">
-              <td></td>
-              <td>
-                <strong>Remediation:</strong>
-                <p>{detail.remediation}</p>
-                <strong>Page URL:</strong>{" "}
-                <a
-                  href={detail.page_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {detail.page_url}
-                </a>
-              </td>
-              <td className="optional">
-                <strong>Criteria:</strong> {detail.criteria} <br />
-                <strong>Lines:</strong>{" "}
-                <a
-                  href={detail.page_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {detail.line_numbers}
-                </a>
-              </td>
-              <td className="optional"></td>
-            </tr>
+            <>
+              <tr key={detail.category_detail_id} className="expando">
+                <td></td>
+                <td>
+                  <strong>Page URL:</strong>{" "}
+                  <a
+                    href={detail.page_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {detail.page_url}
+                  </a><br /><br />
+                  <strong>Remediation:</strong>
+                  <p>{detail.remediation}</p>
+                  <Table columns={pageColumns} dataSource={detail.page_details} />
+                </td>
+                <td className="optional">
+                  <strong>Criteria:</strong> {detail.criteria} <br />
+                </td>
+                <td className="optional"></td>
+              </tr>              
+            </>
           ))}
       </React.Fragment>
     ));
@@ -174,7 +178,7 @@ const AccessibilityReport = () => {
                         new Date(accessibilityInfo.assessment_timestamp),
                         DATE_TIME_FORMAT
                       )}
-                    
+
                   </h1>
                   {/* <div className="buttonContainer">
                                         <a href="/manualassesment" className="add"> <i className="fa-solid fa-plus"></i>Add Manual Assessment</a>
@@ -303,10 +307,10 @@ const AccessibilityReport = () => {
                     <table className="issues">
                       <thead>
                         <tr>
-                          <th>Priority</th>
+                          <th width="11%">Priority</th>
                           <th>Description and URL</th>
-                          <th>Guideline and Line#</th>
-                          <th className="optional">Count</th>
+                          <th width="16%">Guideline and Line#</th>
+                          <th className="optional" width="11%">Count</th>
                           {/* <th className="optional">Action</th> */}
                         </tr>
                       </thead>
