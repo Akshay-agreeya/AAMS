@@ -12,12 +12,21 @@ import notification from "../../component/notification/Notification";
 import { FrequencySelect } from "../../component/select/FrequencySelect";
 import { ScanDaySelect } from "../../component/select/ScanDaySelect";
 import { ScanMonthDaySelect } from "../../component/select/ScanMonthDaySelect";
-import { convertUtcToLocal, getFormattedAddress, getFullName } from "../../utils/Helper";
-import DatePicker, { getFormattedDateWithTime } from "../../component/input/DatePicker";
-import { PRODUCT_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from "../../constants/MessageConstants";
+import {
+  convertUtcToLocal,
+  getFormattedAddress,
+  getFullName,
+} from "../../utils/Helper";
+import DatePicker, {
+  getFormattedDateWithTime,
+} from "../../component/input/DatePicker";
+import {
+  PRODUCT_SAVE_SUCCESS_MSG,
+  OPERATION_FAILED_MSG,
+} from "../../constants/MessageConstants";
+import moment from "moment";
 
 const AddProduct = () => {
-
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
@@ -30,17 +39,12 @@ const AddProduct = () => {
   // Fetch organization details
 
   useEffect(() => {
-    if (product_id)
-      getProductInfo();
-
+    if (product_id) getProductInfo();
   }, [product_id]);
 
   useEffect(() => {
-    if (org_id)
-      getOrganizationInfo();
-
+    if (org_id) getOrganizationInfo();
   }, [org_id]);
-
 
   const getOrganizationInfo = async () => {
     try {
@@ -48,7 +52,10 @@ const AddProduct = () => {
       const orgData = resp.contents?.[0] || {};
       setOrganization({
         ...orgData,
-        contact_person_name: getFullName(orgData.contact_first_name, orgData.contact_last_name),
+        contact_person_name: getFullName(
+          orgData.contact_first_name,
+          orgData.contact_last_name
+        ),
         contact_email: orgData.email,
         contact: orgData.phone_number,
       });
@@ -64,27 +71,37 @@ const AddProduct = () => {
       const resp = await getData(`/product/view/${product_id}`);
       const productData = resp || {};
       setInitialValues({
-        ...productData, guideline_version_id: productData.guidline_version_id,
-        schedule_time: getFormattedDateWithTime(new Date(productData.schedule_time), "HH:mm"),
-        scan_day_ids: productData.frequency_id === 2 ? productData.scan_day_ids?.split(",").map(item => parseInt(item.trim())) : productData.scan_day_ids,
+        ...productData,
+        guideline_version_id: productData.guidline_version_id,
+        schedule_time: getFormattedDateWithTime(
+          new Date(productData.schedule_time),
+          "HH:mm"
+        ),
+        scan_day_ids:
+          productData.frequency_id === 2
+            ? productData.scan_day_ids
+                ?.split(",")
+                .map((item) => parseInt(item.trim()))
+            : productData.frequency_id === 3 ? (productData.next_scan_date ||productData.last_scan_date ) :productData.scan_day_ids,
       });
-      setSelectedFrequency(productData.frequency_id + '');
+      setSelectedFrequency(productData.frequency_id + "");
       setOrganization({
         org_name: productData.organization_name,
         contact_person_name: productData.contact_person_name,
-        contact_email: productData.contact_email, contact: productData.contact,
-        address_line: getFormattedAddress(productData), city: productData.city, state: productData.state,
-        country: productData.country
+        contact_email: productData.contact_email,
+        contact: productData.contact,
+        address_line: getFormattedAddress(productData),
+        city: productData.city,
+        state: productData.state,
+        country: productData.country,
       });
-
     } catch (error) {
       console.error("Error fetching user details:", error);
       notification.error({
         title: "Error",
         message: "An error occurred while fetching user details.",
       });
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -92,20 +109,22 @@ const AddProduct = () => {
   const handleSubmit = async (formData) => {
     try {
       setLoading(true);
-      let currentDate = new Date().toISOString().split('T')[0];
+      let currentDate = new Date().toISOString().split("T")[0];
 
       let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
 
       // Convert the date to UTC and get it in ISO format
       const reqData = {
-        ...formData, schedule_time: localDate.toISOString(),
-        scan_day_ids: Array.isArray(formData.scan_day_ids) ? formData.scan_day_ids.join(",") : formData.scan_day_ids
+        ...formData,
+        schedule_time: localDate.toISOString(),
+        scan_day_ids: Array.isArray(formData.scan_day_ids)
+          ? formData.scan_day_ids.join(",")
+          : formData.scan_day_ids,
       };
 
-
-      product_id ? await patchData(`/product/edit/${product_id}`, reqData) :
-        await postData(`/product/add/${org_id}`, reqData);
-
+      product_id
+        ? await patchData(`/product/edit/${product_id}`, reqData)
+        : await postData(`/product/add/${org_id}`, reqData);
 
       notification.success({
         title: "Add Product",
@@ -113,7 +132,6 @@ const AddProduct = () => {
       });
 
       navigate("/product-management");
-
     } catch (error) {
       console.error("Error adding product:", error);
       notification.error({
@@ -127,7 +145,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     formRef.current.setFieldsValue({ ...initialValues });
-  }, [initialValues])
+  }, [initialValues]);
 
   return (
     <Layout>
@@ -149,27 +167,34 @@ const AddProduct = () => {
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Organization Name</div>
-                            <div className="value">{organization?.org_name || "N/A"}</div>
+                            <div className="value">
+                              {organization?.org_name || "N/A"}
+                            </div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Organization Address</div>
-                            <div className="value">{organization?.address_line || "N/A"}</div>
+                            <div className="value">
+                              {organization?.address_line || "N/A"}
+                            </div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Contact Person</div>
                             <div className="value">
-                              {organization?.contact_person_name} - {organization?.contact}
+                              {organization?.contact_person_name} -{" "}
+                              {organization?.contact}
                             </div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
                             <div className="title">Email</div>
-                            <div className="value">{organization?.contact_email || "N/A"}</div>
+                            <div className="value">
+                              {organization?.contact_email || "N/A"}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -190,7 +215,10 @@ const AddProduct = () => {
                               checked
                               readOnly
                             />
-                            <label className="form-check-label" htmlFor="websiteAccessibility">
+                            <label
+                              className="form-check-label"
+                              htmlFor="websiteAccessibility"
+                            >
                               Website Accessibility
                             </label>
                           </div>
@@ -201,26 +229,51 @@ const AddProduct = () => {
                           <h3>Product</h3>
                           <div className="row">
                             <div className="col-lg-4">
-                              <FormItem name="web_url" label="Enter URL for Website Accessibility" rules={[{
-                                required: true,
-                                message: "Web URL is required"
-                              }]} requiredMark={true}>
-                                <Input type="text" placeholder="Enter URL for Website Accessibility" />
+                              <FormItem
+                                name="web_url"
+                                label="Enter URL for Website Accessibility"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Web URL is required",
+                                  },
+                                ]}
+                                requiredMark={true}
+                              >
+                                <Input
+                                  type="text"
+                                  placeholder="Enter URL for Website Accessibility"
+                                />
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem name="guideline_version_id" label="Enter WCAG Version"rules={[{
-                                required: true,
-                                message: "WCAG Version is required"
-                              }]} requiredMark={true}>
+                              <FormItem
+                                name="guideline_version_id"
+                                label="Enter WCAG Version"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "WCAG Version is required",
+                                  },
+                                ]}
+                                requiredMark={true}
+                              >
                                 <WCAGVersionSelect />
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
-                              <FormItem name="compliance_level_id" label=" Enter WCAG Compliance Level" rules={[{
-                                required: true,
-                                message: "WCAG Compliance Level is required"
-                              }]} requiredMark={true}>
+                              <FormItem
+                                name="compliance_level_id"
+                                label=" Enter WCAG Compliance Level"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message:
+                                      "WCAG Compliance Level is required",
+                                  },
+                                ]}
+                                requiredMark={true}
+                              >
                                 <WCAGComplianceLevelSelect />
                               </FormItem>
                             </div>
@@ -232,45 +285,136 @@ const AddProduct = () => {
                           <h3>Maintenance</h3>
                           <div className="row">
                             <div className="col-12 col-lg-4">
-                              <FormItem label="Scan Frequency"
+                              <FormItem
+                                label="Scan Frequency"
                                 name="frequency_id"
-
-                                rules={[{ required: true, message: "Scan Frequency is required" }]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Scan Frequency is required",
+                                  },
+                                ]}
                                 requiredMark={true}
                               >
-                                <FrequencySelect name="frequency_id"
+                                <FrequencySelect
+                                  name="frequency_id"
                                   onChange={(e) => {
-                                    setSelectedFrequency(e.target.value);
-                                    formRef.current.setFieldValue("scan_day_ids", "");
-                                  }} />
+                                    const frequency = e.target.value;
+                                    setSelectedFrequency(frequency);
+                                    formRef.current.setFieldValue(
+                                      "scan_day_ids",
+                                      ""
+                                    );
+                                    formRef.current.setFieldValue(
+                                      "schedule_time",
+                                      ""
+                                    );
+
+                                    if (frequency === "3") {
+                                      const today =
+                                        moment().format("YYYY-MM-DD");
+                                      const currentTime =
+                                        moment().format("HH:mm");
+                                      formRef.current.setFieldValue(
+                                        "scan_day_ids",
+                                        today
+                                      );
+                                      formRef.current.setFieldValue(
+                                        "schedule_time",
+                                        currentTime
+                                      );
+                                    }
+                                  }}
+                                />
                               </FormItem>
                             </div>
 
-                            <div className="col-12 col-lg-4">
-                              <FormItem name="scan_day_ids" label="Scan Day"
-                                rules={[{ required: true, message: "Scan Day is required" }]}
-                                requiredMark={true}
-                              >
-                                {selectedFrequency === "1" ? <ScanDaySelect /> : selectedFrequency === "2" ? <ScanMonthDaySelect values={initialValues?.scan_day_ids}
-                                  onChange={(value) => { formRef.current.setFieldValue("scan_day_ids", value) }} /> :
-                                  
-                                  <DatePicker minDate={new Date()}
+                            <div
+                              className="col-12 col-lg-4"
+                              // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
+                            >
+                              {selectedFrequency === "3" ? (
+                                <FormItem
+                                  name="scan_day_ids"
+                                  label="Scan Date"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Scan Date is required",
+                                    },
+                                  ]}
+                                  requiredMark={true}
+                                >
+                                  <DatePicker
+                                    minDate={new Date()}
                                     name="scan_day_ids"
-                                    onChange={(e) => { formRef.current.setFieldValue("scan_day_ids", e.target.value) }}
-                                    value={initialValues.scan_day_ids ? convertUtcToLocal(initialValues.scan_day_ids) : ''} />
-                                }
-                              </FormItem>
+                                    onChange={(e) => {
+                                      formRef.current.setFieldValue(
+                                        "scan_day_ids",
+                                        e.target.value
+                                      );
+                                    }}
+                                    value={
+                                      initialValues.scan_day_ids
+                                        ? convertUtcToLocal(
+                                            initialValues.scan_day_ids
+                                          )
+                                        : moment().format("dd/MM/yyyy")
+                                    }
+                                  />
+                                </FormItem>
+                              ) : (
+                                <FormItem
+                                  name="scan_day_ids"
+                                  label="Scan Day"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Scan Day is required",
+                                    },
+                                  ]}
+                                  requiredMark={true}
+                                >
+                                  {selectedFrequency === "1" ? (
+                                    <ScanDaySelect />
+                                  ) : (
+                                    <ScanMonthDaySelect
+                                      values={initialValues?.scan_day_ids}
+                                      onChange={(value) => {
+                                        formRef.current.setFieldValue(
+                                          "scan_day_ids",
+                                          value
+                                        );
+                                      }}
+                                    />
+                                  )}
+                                </FormItem>
+                              )}
                             </div>
 
-                            <div className="col-12 col-lg-4">
-                              <FormItem name="schedule_time" label="Schedule Time"
-                                rules={[{ required: true, message: "Scan Time is required" }]}
+                            <div
+                              className="col-12 col-lg-4"
+                              // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
+                            >
+                              <FormItem
+                                name="schedule_time"
+                                label="Schedule Time"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Schedule Time is required",
+                                  },
+                                ]}
                                 requiredMark={true}
                               >
                                 <Input
                                   type="time"
-                                  name="scheduleTime"
                                   className="form-control"
+                                  defaultValue={
+                                    selectedFrequency === "3"
+                                      ? moment().format("HH:mm")
+                                      : undefined
+                                  }
                                 />
                               </FormItem>
                             </div>
@@ -287,7 +431,11 @@ const AddProduct = () => {
                     </div>
 
                     <div className="buttonBox ">
-                      <button type="button" className="btnCancel" onClick={() => navigate("/product-management")}>
+                      <button
+                        type="button"
+                        className="btnCancel"
+                        onClick={() => navigate("/product-management")}
+                      >
                         Cancel
                       </button>
                       <button type="submit" className="btnAddUser">
