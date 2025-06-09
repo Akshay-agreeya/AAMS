@@ -28,7 +28,7 @@ const ViewReport = (transaction_id, icon, text, selectedProductId, org_id, web_u
     </a>
 }
 
-export const ManualReportTable = ({ product_id, org_id }) => {
+export const  ManualReportTable = ({ product_id, org_id }) => {
 
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);

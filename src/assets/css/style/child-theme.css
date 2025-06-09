@@ -3040,6 +3040,11 @@ table.issues a {
   background-color: #fff;
   width: 100%;
 }
+.adaMainContainer .adminControlContainer .roleManagmentContainer .gridContainer table thead {
+  position: sticky;
+  background: white;
+  z-index: 10;
+}
 .adaMainContainer .dashboardControlContainer .dashGraphicContainerWhite .gridContainer table thead th {
   position: sticky;
   top: 0;

@@ -953,7 +953,7 @@ svg circle.orange {
   }
 }
 /* dark mode for macOS */
-@media screen and (prefers-color-scheme: dark) {
+/* @media screen and (prefers-color-scheme: dark) {
   body {
     background: #262424;
     color: #ccc;
@@ -1040,7 +1040,7 @@ svg circle.orange {
   rect.graph-ok {
     fill: transparent;
   }
-  /* view source header */
+ 
   header, aside {
     color: #fff;
     background-color: #303030;
@@ -1049,12 +1049,12 @@ svg circle.orange {
   header th {
     background-color: #303030;
   }
-  /* view source issue box */
+  
   aside code {
     border: 1px solid #444;
     background-color: #444;
   }
-  /* view source code */
+ 
   main.pre {
     color: #ccc;
   }
@@ -1068,9 +1068,9 @@ svg circle.orange {
     text-decoration: dotted underline rgb(255, 0, 0);
     color: rgb(255, 0, 0);
   }
-}
+} */
 @media (forced-colors: active), screen and (-ms-high-contrast: active) {
-  /* use CSS UA defaults, since can't predict which high contrast theme has been chosen */
+  
   body {
     background: unset;
     color: unset;
