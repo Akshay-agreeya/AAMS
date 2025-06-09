@@ -82,7 +82,7 @@ const AddProduct = () => {
             ? productData.scan_day_ids
                 ?.split(",")
                 .map((item) => parseInt(item.trim()))
-            : productData.frequency_id === 3 ? (moment("2025-06-09T00:00:00.000Z" ||productData.last_scan_date).format("YYYY-MM-DD") ) :productData.scan_day_ids,
+            : productData.frequency_id === 3 ? (moment(productData.next_scan_date ||productData.last_scan_date).format("YYYY-MM-DD") ) :productData.scan_day_ids,
       });
       setSelectedFrequency(productData.frequency_id + "");
       setOrganization({
