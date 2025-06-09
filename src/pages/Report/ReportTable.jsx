@@ -7,7 +7,7 @@ import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
-import { DATE_FORMAT } from "../../utils/Constants";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../utils/Constants";
 import MSdisable from '../../assets/images/iconMsWordDisable.svg'
 import PDFdisable from '../../assets/images/iconPDFDisable.svg'
 import Viewdisable from '../../assets/images/iconViewDisable.svg'
@@ -86,12 +86,13 @@ export const ReportTable = ({ product_id ,org_id}) => {
                 try {
                     const date = new Date(text);
                     if (isNaN(date)) return "";
-                    return <span>{getFormattedDateWithTime(date, DATE_FORMAT)}</span>;
+                    return <span>{getFormattedDateWithTime(date, DATE_TIME_FORMAT)}</span>;
                 } catch {
                     return "";
                 }
             }
         },
+        
         {
             title: "Issues Found",
             dataIndex: "issues",

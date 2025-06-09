@@ -138,7 +138,7 @@ const ProductTable = ({ org_id }) => {
                     }}>
                     <img src={iconDocument} alt="FreeLiteAssessment" />
                 </a>}
-                {superAdmin && <> <a title="Browse Files" href={`#`}
+                {/* {superAdmin && <> <a title="Browse Files" href={`#`}
                     className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>
                     <img src={browseIcon} alt="View Details" />
                 </a>
@@ -149,7 +149,7 @@ const ProductTable = ({ org_id }) => {
                         onChange={(event) => {
                             handleFileChange(event, selectedRecord, org_id, setLoading)
                         }}
-                    /></>}
+                    /></>} */}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}
