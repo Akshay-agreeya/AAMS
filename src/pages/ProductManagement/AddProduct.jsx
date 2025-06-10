@@ -144,13 +144,24 @@ const AddProduct = () => {
         : await postData(`/product/add/${org_id}`, reqData);
 
       notification.success({
-        title: "Add Product",
-        message: PRODUCT_SAVE_SUCCESS_MSG,
+        title: product_id ? "Edit Product" : 'Add Product',
+        message: PRODUCT_SAVE_SUCCESS_MSG
       });
 
       navigate("/product-management");
     } catch (error) {
-      console.error("Error adding product:", error);
+      const errors = error?.data?.errors;
+     
+      // If it's a field-level error (like web_url), show it inside the form
+      if (errors?.web_url) {
+        formRef.current.setFieldError("web_url", errors.web_url);
+      }else {
+        notification.error({
+          title: product_id ? "Edit Product" : 'Add  Product',
+          message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG
+        });
+      }
+      // console.error("Error adding product:", error);
       notification.error({
         title: "Error",
         message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
