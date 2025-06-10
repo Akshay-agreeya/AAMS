@@ -6,7 +6,7 @@ import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
 import manualTestingIcon from "../../assets/images/manual-testing.svg";
-import browseIcon from "../../assets/images/browseIcon.svg";
+import manualIcon from "../../assets/images/manual.svg";
 import iconDocument from "../../assets/images/iconDocument.svg";
 import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession, isSuperAdmin } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
@@ -136,7 +136,7 @@ const ProductTable = ({ org_id }) => {
                         e.preventDefault();
                         handleFreeLiteAssessment(record);
                     }}>
-                    <img src={iconDocument} alt="FreeLiteAssessment" />
+                    <img src={manualIcon} alt="FreeLiteAssessment" />
                 </a>}
                 {/* {superAdmin && <> <a title="Browse Files" href={`#`}
                     className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>

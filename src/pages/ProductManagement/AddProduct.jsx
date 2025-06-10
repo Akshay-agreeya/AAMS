@@ -27,7 +27,10 @@ import {
 import moment from "moment";
 
 const AddProduct = () => {
-  const [initialValues, setInitialValues] = useState({});
+  const [initialValues, setInitialValues] = useState({
+    compliance_level_id:3,
+    guideline_version_id:3
+  });
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
   const [selectedFrequency, setSelectedFrequency] = useState("1");
@@ -68,23 +71,36 @@ const AddProduct = () => {
   const getProductInfo = async () => {
     try {
       setLoading(true);
-      const resp = await getData(`/product/view/${product_id}`);
-      const productData = resp || {};
+      const productData = await getData(`/product/view/${product_id}`) || {};
+
+      // Extract scan day IDs based on frequency
+      const getScanDayIds = (data) => {
+        const { frequency_id, scan_day_ids, next_scan_date, last_scan_date } = data;
+
+        switch (frequency_id) {
+          case 2:
+            return scan_day_ids?.split(",").map(item => parseInt(item.trim()));
+          case 3:
+            return moment(next_scan_date || last_scan_date).format("YYYY-MM-DD");
+          default:
+            return scan_day_ids;
+        }
+      };
+
+      // Set initial form values
       setInitialValues({
         ...productData,
-        guideline_version_id: productData.guidline_version_id,
+        guideline_version_id: productData.guidline_version_id, // Note: typo preserved from original
         schedule_time: getFormattedDateWithTime(
           new Date(productData.schedule_time),
           "HH:mm"
         ),
-        scan_day_ids:
-          productData.frequency_id === 2
-            ? productData.scan_day_ids
-                ?.split(",")
-                .map((item) => parseInt(item.trim()))
-            : productData.frequency_id === 3 ? (moment(productData.next_scan_date ||productData.last_scan_date).format("YYYY-MM-DD") ) :productData.scan_day_ids,
+        scan_day_ids: getScanDayIds(productData),
       });
-      setSelectedFrequency(productData.frequency_id + "");
+
+      setSelectedFrequency(String(productData.frequency_id));
+
+      // Set organization data
       setOrganization({
         org_name: productData.organization_name,
         contact_person_name: productData.contact_person_name,
@@ -95,11 +111,12 @@ const AddProduct = () => {
         state: productData.state,
         country: productData.country,
       });
+
     } catch (error) {
-      console.error("Error fetching user details:", error);
+      console.error("Error fetching product details:", error);
       notification.error({
         title: "Error",
-        message: "An error occurred while fetching user details.",
+        message: "Failed to fetch product details. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -258,7 +275,7 @@ const AddProduct = () => {
                                 ]}
                                 requiredMark={true}
                               >
-                                <WCAGVersionSelect />
+                                <WCAGVersionSelect disabled={true}/>
                               </FormItem>
                             </div>
                             <div className="col-lg-4">
@@ -274,7 +291,7 @@ const AddProduct = () => {
                                 ]}
                                 requiredMark={true}
                               >
-                                <WCAGComplianceLevelSelect />
+                                <WCAGComplianceLevelSelect disabled={true}/>
                               </FormItem>
                             </div>
                           </div>
@@ -331,38 +348,10 @@ const AddProduct = () => {
 
                             <div
                               className="col-12 col-lg-4"
-                              // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
+                            // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
                             >
                               {selectedFrequency === "3" ? (
-                                <FormItem
-                                  name="scan_day_ids"
-                                  label="Scan Date"
-                                  rules={[
-                                    {
-                                      required: true,
-                                      message: "Scan Date is required",
-                                    },
-                                  ]}
-                                  requiredMark={true}
-                                >
-                                  <DatePicker
-                                    minDate={new Date()}
-                                    name="scan_day_ids"
-                                    onChange={(e) => {
-                                      formRef.current.setFieldValue(
-                                        "scan_day_ids",
-                                        e.target.value
-                                      );
-                                    }}
-                                    value={
-                                      initialValues.scan_day_ids
-                                        ? convertUtcToLocal(
-                                            initialValues.scan_day_ids
-                                          )
-                                        : moment().format("dd/MM/yyyy")
-                                    }
-                                  />
-                                </FormItem>
+                                <></>
                               ) : (
                                 <FormItem
                                   name="scan_day_ids"
@@ -394,9 +383,9 @@ const AddProduct = () => {
 
                             <div
                               className="col-12 col-lg-4"
-                              // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
+                            // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
                             >
-                              <FormItem
+                              {selectedFrequency !== "3" && <FormItem
                                 name="schedule_time"
                                 label="Schedule Time"
                                 rules={[
@@ -417,6 +406,7 @@ const AddProduct = () => {
                                   }
                                 />
                               </FormItem>
+                              }
                             </div>
                           </div>
                         </div>

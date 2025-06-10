@@ -74,12 +74,12 @@ export const  ManualReportTable = ({ product_id, org_id }) => {
     }
 
     const columns = [
-        {
+       {
             title: "Report Name",
             dataIndex: "report_name",
             width: "20%",
             render: (text, record) => {
-                return ViewReport(1, undefined, text || "", 2, "ASEDRFDEDRDD");
+                return ViewReport(record.txn_id, undefined, text || "", selectedProductId,  org_id, record.web_url);
             },
         },
         {

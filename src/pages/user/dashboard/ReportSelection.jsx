@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../../../hooks/useFetch';
+import { getFormattedDateWithTime } from '../../../component/input/DatePicker';
 
 // const data = [
 //     { label: "16 Jan 2025 - AQMD Site Assessment Report-3", url: '/user/reports/view' },
@@ -36,11 +37,11 @@ return<></>
     return (
         <span className="dropdown">
             <a className="reportArchiveName dropdown-toggle" href={`/reports/listing/viewreport/${selectedReport?.assessment_id}`} role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {selectedReport?.report_name}
+                {getFormattedDateWithTime(new Date(selectedReport?.scan_date))}
             </a>
             <ul className="dropdown-menu">
                 {response?.contents?.map((item, index) => <li className="archiveReportDDVal" key={index}><a className="dropdown-item"
-                    href="#" onClick={(e) => { handleClick(e, item) }}>{item.report_name}</a></li>)}
+                    href="#" onClick={(e) => { handleClick(e, item) }}>{getFormattedDateWithTime(new Date(item?.scan_date))}</a></li>)}
 
             </ul>
         </span>
