@@ -3,11 +3,11 @@ import Pagenation from '../Pagenation';
 import Loading from '../../component/Loading';
 
 const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loading = false,
-    pagenation = true }) => {
+    pagenation = true, style = {} }) => {
 
     return (
         <div className="gridContainer">
-            <table>
+            <table style={style}>
                 {showHeader && <thead>
                     <tr>
                         {columns.map(column => (<th width={column.width}
@@ -18,13 +18,13 @@ const Table = ({ columns, dataSource = [], showHeader = true, rowKey = "id", loa
                 </thead>}
                 <tbody>
                     {loading ?
-                        <tr><td colSpan={columns.length} style={{height: '100px'}}><Loading style={{ position: 'unset' }}/></td></tr>
+                        <tr><td colSpan={columns.length} style={{ height: '100px' }}><Loading style={{ position: 'unset' }} /></td></tr>
                         :
                         dataSource.map((record, index) => (
                             <tr key={record[rowKey] ?? index}>
                                 {columns.map((column, i) => (
                                     <td className={column.className} key={i}>{
-                                        column.render ? column.render(record[column.dataIndex], record,index) : record[column.dataIndex]
+                                        column.render ? column.render(record[column.dataIndex], record, index) : record[column.dataIndex]
                                     }</td>
                                 ))}
                             </tr>

@@ -48,8 +48,8 @@ const AccessibilityReport = () => {
   };
 
   const pageColumns = [
-    { title: "Description", dataIndex: "description" },
-    { title: "Line Number", dataIndex: "line_numbers" },
+    { title: "Description", dataIndex: "description", width: '75%' },
+    { title: "Line Number", dataIndex: "line_numbers", width: '25%' },
   ];
 
   const groupedByTab = categories.reduce((acc, item) => {
@@ -59,43 +59,45 @@ const AccessibilityReport = () => {
     return acc;
   }, {});
 
+  const levelMap = {
+    A: "/images/p1.svg",
+    "Priority 1": "/images/p1.svg",
+    AA: "/images/p2.svg",
+    "Priority 2": "/images/p2.svg",
+    AAA: "/images/p3.svg",
+    "Priority 3": "/images/p3.svg"
+  };
+
+
   const renderCategoryRow = (category) => (
     <React.Fragment key={category.category_id}>
       <tr>
         <td className="nowrap">
-        <button
-  type="button"
-  className="chevron toggleChevron d-flex align-items-center gap-1"
-  title="List Pages"
-  onClick={() => toggleExpand(category.category_id)}
->
-  <img
-    src={
-      expandedIssues[category.category_id]
-        ? "/images/chevron-up.svg"
-        : "/images/chevron-down.svg"
-    }
-    alt="Toggle"
-    className="absmiddle"
-    width="20"
-    height="20"
-  />
-  <img
-    src={
-      category.level === "A"
-        ? "/images/p1.svg"
-        : category.level === "AA"
-        ? "/images/p2.svg"
-        : category.level === "AAA"
-        ? "/images/p3.svg"
-        : ""
-    }
-    alt={`Level ${category.level}`}
-    className="absmiddle"
-    width="20"
-    height="20"
-  />
-</button>
+          <button
+            type="button"
+            className="chevron toggleChevron d-flex align-items-center gap-1"
+            title="List Pages"
+            onClick={() => toggleExpand(category.category_id)}
+          >
+            <img
+              src={
+                expandedIssues[category.category_id]
+                  ? "/images/chevron-up.svg"
+                  : "/images/chevron-down.svg"
+              }
+              alt="Toggle"
+              className="absmiddle"
+              width="20"
+              height="20"
+            />
+            <img
+              src={levelMap[category.level] || ""}
+              alt={`Level ${category.level}`}
+              className="absmiddle"
+              width="20"
+              height="20"
+            />
+          </button>
 
         </td>
         <td className="desc">{category.issue_description}</td>
@@ -132,7 +134,8 @@ const AccessibilityReport = () => {
               <br /><br />
               <strong>Remediation:</strong>
               <p>{detail.remediation}</p>
-              <Table columns={pageColumns} dataSource={detail.page_details || []} />
+              <Table columns={pageColumns} dataSource={detail.page_details || []}
+                style={{ width: '100%' }} />
             </td>
             <td className="optional">
               <strong>Criteria:</strong> {detail.criteria}
@@ -144,7 +147,10 @@ const AccessibilityReport = () => {
   );
 
   const renderIssues = (issues, tabType) => {
+
     if (tabType !== "Accessibility") {
+      const levelOrder = ["A", "Priority 1", "AA", "Priority 2", "AAA", "Priority 3", "Unspecified"];
+
       const groupedByLevel = issues.reduce((acc, item) => {
         const level = item.level || "Unspecified";
         if (!acc[level]) acc[level] = [];
@@ -152,7 +158,14 @@ const AccessibilityReport = () => {
         return acc;
       }, {});
 
-      return Object.entries(groupedByLevel).map(([level, items]) => (
+      // Create a new object with sorted keys
+      const sortedGroupedByLevel = Object.fromEntries(
+        Object.entries(groupedByLevel).sort(
+          ([levelA], [levelB]) => levelOrder.indexOf(levelA) - levelOrder.indexOf(levelB)
+        )
+      );
+
+      return Object.entries(sortedGroupedByLevel).map(([level, items]) => (
         <React.Fragment key={level}>
           <tr>
             <td colSpan={4}><h2>{level}</h2><p>{items.length} issues</p></td>
@@ -264,8 +277,8 @@ const AccessibilityReport = () => {
                             {level === "A"
                               ? "Pages with level A issues are unusable for some people"
                               : level === "AA"
-                              ? "Pages with level AA issues are very difficult to use"
-                              : "Pages with level AAA issues can be difficult to use"}
+                                ? "Pages with level AA issues are very difficult to use"
+                                : "Pages with level AAA issues can be difficult to use"}
                           </td>
                         </tr>
                       ))}
