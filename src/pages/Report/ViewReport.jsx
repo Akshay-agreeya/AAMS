@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../component/Layout";
 import { getData } from "../../utils/CommonApi";
-import { useParams } from "react-router-dom";
-import editicon from "../../assets/images/iconEdit.svg";
-import deleteicon from "../../assets/images/iconDelete.svg";
-import viewicon from "../../assets/images/iconView.svg";
-import {
-  formatTime,
-  getFormattedDateWithTime,
-} from "../../component/input/DatePicker";
-import { DATE_FORMAT, DATE_TIME_FORMAT, USER_MGMT } from "../../utils/Constants";
-import { getAllowedOperations } from "../../utils/Helper";
+import { useParams, useLocation } from "react-router-dom";
 import Table from "../../component/table/Table";
+import { getFormattedDateWithTime } from "../../component/input/DatePicker";
+import { DATE_TIME_FORMAT } from "../../utils/Constants";
+
+const LEVEL_ICONS = {
+  A: "/images/p1.svg",
+  AA: "/images/p2.svg",
+  AAA: "/images/p3.svg",
+};
 
 const AccessibilityReport = () => {
   const { assessment_id } = useParams();
+  const location = useLocation();
+  const defaultTab = new URLSearchParams(location.search).get("tab");
+
   const [categories, setCategories] = useState([]);
   const [expandedIssues, setExpandedIssues] = useState({});
   const [accessibilityInfo, setAccessibilityInfo] = useState({});
+  const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await getData(
-          `report/get/category-data/${assessment_id}`
-        );
-        setCategories(response.contents);
-        setAccessibilityInfo(response.accessibilityInfo);
+        const response = await getData(`report/get/category-data/${assessment_id}`);
+        const contents = response.contents || [];
+        setCategories(contents);
+        setAccessibilityInfo(response.accessibilityInfo || {});
+
+        const tabNames = contents.map((item) => item.category_report_type);
+        const isValidTab = tabNames.includes(defaultTab);
+        setActiveTab(isValidTab ? defaultTab : tabNames[0] || "");
       } catch (error) {
         console.error("Error fetching accessibility report:", error);
       }
@@ -41,110 +47,151 @@ const AccessibilityReport = () => {
     }));
   };
 
-  const levelAIssues = categories.filter((category) => category.level === "A");
-  const levelAAIssues = categories.filter(
-    (category) => category.level === "AA"
-  );
-  const importantIssues = categories.filter(
-    (category) => category.level === "AAA"
-  );
-  const pageColumns = [{
-    title: "Description",
-    dataIndex: "description"
-  },
-  {
-    title: "Line Number",
-    dataIndex: "line_numbers"
-  }
-  ]
+  const pageColumns = [
+    { title: "Description", dataIndex: "description" },
+    { title: "Line Number", dataIndex: "line_numbers" },
+  ];
 
-  const renderIssues = (issues, icon) => {
-    return issues.map((category) => (
-      <React.Fragment key={category.category_id}>
+  const groupedByTab = categories.reduce((acc, item) => {
+    const type = item.category_report_type;
+    if (!acc[type]) acc[type] = [];
+    acc[type].push(item);
+    return acc;
+  }, {});
+
+  const renderCategoryRow = (category) => (
+    <React.Fragment key={category.category_id}>
+      <tr>
+        <td className="nowrap">
+        <button
+  type="button"
+  className="chevron toggleChevron d-flex align-items-center gap-1"
+  title="List Pages"
+  onClick={() => toggleExpand(category.category_id)}
+>
+  <img
+    src={
+      expandedIssues[category.category_id]
+        ? "/images/chevron-up.svg"
+        : "/images/chevron-down.svg"
+    }
+    alt="Toggle"
+    className="absmiddle"
+    width="20"
+    height="20"
+  />
+  <img
+    src={
+      category.level === "A"
+        ? "/images/p1.svg"
+        : category.level === "AA"
+        ? "/images/p2.svg"
+        : category.level === "AAA"
+        ? "/images/p3.svg"
+        : ""
+    }
+    alt={`Level ${category.level}`}
+    className="absmiddle"
+    width="20"
+    height="20"
+  />
+</button>
+
+        </td>
+        <td className="desc">{category.issue_description}</td>
+        <td>
+          {(() => {
+            const guidelineLines = category.guideline?.split("\r\n").filter(Boolean) || [];
+            const urls = category.guideline_url?.split("\r\n").filter(Boolean) || [];
+            const linesToUse =
+              guidelineLines.length > 0 && guidelineLines[0].trim().startsWith("Text")
+                ? guidelineLines.slice(1)
+                : guidelineLines;
+
+            return linesToUse.map((text, index) => (
+              <div key={index}>
+                <a href={urls[index] || "#"} target="_blank" rel="noopener noreferrer">
+                  {text}
+                </a>
+              </div>
+            ));
+          })()}
+        </td>
+        <td className="optional">{category.failing_page} pages</td>
+      </tr>
+
+      {expandedIssues[category.category_id] &&
+        category.category_details.map((detail) => (
+          <tr key={detail.category_detail_id} className="expando">
+            <td></td>
+            <td>
+              <strong>Page URL:</strong>{" "}
+              <a href={detail.page_url} target="_blank" rel="noopener noreferrer">
+                {detail.page_url}
+              </a>
+              <br /><br />
+              <strong>Remediation:</strong>
+              <p>{detail.remediation}</p>
+              <Table columns={pageColumns} dataSource={detail.page_details || []} />
+            </td>
+            <td className="optional">
+              <strong>Criteria:</strong> {detail.criteria}
+            </td>
+            <td className="optional"></td>
+          </tr>
+        ))}
+    </React.Fragment>
+  );
+
+  const renderIssues = (issues, tabType) => {
+    if (tabType !== "Accessibility") {
+      const groupedByLevel = issues.reduce((acc, item) => {
+        const level = item.level || "Unspecified";
+        if (!acc[level]) acc[level] = [];
+        acc[level].push(item);
+        return acc;
+      }, {});
+
+      return Object.entries(groupedByLevel).map(([level, items]) => (
+        <React.Fragment key={level}>
+          <tr>
+            <td colSpan={4}><h2>{level}</h2><p>{items.length} issues</p></td>
+          </tr>
+          {items.map((category) => renderCategoryRow(category))}
+        </React.Fragment>
+      ));
+    }
+
+    const levels = ["A", "AA", "AAA"];
+    const grouped = {
+      A: issues.filter((item) => item.level === "A"),
+      AA: issues.filter((item) => item.level === "AA"),
+      AAA: issues.filter((item) => item.level === "AAA"),
+    };
+
+    return levels.map((level) => (
+      <React.Fragment key={level}>
         <tr>
-          <td className="nowrap">
-            <button
-              type="button"
-              className="chevron toggleChevron"
-              title="List Pages"
-              onClick={() => toggleExpand(category.category_id)}
-            >
+          <td colSpan={4}>
+            <h2 className="d-flex align-items-center">
               <img
-                src={
-                  expandedIssues[category.category_id]
-                    ? "/images/chevron-up.svg"
-                    : "/images/chevron-down.svg"
-                }
-                alt=""
-                className="absmiddle"
+                src={LEVEL_ICONS[level]}
+                alt={level}
+                className="absmiddle me-2"
                 width="20"
                 height="20"
               />
-            </button>
-            <img
-              src={icon}
-              width="20"
-              height="20"
-              alt="Issue Level"
-              className="absmiddle"
-            />
+              {level}
+            </h2>
           </td>
-          <td className="desc">{category.issue_description}</td>
-          <td>
-            {(() => {
-              const guidelineLines = category.guideline
-                .split("\r\n")
-                .filter(Boolean); // remove any empty lines
-              const urls = category.guideline_url.split("\r\n").filter(Boolean);
-
-              // Remove the first line only if it starts with "Text"
-              const linesToUse =
-                guidelineLines.length > 0 &&
-                  guidelineLines[0].trim().startsWith("Text")
-                  ? guidelineLines.slice(1)
-                  : guidelineLines;
-
-              return linesToUse.map((text, index) => {
-                const url = urls[index] || "#";
-                return (
-                  <div key={index}>
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      {text}
-                    </a>
-                  </div>
-                );
-              });
-            })()}
-          </td>
-          <td className="optional">{category.failing_page} pages</td>
-          {/*  */}
         </tr>
-
-        {expandedIssues[category.category_id] &&
-          category.category_details.map((detail) => (
-            <>
-              <tr key={detail.category_detail_id} className="expando">
-                <td></td>
-                <td>
-                  <strong>Page URL:</strong>{" "}
-                  <a
-                    href={detail.page_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {detail.page_url}
-                  </a><br /><br />
-                  <strong>Remediation:</strong>
-                  <p>{detail.remediation}</p>
-                  <Table columns={pageColumns} dataSource={detail.page_details} />
-                </td>
-                <td className="optional">
-                  <strong>Criteria:</strong> {detail.criteria} <br />
-                </td>
-                <td className="optional"></td>
-              </tr>              
-            </>
-          ))}
+        {grouped[level].length === 0 ? (
+          <tr>
+            <td colSpan={4}><em>No issues in Level {level}</em></td>
+          </tr>
+        ) : (
+          grouped[level].map((category) => renderCategoryRow(category))
+        )}
       </React.Fragment>
     ));
   };
@@ -178,172 +225,68 @@ const AccessibilityReport = () => {
                         new Date(accessibilityInfo.assessment_timestamp),
                         DATE_TIME_FORMAT
                       )}
-
                   </h1>
-                  {/* <div className="buttonContainer">
-                                        <a href="/manualassesment" className="add"> <i className="fa-solid fa-plus"></i>Add Manual Assessment</a>
-                                    </div> */}
                 </div>
               </div>
 
               <div className="col-12">
-                <div className="viewReportContainer mt-0">
-                  <div id="content">
-                    <table className="compat">
-                      <thead>
-                        <tr>
-                          <th className="side">Level</th>
-                          <th className="section">
-                            {accessibilityInfo.guideline}
-                          </th>
-                          <th className="section">Section 508 - 2017</th>
-                          <th className="key optional">Key</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th className="side">A</th>
-                          <td>
-                            <img
-                              src="/images/p1.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level A"
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src="/images/p1.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level A"
-                            />
-                          </td>
-                          <td className="key optional">
-                            <img
-                              src="/images/p1.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level A"
-                            />{" "}
-                            Pages with level A issues are unusable for some
-                            people
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="side">AA</th>
-                          <td>
-                            <img
-                              src="/images/p2.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AA"
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src="/images/p2.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AA"
-                            />
-                          </td>
-                          <td className="key optional">
-                            <img
-                              src="/images/p2.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AA"
-                            />{" "}
-                            Pages with level AA issues are very difficult to use
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="side">AAA</th>
-                          <td>
-                            <img
-                              src="/images/p3.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AAA"
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src="/images/p3.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AAA"
-                            />
-                          </td>
-                          <td className="key optional">
-                            <img
-                              src="/images/p3.svg"
-                              width="20"
-                              height="20"
-                              className="absmiddle"
-                              alt="Level AAA"
-                            />{" "}
-                            Pages with level AAA issues can be difficult to use
-                          </td>
-                        </tr>
-                        {/* <tr>
-                          <th className="side">AAA</th>
-                          <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
-                          <td><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" /></td>
-                          <td className="key optional"><img src="/images/p3.svg" width="20" height="20" className="absmiddle" alt="Important" />  Pages with important issues should be addressed urgently</td>
-                        </tr> */}
-                      </tbody>
-                    </table>
+                <ul className="nav nav-tabs">
+                  {Object.keys(groupedByTab).map((tab) => (
+                    <li key={tab} className="nav-item">
+                      <button
+                        className={`nav-link ${activeTab === tab ? "active" : ""}`}
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
 
-                    <table className="issues">
-                      <thead>
-                        <tr>
-                          <th width="11%">Priority</th>
-                          <th>Description and URL</th>
-                          <th width="16%">Guideline and Line#</th>
-                          <th className="optional" width="11%">Count</th>
-                          {/* <th className="optional">Action</th> */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td colSpan={3}>
-                            <h2>Level A</h2>
-                            <p>{levelAIssues.length} issues</p>
+                {activeTab === "Accessibility" && (
+                  <table className="compat mt-4">
+                    <thead>
+                      <tr>
+                        <th className="side">Level</th>
+                        <th className="section">{accessibilityInfo.guideline || "WCAG"}</th>
+                        <th className="section">Section 508 - 2017</th>
+                        <th className="key optional">Key</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {["A", "AA", "AAA"].map((level) => (
+                        <tr key={level}>
+                          <th className="side">{level}</th>
+                          <td><img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" /></td>
+                          <td><img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" /></td>
+                          <td className="key optional">
+                            <img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" />{" "}
+                            {level === "A"
+                              ? "Pages with level A issues are unusable for some people"
+                              : level === "AA"
+                              ? "Pages with level AA issues are very difficult to use"
+                              : "Pages with level AAA issues can be difficult to use"}
                           </td>
-                          <td className="optional"></td>
                         </tr>
-                        {renderIssues(levelAIssues, "/images/p1.svg")}
+                      ))}
+                    </tbody>
+                  </table>
+                )}
 
-                        <tr>
-                          <td colSpan={3}>
-                            <h2>Level AA</h2>
-                            <p>{levelAAIssues.length} issues</p>
-                          </td>
-                          <td className="optional"></td>
-                        </tr>
-                        {renderIssues(levelAAIssues, "/images/p2.svg")}
-
-                        <tr>
-                          <td colSpan={3}>
-                            <h2>Level AAA</h2>
-                            <p>{importantIssues.length} issues</p>
-                          </td>
-                          <td className="optional"></td>
-                        </tr>
-                        {renderIssues(importantIssues, "/images/p3.svg")}
-                      </tbody>
-                    </table>
-                  </div>
+                <div className="viewReportContainer mt-3">
+                  <table className="issues">
+                    <thead>
+                      <tr>
+                        <th width="11%">Priority</th>
+                        <th>Description and URL</th>
+                        <th width="16%">Guideline and Line#</th>
+                        <th className="optional" width="11%">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {activeTab && renderIssues(groupedByTab[activeTab], activeTab)}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

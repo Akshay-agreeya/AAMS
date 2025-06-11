@@ -82,13 +82,17 @@ const Summary = () => {
       title: "Category",
       dataIndex: "category",
       width: "20%",
-      render: (text) =>
-        text === "Accessibility" ? (
-          <a href={`/reports/listing/viewreport/${assessment_id}`}>{text}</a>
-        ) : (
-          text
-        ),
+      render: (text) => (
+        <a
+          href={`/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
+            text
+          )}&id=${product_id}&org_id=${org_id}`}
+        >
+          {text}
+        </a>
+      ),
     },
+    
     {
       title: "Issues",
       dataIndex: "issues",
