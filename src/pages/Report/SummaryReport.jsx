@@ -83,13 +83,21 @@ const Summary = () => {
       dataIndex: "category",
       width: "20%",
       render: (text) => (
-        <a
+        <>
+        { (text === "Accessibility" || text === "Usability")?
+        <a 
           href={`/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
             text
           )}&id=${product_id}&org_id=${org_id}`}
         >
           {text}
-        </a>
+        </a>:
+        <span>
+    {text}
+    </span>
+        }
+        </>
+          
       ),
     },
     
