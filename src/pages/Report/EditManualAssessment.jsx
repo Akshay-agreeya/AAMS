@@ -8,7 +8,7 @@ import { Input } from '../../component/input/Input';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { MANUAL_ASSESSMENT_SAVE_SUCCESS_MSG, OPERATION_FAILED_MSG } from '../../constants/MessageConstants';
 import notification from '../../component/notification/Notification';
-import { urlPattern } from '../../constants';
+import UrlAutocomplete from './UrlAutocomplete';
 
 const EditManualAssessment = () => {
     const [loading, setLoading] = useState(false);
@@ -20,10 +20,12 @@ const EditManualAssessment = () => {
     const formRef = useRef();
 
     const { transaction_id } = useParams();
-const location = useLocation();
-    const { org_id, product_id, web_url } = location.state|| {};
-    
+    const location = useLocation();
+    const { org_id, product_id, web_url } = location.state || {};
+
     const navigate = useNavigate();
+
+    const autcompleteRef = useRef(null);
 
     useEffect(() => {
         const fetchReportData = async () => {
@@ -67,15 +69,28 @@ const location = useLocation();
         }, 100);
     }, [manualReportData]);
 
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        autcompleteRef.current.setReadOnlyInput(false);
+        autcompleteRef.current.setUrlValue("")
+        formRef.current.setFieldValue("page_url", "");
+        setFormDataManual([]);
+    }
+
+    const handleUrlInputChange = (e)=>{
+        formRef.current.setFieldValue("page_url", e.target.value);
+    }
+
     const handleSubmit = async (formData) => {
 
-        if (formDataManual.length > 0)
-            if (!validateForm())
-                return;
+        // if (formDataManual.length > 0)
+        if (!validateForm())
+            return;
 
         try {
             const tempData = manualReportData.filter(item => item.pageUrl !== formData.page_url);
-            
+
             const newTempData = tempData?.map(item => ({
                 pageUrl: item.pageUrl,
                 formData: item.formData.flatMap(category =>
@@ -173,7 +188,7 @@ const location = useLocation();
                                 <>
                                     <Form onSubmit={handleSubmit} ref={formRef}>
                                         <div className="col-12">
-                                            <div className="row mb-4 align-items-center justify-content-between">
+                                            <div className="row mb-3 align-items-center justify-content-between">
                                                 <div className="col-auto">
                                                     <div className="d-flex align-items-center">
                                                         <h3 className="mb-0 me-3">Website Accessibility - <a href={selectedPageUrl} className="text-dark text-decoration-underline">{web_url}</a></h3>
@@ -184,12 +199,12 @@ const location = useLocation();
                                                 <div className="col-5">
                                                     <div className="d-flex align-items-center ">
                                                         <h4 className="mb-0 w-25">Page URL:</h4>
-                                                        <div className="w-100">
+                                                        <div>
                                                             <FormItem name="page_url" rules={[{
                                                                 required: true,
                                                                 message: "Page URL is required",
                                                             }]}>
-                                                                <select
+                                                                {/* <select
                                                                     className="form-select"
                                                                     aria-label="Change your Selected Site"
                                                                     onChange={(e) => {
@@ -199,8 +214,18 @@ const location = useLocation();
                                                                     {pageUrls.map(url => (
                                                                         <option value={url} key={url}>{url}</option>
                                                                     ))}
-                                                                </select>
-                                                            </FormItem></div>
+                                                                </select> */}
+                                                                <UrlAutocomplete pageUrls={pageUrls}
+                                                                    ref={autcompleteRef}
+                                                                    selectedUrl={selectedPageUrl}
+                                                                    onChange={(e) => {
+                                                                        setSelectedPageUrl(e.target.value);
+                                                                    }} 
+                                                                    onInputChange={handleUrlInputChange}/>
+                                                            </FormItem>
+                                                        </div>
+                                                        <button class="btn btn-primary rounded-1 w-auto" style={{ fontSize: "0.875rem" }}
+                                                            onClick={handleAdd}>Add Page</button>
                                                     </div>
                                                 </div>
                                             </div>
