@@ -84,7 +84,7 @@ const Summary = () => {
       width: "20%",
       render: (text) => (
         <>
-        { (text === "Accessibility" || text === "Usability")?
+        { (text === "Accessibility" || text === "Usability" || text === "Search")?
         <a 
           href={`/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
             text
