@@ -3263,3 +3263,19 @@ table.issues a {
   background-color: #ffaa22;
  }
  
+ .liteReportTab .nav-link {
+  color: #000;
+  padding-top: 12px;
+}
+
+.liteReport .liteReport-tabContent {
+  border: 1px solid #003d68;
+  border-radius: 0 6px 6px;
+}
+
+.liteReportTab .nav-link.active {
+  font-weight: 500;
+  border: 1px solid #003d68;
+  border-bottom: 0;
+  color: #003d68;
+}

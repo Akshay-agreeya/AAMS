@@ -147,41 +147,57 @@ const AccessibilityReport = () => {
   );
 
   const renderIssues = (issues, tabType) => {
-
     if (tabType !== "Accessibility") {
-      const levelOrder = ["A", "Priority 1", "AA", "Priority 2", "AAA", "Priority 3", "Unspecified"];
-
+      const levelOrder = ["Priority 1", "Priority 2", "Priority 3"];
+  
       const groupedByLevel = issues.reduce((acc, item) => {
         const level = item.level || "Unspecified";
         if (!acc[level]) acc[level] = [];
         acc[level].push(item);
         return acc;
       }, {});
-
-      // Create a new object with sorted keys
-      const sortedGroupedByLevel = Object.fromEntries(
-        Object.entries(groupedByLevel).sort(
-          ([levelA], [levelB]) => levelOrder.indexOf(levelA) - levelOrder.indexOf(levelB)
-        )
-      );
-
-      return Object.entries(sortedGroupedByLevel).map(([level, items]) => (
-        <React.Fragment key={level}>
-          <tr>
-            <td colSpan={4}><h2>{level}</h2><p>{items.length} issues</p></td>
-          </tr>
-          {items.map((category) => renderCategoryRow(category))}
-        </React.Fragment>
-      ));
+  
+      return levelOrder.map((level) => {
+        const items = groupedByLevel[level] || [];
+        return (
+          <React.Fragment key={level}>
+            <tr>
+              <td colSpan={4}>
+                <h2 className="d-flex align-items-center">
+                  {levelMap[level] && (
+                    <img
+                      src={levelMap[level]}
+                      alt={`Level ${level}`}
+                      className="absmiddle me-2"
+                      width="20"
+                      height="20"
+                    />
+                  )}
+                  {level}
+                </h2>
+                <p>{items.length} {items.length === 1 ? "issue" : "issues"}</p>
+              </td>
+            </tr>
+            {items.length === 0 ? (
+              <tr>
+                <td colSpan={4}><em>No issues found in {level}</em></td>
+              </tr>
+            ) : (
+              items.map((category) => renderCategoryRow(category))
+            )}
+          </React.Fragment>
+        );
+      });
     }
-
+  
+    // Accessibility tab rendering (A, AA, AAA)
     const levels = ["A", "AA", "AAA"];
     const grouped = {
       A: issues.filter((item) => item.level === "A"),
       AA: issues.filter((item) => item.level === "AA"),
       AAA: issues.filter((item) => item.level === "AAA"),
     };
-
+  
     return levels.map((level) => (
       <React.Fragment key={level}>
         <tr>
@@ -208,6 +224,7 @@ const AccessibilityReport = () => {
       </React.Fragment>
     ));
   };
+  
 
   const breadcrumbs = [
     { url: `/dashboard`, label: "Home" },
@@ -229,10 +246,11 @@ const AccessibilityReport = () => {
         <section className="adminControlContainer">
           <div className="container">
             <div className="row">
+            <div className="col-12">
               <div className="col-12">
                 <div className="pageTitle">
                   <h1>
-                    Accessibility Report - {accessibilityInfo.web_url}{" "}
+                     Report - {accessibilityInfo.web_url}{" "}
                     {accessibilityInfo.assessment_date &&
                       getFormattedDateWithTime(
                         new Date(accessibilityInfo.assessment_timestamp),
@@ -241,9 +259,10 @@ const AccessibilityReport = () => {
                   </h1>
                 </div>
               </div>
+              </div>
 
               <div className="col-12">
-                <ul className="nav nav-tabs">
+                <ul className="nav nav-tabs border-bottom-0 liteReportTab ">
                   {Object.keys(groupedByTab).map((tab) => (
                     <li key={tab} className="nav-item">
                       <button
@@ -286,7 +305,7 @@ const AccessibilityReport = () => {
                   </table>
                 )}
 
-                <div className="viewReportContainer mt-3">
+                <div className="viewReportContainer mt-3 px-4 py-3 shadow bg-white liteReport-tabContent">
                   <table className="issues">
                     <thead>
                       <tr>
@@ -309,5 +328,4 @@ const AccessibilityReport = () => {
     </Layout>
   );
 };
-
 export default AccessibilityReport;
