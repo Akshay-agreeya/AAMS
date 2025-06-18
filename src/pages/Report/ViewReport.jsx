@@ -201,19 +201,21 @@ const AccessibilityReport = () => {
     return levels.map((level) => (
       <React.Fragment key={level}>
         <tr>
-          <td colSpan={4}>
-            <h2 className="d-flex align-items-center">
-              <img
-                src={LEVEL_ICONS[level]}
-                alt={level}
-                className="absmiddle me-2"
-                width="20"
-                height="20"
-              />
-              {level}
-            </h2>
-          </td>
-        </tr>
+  <td colSpan={4}>
+    <h2 className="d-flex align-items-center mb-1">
+      <img
+        src={LEVEL_ICONS[level]}
+        alt={level}
+        className="absmiddle me-2"
+        width="20"
+        height="20"
+      />
+      {level}
+    </h2>
+    <p className="ms-4 mb-2">{grouped[level].length} {grouped[level].length === 1 ? "issue" : "issues"}</p>
+  </td>
+</tr>
+
         {grouped[level].length === 0 ? (
           <tr>
             <td colSpan={4}><em>No issues in Level {level}</em></td>

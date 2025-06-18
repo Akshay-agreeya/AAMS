@@ -131,7 +131,7 @@ const ProductTable = ({ org_id }) => {
         className: "text-center text-nowrap",
         render: (_text, record) => (
             <>
-                {(superAdmin || userEmail == "presales@agreeya.com") && <a title="FreeLiteAssessment" href={`#`}
+                {(superAdmin || userEmail && userEmail.toLowerCase() === "presales@agreeya.com") && <a title="FreeLiteAssessment" href={`#`}
                     className="me-3" onClick={(e) => {
                         e.preventDefault();
                         handleFreeLiteAssessment(record);
