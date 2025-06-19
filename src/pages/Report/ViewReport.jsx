@@ -265,7 +265,7 @@ const AccessibilityReport = () => {
 
               <div className="col-12">
                 <ul className="nav nav-tabs border-bottom-0 liteReportTab ">
-                {["Accessibility", ...Object.keys(groupedByTab).filter(tab => tab !== "Accessibility")].map((tab) => (
+                {Object.keys(groupedByTab)?.sort().map((tab) => (
   <li key={tab} className="nav-item">
     <button
       className={`nav-link ${activeTab === tab ? "active" : ""}`}
