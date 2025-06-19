@@ -265,15 +265,15 @@ const AccessibilityReport = () => {
 
               <div className="col-12">
                 <ul className="nav nav-tabs border-bottom-0 liteReportTab ">
-                  {Object.keys(groupedByTab).map((tab) => (
-                    <li key={tab} className="nav-item">
-                      <button
-                        className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                        onClick={() => setActiveTab(tab)}
-                      >
-                        {tab}
-                      </button>
-                    </li>
+                {["Accessibility", ...Object.keys(groupedByTab).filter(tab => tab !== "Accessibility")].map((tab) => (
+  <li key={tab} className="nav-item">
+    <button
+      className={`nav-link ${activeTab === tab ? "active" : ""}`}
+      onClick={() => setActiveTab(tab)}
+    >
+      {tab}
+    </button>
+  </li>
                   ))}
                 </ul>
 
