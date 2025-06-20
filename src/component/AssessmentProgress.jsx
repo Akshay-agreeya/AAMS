@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Layout from './Layout';
 
 const AssessmentProgress = () => {
 
@@ -38,16 +39,25 @@ const AssessmentProgress = () => {
         switch (assessmentStatus) {
             case 'loading':
                 return (
-                    <div className="text-center mt-5">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                        <h3>Processing</h3>
-                        <div className="mt-4 space-y-4 mt-3">
-                            <p className="text-gray-600">Waiting for parsing accessibility report...</p>
-                        </div>
-                        <div className="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                            <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: "55%" }}></div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12 text-center" style={{ height: "calc(100vh - 245px)" }}>
+                                <div className="d-flex justify-content-center align-items-center h-100 flex-column ">
+                                    <div className="spinner-border text-loader"
+                                        style={{ width: "10rem", height: "10rem", borderWidth: "0.7em" }} role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                    <h1 className="mt-4 fs-1 text-light">Generating your report...</h1>
+                                    <p className="text-light fs-5 text-center" style={{ maxWidth: "500px" }}>
+                                        This may take a few moments.
+                                        Please don’t close this tab. It will close automatically once the report is ready.
+                                        You’ll see a confirmation in the previous tab.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 );
 
             case 'completed':
@@ -80,11 +90,16 @@ const AssessmentProgress = () => {
         }
     };
 
-    return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
-            {/* Main Status Card */}
-            {renderContent()}
-        </div>
+    return (    
+           
+            <Layout breadcrumbs={[]}>
+                <div class="adaMainContainer">
+                    <section className="adminControlContainer" style={{ zIndex: 1025 }}>
+                        {renderContent()}
+                    </section>
+                </div>
+                 <div className="modal-backdrop fade show" style={{ zIndex: 1024, opacity: "0.8" }}></div>
+            </Layout>
     );
 };
 
