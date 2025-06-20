@@ -1,6 +1,7 @@
 import React from 'react';
 import { getPages, getPercentValue } from '../../../utils/Helper';
 import { CategoryProgressBar } from './CategoryProgressBar';
+import iconMoveForward from "../../../assets/images/iconMoveForward.svg"
 
 export const OverAllQuality = ({ summary }) => {
 
@@ -14,7 +15,7 @@ export const OverAllQuality = ({ summary }) => {
             <div className="headingSection">
                 <h4>Overall Quality</h4>
                 <div className="moveNext">
-                    {/* <a href="showHistory.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a> */}
+                    <a href="showHistory.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
                 </div>
             </div>
             <div className="graphContainer text-center">
@@ -31,9 +32,9 @@ export const OverAllQuality = ({ summary }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            {/* <div className="showHistoryContainer">
+            <div className="showHistoryContainer">
                     <a href="showHistory.html">Show History</a>
-            </div> */}
+            </div>
 
         </section>
     )

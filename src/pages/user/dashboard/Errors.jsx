@@ -11,9 +11,9 @@ export const Errors = ({ summary = {} }) => {
         <section className="otherComplianceContainer errorContainer">
             <div className="headingSection">
                 <h4>Errors</h4>
-                {/* <div className="moveNext">
+                <div className="moveNext">
                     <a href="#"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
-                </div> */}
+                </div>
             </div>
             <div className="graphContainer text-center">
                 <CategoryProgressBar summary={summary}/>
@@ -23,9 +23,9 @@ export const Errors = ({ summary = {} }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            {/* <div className="showHistoryContainer">
+            <div className="showHistoryContainer">
                 <a href="#">Show History</a>
-            </div> */}
+            </div>
 
         </section>
     )

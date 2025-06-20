@@ -25,7 +25,9 @@ const AccessibilityReport = () => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const response = await getData(`report/get/category-data/${assessment_id}`);
+        const response = await getData(
+          `report/get/category-data/${assessment_id}`
+        );
         const contents = response.contents || [];
         setCategories(contents);
         setAccessibilityInfo(response.accessibilityInfo || {});
@@ -48,8 +50,8 @@ const AccessibilityReport = () => {
   };
 
   const pageColumns = [
-    { title: "Description", dataIndex: "description", width: '75%' },
-    { title: "Line Number", dataIndex: "line_numbers", width: '25%' },
+    { title: "Description", dataIndex: "description", width: "75%" },
+    { title: "Line Number", dataIndex: "line_numbers", width: "25%" },
   ];
 
   const groupedByTab = categories.reduce((acc, item) => {
@@ -65,9 +67,8 @@ const AccessibilityReport = () => {
     AA: "/images/p2.svg",
     "Priority 2": "/images/p2.svg",
     AAA: "/images/p3.svg",
-    "Priority 3": "/images/p3.svg"
+    "Priority 3": "/images/p3.svg",
   };
-
 
   const renderCategoryRow = (category) => (
     <React.Fragment key={category.category_id}>
@@ -98,21 +99,27 @@ const AccessibilityReport = () => {
               height="20"
             />
           </button>
-
         </td>
         <td className="desc">{category.issue_description}</td>
         <td>
           {(() => {
-            const guidelineLines = category.guideline?.split("\r\n").filter(Boolean) || [];
-            const urls = category.guideline_url?.split("\r\n").filter(Boolean) || [];
+            const guidelineLines =
+              category.guideline?.split("\r\n").filter(Boolean) || [];
+            const urls =
+              category.guideline_url?.split("\r\n").filter(Boolean) || [];
             const linesToUse =
-              guidelineLines.length > 0 && guidelineLines[0].trim().startsWith("Text")
+              guidelineLines.length > 0 &&
+              guidelineLines[0].trim().startsWith("Text")
                 ? guidelineLines.slice(1)
                 : guidelineLines;
 
             return linesToUse.map((text, index) => (
               <div key={index}>
-                <a href={urls[index] || "#"} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={urls[index] || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {text}
                 </a>
               </div>
@@ -128,14 +135,22 @@ const AccessibilityReport = () => {
             <td></td>
             <td>
               <strong>Page URL:</strong>{" "}
-              <a href={detail.page_url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={detail.page_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {detail.page_url}
               </a>
-              <br /><br />
+              <br />
+              <br />
               <strong>Remediation:</strong>
               <p>{detail.remediation}</p>
-              <Table columns={pageColumns} dataSource={detail.page_details || []}
-                style={{ width: '100%' }} />
+              <Table
+                columns={pageColumns}
+                dataSource={detail.page_details || []}
+                style={{ width: "100%" }}
+              />
             </td>
             <td className="optional">
               <strong>Criteria:</strong> {detail.criteria}
@@ -149,14 +164,14 @@ const AccessibilityReport = () => {
   const renderIssues = (issues, tabType) => {
     if (tabType !== "Accessibility") {
       const levelOrder = ["Priority 1", "Priority 2", "Priority 3"];
-  
+
       const groupedByLevel = issues.reduce((acc, item) => {
         const level = item.level || "Unspecified";
         if (!acc[level]) acc[level] = [];
         acc[level].push(item);
         return acc;
       }, {});
-  
+
       return levelOrder.map((level) => {
         const items = groupedByLevel[level] || [];
         return (
@@ -175,12 +190,16 @@ const AccessibilityReport = () => {
                   )}
                   {level}
                 </h2>
-                <p>{items.length} {items.length === 1 ? "issue" : "issues"}</p>
+                <p>
+                  {items.length} {items.length === 1 ? "issue" : "issues"}
+                </p>
               </td>
             </tr>
             {items.length === 0 ? (
               <tr>
-                <td colSpan={4}><em>No issues found in {level}</em></td>
+                <td colSpan={4}>
+                  <em>No issues found in {level}</em>
+                </td>
               </tr>
             ) : (
               items.map((category) => renderCategoryRow(category))
@@ -189,7 +208,7 @@ const AccessibilityReport = () => {
         );
       });
     }
-  
+
     // Accessibility tab rendering (A, AA, AAA)
     const levels = ["A", "AA", "AAA"];
     const grouped = {
@@ -197,28 +216,33 @@ const AccessibilityReport = () => {
       AA: issues.filter((item) => item.level === "AA"),
       AAA: issues.filter((item) => item.level === "AAA"),
     };
-  
+
     return levels.map((level) => (
       <React.Fragment key={level}>
         <tr>
-  <td colSpan={4}>
-    <h2 className="d-flex align-items-center mb-1">
-      <img
-        src={LEVEL_ICONS[level]}
-        alt={level}
-        className="absmiddle me-2"
-        width="20"
-        height="20"
-      />
-      {level}
-    </h2>
-    <p className="ms-4 mb-2">{grouped[level].length} {grouped[level].length === 1 ? "issue" : "issues"}</p>
-  </td>
-</tr>
+          <td colSpan={4}>
+            <h2 className="d-flex align-items-center mb-1">
+              <img
+                src={LEVEL_ICONS[level]}
+                alt={level}
+                className="absmiddle me-2"
+                width="20"
+                height="20"
+              />
+              {level}
+            </h2>
+            <p className="ms-4 mb-2">
+              {grouped[level].length}{" "}
+              {grouped[level].length === 1 ? "issue" : "issues"}
+            </p>
+          </td>
+        </tr>
 
         {grouped[level].length === 0 ? (
           <tr>
-            <td colSpan={4}><em>No issues in Level {level}</em></td>
+            <td colSpan={4}>
+              <em>No issues in Level {level}</em>
+            </td>
           </tr>
         ) : (
           grouped[level].map((category) => renderCategoryRow(category))
@@ -226,7 +250,6 @@ const AccessibilityReport = () => {
       </React.Fragment>
     ));
   };
-  
 
   const breadcrumbs = [
     { url: `/dashboard`, label: "Home" },
@@ -248,33 +271,37 @@ const AccessibilityReport = () => {
         <section className="adminControlContainer">
           <div className="container">
             <div className="row">
-            <div className="col-12">
               <div className="col-12">
-                <div className="pageTitle">
-                  <h1>
-                     Report - {accessibilityInfo.web_url}{" "}
-                    {accessibilityInfo.assessment_date &&
-                      getFormattedDateWithTime(
-                        new Date(accessibilityInfo.assessment_timestamp),
-                        DATE_TIME_FORMAT
-                      )}
-                  </h1>
+                <div className="col-12">
+                  <div className="pageTitle">
+                    <h1>
+                      Report - {accessibilityInfo.web_url}{" "}
+                      {accessibilityInfo.assessment_date &&
+                        getFormattedDateWithTime(
+                          new Date(accessibilityInfo.assessment_timestamp),
+                          DATE_TIME_FORMAT
+                        )}
+                    </h1>
+                  </div>
                 </div>
-              </div>
               </div>
 
               <div className="col-12">
                 <ul className="nav nav-tabs border-bottom-0 liteReportTab ">
-                {Object.keys(groupedByTab)?.sort().map((tab) => (
-  <li key={tab} className="nav-item">
-    <button
-      className={`nav-link ${activeTab === tab ? "active" : ""}`}
-      onClick={() => setActiveTab(tab)}
-    >
-      {tab}
-    </button>
-  </li>
-                  ))}
+                  {Object.keys(groupedByTab)
+                    ?.sort()
+                    .map((tab) => (
+                      <li key={tab} className="nav-item">
+                        <button
+                          className={`nav-link ${
+                            activeTab === tab ? "active" : ""
+                          }`}
+                          onClick={() => setActiveTab(tab)}
+                        >
+                          {tab}
+                        </button>
+                      </li>
+                    ))}
                 </ul>
 
                 {activeTab === "Accessibility" && (
@@ -282,7 +309,9 @@ const AccessibilityReport = () => {
                     <thead>
                       <tr>
                         <th className="side">Level</th>
-                        <th className="section">{accessibilityInfo.guideline || "WCAG"}</th>
+                        <th className="section">
+                          {accessibilityInfo.guideline || "WCAG"}
+                        </th>
                         <th className="section">Section 508 - 2017</th>
                         <th className="key optional">Key</th>
                       </tr>
@@ -291,15 +320,37 @@ const AccessibilityReport = () => {
                       {["A", "AA", "AAA"].map((level) => (
                         <tr key={level}>
                           <th className="side">{level}</th>
-                          <td><img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" /></td>
-                          <td><img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" /></td>
+                          <td>
+                            <img
+                              src={LEVEL_ICONS[level]}
+                              width="20"
+                              height="20"
+                              alt={`Level ${level}`}
+                              className="absmiddle"
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src={LEVEL_ICONS[level]}
+                              width="20"
+                              height="20"
+                              alt={`Level ${level}`}
+                              className="absmiddle"
+                            />
+                          </td>
                           <td className="key optional">
-                            <img src={LEVEL_ICONS[level]} width="20" height="20" alt={`Level ${level}`} className="absmiddle" />{" "}
+                            <img
+                              src={LEVEL_ICONS[level]}
+                              width="20"
+                              height="20"
+                              alt={`Level ${level}`}
+                              className="absmiddle"
+                            />{" "}
                             {level === "A"
                               ? "Pages with level A issues are unusable for some people"
                               : level === "AA"
-                                ? "Pages with level AA issues are very difficult to use"
-                                : "Pages with level AAA issues can be difficult to use"}
+                              ? "Pages with level AA issues are very difficult to use"
+                              : "Pages with level AAA issues can be difficult to use"}
                           </td>
                         </tr>
                       ))}
@@ -314,11 +365,14 @@ const AccessibilityReport = () => {
                         <th width="11%">Priority</th>
                         <th>Description and URL</th>
                         <th width="16%">Guideline and Line#</th>
-                        <th className="optional" width="11%">Count</th>
+                        <th className="optional" width="11%">
+                          Count
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {activeTab && renderIssues(groupedByTab[activeTab], activeTab)}
+                      {activeTab &&
+                        renderIssues(groupedByTab[activeTab], activeTab)}
                     </tbody>
                   </table>
                 </div>
