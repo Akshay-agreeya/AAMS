@@ -1,11 +1,12 @@
 import React from 'react';
 import iconMoveForward from '../../../assets/images/iconMoveForward.svg';
-import { getPages } from '../../../utils/Helper';
+import { getOrganizationIdFromSession, getPages } from '../../../utils/Helper';
 import { CategoryProgressBar } from './CategoryProgressBar';
 
-export const Standard = ({ summary }) => {
+export const Standard = ({ summary,reportData }) => {
 
     const pages = getPages(summary.pages) || {};
+      const org_id = getOrganizationIdFromSession();
 
     return (
 
@@ -13,7 +14,7 @@ export const Standard = ({ summary }) => {
             <div className="headingSection">
                 <h4>Standard</h4>
                 <div className="moveNext">
-                    <a href="#"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
+                    <a href={`reports/listing/viewreport/${reportData?.assessment?.assessment_id}?tab=Standard&id=${reportData?.product?.service_id}&org_id=${org_id}`}><img src={iconMoveForward} alt="Click Here for next Page" /></a>
                 </div>
             </div>
             <div className="graphContainer text-center">

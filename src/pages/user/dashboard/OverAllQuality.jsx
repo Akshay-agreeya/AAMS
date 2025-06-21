@@ -1,13 +1,14 @@
 import React from 'react';
-import { getPages, getPercentValue } from '../../../utils/Helper';
+import { getOrganizationIdFromSession, getPages, getPercentValue } from '../../../utils/Helper';
 import { CategoryProgressBar } from './CategoryProgressBar';
 import iconMoveForward from "../../../assets/images/iconMoveForward.svg"
 
-export const OverAllQuality = ({ summary }) => {
+export const OverAllQuality = ({ summary,reportData }) => {
 
     const percent = getPercentValue(summary.benchmark);
     const pages = getPages(summary.pages) || {};
-    const benchmarkText = summary.benchmark?.replace(`${percent}%`, '').trim() || '';
+    // const benchmarkText = summary.benchmark?.replace(`${percent}%`, '').trim() || '';
+    const org_id = getOrganizationIdFromSession();
 
     return (
 
@@ -15,7 +16,7 @@ export const OverAllQuality = ({ summary }) => {
             <div className="headingSection">
                 <h4>Overall Quality</h4>
                 <div className="moveNext">
-                    <a href="showHistory.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
+                    <a href={`reports/listing/viewreport/${reportData?.assessment?.assessment_id}?tab=Accessibility&id=${reportData?.product?.service_id}&org_id=${org_id}`}><img src={iconMoveForward} alt="Click Here for next Page" /></a>
                 </div>
             </div>
             <div className="graphContainer text-center">
