@@ -268,6 +268,7 @@ const UserDashboard = () => {
                     reportData.summary,
                     "Overall Quality"
                   )}
+                  reportData={reportData}
                 />
               </div>
             </div>
@@ -288,11 +289,13 @@ const UserDashboard = () => {
               <div className="col-12 col-lg-3">
                 <Standard
                   summary={getDashboardItem(reportData.summary, "Standards")}
+                  reportData={reportData}
                 />
               </div>
               <div className="col-12 col-lg-3">
                 <Usability
                   summary={getDashboardItem(reportData.summary, "Usability")}
+                  reportData={reportData}
                 />
               </div>
             </div>
