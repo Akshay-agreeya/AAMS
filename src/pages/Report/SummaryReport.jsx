@@ -38,11 +38,9 @@ const Summary = () => {
         let sortedData = [...res.contents];
 
         sortedData.sort((a, b) => {
-          if (a.category === "Accessibility") return -1;
-          if (b.category === "Accessibility") return 1;
           if (a.category === "Totals") return 1;
           if (b.category === "Totals") return -1;
-          return 0;
+          return a.category.localeCompare(b.category);
         });
 
         // Set benchmark mappping  for conditional rendering
@@ -88,7 +86,7 @@ const Summary = () => {
       dataIndex: "category",
       width: "20%",
       render: (text) => {
-        const isLinkableCategory = ["Usability", "Accessibility", "Search","Standards"].includes(text);
+        const isLinkableCategory = ["Usability", "Accessibility", "Search", "Standards","Errors", "Compatibility"].includes(text);
         const benchmark = categoryBenchmarkMap[text];
         const hasIssues = benchmark && !benchmark.startsWith("0%");
 
