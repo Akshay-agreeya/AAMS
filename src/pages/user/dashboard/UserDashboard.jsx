@@ -14,7 +14,7 @@ import { OverAllQuality } from "./OverAllQuality";
 import { OrganizationSelection } from "./OrganizationSelection";
 import { ReportSelection } from "./ReportSelection";
 import { getData } from "../../../utils/CommonApi";
-import { getDashboardItem, getPercentValue } from "../../../utils/Helper";
+import { getDashboardItem, getOrganizationIdFromSession, getPercentValue } from "../../../utils/Helper";
 import { AccessibilityDashboard } from "./AccessibilityDashboard";
 import AccessibilityErrorScore from "./AccessibilityErrorScore";
 import RecentReportDialog from "../../../component/dialog/RecentReportDialog";
@@ -22,6 +22,7 @@ import RecentReportDialog from "../../../component/dialog/RecentReportDialog";
 
 const UserDashboard = () => {
   const [reportData, setReportData] = useState({});
+  const org_id = getOrganizationIdFromSession();
 
   useEffect(() => {}, []);
 
@@ -155,9 +156,7 @@ const UserDashboard = () => {
                       Accessibility assessment{" "}
                       ({reportData.assessment?.guideline})
                     </h3>
-                    {/* <div className="moveNext">
-                                            <a href="viewReport.html"><img src={iconMoveForward} alt="Click Here for next Page" /></a>
-                                        </div> */}
+                    <a href={`reports/listing/viewreport/${reportData?.assessment?.assessment_id}?tab=Accessibility&id=${reportData?.product?.service_id}&org_id=${org_id}`}><img src={iconMoveForward} alt="Click Here for next Page" /></a>
                   </div>
                   <div className="row">
                     <div className="col-12 col-lg-4">
@@ -266,7 +265,7 @@ const UserDashboard = () => {
                 <OverAllQuality
                   summary={getDashboardItem(
                     reportData.summary,
-                    "Overall Quality"
+                    "Search"
                   )}
                   reportData={reportData}
                 />
@@ -284,6 +283,7 @@ const UserDashboard = () => {
                     reportData.summary,
                     "Compatibility"
                   )}
+                  reportData={reportData}
                 />
               </div>
               <div className="col-12 col-lg-3">

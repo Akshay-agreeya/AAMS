@@ -66,7 +66,17 @@ const ProductTable = ({ org_id }) => {
     {
         title: 'Resource Path',
         dataIndex: 'web_url',
-        width: '14%'
+        width: '14%',
+        render: (text) => (
+            <div style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '200px' 
+            }} title={text}>
+                {text}
+            </div>
+        )
     },
     {
         title: 'WCAG',

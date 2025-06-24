@@ -103,7 +103,16 @@ const ViewProduct = () => {
                       <div className="formContainer">
                         <div className="row">
                           {[
-                            { label: "Web URL", value: productDetails.web_url || "N/A" },
+                            { label: "Web URL", value: (
+                              <div style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                maxWidth: '250px'
+                              }} title={productDetails.web_url}>
+                                {productDetails.web_url || "N/A"}
+                              </div>
+                            ) },
                             { label: "WCAG Version", value: productDetails.guideline || "N/A" },
                             { label: "Compliance Level", value: productDetails.compliance_level || "N/A" },
                             { label: "Scan Frequency", value: productDetails.frequency || "N/A" },

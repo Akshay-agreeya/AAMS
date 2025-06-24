@@ -14,9 +14,9 @@ export const OverAllQuality = ({ summary,reportData }) => {
 
         <section className="overallQualityContainer">
             <div className="headingSection">
-                <h4>Overall Quality</h4>
+                <h4>Search</h4>
                 <div className="moveNext">
-                    <a href={`reports/listing/viewreport/${reportData?.assessment?.assessment_id}?tab=Accessibility&id=${reportData?.product?.service_id}&org_id=${org_id}`}><img src={iconMoveForward} alt="Click Here for next Page" /></a>
+                    <a href={`reports/listing/viewreport/${reportData?.assessment?.assessment_id}?tab=Search&id=${reportData?.product?.service_id}&org_id=${org_id}`}><img src={iconMoveForward} alt="Click Here for next Page" /></a>
                 </div>
             </div>
             <div className="graphContainer text-center">
@@ -33,9 +33,9 @@ export const OverAllQuality = ({ summary,reportData }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            <div className="showHistoryContainer">
+            {/* <div className="showHistoryContainer">
                     <a href="showHistory.html">Show History</a>
-            </div>
+            </div> */}
 
         </section>
     )

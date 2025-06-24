@@ -25,9 +25,9 @@ export const Standard = ({ summary,reportData }) => {
                 <div className="message">{pages.text}</div>
 
             </div>
-            <div className="showHistoryContainer">
+            {/* <div className="showHistoryContainer">
                 <a href="#">Show History</a>
-            </div>
+            </div> */}
 
         </section>
     )
