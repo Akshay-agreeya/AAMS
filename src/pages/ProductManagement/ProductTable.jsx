@@ -108,10 +108,21 @@ const ProductTable = ({ org_id }) => {
         dataIndex: 'scan_days',
         width: '8%',
         className: "text-center",
-        render: (text, record) => (
-            <span>{record.frequency_id === 3 ? record.next_scan_date ? formattedDate(new Date(record.next_scan_date), DATE_FORMAT)
-                : formattedDate(new Date(record.last_scan_date), DATE_FORMAT) : text}</span>
-        )
+        render: (text, record) => {
+            if (record.frequency_id === 3) {
+                const nextDate = record.next_scan_date;
+                const lastDate = record.last_scan_date;
+    
+                if (nextDate) {
+                    return <span>{formattedDate(new Date(nextDate), DATE_FORMAT)}</span>;
+                } else if (lastDate) {
+                    return <span>{formattedDate(new Date(lastDate), DATE_FORMAT)}</span>;
+                } else {
+                    return <span>N/A</span>;
+                }
+            }
+            return <span>{text}</span>;
+        }
     },
 
     {

@@ -31,6 +31,7 @@ export const FrequencySelect = ({ name = "frequency_id", ...rest }) => {
         <Select
             name={name}
             options={frequencies}
+            id="frequency_id"
             {...rest}
         />
     );
