@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../component/Layout";
 import iconEditDeails from "../assets/images/iconEditDeails.svg";
 import dummyuser from "../assets/images/noUserImage.svg";
@@ -13,6 +13,7 @@ import {
 } from "../constants/MessageConstants";
 import { FormItem } from "../component/form/FormItem";
 import { Input } from "../component/input/Input";
+import { ProfileContext } from "../common/ProfilerContext";
 
 const EditUserProfile = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const EditUserProfile = () => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
+  const { imageSrc, setImageSrc } = useContext(ProfileContext);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",

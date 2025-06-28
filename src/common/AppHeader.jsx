@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import siteLogo from "../assets/images/siteLogo.svg";
 import iconHelp from "../assets/images/iconHelp.svg";
 import iconNotification from "../assets/images/iconNotification.svg";
@@ -7,29 +7,31 @@ import { getImageUrlFromBlob, getUserFromSession } from '../utils/Helper';
 import { useAuth } from './auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ChangePasswordModal from './auth/ChangePassword';
+import { ProfileContext } from './ProfilerContext';
 
 const AppHeader = ({ topNav = true }) => {
-    
+
     const user = getUserFromSession() || {};
     const user_id = user?.id;
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [imageSrc, setImageSrc] = useState(null);
+
+    const { imageSrc, setImageSrc } = useContext(ProfileContext);
 
     const { logout } = useAuth();
     const navigate = useNavigate();
 
-    const fetchImage = useCallback( async () => {
+    const fetchImage = useCallback(async () => {
         if (!user_id) return;
-    
-        const imageUrl = await getImageUrlFromBlob(`/user/display-image/${user_id}`);
-        if (imageUrl) setImageSrc(imageUrl);
-    },[getUserFromSession]);
+        const url = await getImageUrlFromBlob(`/user/display-image/${user_id}`) || dummyUserPic;
+        if (url) setImageSrc(url);   // cache in context
+    }, [user_id, setImageSrc]);
 
     useEffect(() => {
-        
-        if (user_id) fetchImage();
-    }, [fetchImage]);
+        if (!user_id || imageSrc) return;  // already have it
+        fetchImage();
+    }, [user_id, imageSrc, fetchImage]);
+
 
     return (
         <div>

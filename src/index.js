@@ -1,12 +1,14 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import "./assets/css/style/child-theme.css";
+import { ProfileProvider } from './common/ProfilerContext';
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-    <App />
+    <ProfileProvider>
+        <App />
+    </ProfileProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
