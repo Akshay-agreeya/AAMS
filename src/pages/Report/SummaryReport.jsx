@@ -8,7 +8,7 @@ import { extractPercentage } from "../../utils/Helper";
 import {
   getFormattedDateWithTime,
 } from "../../component/input/DatePicker";
-import { DATE_TIME_FORMAT } from "../../utils/Constants";
+import { DATE_TIME_FORMAT, TOKEN, USER } from "../../utils/Constants";
 
 const Summary = () => {
   const { assessment_id } = useParams();
@@ -86,7 +86,7 @@ const Summary = () => {
       dataIndex: "category",
       width: "20%",
       render: (text) => {
-        const isLinkableCategory = ["Usability", "Accessibility", "Search", "Standards","Errors", "Compatibility"].includes(text);
+        const isLinkableCategory = ["Usability", "Accessibility", "Search", "Standards", "Errors", "Compatibility"].includes(text);
         const benchmark = categoryBenchmarkMap[text];
         const hasIssues = benchmark && !benchmark.startsWith("0%");
 
@@ -95,6 +95,11 @@ const Summary = () => {
             href={`/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
               text
             )}&id=${product_id}&org_id=${org_id}`}
+            onClick={(e) => {
+              handleLinkClick(e, `/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
+                text
+              )}&id=${product_id}&org_id=${org_id}`)
+            }}
           >
             {text}
           </a>
@@ -142,6 +147,29 @@ const Summary = () => {
     { label: "Reports", url: `/reports/listing/${org_id}?id=${product_id}` },
     { label: "Summary Report" },
   ];
+
+  const handleLinkClick = (event, href) => {
+    const isNewTab =
+      event.ctrlKey ||         // Ctrl+Click (Windows/Linux)
+      event.metaKey ||         // Cmd+Click (macOS)
+      event.button === 1;      // Middle click
+
+    if (isNewTab) {
+      const token = sessionStorage.getItem(TOKEN);
+      const user = sessionStorage.getItem(USER);
+      if (token) {
+        localStorage.setItem(TOKEN, token);
+        localStorage.setItem(USER, user);
+      }
+
+      // Let the browser open the new tab normally
+      // No need to call window.open(), browser handles it
+    } else {
+      // Normal left-click
+      window.location.href = href;
+      event.preventDefault();
+    }
+  }
 
   return (
     <Layout breadcrumbs={breadcrumbs}>

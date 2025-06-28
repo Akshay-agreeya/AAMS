@@ -4,7 +4,7 @@ import { getData } from "../../utils/CommonApi";
 import { useParams, useLocation } from "react-router-dom";
 import Table from "../../component/table/Table";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
-import { DATE_TIME_FORMAT } from "../../utils/Constants";
+import { DATE_TIME_FORMAT, TOKEN, USER } from "../../utils/Constants";
 
 const LEVEL_ICONS = {
   A: "/images/p1.svg",
@@ -21,6 +21,18 @@ const AccessibilityReport = () => {
   const [expandedIssues, setExpandedIssues] = useState({});
   const [accessibilityInfo, setAccessibilityInfo] = useState({});
   const [activeTab, setActiveTab] = useState("");
+
+
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN);
+    const user = localStorage.getItem(USER);
+    if (token && !sessionStorage.getItem(TOKEN)) {
+      sessionStorage.setItem(TOKEN, token);
+      sessionStorage.setItem(USER, user);
+      localStorage.removeItem(TOKEN);
+      localStorage.removeItem(USER);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchReport = async () => {
