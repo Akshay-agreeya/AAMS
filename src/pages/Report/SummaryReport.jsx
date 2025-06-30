@@ -80,6 +80,41 @@ const Summary = () => {
     );
   };
 
+  const handleLinkClick = (event, href) => {
+    const isNewTab =
+      event.ctrlKey ||         // Ctrl+Click (Windows/Linux)
+      event.metaKey ||         // Cmd+Click (macOS)
+      event.button === 1;      // Middle click
+
+    if (isNewTab) {
+      const token = sessionStorage.getItem(TOKEN);
+      const user = sessionStorage.getItem(USER);
+      if (token) {
+        localStorage.setItem(TOKEN, token);
+        localStorage.setItem(USER, user);
+      }
+
+      // Let the browser open the new tab normally
+      // No need to call window.open(), browser handles it
+    } else {
+      // Normal left-click
+      window.location.href = href;
+      event.preventDefault();
+    }
+  };
+
+  const handleLinkContextMenu = (event, href) => {
+    // Right-click detected - prepare for potential new tab opening
+    const token = sessionStorage.getItem(TOKEN);
+    const user = sessionStorage.getItem(USER);
+    if (token) {
+      localStorage.setItem(TOKEN, token);
+      localStorage.setItem(USER, user);
+    }
+    // Don't prevent default - let the context menu appear
+    // The browser will handle the "Open in new tab" action
+  };
+
   const columns = [
     {
       title: "Category",
@@ -89,17 +124,16 @@ const Summary = () => {
         const isLinkableCategory = ["Usability", "Accessibility", "Search", "Standards", "Errors", "Compatibility"].includes(text);
         const benchmark = categoryBenchmarkMap[text];
         const hasIssues = benchmark && !benchmark.startsWith("0%");
+        const linkHref = `/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
+          text
+        )}&id=${product_id}&org_id=${org_id}`;
 
         return isLinkableCategory && hasIssues ? (
           <a
-            href={`/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
-              text
-            )}&id=${product_id}&org_id=${org_id}`}
-            onClick={(e) => {
-              handleLinkClick(e, `/reports/listing/viewreport/${assessment_id}?tab=${encodeURIComponent(
-                text
-              )}&id=${product_id}&org_id=${org_id}`)
-            }}
+            href={linkHref}
+            onClick={(e) => handleLinkClick(e, linkHref)}
+            onContextMenu={(e) => handleLinkContextMenu(e, linkHref)}
+            onAuxClick={(e) => handleLinkClick(e, linkHref)}
           >
             {text}
           </a>
@@ -147,29 +181,6 @@ const Summary = () => {
     { label: "Reports", url: `/reports/listing/${org_id}?id=${product_id}` },
     { label: "Summary Report" },
   ];
-
-  const handleLinkClick = (event, href) => {
-    const isNewTab =
-      event.ctrlKey ||         // Ctrl+Click (Windows/Linux)
-      event.metaKey ||         // Cmd+Click (macOS)
-      event.button === 1;      // Middle click
-
-    if (isNewTab) {
-      const token = sessionStorage.getItem(TOKEN);
-      const user = sessionStorage.getItem(USER);
-      if (token) {
-        localStorage.setItem(TOKEN, token);
-        localStorage.setItem(USER, user);
-      }
-
-      // Let the browser open the new tab normally
-      // No need to call window.open(), browser handles it
-    } else {
-      // Normal left-click
-      window.location.href = href;
-      event.preventDefault();
-    }
-  }
 
   return (
     <Layout breadcrumbs={breadcrumbs}>
