@@ -25,6 +25,8 @@ import {
   OPERATION_FAILED_MSG,
 } from "../../constants/MessageConstants";
 import moment from "moment";
+import MobileAccessibility from "../ProductManagement/MobileAccessibility";
+import PdfAccessibility from "../ProductManagement/PdfAccessbility";
 
 const AddProduct = () => {
   const [initialValues, setInitialValues] = useState({
@@ -34,6 +36,7 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
   const [selectedFrequency, setSelectedFrequency] = useState("1");
+  const [selectedProductType, setSelectedProductType] = useState("websiteAccessibility");
 
   const { org_id, product_id } = useParams();
   const navigate = useNavigate();
@@ -237,11 +240,11 @@ const AddProduct = () => {
                             <input
                               className="form-check-input"
                               type="radio"
-                              name="product"
+                              name="accessibilityOptions"
                               id="websiteAccessibility"
                               value="websiteAccessibility"
-                              checked
-                              readOnly
+                              checked={selectedProductType === "websiteAccessibility"}
+                              onChange={() => setSelectedProductType("websiteAccessibility")}
                             />
                             <label
                               className="form-check-label"
@@ -250,61 +253,99 @@ const AddProduct = () => {
                               Website Accessibility
                             </label>
                           </div>
+                          <div className="form-check me-5">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="accessibilityOptions"
+                              id="mobileAccessibility"
+                              value="mobileAccessibility"
+                              checked={selectedProductType === "mobileAccessibility"}
+                              onChange={() => setSelectedProductType("mobileAccessibility")}
+                            />
+                            <label className="form-check-label" htmlFor="mobileAccessibility">
+                              Mobile Accessibility
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="accessibilityOptions"
+                              id="pdfAccessibility"
+                              value="pdfAccessibility"
+                              checked={selectedProductType === "pdfAccessibility"}
+                              onChange={() => setSelectedProductType("pdfAccessibility")}
+                            />
+                            <label className="form-check-label" htmlFor="pdfAccessibility">
+                              PDF Accessibility
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-12 mb-4">
                           <h3>Product</h3>
                           <div className="row">
-                            <div className="col-lg-4">
-                              <FormItem
-                                name="web_url"
-                                label="Enter URL for Website Accessibility"
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Web URL is required",
-                                  },
-                                ]}
-                                requiredMark={true}
-                              >
-                                <Input
-                                  type="text"
-                                  placeholder="Enter URL for Website Accessibility"
-                                />
-                              </FormItem>
-                            </div>
-                            <div className="col-lg-4">
-                              <FormItem
-                                name="guideline_version_id"
-                                label="Enter WCAG Version"
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "WCAG Version is required",
-                                  },
-                                ]}
-                                requiredMark={true}
-                              >
-                                <WCAGVersionSelect disabled={true}/>
-                              </FormItem>
-                            </div>
-                            <div className="col-lg-4">
-                              <FormItem
-                                name="compliance_level_id"
-                                label=" Enter WCAG Compliance Level"
-                                rules={[
-                                  {
-                                    required: true,
-                                    message:
-                                      "WCAG Compliance Level is required",
-                                  },
-                                ]}
-                                requiredMark={true}
-                              >
-                                <WCAGComplianceLevelSelect disabled={true}/>
-                              </FormItem>
-                            </div>
+                            {selectedProductType === "websiteAccessibility" && (
+                              <>
+                                <div className="col-lg-4">
+                                  <FormItem
+                                    name="web_url"
+                                    label="Enter URL for Website Accessibility"
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: "Web URL is required",
+                                      },
+                                    ]}
+                                    requiredMark={true}
+                                  >
+                                    <Input
+                                      type="text"
+                                      placeholder="Enter URL for Website Accessibility"
+                                    />
+                                  </FormItem>
+                                </div>
+                                <div className="col-lg-4">
+                                  <FormItem
+                                    name="guideline_version_id"
+                                    label="Enter WCAG Version"
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: "WCAG Version is required",
+                                      },
+                                    ]}
+                                    requiredMark={true}
+                                  >
+                                    <WCAGVersionSelect disabled={true}/>
+                                  </FormItem>
+                                </div>
+                                <div className="col-lg-4">
+                                  <FormItem
+                                    name="compliance_level_id"
+                                    label=" Enter WCAG Compliance Level"
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message:
+                                          "WCAG Compliance Level is required",
+                                      },
+                                    ]}
+                                    requiredMark={true}
+                                  >
+                                    <WCAGComplianceLevelSelect disabled={true}/>
+                                  </FormItem>
+                                </div>
+                              </>
+                            )}
+                            {selectedProductType === "mobileAccessibility" && (
+                              <MobileAccessibility />
+                            )}
+                            {selectedProductType === "pdfAccessibility" && (
+                              <PdfAccessibility />
+                            )}
                           </div>
                         </div>
 
@@ -312,6 +353,23 @@ const AddProduct = () => {
                         <div className="col-12 mb-4">
                           <h3>Maintenance</h3>
                           <div className="row">
+                            {selectedProductType === "pdfAccessibility" && (
+                              <div className="col-12 col-lg-4">
+                                <FormItem
+                                  name="supportType"
+                                  label="Support Type"
+                                  rules={[{ required: true, message: "Support Type is required" }]}
+                                  requiredMark={true}
+                                >
+                                  <select className="form-select">
+                                    <option value="">Select Support Type</option>
+                                    <option value="1">Basic</option>
+                                    <option value="2">Standard</option>
+                                    <option value="3">Premium</option>
+                                  </select>
+                                </FormItem>
+                              </div>
+                            )}
                             <div className="col-12 col-lg-4">
                               <FormItem
                                 label="Scan Frequency"
