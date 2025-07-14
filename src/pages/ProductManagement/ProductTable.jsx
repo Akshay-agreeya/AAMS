@@ -7,7 +7,7 @@ import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
 import manualTestingIcon from "../../assets/images/manual-testing.svg";
 import manualIcon from "../../assets/images/manual.svg";
-import iconDocument from "../../assets/images/iconDocument.svg";
+import browseIcon from "../../assets/images/browseIcon.svg";
 import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession, isSuperAdmin } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
 import notification from '../../component/notification/Notification';
@@ -159,7 +159,7 @@ const ProductTable = ({ org_id }) => {
                     }}>
                     <img src={manualIcon} alt="FreeLiteAssessment" />
                 </a>}
-                {/* {superAdmin && <> <a title="Browse Files" href={`#`}
+                {superAdmin && <> <a title="Browse Files" href={`#`}
                     className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>
                     <img src={browseIcon} alt="View Details" />
                 </a>
@@ -170,7 +170,7 @@ const ProductTable = ({ org_id }) => {
                         onChange={(event) => {
                             handleFileChange(event, selectedRecord, org_id, setLoading)
                         }}
-                    /></>} */}
+                    /></>}
                 {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}

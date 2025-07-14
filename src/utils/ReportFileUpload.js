@@ -45,7 +45,7 @@ export const handleFileChange = async (event, record, org_id,setLoading) => {
         formData.append("service_id", record.service_id);
 
         try {
-            const resp = await apiRequest(`/misc/upload`, "POST", formData, {
+            const resp = await apiRequest(`/misc/mobile-app-parse`, "POST", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             notification.success({
