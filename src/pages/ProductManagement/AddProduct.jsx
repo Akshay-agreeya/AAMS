@@ -29,6 +29,25 @@ import MobileAccessibility from "../ProductManagement/MobileAccessibility";
 import PdfAccessibility from "../ProductManagement/PdfAccessbility";
 
 const AddProduct = () => {
+  const [serviceTypes, setServiceTypes] = useState([]); // <-- NEW
+
+  // Fetch service types for product selection
+  useEffect(() => {
+    const fetchServiceTypes = async () => {
+      try {
+        const resp = await getData("/lookup/service-types");
+        if (Array.isArray(resp.contents)) {
+          setServiceTypes(resp.contents);
+        } else {
+          setServiceTypes([]);
+        }
+      } catch (error) {
+        setServiceTypes([]);
+        console.error("Error fetching service types:", error);
+      }
+    };
+    fetchServiceTypes();
+  }, []);
   const [initialValues, setInitialValues] = useState({
     compliance_level_id:3,
     guideline_version_id:3
@@ -142,6 +161,36 @@ const AddProduct = () => {
           : formData.scan_day_ids,
       };
 
+      if (selectedProductType === "mobileAccessibility") {
+        // Only call /mobile/add, not /product/add
+        const mobileLocalDate = new Date(`${currentDate}T${formData.schedule_time}`);
+        const mobileReqBody = {
+          mobile_app_name: formData.appName || formData.mobile_app_name,
+          mobile_app_version: formData.appversion || formData.mobile_app_version, // fallback
+          labguage_id: formData.framework, // Use the selected framework's language_id
+          other_details: formData.other_details || "Manual test",
+          service_type_id: 2, // Static as per contract
+          guideline_version_id: formData.wcagVerapp || formData.guideline_version_id || 3,
+          compliance_level_id: formData.wcagLevApp || formData.compliance_level_id || 3,
+          frequency_id: formData.frequency_id || 3,
+          schedule_time: mobileLocalDate.toISOString(),
+        };
+        try {
+          await postData(`/product/mobile/add/${org_id}`, mobileReqBody);
+          notification.success({
+            title: "Mobile Accessibility",
+            message: "Mobile accessibility details submitted successfully!"
+          });
+          navigate("/product-management");
+        } catch (error) {
+          notification.error({
+            title: "Mobile Accessibility",
+            message: error?.data?.errors?.[0] || "Failed to submit mobile accessibility details."
+          });
+        }
+        return;
+      }
+
       product_id
         ? await patchData(`/product/edit/${product_id}`, reqData)
         : await postData(`/product/add/${org_id}`, reqData);
@@ -234,55 +283,41 @@ const AddProduct = () => {
                     <h3>Product & Maintenance</h3>
                     <div className="formContainer">
                       <div className="col-12 mb-4">
-                        <h3>Select Your Product</h3>
-                        <div className="checkBoxOptionContainer w-75">
-                          <div className="form-check me-5">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="accessibilityOptions"
-                              id="websiteAccessibility"
-                              value="websiteAccessibility"
-                              checked={selectedProductType === "websiteAccessibility"}
-                              onChange={() => setSelectedProductType("websiteAccessibility")}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="websiteAccessibility"
-                            >
-                              Website Accessibility
-                            </label>
-                          </div>
-                          <div className="form-check me-5">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="accessibilityOptions"
-                              id="mobileAccessibility"
-                              value="mobileAccessibility"
-                              checked={selectedProductType === "mobileAccessibility"}
-                              onChange={() => setSelectedProductType("mobileAccessibility")}
-                            />
-                            <label className="form-check-label" htmlFor="mobileAccessibility">
-                              Mobile Accessibility
-                            </label>
-                          </div>
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="accessibilityOptions"
-                              id="pdfAccessibility"
-                              value="pdfAccessibility"
-                              checked={selectedProductType === "pdfAccessibility"}
-                              onChange={() => setSelectedProductType("pdfAccessibility")}
-                            />
-                            <label className="form-check-label" htmlFor="pdfAccessibility">
-                              PDF Accessibility
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+  <h3>Select Your Product</h3>
+  <div className="checkBoxOptionContainer w-75">
+    {serviceTypes && serviceTypes.length > 0 ? (
+      serviceTypes.map((type, idx) => {
+        const SERVICE_TYPE_KEYS = {
+          "Website Accessibility": "websiteAccessibility",
+          "Mobile Accessibility": "mobileAccessibility",
+          "PDF Accessibility": "pdfAccessibility"
+        };
+        const key = SERVICE_TYPE_KEYS[type.name] || type.name;
+        return (
+          <div className={`form-check${idx < serviceTypes.length - 1 ? " me-5" : ""}`} key={type.type_id}>
+            <input
+              className="form-check-input"
+              type="radio"
+              name="accessibilityOptions"
+              id={`serviceType_${type.type_id}`}
+              value={key}
+              checked={selectedProductType === key}
+              onChange={() => setSelectedProductType(key)}
+            />
+            <label
+              className="form-check-label"
+              htmlFor={`serviceType_${type.type_id}`}
+            >
+              {type.name}
+            </label>
+          </div>
+        );
+      })
+    ) : (
+      <div>Loading service types...</div>
+    )}
+  </div>
+</div>
                       <div className="row">
                         <div className="col-12 mb-4">
                           <h3>Product</h3>
@@ -341,7 +376,7 @@ const AddProduct = () => {
                               </>
                             )}
                             {selectedProductType === "mobileAccessibility" && (
-                              <MobileAccessibility />
+                              <MobileAccessibility org_id={org_id} />
                             )}
                             {selectedProductType === "pdfAccessibility" && (
                               <PdfAccessibility />

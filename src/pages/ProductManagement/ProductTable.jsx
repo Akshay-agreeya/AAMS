@@ -59,12 +59,12 @@ const ProductTable = ({ org_id }) => {
     const operations = getAllowedOperations(PRODUCT_MGMT);
 
     const columns = [{
-        title: 'Product Name',
+        title: 'Product Type',
         dataIndex: 'service_type_name',
         width: '18%'
     },
     {
-        title: 'Resource Path',
+        title: 'Product Name',
         dataIndex: 'web_url',
         width: '14%',
         render: (text) => (
@@ -79,18 +79,18 @@ const ProductTable = ({ org_id }) => {
         )
     },
     {
-        title: 'WCAG',
+        title: 'WCAG Version',
         dataIndex: 'guideline',
         width: '8%',
         className: "text-center"
     },
 
-    {
-        title: 'Version',
-        dataIndex: 'guidline_version_id',
-        width: '5%',
-        className: "text-center"
-    },
+    // {
+    //     title: 'Version',
+    //     dataIndex: 'guidline_version_id',
+    //     width: '5%',
+    //     className: "text-center"
+    // },
     {
         title: 'Compliance Level',
         dataIndex: 'compliance_level',
@@ -126,7 +126,7 @@ const ProductTable = ({ org_id }) => {
     },
 
     {
-        title: 'Scan Date',
+        title: 'Next Scan Date',
         dataIndex: 'next_scan_date',
         width: '19%',
         className: "text-center",

@@ -100,37 +100,129 @@ const ViewProduct = () => {
                       </div>
 
                       <h3>Product Details</h3>
-                      <div className="formContainer">
-                        <div className="row">
-                          {[
-                            { label: "Web URL", value: (
-                              <div style={{
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                maxWidth: '250px'
-                              }} title={productDetails.web_url}>
-                                {productDetails.web_url || "N/A"}
-                              </div>
-                            ) },
-                            { label: "WCAG Version", value: productDetails.guideline || "N/A" },
-                            { label: "Compliance Level", value: productDetails.compliance_level || "N/A" },
-                            { label: "Scan Frequency", value: productDetails.frequency || "N/A" },
-                            { label: "Scan Day", value: productDetails.scan_days || "N/A" },
-                            { label: "Schedule Time", value: productDetails.schedule_time || "N/A" },
-                            { label: "Requirement/Description", value: productDetails.other_details || "N/A" },
-                          ].map((field, index) => (
-                            <div className="col-12 col-lg-4" key={index}>
-                              <div className="mb-3">
-                                <div className="userStaticInfo">
-                                  <div className="title">{field.label}</div>
-                                  <div className="value">{field.value}</div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+<div className="formContainer">
+  {/* Website Accessibility Fields */}
+  {productDetails.service_type_id === 1 && (
+    <div className="row">
+      {[
+        { label: "Web URL", value: (
+          <div style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '250px'
+          }} title={productDetails.web_url}>
+            {productDetails.web_url || "N/A"}
+          </div>
+        ) },
+        { label: "WCAG Version", value: productDetails.guideline || "N/A" },
+        { label: "Compliance Level", value: productDetails.compliance_level || "N/A" },
+        { label: "Scan Frequency", value: productDetails.frequency || "N/A" },
+        { label: "Scan Day", value: productDetails.scan_days || "N/A" },
+        { label: "Schedule Time", value: productDetails.schedule_time || "N/A" },
+        { label: "Requirement/Description", value: productDetails.other_details || "N/A" },
+      ].map((field, index) => (
+        <div className="col-12 col-lg-4" key={index}>
+          <div className="mb-3">
+            <div className="userStaticInfo">
+              <div className="title">{field.label}</div>
+              <div className="value">{field.value}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {/* Mobile Accessibility Fields */}
+  {productDetails.service_type_id === 2 && (
+    <div className="row">
+      <div className="col-12">
+        {/* <h4>Mobile Accessibility Details</h4> */}
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">App Name</div>
+            <div className="value">{productDetails.mobile_app_name || productDetails.appName || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">WCAG Version</div>
+            <div className="value">{productDetails.guideline || productDetails.guideline_version_id || productDetails.wcagVerapp || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">WCAG Compliance Level</div>
+            <div className="value">{productDetails.compliance_level || productDetails.compliance_level_id || productDetails.wcagLevApp || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">Platform</div>
+            <div className="value">{productDetails.platform || productDetails.appPF || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">App Type</div>
+            <div className="value">{productDetails.app_type || productDetails.appType || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">Framework</div>
+            <div className="value">{productDetails.framework || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">App Version</div>
+            <div className="value">{productDetails.mobile_app_version || productDetails.appversion || productDetails.appVerand || productDetails.appVerios || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">Scan Frequency</div>
+            <div className="value">{productDetails.frequency || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">Scan Day</div>
+            <div className="value">{productDetails.scan_days || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+      <div className="col-12 col-lg-4">
+        <div className="mb-3">
+          <div className="userStaticInfo">
+            <div className="title">Schedule Time</div>
+            <div className="value">{productDetails.schedule_time || "N/A"}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
 
                       <div className="col-12">
                         <div className="buttonBox">
