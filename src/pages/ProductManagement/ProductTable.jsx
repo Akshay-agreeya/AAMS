@@ -7,6 +7,7 @@ import deleteicon from "../../assets/images/iconDelete.svg";
 import viewicon from "../../assets/images/iconView.svg";
 import manualTestingIcon from "../../assets/images/manual-testing.svg";
 import manualIcon from "../../assets/images/manual.svg";
+import browseIcon from "../../assets/images/browseIcon.svg";
 import iconDocument from "../../assets/images/iconDocument.svg";
 import { getAllowedOperations, getPagenationFromResponse, getUserEmailFromSession, isSuperAdmin } from '../../utils/Helper';
 import DeleteConfirmationModal from '../../component/dialog/DeleteConfirmation';
@@ -65,18 +66,27 @@ const ProductTable = ({ org_id }) => {
     },
     {
         title: 'Product Name',
-        dataIndex: 'web_url',
+        dataIndex: 'web_url', // keep as default for sorting/search
         width: '14%',
-        render: (text) => (
-            <div style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '200px' 
-            }} title={text}>
-                {text}
-            </div>
-        )
+        render: (text, record) => {
+            // Show mobile_app_name if Product Type is 'Mobile accessibility'
+            const isMobile = record.service_type_name && record.service_type_name.toLowerCase() === 'mobile accessibility';
+            const name = isMobile
+    ? record.mobile_app_name
+        ? `${record.mobile_app_name}${record.mobile_app_version ? ' - ' + record.mobile_app_version : ''}`
+        : ''
+    : record.web_url;
+            return (
+                <div style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '200px'
+                }} title={name}>
+                    {name}
+                </div>
+            );
+        }
     },
     {
         title: 'WCAG Version',
@@ -159,18 +169,24 @@ const ProductTable = ({ org_id }) => {
                     }}>
                     <img src={manualIcon} alt="FreeLiteAssessment" />
                 </a>}
-                {/* {superAdmin && <> <a title="Browse Files" href={`#`}
-                    className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>
-                    <img src={browseIcon} alt="View Details" />
-                </a>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: "none" }}
-                        onChange={(event) => {
-                            handleFileChange(event, selectedRecord, org_id, setLoading)
-                        }}
-                    /></>} */}
+                {superAdmin && record.service_type_name && record.service_type_name.toLowerCase() === 'mobile accessibility' && (
+    <>
+        <a title="Browse Files" href={`#`}
+            className="me-3" onClick={(e) => { setSelectedRecord(record); handleClick(e, fileInputRef) }}>
+            <img src={browseIcon} alt="View Details" />
+        </a>
+        <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={(event) => {
+                handleFileChange(event, selectedRecord, org_id, setLoading)
+            }}
+        />
+    </>
+)}
+                    
+                    
                 {operations?.find(item => item.operation_type_id === 3) && <a title="Manual Assessment" href={`/product-management/add-manual-report/${record.service_id}`} className="me-3">
                     <img src={manualTestingIcon} alt="Manual Testing" />
                 </a>}

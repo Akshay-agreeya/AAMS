@@ -62,7 +62,7 @@ const ViewProduct = () => {
                 ) : (
                   <div className="roleContainer">
                     <div className="userrole">
-                      Product Name: <span className="me-4">{productDetails.web_url || "N/A"}</span>
+                      Product Name: <span className="me-4">{productDetails.web_url ||productDetails.mobile_app_name|| "N/A"}</span>
                     </div>
                     <div className="editDetails">
                       {operations?.find(item => item.operation_type_id === 2) && (
@@ -184,7 +184,7 @@ const ViewProduct = () => {
         <div className="mb-3">
           <div className="userStaticInfo">
             <div className="title">Framework</div>
-            <div className="value">{productDetails.framework || "N/A"}</div>
+            <div className="value">{productDetails.language || "N/A"}</div>
           </div>
         </div>
       </div>

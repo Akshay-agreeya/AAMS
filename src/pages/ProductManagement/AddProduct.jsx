@@ -25,12 +25,27 @@ import {
   OPERATION_FAILED_MSG,
 } from "../../constants/MessageConstants";
 import moment from "moment";
-import MobileAccessibility from "../ProductManagement/MobileAccessibility";
 import PdfAccessibility from "../ProductManagement/PdfAccessbility";
-
+ 
+// Mobile Accessibility imports
+import AppType from "../../component/select/AppType";
+import Platform from "../../component/select/Platform";
+import Framework from "../../component/select/Framework";
+ 
 const AddProduct = () => {
-  const [serviceTypes, setServiceTypes] = useState([]); // <-- NEW
-
+  const [serviceTypes, setServiceTypes] = useState([]);
+ 
+  // Mobile accessibility specific states
+  const [platform, setPlatform] = useState("");
+  const [appType, setAppType] = useState("");
+  const [framework, setFramework] = useState("");
+  const [androidFiles, setAndroidFiles] = useState([]);
+  const [iosFiles, setIosFiles] = useState([]);
+  // Dropdown options for mapping label to ID
+  const [platformOptions, setPlatformOptions] = useState([]);
+  const [appTypeOptions, setAppTypeOptions] = useState([]);
+  const [frameworkOptions, setFrameworkOptions] = useState([]);
+ 
   // Fetch service types for product selection
   useEffect(() => {
     const fetchServiceTypes = async () => {
@@ -48,29 +63,70 @@ const AddProduct = () => {
     };
     fetchServiceTypes();
   }, []);
+ 
   const [initialValues, setInitialValues] = useState({
-    compliance_level_id:3,
-    guideline_version_id:3
+    compliance_level_id: 3,
+    guideline_version_id: 3
   });
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState(null);
   const [selectedFrequency, setSelectedFrequency] = useState("1");
   const [selectedProductType, setSelectedProductType] = useState("websiteAccessibility");
-
+ 
   const { org_id, product_id } = useParams();
   const navigate = useNavigate();
   const formRef = useRef();
-
-  // Fetch organization details
+ 
+  // Mobile accessibility handlers
+  const handlePlatformChange = (e) => {
+    setPlatform(e.target.value);
+    setFramework(""); // Reset framework when platform changes
+  };
+ 
+  const handleAppTypeChange = (e) => {
+    setAppType(e.target.value);
+    setFramework(""); // Reset framework when app type changes
+  };
+ 
+  const handleFrameworkChange = (e) => setFramework(e.target.value);
+ 
+  const handleAndroidFileChange = (e) => {
+    setAndroidFiles(Array.from(e.target.files));
+  };
+ 
+  const handleIosFileChange = (e) => {
+    setIosFiles(Array.from(e.target.files));
+  };
+ 
+  // Fetch dropdown options before fetching product info
+  useEffect(() => {
+    const fetchDropdowns = async () => {
+      try {
+        const [platformResp, appTypeResp, frameworkResp] = await Promise.all([
+          getData("/lookup/platform"),
+          getData("/lookup/app-type"),
+          getData("/lookup/languages")
+        ]);
+        setPlatformOptions(Array.isArray(platformResp.contents) ? platformResp.contents : []);
+        setAppTypeOptions(Array.isArray(appTypeResp.contents) ? appTypeResp.contents : []);
+        setFrameworkOptions(Array.isArray(frameworkResp.contents) ? frameworkResp.contents : []);
+      } catch (e) {
+        setPlatformOptions([]);
+        setAppTypeOptions([]);
+        setFrameworkOptions([]);
+      }
+    };
+    fetchDropdowns();
+  }, []);
 
   useEffect(() => {
-    if (product_id) getProductInfo();
-  }, [product_id]);
-
+    if (product_id && platformOptions.length && appTypeOptions.length && frameworkOptions.length) getProductInfo();
+  }, [product_id, platformOptions, appTypeOptions, frameworkOptions]);
+ 
   useEffect(() => {
     if (org_id) getOrganizationInfo();
   }, [org_id]);
-
+ 
   const getOrganizationInfo = async () => {
     try {
       const resp = await postData(`/org/get`, { org_id });
@@ -89,16 +145,15 @@ const AddProduct = () => {
       console.error("Error fetching organization details:", error);
     }
   };
-
+ 
   const getProductInfo = async () => {
     try {
       setLoading(true);
       const productData = await getData(`/product/view/${product_id}`) || {};
-
-      // Extract scan day IDs based on frequency
+ 
       const getScanDayIds = (data) => {
         const { frequency_id, scan_day_ids, next_scan_date, last_scan_date } = data;
-
+ 
         switch (frequency_id) {
           case 2:
             return scan_day_ids?.split(",").map(item => parseInt(item.trim()));
@@ -109,20 +164,48 @@ const AddProduct = () => {
         }
       };
 
-      // Set initial form values
-      setInitialValues({
+      let mappedInitialValues = {
         ...productData,
-        guideline_version_id: productData.guidline_version_id, // Note: typo preserved from original
+        guideline_version_id: productData.guidline_version_id,
         schedule_time: getFormattedDateWithTime(
           new Date(productData.schedule_time),
           "HH:mm"
         ),
         scan_day_ids: getScanDayIds(productData),
-      });
+      };
+
+      // If mobile accessibility, map API fields to form fields
+      if (productData.service_type_id === 2 /* Mobile Accessibility */) {
+        setSelectedProductType("mobileAccessibility");
+        // Map API label to ID for selects
+        const platformId = platformOptions.find(opt => opt.platform?.toLowerCase() === (productData.platform || '').toLowerCase())?.platform_id || productData.platform_id || '';
+        const appTypeId = appTypeOptions.find(opt => opt.app_type === productData.app_type)?.app_type_id || productData.app_type_id || '';
+        const frameworkId = frameworkOptions.find(opt => opt.language === productData.language && opt.platform_id === platformId && opt.app_type_id === appTypeId)?.language_id || productData.language_id || '';
+        mappedInitialValues = {
+          ...mappedInitialValues,
+          mobile_app_name: productData.mobile_app_name,
+          mobile_app_version: productData.mobile_app_version,
+          wcagVerapp: productData.guideline_version_id || productData.guidline_version_id,
+          wcagLevApp: productData.compliance_level_id,
+          appPF: platformId,
+          appType: appTypeId,
+          framework: frameworkId,
+          frequency_id: productData.frequency_id,
+          other_details: productData.other_details,
+          schedule_time: getFormattedDateWithTime(
+            new Date(productData.schedule_time),
+            "HH:mm"
+          ),
+          scan_day_ids: getScanDayIds(productData),
+        };
+        setPlatform(platformId);
+        setAppType(appTypeId);
+        setFramework(frameworkId);
+      }
+      setInitialValues(mappedInitialValues);
 
       setSelectedFrequency(String(productData.frequency_id));
 
-      // Set organization data
       setOrganization({
         org_name: productData.organization_name,
         contact_person_name: productData.contact_person_name,
@@ -133,7 +216,7 @@ const AddProduct = () => {
         state: productData.state,
         country: productData.country,
       });
-
+ 
     } catch (error) {
       console.error("Error fetching product details:", error);
       notification.error({
@@ -144,15 +227,59 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
-
+ 
   const handleSubmit = async (formData) => {
     try {
       setLoading(true);
       let currentDate = new Date().toISOString().split("T")[0];
-
       let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
+ 
+      if (selectedProductType === "mobileAccessibility") {
+        // Handle mobile accessibility submission
+        const mobileReqBody = {
+          mobile_app_name: formData.mobile_app_name,
+          mobile_app_version: formData.mobile_app_version,
+          language_id: formData.framework || framework, // Use the selected framework
+          other_details: formData.other_details || "Manual test",
+          service_type_id: 2, // Static as per contract
+          guideline_version_id: formData.wcagVerapp || formData.guideline_version_id || 3,
+          compliance_level_id: formData.wcagLevApp || formData.compliance_level_id || 3,
+          frequency_id: formData.frequency_id || 3,
+          schedule_time: localDate.toISOString(),
+          platform_id: formData.appPF || platform, // Platform selection
+          app_type_id: formData.appType || appType, // App type selection
+          scan_day_ids: Array.isArray(formData.scan_day_ids)
+            ? formData.scan_day_ids.join(",")
+            : formData.scan_day_ids,
+        };
 
-      // Convert the date to UTC and get it in ISO format
+        try {
+          if (product_id) {
+            // Edit mode: PATCH call for mobile accessibility
+            await patchData(`/product/mobile/edit/${product_id}`, mobileReqBody);
+            notification.success({
+              title: "Edit Mobile Accessibility",
+              message: PRODUCT_SAVE_SUCCESS_MSG
+            });
+          } else {
+            // Add mode: POST call for mobile accessibility
+            await postData(`/product/mobile/add/${org_id}`, mobileReqBody);
+            notification.success({
+              title: "Mobile Accessibility",
+              message: "Mobile accessibility product added successfully!"
+            });
+          }
+          navigate("/product-management");
+        } catch (error) {
+          notification.error({
+            title: "Mobile Accessibility",
+            message: error?.data?.errors?.[0] || (product_id ? "Failed to edit mobile accessibility product." : "Failed to add mobile accessibility product.")
+          });
+        }
+        return;
+      }
+ 
+      // Handle website accessibility and other product types
       const reqData = {
         ...formData,
         schedule_time: localDate.toISOString(),
@@ -160,73 +287,37 @@ const AddProduct = () => {
           ? formData.scan_day_ids.join(",")
           : formData.scan_day_ids,
       };
-
-      if (selectedProductType === "mobileAccessibility") {
-        // Only call /mobile/add, not /product/add
-        const mobileLocalDate = new Date(`${currentDate}T${formData.schedule_time}`);
-        const mobileReqBody = {
-          mobile_app_name: formData.appName || formData.mobile_app_name,
-          mobile_app_version: formData.appversion || formData.mobile_app_version, // fallback
-          labguage_id: formData.framework, // Use the selected framework's language_id
-          other_details: formData.other_details || "Manual test",
-          service_type_id: 2, // Static as per contract
-          guideline_version_id: formData.wcagVerapp || formData.guideline_version_id || 3,
-          compliance_level_id: formData.wcagLevApp || formData.compliance_level_id || 3,
-          frequency_id: formData.frequency_id || 3,
-          schedule_time: mobileLocalDate.toISOString(),
-        };
-        try {
-          await postData(`/product/mobile/add/${org_id}`, mobileReqBody);
-          notification.success({
-            title: "Mobile Accessibility",
-            message: "Mobile accessibility details submitted successfully!"
-          });
-          navigate("/product-management");
-        } catch (error) {
-          notification.error({
-            title: "Mobile Accessibility",
-            message: error?.data?.errors?.[0] || "Failed to submit mobile accessibility details."
-          });
-        }
-        return;
-      }
-
+ 
       product_id
         ? await patchData(`/product/edit/${product_id}`, reqData)
         : await postData(`/product/add/${org_id}`, reqData);
-
+ 
       notification.success({
         title: product_id ? "Edit Product" : 'Add Product',
         message: PRODUCT_SAVE_SUCCESS_MSG
       });
-
+ 
       navigate("/product-management");
     } catch (error) {
       const errors = error?.data?.errors;
      
-      // If it's a field-level error (like web_url), show it inside the form
       if (errors?.web_url) {
         formRef.current.setFieldError("web_url", errors.web_url);
-      }else {
+      } else {
         notification.error({
-          title: product_id ? "Edit Product" : 'Add  Product',
+          title: product_id ? "Edit Product" : 'Add Product',
           message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG
         });
       }
-      // console.error("Error adding product:", error);
-      notification.error({
-        title: "Error",
-        message: error?.data?.errors?.[0] || OPERATION_FAILED_MSG,
-      });
     } finally {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     formRef.current.setFieldsValue({ ...initialValues });
   }, [initialValues]);
-
+ 
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -279,49 +370,52 @@ const AddProduct = () => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <h3>Product & Maintenance</h3>
                     <div className="formContainer">
                       <div className="col-12 mb-4">
-  <h3>Select Your Product</h3>
-  <div className="checkBoxOptionContainer w-75">
-    {serviceTypes && serviceTypes.length > 0 ? (
-      serviceTypes.map((type, idx) => {
-        const SERVICE_TYPE_KEYS = {
-          "Website Accessibility": "websiteAccessibility",
-          "Mobile Accessibility": "mobileAccessibility",
-          "PDF Accessibility": "pdfAccessibility"
-        };
-        const key = SERVICE_TYPE_KEYS[type.name] || type.name;
-        return (
-          <div className={`form-check${idx < serviceTypes.length - 1 ? " me-5" : ""}`} key={type.type_id}>
-            <input
-              className="form-check-input"
-              type="radio"
-              name="accessibilityOptions"
-              id={`serviceType_${type.type_id}`}
-              value={key}
-              checked={selectedProductType === key}
-              onChange={() => setSelectedProductType(key)}
-            />
-            <label
-              className="form-check-label"
-              htmlFor={`serviceType_${type.type_id}`}
-            >
-              {type.name}
-            </label>
-          </div>
-        );
-      })
-    ) : (
-      <div>Loading service types...</div>
-    )}
-  </div>
-</div>
+                        <h3>Select Your Product</h3>
+                        <div className="checkBoxOptionContainer w-75">
+                          {serviceTypes && serviceTypes.length > 0 ? (
+                            serviceTypes.map((type, idx) => {
+                              const SERVICE_TYPE_KEYS = {
+                                "Website Accessibility": "websiteAccessibility",
+                                "Mobile Accessibility": "mobileAccessibility",
+                                "PDF Accessibility": "pdfAccessibility"
+                              };
+                              const key = SERVICE_TYPE_KEYS[type.name] || type.name;
+                              return (
+                                <div className={`form-check${idx < serviceTypes.length - 1 ? " me-5" : ""}`} key={type.type_id}>
+                                  <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="accessibilityOptions"
+                                    id={`serviceType_${type.type_id}`}
+                                    value={key}
+                                    checked={selectedProductType === key}
+                                    onChange={() => setSelectedProductType(key)}
+                                    disabled={!!product_id} // Disable in edit mode
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor={`serviceType_${type.type_id}`}
+                                  >
+                                    {type.name}
+                                  </label>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div>Loading service types...</div>
+                          )}
+                        </div>
+                      </div>
+                     
                       <div className="row">
                         <div className="col-12 mb-4">
                           <h3>Product</h3>
                           <div className="row">
+                            {/* Website Accessibility Fields */}
                             {selectedProductType === "websiteAccessibility" && (
                               <>
                                 <div className="col-lg-4">
@@ -375,15 +469,97 @@ const AddProduct = () => {
                                 </div>
                               </>
                             )}
+ 
+                            {/* Mobile Accessibility Fields */}
                             {selectedProductType === "mobileAccessibility" && (
-                              <MobileAccessibility org_id={org_id} />
+                              <div className="accessibility-content mobileAccessibilityContent">
+                                <div className="row">
+                                  <div className="col-lg-4">
+                                    <FormItem
+                                      name="mobile_app_name"
+                                      label="App Name"
+                                      rules={[{ required: true, message: "App Name is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <Input placeholder="Enter Official name of the app" />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4">
+                                    <FormItem
+                                      name="wcagVerapp"
+                                      label="WCAG Version"
+                                      rules={[{ required: true, message: "WCAG Version is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <WCAGVersionSelect />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4">
+                                    <FormItem
+                                      name="wcagLevApp"
+                                      label="WCAG Compliance Level"
+                                      rules={[{ required: true, message: "Compliance Level is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <WCAGComplianceLevelSelect />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4 mt-4">
+                                    <FormItem
+                                      name="appPF"
+                                      label="Platform"
+                                      rules={[{ required: true, message: "Platform is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <Platform value={platform} onChange={handlePlatformChange} />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4 mt-4">
+                                    <FormItem
+                                      name="appType"
+                                      label="App Type"
+                                      rules={[{ required: true, message: "App Type is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <AppType value={appType} onChange={handleAppTypeChange} />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4 mt-4">
+                                    <FormItem
+                                      name="framework"
+                                      label="Framework"
+                                      rules={[{ required: true, message: "Framework is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <Framework
+                                        value={framework}
+                                        onChange={handleFrameworkChange}
+                                        platformId={platform}
+                                        appTypeId={appType}
+                                      />
+                                    </FormItem>
+                                  </div>
+                                  <div className="col-lg-4 mt-4">
+                                    <FormItem
+                                      name="mobile_app_version"
+                                      label="App Version"
+                                      rules={[{ required: true, message: "App Version is required" }]}
+                                      requiredMark={true}
+                                    >
+                                      <Input placeholder="Enter App Version" />
+                                    </FormItem>
+                                  </div>
+                                </div>
+                              </div>
                             )}
+ 
+                            {/* PDF Accessibility Fields */}
                             {selectedProductType === "pdfAccessibility" && (
                               <PdfAccessibility />
                             )}
                           </div>
                         </div>
-
+ 
                         {/* Maintenance Section */}
                         <div className="col-12 mb-4">
                           <h3>Maintenance</h3>
@@ -430,7 +606,7 @@ const AddProduct = () => {
                                       "schedule_time",
                                       ""
                                     );
-
+ 
                                     if (frequency === "3") {
                                       const today =
                                         moment().format("YYYY-MM-DD");
@@ -449,11 +625,8 @@ const AddProduct = () => {
                                 />
                               </FormItem>
                             </div>
-
-                            <div
-                              className="col-12 col-lg-4"
-                            // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
-                            >
+ 
+                            <div className="col-12 col-lg-4">
                               {selectedFrequency === "3" ? (
                                 <></>
                               ) : (
@@ -484,11 +657,8 @@ const AddProduct = () => {
                                 </FormItem>
                               )}
                             </div>
-
-                            <div
-                              className="col-12 col-lg-4"
-                            // style={{ display: selectedFrequency === "3" ? "none" : "block" }}
-                            >
+ 
+                            <div className="col-12 col-lg-4">
                               {selectedFrequency !== "3" && <FormItem
                                 name="schedule_time"
                                 label="Schedule Time"
@@ -514,7 +684,7 @@ const AddProduct = () => {
                             </div>
                           </div>
                         </div>
-
+ 
                         <div className="col-12">
                           <h3>Requirement/Description</h3>
                           <FormItem name="other_details" label="">
@@ -523,7 +693,7 @@ const AddProduct = () => {
                         </div>
                       </div>
                     </div>
-
+ 
                     <div className="buttonBox ">
                       <button
                         type="button"
@@ -533,7 +703,7 @@ const AddProduct = () => {
                         Cancel
                       </button>
                       <button type="submit" className="btnAddUser">
-                        {org_id ? "Submit" : "Update"}
+                        {product_id ? "Update" : "Submit"}
                       </button>
                     </div>
                   </Form>
@@ -546,5 +716,5 @@ const AddProduct = () => {
     </Layout>
   );
 };
-
+ 
 export default AddProduct;
