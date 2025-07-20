@@ -1,28 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getData } from "../../utils/CommonApi";
 import notification from "../../component/notification/Notification";
 import Layout from "../../component/Layout";
-import Loading from "../../component/Loading"; 
+import Loading from "../../component/Loading";
 import iconEdit from "../../assets/images/iconEditDeails.svg";
 import { getAllowedOperations } from "../../utils/Helper";
 import { PRODUCT_MGMT } from "../../utils/Constants";
 import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 
+// Component for displaying static info fields
+const StaticInfoField = React.memo(({ title, value, className = "col-12 col-lg-4" }) => (
+  <div className={className}>
+    <div className="mb-3">
+      <div className="userStaticInfo">
+        <div className="title">{title}</div>
+        <div className="value">{value}</div>
+      </div>
+    </div>
+  </div>
+));
+
+// Component for URL display with ellipsis
+const URLDisplay = React.memo(({ url }) => (
+  <div 
+    style={{
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: '250px'
+    }} 
+    title={url}
+  >
+    {url || "N/A"}
+  </div>
+));
+
 const ViewProduct = () => {
   const { product_id } = useParams();
   const navigate = useNavigate();
   const [productDetails, setProductDetails] = useState({});
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (product_id) fetchProductDetails();
-  }, [product_id]);
+  const fetchProductDetails = useCallback(async () => {
+    if (!product_id) return;
 
-  const fetchProductDetails = async () => {
     try {
-      setLoading(true); 
+      setLoading(true);
       const response = await getData(`/product/view/${product_id}`);
+      
       if (response.success) {
         const formattedProductDetails = {
           ...response,
@@ -32,17 +58,157 @@ const ViewProduct = () => {
         };
         setProductDetails(formattedProductDetails);
       } else {
-        notification.error({ title: "Error", message: "Failed to load product details" });
+        notification.error({ 
+          title: "Error", 
+          message: "Failed to load product details" 
+        });
       }
     } catch (error) {
       console.error("Error fetching product details:", error);
-      notification.error({ title: "Error", message: "An error occurred while fetching product details." });
+      notification.error({ 
+        title: "Error", 
+        message: "An error occurred while fetching product details." 
+      });
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
-  };
+  }, [product_id]);
 
-  const operations = getAllowedOperations(PRODUCT_MGMT);
+  useEffect(() => {
+    fetchProductDetails();
+  }, [fetchProductDetails]);
+
+  // Memoize operations to prevent unnecessary recalculations
+  const operations = useMemo(() => getAllowedOperations(PRODUCT_MGMT), []);
+
+  // Memoize organization fields
+  const organizationFields = useMemo(() => [
+    { title: "Organization Name", value: productDetails.organization_name || "N/A" },
+    { title: "Organization Address", value: productDetails.address_line || "N/A" },
+    { title: "Contact Person", value: productDetails.contact_person_name || "N/A" },
+    { title: "Email", value: productDetails.contact_email || "N/A" },
+  ], [productDetails.organization_name, productDetails.address_line, productDetails.contact_person_name, productDetails.contact_email]);
+
+  // Memoize website accessibility fields
+  const websiteFields = useMemo(() => [
+    { 
+      label: "Web URL", 
+      value: <URLDisplay url={productDetails.web_url} />
+    },
+    { label: "WCAG Version", value: productDetails.guideline || "N/A" },
+    { label: "Compliance Level", value: productDetails.compliance_level || "N/A" },
+    { label: "Scan Frequency", value: productDetails.frequency || "N/A" },
+    { label: "Scan Day", value: productDetails.scan_days || "N/A" },
+    { label: "Schedule Time", value: productDetails.schedule_time || "N/A" },
+    { label: "Requirement/Description", value: productDetails.other_details || "N/A" },
+  ], [
+    productDetails.web_url, 
+    productDetails.guideline, 
+    productDetails.compliance_level,
+    productDetails.frequency,
+    productDetails.scan_days,
+    productDetails.schedule_time,
+    productDetails.other_details
+  ]);
+
+  // Memoize mobile accessibility fields
+  const mobileFields = useMemo(() => [
+    { 
+      label: "App Name", 
+      value: productDetails.mobile_app_name || productDetails.appName || "N/A" 
+    },
+    { 
+      label: "WCAG Version", 
+      value: productDetails.guideline || productDetails.guideline_version_id || productDetails.wcagVerapp || "N/A" 
+    },
+    { 
+      label: "WCAG Compliance Level", 
+      value: productDetails.compliance_level || productDetails.compliance_level_id || productDetails.wcagLevApp || "N/A" 
+    },
+    { 
+      label: "Platform", 
+      value: productDetails.platform || productDetails.appPF || "N/A" 
+    },
+    { 
+      label: "App Type", 
+      value: productDetails.app_type || productDetails.appType || "N/A" 
+    },
+    { 
+      label: "Framework", 
+      value: productDetails.language || "N/A" 
+    },
+    { 
+      label: "App Version", 
+      value: productDetails.mobile_app_version || productDetails.appversion || productDetails.appVerand || productDetails.appVerios || "N/A" 
+    },
+    { 
+      label: "Scan Frequency", 
+      value: productDetails.frequency || "N/A" 
+    },
+    { 
+      label: "Scan Day", 
+      value: productDetails.scan_days || "N/A" 
+    },
+    { 
+      label: "Schedule Time", 
+      value: productDetails.schedule_time || "N/A" 
+    },
+  ], [
+    productDetails.mobile_app_name,
+    productDetails.appName,
+    productDetails.guideline,
+    productDetails.guideline_version_id,
+    productDetails.wcagVerapp,
+    productDetails.compliance_level,
+    productDetails.compliance_level_id,
+    productDetails.wcagLevApp,
+    productDetails.platform,
+    productDetails.appPF,
+    productDetails.app_type,
+    productDetails.appType,
+    productDetails.language,
+    productDetails.mobile_app_version,
+    productDetails.appversion,
+    productDetails.appVerand,
+    productDetails.appVerios,
+    productDetails.frequency,
+    productDetails.scan_days,
+    productDetails.schedule_time
+  ]);
+
+  // Memoize product name
+  const productName = useMemo(() => 
+    productDetails.web_url || productDetails.mobile_app_name || "N/A",
+    [productDetails.web_url, productDetails.mobile_app_name]
+  );
+
+  // Memoize edit permission check
+  const canEdit = useMemo(() => 
+    operations?.find(item => item.operation_type_id === 2),
+    [operations]
+  );
+
+  const handleGoBack = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="adaMainContainer">
+          <section className="adminControlContainer">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <Loading />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -57,184 +223,73 @@ const ViewProduct = () => {
               </div>
 
               <div className="col-12">
-                {loading ? (
-                  <Loading /> 
-                ) : (
-                  <div className="roleContainer">
-                    <div className="userrole">
-                      Product Name: <span className="me-4">{productDetails.web_url ||productDetails.mobile_app_name|| "N/A"}</span>
-                    </div>
-                    <div className="editDetails">
-                      {operations?.find(item => item.operation_type_id === 2) && (
-                        <a href={`/product-management/editproduct/${product_id}`}>
-                          <img src={iconEdit} alt="Edit Product Details" />
-                        </a>
-                      )}
-                    </div>
+                <div className="roleContainer">
+                  <div className="userrole">
+                    Product Name: <span className="me-4">{productName}</span>
                   </div>
-                )}
+                  <div className="editDetails">
+                    {canEdit && (
+                      <a href={`/product-management/editproduct/${product_id}`}>
+                        <img src={iconEdit} alt="Edit Product Details" />
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              {!loading && (
-                <>
-                  <div className="col-12">
-                    <div className="userManagmentContainer">
-                      <div className="formContainer">
-                        <div className="row">
-                          {[
-                            { title: "Organization Name", value: productDetails.organization_name || "N/A" },
-                            { title: "Organization Address", value: productDetails.address_line || "N/A" },
-                            { title: "Contact Person", value: productDetails.contact_person_name || "N/A" },
-                            { title: "Email", value: productDetails.contact_email || "N/A" },
-                          ].map((item, index) => (
-                            <div className="col-12 col-lg-3" key={index}>
-                              <div className="mb-3">
-                                <div className="userStaticInfo">
-                                  <div className="title">{item.title}</div>
-                                  <div className="value">{item.value}</div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <h3>Product Details</h3>
-<div className="formContainer">
-  {/* Website Accessibility Fields */}
-  {productDetails.service_type_id === 1 && (
-    <div className="row">
-      {[
-        { label: "Web URL", value: (
-          <div style={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            maxWidth: '250px'
-          }} title={productDetails.web_url}>
-            {productDetails.web_url || "N/A"}
-          </div>
-        ) },
-        { label: "WCAG Version", value: productDetails.guideline || "N/A" },
-        { label: "Compliance Level", value: productDetails.compliance_level || "N/A" },
-        { label: "Scan Frequency", value: productDetails.frequency || "N/A" },
-        { label: "Scan Day", value: productDetails.scan_days || "N/A" },
-        { label: "Schedule Time", value: productDetails.schedule_time || "N/A" },
-        { label: "Requirement/Description", value: productDetails.other_details || "N/A" },
-      ].map((field, index) => (
-        <div className="col-12 col-lg-4" key={index}>
-          <div className="mb-3">
-            <div className="userStaticInfo">
-              <div className="title">{field.label}</div>
-              <div className="value">{field.value}</div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-
-  {/* Mobile Accessibility Fields */}
-  {productDetails.service_type_id === 2 && (
-    <div className="row">
-      <div className="col-12">
-        {/* <h4>Mobile Accessibility Details</h4> */}
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">App Name</div>
-            <div className="value">{productDetails.mobile_app_name || productDetails.appName || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">WCAG Version</div>
-            <div className="value">{productDetails.guideline || productDetails.guideline_version_id || productDetails.wcagVerapp || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">WCAG Compliance Level</div>
-            <div className="value">{productDetails.compliance_level || productDetails.compliance_level_id || productDetails.wcagLevApp || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">Platform</div>
-            <div className="value">{productDetails.platform || productDetails.appPF || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">App Type</div>
-            <div className="value">{productDetails.app_type || productDetails.appType || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">Framework</div>
-            <div className="value">{productDetails.language || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">App Version</div>
-            <div className="value">{productDetails.mobile_app_version || productDetails.appversion || productDetails.appVerand || productDetails.appVerios || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">Scan Frequency</div>
-            <div className="value">{productDetails.frequency || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">Scan Day</div>
-            <div className="value">{productDetails.scan_days || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-      <div className="col-12 col-lg-4">
-        <div className="mb-3">
-          <div className="userStaticInfo">
-            <div className="title">Schedule Time</div>
-            <div className="value">{productDetails.schedule_time || "N/A"}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )}
-</div>
-
-                      <div className="col-12">
-                        <div className="buttonBox">
-                          <button type="button" className="btnAddUser" onClick={() => navigate(-1)}>
-                            <i className="fa-solid fa-arrow-left-long"></i> Back
-                          </button>
-                        </div>
-                      </div>
+              <div className="col-12">
+                <div className="userManagmentContainer">
+                  <div className="formContainer">
+                    <div className="row">
+                      {organizationFields.map((item, index) => (
+                        <StaticInfoField
+                          key={`org-${index}`}
+                          title={item.title}
+                          value={item.value}
+                          className="col-12 col-lg-3"
+                        />
+                      ))}
                     </div>
                   </div>
-                </>
-              )}
+
+                  <h3>Product Details</h3>
+                  <div className="formContainer">
+                    {/* Website Accessibility Fields */}
+                    {productDetails.service_type_id === 1 && (
+                      <div className="row">
+                        {websiteFields.map((field, index) => (
+                          <StaticInfoField
+                            key={`web-${index}`}
+                            title={field.label}
+                            value={field.value}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Mobile Accessibility Fields */}
+                    {productDetails.service_type_id === 2 && (
+                      <div className="row">
+                        {mobileFields.map((field, index) => (
+                          <StaticInfoField
+                            key={`mobile-${index}`}
+                            title={field.label}
+                            value={field.value}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-12">
+                    <div className="buttonBox">
+                      <button type="button" className="btnAddUser" onClick={handleGoBack}>
+                        <i className="fa-solid fa-arrow-left-long"></i> Back
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
