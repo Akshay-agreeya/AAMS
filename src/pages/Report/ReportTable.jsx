@@ -67,13 +67,17 @@ export const ReportTable = ({ product_id ,org_id}) => {
             },
         },
         {
-            title: "URL",
+            title: "Product Name",
             dataIndex: "url",
             width: "20%",
             render: (_, record) => (
-                <a href={record.web_url || "#"} target="_blank" rel="noopener noreferrer">
-                    {record.web_url || ""}
-                </a>
+                record.mobile_app_name && record.mobile_app_version ? (
+                    <span>{`${record.mobile_app_name} - ${record.mobile_app_version}`}</span>
+                ) : (
+                    <a href={record.web_url || "#"} target="_blank" rel="noopener noreferrer">
+                        {record.web_url || ""}
+                    </a>
+                )
             ),
         },
         {
