@@ -130,7 +130,7 @@ const AddProduct = () => {
 
 
   // Fetch dropdown options before fetching product info
- 
+
 
   useEffect(() => {
     if (product_id && platformOptions.length && appTypeOptions.length && frameworkOptions.length) getProductInfo();
@@ -243,12 +243,17 @@ const AddProduct = () => {
 
   const handleSubmit = async (formData) => {
     try {
+
       setLoading(true);
+
       let currentDate = new Date().toISOString().split("T")[0];
       let localDate = new Date(`${currentDate}T${formData.schedule_time}`);
 
       if (selectedProductType === "mobileAccessibility") {
         // Handle mobile accessibility submission
+        const today = moment().format("YYYY-MM-DD");
+        const currentTime = moment().format("HH:mm");
+        
         const mobileReqBody = {
           mobile_app_name: formData.mobile_app_name,
           mobile_app_version: formData.mobile_app_version,
@@ -258,12 +263,10 @@ const AddProduct = () => {
           guideline_version_id: formData.wcagVerapp || formData.guideline_version_id || 3,
           compliance_level_id: formData.wcagLevApp || formData.compliance_level_id || 3,
           frequency_id: formData.frequency_id || 3,
-          schedule_time: localDate.toISOString(),
+          schedule_time: new Date(`${currentDate}T${currentTime}`),
           platform_id: formData.appPF || platform, // Platform selection
           app_type_id: formData.appType || appType, // App type selection
-          scan_day_ids: Array.isArray(formData.scan_day_ids)
-            ? formData.scan_day_ids.join(",")
-            : formData.scan_day_ids,
+          scan_day_ids: today,
         };
 
         try {
@@ -546,7 +549,7 @@ const AddProduct = () => {
                         </div>
 
                         {/* Maintenance Section */}
-                        <div className="col-12 mb-4">
+                        {selectedProductType === "websiteAccessibility" && <div className="col-12 mb-4">
                           <h3>Maintenance</h3>
                           <div className="row">
                             {selectedProductType === "pdfAccessibility" && (
@@ -668,7 +671,7 @@ const AddProduct = () => {
                               }
                             </div>
                           </div>
-                        </div>
+                        </div>}
 
                         <div className="col-12">
                           <h3>Requirement/Description</h3>
