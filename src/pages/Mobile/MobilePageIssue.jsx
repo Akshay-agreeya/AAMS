@@ -67,7 +67,8 @@ const MobilePageIssue = () => {
         onClick={(e) => {
           e.preventDefault();
           navigate(`/reports/listing/mobile/summaryreport/issues/details/${record.mobile_rule_info_id}`, {
-            state: { org_id, product_id, summary_report_id, mobile_screen_report_id, issue_status:status }
+            state: { org_id, product_id, summary_report_id, mobile_screen_report_id, 
+              issue_status:status,record }
           }
           )
         }}>{text}</a>,

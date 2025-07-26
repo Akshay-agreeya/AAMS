@@ -11,32 +11,31 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MobilePageScreenShot from "./MobilePageScreenShot";
 import { getData } from "../../utils/CommonApi";
 
-const ruleOptions = [
-  { value: "Active View Name (3)", label: "Active View Name (3)" },
-  { value: "Image View Name (4)", label: "Image View Name (4)" },
-  { value: "Edit Text Name (1)", label: "Edit Text Name (1)" },
-  { value: "Touch Target Spacing (2)", label: "Touch Target Spacing (2)" },
-];
-const issueNoOptions = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-];
+// const ruleOptions = [
+//   { value: "Active View Name (3)", label: "Active View Name (3)" },
+//   { value: "Image View Name (4)", label: "Image View Name (4)" },
+//   { value: "Edit Text Name (1)", label: "Edit Text Name (1)" },
+//   { value: "Touch Target Spacing (2)", label: "Touch Target Spacing (2)" },
+// ];
+
 
 const MobileIssueDetail = () => {
-  // State for dropdowns and modal
-  const [rule, setRule] = useState("Active View Name (3)");
-  const [issueNo, setIssueNo] = useState("1");
-  const [details, setDetails] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  const { mobile_rule_info_id } = useParams();
 
-  
 
   const location = useLocation();
+  const { org_id, product_id, summary_report_id, mobile_screen_report_id,
+    issue_status = "PASS", record = {} } = location.state || {};
 
-  const { org_id, product_id, summary_report_id, mobile_screen_report_id,issue_status="PASS" } = location.state || {};
+  // State for dropdowns and modal
+  const [rule, setRule] = useState(record);
+  const [issueNo, setIssueNo] = useState();
+  const [details, setDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [issueNoOptions, setIssueNoOption] = useState([]);
+  const [selectedIssueData, setSelectedIssueData] = useState({});
+  const [ruleOptions, setRuleOptions] = useState([]);
+
 
   const breadcrumbs = [
     { url: `/dashboard`, label: "Home" },
@@ -45,28 +44,54 @@ const MobileIssueDetail = () => {
     { label: "Mobile Summary Report", url: `/reports/listing/mobile/summaryreport/${summary_report_id}?id=${product_id}&${org_id}` },
     {
       label: "Summary issues", url: `/reports/listing/mobile/summaryreport/issues/${mobile_screen_report_id}`,
-      state: { org_id, product_id, summary_report_id,issue_status }
+      state: { org_id, product_id, summary_report_id, issue_status }
     },
     { label: "Issue Details" }
   ];
 
-   useEffect(() => {
-      if (mobile_rule_info_id) {
-        fetchScreenReportIssueDetails();
-      }
-    }, [mobile_rule_info_id]);
-  
-    const fetchScreenReportIssueDetails = async () => {
-      try {
-        setLoading(true);
-        const res = await getData(`/report/get/rule-remediation/${mobile_screen_report_id}?mobile_rule_info_id=${mobile_rule_info_id}&status=${issue_status}`);
-        setDetails(res.contents);
-      } catch (err) {
-        console.error("Failed to fetch summary report:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  useEffect(() => {
+    setSelectedIssueData(details[issueNo]);
+  }, [issueNo,details]);
+
+
+  useEffect(() => {
+    if (mobile_screen_report_id) {
+      fetchScreenRules();
+    }
+  }, [summary_report_id, issue_status]);
+
+  const fetchScreenRules = async () => {
+    try {
+      setLoading(true);
+      const res = await getData(`/report/get/mobile-rule-results/${mobile_screen_report_id}?status=${issue_status}`);
+      setRuleOptions(res.contents);
+    } catch (err) {
+      console.error("Failed to fetch summary report:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (rule?.mobile_rule_info_id) {
+      fetchScreenReportIssueDetails();
+    }
+  }, [rule?.mobile_rule_info_id]);
+
+  const fetchScreenReportIssueDetails = async () => {
+    try {
+      setLoading(true);
+      const res = await getData(`/report/get/rule-remediation/${mobile_screen_report_id}?mobile_rule_info_id=${rule?.mobile_rule_info_id}&status=${issue_status}`);
+      setDetails(res.contents);
+      setIssueNoOption(res.contents.map((_item, index) => ({ label: index + 1, value: index })));
+      if (res.contents.length > 0)
+        setIssueNo(0);
+    } catch (err) {
+      console.error("Failed to fetch summary report:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="adaMainContainer">
@@ -86,9 +111,14 @@ const MobileIssueDetail = () => {
                         <span className="input-group-text">Rule</span>
                         <Select
                           className="form-select fw-semibold"
-                          options={ruleOptions}
-                          value={rule}
-                          onChange={e => setRule(e.target.value)}
+                          options={ruleOptions.map(item => ({
+                            label: item.rule, value: item.mobile_rule_info_id
+                          }))}
+                          value={rule?.mobile_rule_info_id}
+                          onChange={e => {
+                            const fitem = ruleOptions.find(item => item.mobile_rule_info_id + "" === e.target.value);
+                            setRule(fitem)
+                          }}
                         />
                       </div>
                     </div>
@@ -112,33 +142,33 @@ const MobileIssueDetail = () => {
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Page Name</div>
-                            <div className="value">Home</div>
+                            <div className="value">-</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Accessibility Standard</div>
-                            <div className="value">WCAG 2.1</div>
+                            <div className="value">{rule?.guideline}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Impact</div>
                             <div className="value">
-                              <span className="bg-danger-subtle text-danger-emphasis py-1 px-2 rounded">Level AA</span>
+                              <span className="bg-danger-subtle text-danger-emphasis py-1 px-2 rounded">{rule?.level}</span>
                             </div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Device</div>
-                            <div className="value">Samsung SM-N950U1</div>
+                            <div className="value">-</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Found</div>
-                            <div className="value">1 Week Ago</div>
+                            <div className="value">-</div>
                           </div>
                         </div>
                         <div className="col-12">
@@ -146,8 +176,7 @@ const MobileIssueDetail = () => {
                             <div className="userStaticInfo">
                               <div className="title">Description</div>
                               <div className="value">
-                                An interactive element's visual and tappable areas should have a height & width of at least 44dp.
-                                <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a>
+                                {selectedIssueData?.rule_summary}
                               </div>
                             </div>
                           </div>
@@ -157,8 +186,7 @@ const MobileIssueDetail = () => {
                             <div className="userStaticInfo">
                               <div className="title">Remediation</div>
                               <div className="value">
-                                An interactive element's visual and tappable areas should have a height & width of at least 44dp.
-                                {/* <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a> */}
+                                {selectedIssueData?.mobile_remediation}
                               </div>
                             </div>
                           </div>
@@ -168,8 +196,7 @@ const MobileIssueDetail = () => {
                           <div className="userStaticInfo">
                             <div className="title">Code Snippet</div>
                             <div className="value">
-                              An interactive element's visual and tappable areas should have a height & width of at least 44dp.
-                              {/* <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a> */}
+                              {selectedIssueData?.code_snippet}
                             </div>
                           </div>
                         </div>
@@ -179,18 +206,7 @@ const MobileIssueDetail = () => {
                       <div className="card bg-white pt-3 issueDescription formContainer border-0">
                         <div className="card-header pt-0 mb-1 ps-0">Analyzed Values</div>
                         <div className="card-body">
-                          boundsinScreen: ( top: 811, left: 959, right: 1028, bottom: 879&#125;<br />
-                          className: android.widget.ImageView containsinvisibleChildWithText:<br />
-                          false height - density pixels: 26dp ignoredRulesList: I isActive: true<br />
-                          isOffScreen: false isVisibleToUser: true <br />
-                          ML Calculated Text: <br />
-                          overridesAccessibilityDelegate: false <br />
-                          Recursive Visible Text: <br />
-                          Role: IMAGE_BUTTON <br />
-                          Screen Dots Per Inch: 2.625 <br />
-                          Screen Height: 2094 <br />
-                          Screen Width: 1080 viewld: <br />
-                          width - density pixels: 26dp <br />
+                          {JSON.stringify(selectedIssueData?.props || {})}
                         </div>
                       </div>
                     </div>
@@ -198,7 +214,7 @@ const MobileIssueDetail = () => {
                 </div>
               </div>
               {/* Screenshot */}
-              <MobilePageScreenShot mobile_screen_report_id={mobile_screen_report_id}/>
+              <MobilePageScreenShot mobile_screen_report_id={mobile_screen_report_id} />
               {/* Back Button */}
               <div className="col-12">
                 <button className="btn btn-sm btn-blue btn-primary" type="button" onClick={() => window.history.back()}>
