@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../component/Layout";
 import { Select } from "../../component/input/Select";
 // Import images as needed, or use placeholders if not available
@@ -7,6 +7,9 @@ import iconHelp from "../../assets/images/iconHelp.svg";
 import iconNotification from "../../assets/images/iconNotification.svg";
 import dummyUserPic from "../../assets/images/dummyUserPic.jpg";
 import mobileScreenDemo from "../../assets/images/mobileScreenDemo.png";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import MobilePageScreenShot from "./MobilePageScreenShot";
+import { getData } from "../../utils/CommonApi";
 
 const ruleOptions = [
   { value: "Active View Name (3)", label: "Active View Name (3)" },
@@ -22,16 +25,54 @@ const issueNoOptions = [
 
 const MobileIssueDetail = () => {
   // State for dropdowns and modal
-  const [showChangePassword, setShowChangePassword] = useState(false);
   const [rule, setRule] = useState("Active View Name (3)");
   const [issueNo, setIssueNo] = useState("1");
-  const [showPassword, setShowPassword] = useState({ cur: false, new: false, confirm: false });
+  const [details, setDetails] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const { mobile_rule_info_id } = useParams();
+
+  
+
+  const location = useLocation();
+
+  const { org_id, product_id, summary_report_id, mobile_screen_report_id,issue_status="PASS" } = location.state || {};
+
+  const breadcrumbs = [
+    { url: `/dashboard`, label: "Home" },
+    { url: `/reports`, label: "Website Listing" },
+    { label: "Reports", url: `/reports/listing/${org_id}?id=${product_id}` },
+    { label: "Mobile Summary Report", url: `/reports/listing/mobile/summaryreport/${summary_report_id}?id=${product_id}&${org_id}` },
+    {
+      label: "Summary issues", url: `/reports/listing/mobile/summaryreport/issues/${mobile_screen_report_id}`,
+      state: { org_id, product_id, summary_report_id,issue_status }
+    },
+    { label: "Issue Details" }
+  ];
+
+   useEffect(() => {
+      if (mobile_rule_info_id) {
+        fetchScreenReportIssueDetails();
+      }
+    }, [mobile_rule_info_id]);
+  
+    const fetchScreenReportIssueDetails = async () => {
+      try {
+        setLoading(true);
+        const res = await getData(`/report/get/rule-remediation/${mobile_screen_report_id}?mobile_rule_info_id=${mobile_rule_info_id}&status=${issue_status}`);
+        setDetails(res.contents);
+      } catch (err) {
+        console.error("Failed to fetch summary report:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="adaMainContainer">
-      <Layout>
+      <Layout breadcrumbs={breadcrumbs}>
         {/* Breadcrumbs */}
-        
+
         {/* Content */}
         <section className="adminControlContainer">
           <div className="container">
@@ -44,22 +85,22 @@ const MobileIssueDetail = () => {
                       <div className="input-group mb-md-0 mb-3">
                         <span className="input-group-text">Rule</span>
                         <Select
-  className="form-select fw-semibold"
-  options={ruleOptions}
-  value={rule}
-  onChange={e => setRule(e.target.value)}
-/>
+                          className="form-select fw-semibold"
+                          options={ruleOptions}
+                          value={rule}
+                          onChange={e => setRule(e.target.value)}
+                        />
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-4 col-12">
                       <div className="input-group">
                         <span className="input-group-text">Issue No.</span>
                         <Select
-  className="form-select"
-  options={issueNoOptions}
-  value={issueNo}
-  onChange={e => setIssueNo(e.target.value)}
-/>
+                          className="form-select"
+                          options={issueNoOptions}
+                          value={issueNo}
+                          onChange={e => setIssueNo(e.target.value)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -101,29 +142,29 @@ const MobileIssueDetail = () => {
                           </div>
                         </div>
                         <div className="col-12">
-                        <div className="mb-3">
-                          <div className="userStaticInfo">
-                            <div className="title">Description</div>
-                            <div className="value">
-                              An interactive element's visual and tappable areas should have a height & width of at least 44dp.
-                              <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a>
-                            </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-12">  
-                        <div className="mb-3">
-                          <div className="userStaticInfo">
-                            <div className="title">Remediation</div>
-                            <div className="value">
-                              An interactive element's visual and tappable areas should have a height & width of at least 44dp.
-                              {/* <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a> */}
-                            </div>
+                          <div className="mb-3">
+                            <div className="userStaticInfo">
+                              <div className="title">Description</div>
+                              <div className="value">
+                                An interactive element's visual and tappable areas should have a height & width of at least 44dp.
+                                <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="col-12">  
-                        
+                        <div className="col-12">
+                          <div className="mb-3">
+                            <div className="userStaticInfo">
+                              <div className="title">Remediation</div>
+                              <div className="value">
+                                An interactive element's visual and tappable areas should have a height & width of at least 44dp.
+                                {/* <a href="#" target="_blank" className="fw-500" style={{ fontWeight: "normal" }}>More Info <i className="bi bi-box-arrow-up-right"></i></a> */}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-12">
+
                           <div className="userStaticInfo">
                             <div className="title">Code Snippet</div>
                             <div className="value">
@@ -157,16 +198,7 @@ const MobileIssueDetail = () => {
                 </div>
               </div>
               {/* Screenshot */}
-              <div className="col-lg-3 col-md-4 col-12">
-                <div className="pageTitle row">
-                  <h1 className="fs-5">Home Page ScreenShot</h1>
-                </div>
-                <div className="card">
-                  <div className="card-body text-center">
-                    <img src={mobileScreenDemo} className="img-fluid border" alt="Mobile Screenshot" style={{ objectFit: "contain" }} />
-                  </div>
-                </div>
-              </div>
+              <MobilePageScreenShot mobile_screen_report_id={mobile_screen_report_id}/>
               {/* Back Button */}
               <div className="col-12">
                 <button className="btn btn-sm btn-blue btn-primary" type="button" onClick={() => window.history.back()}>
@@ -177,7 +209,7 @@ const MobileIssueDetail = () => {
           </div>
         </section>
         {/* Change Password Modal */}
-        
+
         {/* Custom styles for btn-blue and issueDescription */}
         <style>{`
           .btn-blue { background-color: #06c; border-color: #06c; }

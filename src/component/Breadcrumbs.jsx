@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { routesMap } from '../App';
 import { getUserRoleKey, gotoPath } from '../utils/Helper';
 
@@ -41,7 +41,7 @@ export const generateBreadcrumbs = (addHome = true, pathnames) => {
       let label = route.breadcrumb || value;  // Use route breadcrumb or fallback to the path segment
 
       // Check if it's an edit action (like edituser, editrole, etc.)
-      if (isEditAction(route.path)||isViewAction(route.path)) {
+      if (isEditAction(route.path) || isViewAction(route.path)) {
         // Set the dynamic entity ID from the next path segment (like user_id, role_id)
         // entityId = pathnames[index];
         label = `${label} `;  // e.g., Edit User #123
@@ -65,6 +65,8 @@ const Breadcrumbs = ({ breadcrumbs, addHome }) => {
   const pathnames = location.pathname.split('/').filter(Boolean); // Split the pathname
   const breadcrumbArr = breadcrumbs ?? generateBreadcrumbs(addHome, pathnames);
 
+  const navigate = useNavigate();
+
   return (
     <div className="breadcrumbsContainer">
       <div className="container">
@@ -74,7 +76,11 @@ const Breadcrumbs = ({ breadcrumbs, addHome }) => {
               return (
                 <React.Fragment key={index}>
                   {item.url ? (
-                    <a href={item.url}>{item.label}</a> // Assuming `item.url` is the link, and `item.label` is the text
+                    <>{item.state ? <a href="#" onClick={(e) => {
+                      e.preventDefault();
+                      navigate(item.url, { state: item.state });
+                    }}>{item.label}</a>
+                      : <a href={item.url}>{item.label}</a>}</> // Assuming `item.url` is the link, and `item.label` is the text
                   ) : (
                     <>{item.label}</>// If there's no URL, just show the label
                   )}

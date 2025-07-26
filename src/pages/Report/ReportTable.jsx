@@ -7,19 +7,26 @@ import { getFormattedDateWithTime } from "../../component/input/DatePicker";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import DownloadDocx from "../../component/download/DownloadDocx";
 import DownloadPDF from "../../component/download/DownloadPDF";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../utils/Constants";
+import { DATE_TIME_FORMAT } from "../../utils/Constants";
 import MSdisable from '../../assets/images/iconMsWordDisable.svg'
 import PDFdisable from '../../assets/images/iconPDFDisable.svg'
 import Viewdisable from '../../assets/images/iconViewDisable.svg'
 
-const ViewReport = (assessment_id, icon, text,selectedProductId,org_id) => {
-    
+const ViewReport = (assessment_id, icon, text, selectedProductId, org_id) => {
+
     return <a href={`/reports/listing/summaryreport/${assessment_id}?id=${selectedProductId}&org_id=${org_id}`} rel="noopener noreferrer">
-        {icon ? <img src={icon} alt="View Online" /> : text }
+        {icon ? <img src={icon} alt="View Online" /> : text}
     </a>
 }
 
-export const ReportTable = ({ product_id ,org_id}) => {
+const MobileViewReport = (summary_report_id, icon, text, selectedProductId, org_id) => {
+
+    return <a href={`/reports/listing/mobile/summaryreport/${summary_report_id}?id=${selectedProductId}&org_id=${org_id}`} rel="noopener noreferrer">
+        {icon ? <img src={icon} alt="View Online" /> : text}
+    </a>
+}
+
+export const ReportTable = ({ product_id, org_id }) => {
 
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -41,10 +48,10 @@ export const ReportTable = ({ product_id ,org_id}) => {
         try {
             setLoading(true);
             const response = await getData(`/report/get/assessments/${selectedProductId}`);
-            
-                setReports(response.contents);
-            }
-         catch (error) {
+
+            setReports(response.contents);
+        }
+        catch (error) {
             console.error("Error fetching reports:", error);
             notification.error({
                 title: "Fetch Reports",
@@ -63,7 +70,8 @@ export const ReportTable = ({ product_id ,org_id}) => {
             dataIndex: "report_name",
             width: "20%",
             render: (text, record) => {
-                return ViewReport(record.assessment_id, undefined, text || "",selectedProductId,org_id);
+                return record.mobile_app_name ? MobileViewReport(record.summary_report_id, undefined, text || "", selectedProductId, org_id) :
+                    ViewReport(record.assessment_id, undefined, text || "", selectedProductId, org_id);
             },
         },
         {
@@ -96,7 +104,7 @@ export const ReportTable = ({ product_id ,org_id}) => {
                 }
             }
         },
-        
+
         {
             title: "Issues Found",
             dataIndex: "issues",
@@ -126,7 +134,11 @@ export const ReportTable = ({ product_id ,org_id}) => {
             className: "text-center",
             render: (_, record) => (
                 record?.status === "Completed" && record?.assessment_id ? (
-                    ViewReport(record.assessment_id, iconViewInternet,null,selectedProductId,org_id)
+                    <>
+                        {record.mobile_app_name ? MobileViewReport(record.summary_report_id, iconViewInternet, null, selectedProductId, org_id) :
+                            ViewReport(record.assessment_id, iconViewInternet, null, selectedProductId, org_id)
+                        }
+                    </>
                 ) : (
                     <img
                         src={Viewdisable}
@@ -137,8 +149,8 @@ export const ReportTable = ({ product_id ,org_id}) => {
                 )
             ),
         },
-        
-        
+
+
         {
             title: "Download",
             dataIndex: "download",
@@ -156,25 +168,25 @@ export const ReportTable = ({ product_id ,org_id}) => {
                             src={MSdisable}
                             alt="DOCX download disabled"
                             title="DOCX download unavailable"
-                            style={{  marginRight: "14px" ,cursor: "not-allowed" }}
+                            style={{ marginRight: "14px", cursor: "not-allowed" }}
                         />
                         <img
-                            src={PDFdisable} 
+                            src={PDFdisable}
                             alt="PDF download disabled"
                             title="PDF download unavailable"
-                            style={{  cursor: "not-allowed" }}
+                            style={{ cursor: "not-allowed" }}
                         />
                     </>
                 )
             ),
         },
-        
+
         {
             title: "Status",
             dataIndex: "status",
             width: "8%",
             className: "text-center",
-            
+
         },
     ];
 

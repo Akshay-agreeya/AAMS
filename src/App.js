@@ -53,7 +53,6 @@ export const routesMap = [
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
     {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},
    
-    { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
     { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
     { path: "/reports/listing/manual-viewreport/:transaction_id", element: <PrivateRoute element={ManaualViewReport} /> ,breadcrumb: "View"},
@@ -78,9 +77,9 @@ export const routesMap = [
     { path: "/product-management/addproduct/:org_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Add Product" },
     { path: "/product-management/editproduct/:product_id", element: <PrivateRoute element={AddProduct} />, breadcrumb: "Edit Product" },
     { path: "/product-management/viewproduct/:product_id", element: <PrivateRoute element={ViewProduct} />, breadcrumb: "View Product" },
-    { path: "/product-management/mobilehome/:product_id", element: <PrivateRoute element={MobileHome} />, breadcrumb: "Mobile Accessibility" },
-    { path: "/product-management/mobilehome/mobilepageissue", element: <PrivateRoute element={MobilePageIssue} />, breadcrumb: "Total Issues" },
-    { path: "/product-management/mobilehome/mobilepageissue/mobileissuedetail", element: <PrivateRoute element={MobileIssueDetail} />, breadcrumb: "Issues Detail" },
+    { path: "/reports/listing/mobile/summaryreport/:summary_report_id", element: <PrivateRoute element={MobileHome} />, breadcrumb: "Mobile Accessibility" },
+    { path: "/reports/listing/mobile/summaryreport/issues/:mobile_screen_report_id", element: <PrivateRoute element={MobilePageIssue} />, breadcrumb: "Total Issues" },
+    { path: "//reports/listing/mobile/summaryreport/issues/details/:mobile_rule_info_id", element: <PrivateRoute element={MobileIssueDetail} />, breadcrumb: "Issues Detail" },
     { path: "/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
     { path: "/assessment-progress", element: <PrivateRoute element={AssessmentProgress} />, breadcrumb: "Assessment Progress" }

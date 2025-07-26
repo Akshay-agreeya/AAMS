@@ -1,115 +1,93 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../component/Layout";
-// Import images as per your project structure
-import siteLogo from "../../assets/images/siteLogo.svg";
-import iconHelp from "../../assets/images/iconHelp.svg";
-import iconNotification from "../../assets/images/iconNotification.svg";
-import dummyUserPic from "../../assets/images/dummyUserPic.jpg";
 import Table from "../../component/table/Table";
-import Pagenation from "../../component/Pagenation";
+import notification from "../../component/notification/Notification";
+import { getData } from "../../utils/CommonApi";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getPagenationFromResponse } from "../../utils/Helper";
+import { TABLE_RECORD_SIZE } from "../../utils/Constants";
 // import androidIcon from "../../assets/images/android.svg";
 
-const initialTableData = [
-  {
-    os: "",
-    pageName: "HOME",
-    issues: 1,
-    created: "05/20/2025, 5:14PM",
-    user: "sudhir.arirwar@agreeya.com",
-    app: "CEMA",
-    tag: "",
-    link: "mobilePageIssue.html",
-  },
-  ...Array(4).fill({
-    os: "",
-    pageName: "CEMA",
-    issues: 1,
-    created: "05/20/2025, 5:14PM",
-    user: "sudhir.arirwar@agreeya.com",
-    app: "CEMA",
-    tag: "",
-    link: "issueDetail.html",
-  })
-];
-
-const initialTags = ["RC.3.2.5", "App:or.dwihn.mydwihn"];
-
 const MobileHome = () => {
-  // Table columns definition (customize as needed)
-  const columns = [
-    {
-      title: 'OS',
-      dataIndex: 'os',
-      key: 'os',
-    },
-    {
-      title: 'Page Name',
-      dataIndex: 'pageName',
-      key: 'pageName',
-      render: (text, record) => (
-        <a href={"/product-management/mobilehome/mobilepageissue"} rel="noopener noreferrer">{text}</a>
-      )
-    },
-    {
-      title: 'Issues',
-      dataIndex: 'issues',
-      key: 'issues',
-    },
-    {
-      title: 'Created',
-      dataIndex: 'created',
-      key: 'created',
-    },
-    {
-      title: 'User',
-      dataIndex: 'user',
-      key: 'user',
-    },
-    {
-      title: 'App',
-      dataIndex: 'app',
-      key: 'app',
-    },
-    {
-      title: 'Tag',
-      dataIndex: 'tag',
-      key: 'tag',
-    },
-    // Add more columns as needed
-  ];
 
   // Table data and loading state
-  const [dataSource, setDataSource] = useState(initialTableData);
+  const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Pagination state (default values)
-  const [pagination, setPagination] = useState({
-    page: 1,
-    pageSize: 10,
-    total: initialTableData.length,
-  });
-
-  // If you want to implement page change logic:
-  // const handlePageChange = (page) => {
-  //   setPagination({ ...pagination, page });
-  //   // Fetch new data if needed
-  // }
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [tags, setTags] = useState(initialTags);
+  const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [filter, setFilter] = useState({ os: "All", user: "", app: "" });
+  const [pagination, setPagination] = useState({ pageNumber: 1, pageSize: 10, totalCounts: 0 });
 
-  const handleAddTag = (e) => {
-    e.preventDefault();
-    if (tagInput && !tags.includes(tagInput)) {
-      setTags([...tags, tagInput]);
-      setTagInput("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const product_id = queryParams.get("id");
+  const org_id = queryParams.get("org_id");
+  const { summary_report_id } = useParams();
+
+  const navigate = useNavigate();
+
+  const breadcrumbs = [
+    { url: `/dashboard`, label: "Home" },
+    { url: `/reports`, label: "Website Listing" },
+    { label: "Reports", url: `/reports/listing/${org_id}?id=${product_id}` },
+    { label: "Mobile Summary Report" },
+  ];
+
+  useEffect(() => {
+    if (summary_report_id) {
+      fetchSummaryReport();
+    }
+  }, [summary_report_id]);
+
+  const fetchSummaryReport = async (page=1) => {
+    try {
+      setLoading(true);
+      const res = await getData(`/report/get/mobile-screen-report/${summary_report_id}?page=${page}&size=${TABLE_RECORD_SIZE}`);
+      setDataSource(res.contents);
+      setPagination(getPagenationFromResponse(res));
+    } catch (err) {
+      console.error("Failed to fetch summary report:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRemoveTag = (tag) => {
-    setTags(tags.filter((t) => t !== tag));
-  };
+  const columns = [
+    {
+      title: 'Mobile Scan Name',
+      dataIndex: 'mobile_scan_name',
+      key: 'mobile_scan_name',
+      render: (text,record) => (
+        <a href={`#`} rel="noopener noreferrer" 
+        onClick={(e)=>{e.preventDefault();
+          navigate(`/reports/listing/mobile/summaryreport/issues/${record.mobile_screen_report_id}`,{
+            state:{org_id, product_id,summary_report_id}
+          })
+        }}>{text}</a>
+      )
+    },
+    {
+      title: 'Platform',
+      dataIndex: 'platform',
+      key: 'platform',
+    },
+    {
+      title: 'Screen Score',
+      dataIndex: 'screen_score',
+      key: 'screen_score',
+    },
+    // {
+    //   title: 'Created',
+    //   dataIndex: 'created',
+    //   key: 'created',
+    // },
+    {
+      title: 'Total Issue',
+      dataIndex: 'total_issues',
+      key: 'total_issues',
+    }
+  ];
 
   const handleFilterChange = (e) => {
     const { id, value } = e.target;
@@ -117,13 +95,8 @@ const MobileHome = () => {
   };
 
   return (
-    <Layout>
+    <Layout breadcrumbs={breadcrumbs}>
       <div className="adaMainContainer">
-        {/* Header */}
-       
-
-        {/* Breadcrumbs */}
-        
 
         {/* Main Content */}
         <section className="adminControlContainer">
@@ -137,25 +110,25 @@ const MobileHome = () => {
               <div className="col-12">
                 <div className="roleManagmentContainer">
                   <div className="col-12">
-                    <div className="d-flex align-items-center justify-content-between mb-2">
+                    {/* <div className="d-flex align-items-center justify-content-between mb-2">
                       <p className="mb-0 font-14">247 Total Scans</p>
                       <button type="button" className="btn btn-sm btn-primary filtetBtn" onClick={() => setShowFilterModal(true)}>
                         <i className="bi bi-funnel-fill"></i>
                       </button>
-                    </div>
+                    </div> */}
                     <Table
                       columns={columns}
                       dataSource={dataSource}
                       loading={loading}
-                      pagenation={false}
                       rowKey="id"
+                      pagenation={{...pagination, onChange: fetchSummaryReport}}
                     />
                   </div>
                   {/* Pagination */}
-                  <div className="col-12 mt-3">
+                  {/* <div className="col-12 mt-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <p className="text-secondary font-14 mb-0">Showing <span className="fw-bold text-dark">1-50</span> of <span className="fw-bold text-dark">247</span> items</p>
+                        <p className="text-secondary font-14 mb-0">Showing <span className="fw-bold text-dark">{`${((pagination.pageNumber - 1) * pagination.pageSize) + 1}-${((pagination.pageNumber - 1) * pagination.pageSize) + pagination.pageSize}`}</span> of <span className="fw-bold text-dark">{pagination.totalCounts}</span> items</p>
                       </div>
                       <div className="paginationContainer mt-0">
                         <nav aria-label="Page navigation">
@@ -165,9 +138,7 @@ const MobileHome = () => {
                                 <span aria-hidden="true">&laquo;</span>
                               </a>
                             </li>
-                            <li className="page-item active" aria-current="page"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
+                            {[...Array(pagination.totalPages)].map(page => <li className="page-item active" aria-current="page"><a className="page-link" href="#">{page}</a></li>)}
                             <li className="page-item">
                               <a className="page-link" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
@@ -177,7 +148,7 @@ const MobileHome = () => {
                         </nav>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* Filter Modal */}
                   {showFilterModal && (
                     <div className="modal fade show" style={{ display: "block" }} tabIndex="-1" aria-labelledby="filterModalLabel" aria-modal="true" role="dialog">
@@ -216,13 +187,13 @@ const MobileHome = () => {
                                 <input type="text" className="form-control" id="tags" value={tagInput} onChange={e => setTagInput(e.target.value)} />
                               </div>
                               <div className="col-3">
-                                <button className="btn font-14 btn-info btn-blue w-100 text-light" onClick={handleAddTag}>Add Tag</button>
+                                <button className="btn font-14 btn-info btn-blue w-100 text-light">Add Tag</button>
                               </div>
                               <div className="col-12 mt-2 text-end">
                                 <div className="tag-container justify-content-end">
                                   {tags.map((tag, i) => (
                                     <div className="tag" key={tag}>
-                                      {tag} <span className="close-btn" onClick={() => handleRemoveTag(tag)}>×</span>
+                                      {tag} <span className="close-btn" onClick={() => { }}>×</span>
                                     </div>
                                   ))}
                                 </div>
@@ -237,7 +208,7 @@ const MobileHome = () => {
                       </div>
                     </div>
                   )}
-                  
+
                 </div>
               </div>
             </div>
@@ -245,7 +216,7 @@ const MobileHome = () => {
         </section>
 
         {/* Footer */}
-        
+
       </div>
       {/* Custom styles for tags and modal overlay */}
       <style>{`

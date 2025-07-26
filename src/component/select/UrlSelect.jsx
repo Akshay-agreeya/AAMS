@@ -35,7 +35,7 @@ export const UrlSelect = ({ org_id, product_id, onChange, ...rest }) => {
       const resp = await getData(`report/get/urls/${org_id}`);
       const urlOptions = resp.contents?.map((item) => ({
         value: item.service_id,
-        label: item.web_url,
+        label: item.mobile_app_name?`${item.mobile_app_name}- ${item.mobile_app_version}`:item.web_url,
         product: item,
       })) || [];
 

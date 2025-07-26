@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../../component/Layout";
 import blackSiteIcon from "../../../assets/images/blackSiteIcon.svg";
-import Pagenation from "../../../component/Pagenation";
 import { UrlSelect } from "../../../component/select/UrlSelect";
-import ReportTable from "../../Report/ReportTable";
 import { useLocation, useParams } from "react-router";
 import TabReportsListing from "./TabReportsListing";
 

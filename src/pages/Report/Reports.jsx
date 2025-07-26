@@ -86,13 +86,13 @@ const Reports = () => {
                                     <img src={blackSiteIcon} alt="Site logo" />
                                   </div>
                                   <div className="siteName">
-  {site.mobile_app_name && site.mobile_app_version
-    ? `${site.mobile_app_name} - ${site.mobile_app_version}`
-    : site.web_url}
-</div>
+                                    {site.mobile_app_name && site.mobile_app_version
+                                      ? `${site.mobile_app_name} - ${site.mobile_app_version}`
+                                      : site.web_url}
+                                  </div>
                                 </div>
                                 <div className="box">
-                                  <AccesibilitySmallCircle product ={site}/>
+                                  <AccesibilitySmallCircle product={site} />
                                   <div className="accessbilityDescription">
                                     <div className="title">Accessibility</div>
                                     <div className="desc">
