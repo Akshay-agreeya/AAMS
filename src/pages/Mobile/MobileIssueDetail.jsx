@@ -25,7 +25,7 @@ const MobileIssueDetail = () => {
 
   const location = useLocation();
   const { org_id, product_id, summary_report_id, mobile_screen_report_id,
-    issue_status = "PASS", record = {} } = location.state || {};
+    issue_status = "PASS", record = {}, screen_name, total_issues } = location.state || {};
 
   // State for dropdowns and modal
   const [rule, setRule] = useState(record);
@@ -141,8 +141,8 @@ const MobileIssueDetail = () => {
                       <div className="row">
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Page Name</div>
-                            <div className="value">-</div>
+                            <div className="title">Screen Name</div>
+                            <div className="value">{screen_name || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
@@ -167,8 +167,8 @@ const MobileIssueDetail = () => {
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Found</div>
-                            <div className="value">-</div>
+                            <div className="title">Count</div>
+                            <div className="value">{total_issues || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12">

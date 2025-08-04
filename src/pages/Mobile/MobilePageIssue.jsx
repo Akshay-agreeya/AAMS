@@ -25,7 +25,15 @@ const MobilePageIssue = () => {
 
   
   const location = useLocation();
-  const { org_id, product_id, summary_report_id, issue_status="PASS" } = location.state || {};
+  const { 
+  org_id, 
+  product_id, 
+  summary_report_id, 
+  issue_status = "PASS", 
+  screen_name, 
+  screen_score, 
+  total_issues 
+} = location.state || {};
 
   const [status, setStatus] = useState(issue_status);
   const [dataSource, setDataSource] = useState([]);
@@ -67,10 +75,17 @@ const MobilePageIssue = () => {
         onClick={(e) => {
           e.preventDefault();
           navigate(`/reports/listing/mobile/summaryreport/issues/details/${record.mobile_rule_info_id}`, {
-            state: { org_id, product_id, summary_report_id, mobile_screen_report_id, 
-              issue_status:status,record }
-          }
-          )
+            state: {
+              org_id,
+              product_id,
+              summary_report_id,
+              mobile_screen_report_id,
+              issue_status: status,
+              record,
+              screen_name: record.rule,
+              total_issues: record.issues
+            }
+          })
         }}>{text}</a>,
     },
     {
@@ -84,7 +99,7 @@ const MobilePageIssue = () => {
       key: "guideline",
     },
     {
-      title: "Total Issues",
+      title: "Count",
       dataIndex: "issues",
       key: "issues",
     },
@@ -127,14 +142,14 @@ const MobilePageIssue = () => {
                       <div className="row">
                         <div className="col-12 col-md-4 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Page Name</div>
-                            <div className="value">-</div>
+                            <div className="title">Screen Name</div>
+                            <div className="value">{screen_name || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Accessibility Score</div>
-                            <div className="value">-</div>
+                            <div className="value">{screen_score || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 mb-3">
@@ -145,13 +160,13 @@ const MobilePageIssue = () => {
                         </div>
                         <div className="col-12 col-md-4 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Found</div>
-                            <div className="value">-</div>
+                            <div className="title">Failed Issues</div>
+                            <div className="value">{total_issues || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-md-4">
                           <div className="userStaticInfo">
-                            <div className="title">Issue Status</div>
+                            <div className="title">Count Status</div>
                             <div className="value">
                               <Select
                                 className="form-select form-select-sm fw-bold"

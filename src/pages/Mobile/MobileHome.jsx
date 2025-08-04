@@ -55,14 +55,21 @@ const MobileHome = () => {
 
   const columns = [
     {
-      title: 'Mobile Scan Name',
+      title: 'Mobile Screen Name',
       dataIndex: 'mobile_scan_name',
       key: 'mobile_scan_name',
       render: (text,record) => (
         <a href={`#`} rel="noopener noreferrer" 
         onClick={(e)=>{e.preventDefault();
           navigate(`/reports/listing/mobile/summaryreport/issues/${record.mobile_screen_report_id}`,{
-            state:{org_id, product_id,summary_report_id}
+            state: {
+              org_id,
+              product_id,
+              summary_report_id,
+              screen_name: record.mobile_scan_name,
+              screen_score: record.screen_score,
+              total_issues: record.total_issues
+            }
           })
         }}>{text}</a>
       )
@@ -83,7 +90,7 @@ const MobileHome = () => {
     //   key: 'created',
     // },
     {
-      title: 'Total Issue',
+      title: 'Count',
       dataIndex: 'total_issues',
       key: 'total_issues',
     }
