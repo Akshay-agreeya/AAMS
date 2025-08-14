@@ -146,16 +146,16 @@ const MobilePageIssue = () => {
                             <div className="value">{screen_name || '-'}</div>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4 mb-3">
+                        {/* <div className="col-12 col-md-4 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Accessibility Score</div>
                             <div className="value">{screen_score || '-'}</div>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-12 col-md-4 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Device</div>
-                            <div className="value">-</div>
+                            <div className="title">Platform</div>
+                            <div className="value">{screen_score || '-'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-md-4 mb-3">
