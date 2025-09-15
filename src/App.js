@@ -23,6 +23,7 @@ import ViewOrganization from './pages/Organization/ViewOrganization';
 import UserReportListing from './pages/user/report/UserReportListing';
 import ViewReport from './pages/Report/ViewReport';
 import Help from './component/dialog/Help';
+import Notification from './component/dialog/Notification';
 import MyProduct from './pages/user/dashboard/MyProduct'
 import ProfileSetting from './pages/ProfileSetting';
 import DashboardWrapper from './pages/DashboardWrapper';
@@ -45,6 +46,8 @@ export const routesMap = [
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
     { path: "/help", element: <Help /> },
+    { path: "/notification", element: <Notification /> },
+
     { path: "/mobileissuedetail", element: <MobileIssueDetail /> },
     { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
     { path: "/product-management/add-manual-report/:product_id", element: <ManualAssessment />,breadcrumb: "Add Manual Report" },

@@ -221,45 +221,6 @@ const MobileHome = () => {
                       // Remove pagination from table props
                     />
 
-                    {/* Simple Pagination */}
-                    {/* <div className="d-flex justify-content-center mt-4 mb-3">
-                      <nav aria-label="Table pagination">
-                        <ul className="pagination mb-0 simple-pagination">
-                          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => fetchSummaryReport(1)}
-                            >
-                              1
-                            </button>
-                          </li>
-                          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => fetchSummaryReport(2)}
-                            >
-                              2
-                            </button>
-                          </li>
-                          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => fetchSummaryReport(3)}
-                            >
-                              3
-                            </button>
-                          </li>
-                          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-                            <button 
-                              className="page-link" 
-                              onClick={() => fetchSummaryReport(4)}
-                            >
-                              4
-                            </button>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div> */}
                     <div className="d-flex justify-content-center mt-4 mb-3">
                       <nav aria-label="Table pagination">
                         <ul className="pagination mb-0 simple-pagination">

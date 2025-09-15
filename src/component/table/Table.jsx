@@ -30,21 +30,7 @@ const Table = ({
             </tr>
           </thead>
         )}
-        {/* <tbody>
-                    {loading ?
-                        <tr><td colSpan={columns.length} style={{ height: '100px' }}><Loading style={{ position: 'unset' }} /></td></tr>
-                        :
-                        dataSource.map((record, index) => (
-                            <tr key={record[rowKey] ?? index}>
-                                {columns.map((column, i) => (
-                                    <td className={column.className} key={i}>{
-                                        column.render ? column.render(record[column.dataIndex], record, index) : record[column.dataIndex]
-                                    }</td>
-                                ))}
-                            </tr>
-                        ))}
-                </tbody> */}
-
+     
         <tbody>
           {loading ? (
             <tr>
