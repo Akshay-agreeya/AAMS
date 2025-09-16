@@ -12,9 +12,11 @@ import MobilePageScreenShot from "./MobilePageScreenShot";
 import { getData } from "../../utils/CommonApi";
 
 const MobileIssueDetail = () => {
+
+  
   const location = useLocation();
   const { org_id, product_id, summary_report_id, mobile_screen_report_id,
-    issue_status = "PASS", record = {}, screen_name, total_issues } = location.state || {};
+    issue_status = "PASS", record = {}, screen_name, total_issues, platform } = location.state || {};
 
   // State for dropdowns and modal
   const [rule, setRule] = useState(record);
@@ -196,29 +198,30 @@ const MobileIssueDetail = () => {
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Screen Name</div>
-                            <div className="value">{screen_name || '-'}</div>
+                            <div className="value">{screen_name || 'NA'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
-                            <div className="title">Accessibility Standard</div>
-                            <div className="value">{rule?.guideline}</div>
+                            <div className="title">Accessibility Standards</div>
+                            <div className="value">{rule?.guideline || 'NA'}</div>
                           </div>
                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Impact</div>
+                            
                             <div className="value">
-                              <span className="bg-danger-subtle text-danger-emphasis py-1 px-2 rounded">{rule?.level}</span>
+                              <span className="bg-danger-subtle text-danger-emphasis py-1 px-2 rounded">{rule?.level || 'NA'}</span>
                             </div>
                           </div>
                         </div>
-                        <div className="col-12 col-lg-4 col-md-6 mb-3">
-                          <div className="userStaticInfo">
-                            <div className="title">Device</div>
-                            <div className="value">-</div>
-                          </div>
-                        </div>
+                         <div className="col-12 col-lg-4 col-md-6 mb-3">
+                           <div className="userStaticInfo">
+                             <div className="title">Device</div>
+                             <div className="value">{platform || "NA"}</div>
+                           </div>
+                         </div>
                         <div className="col-12 col-lg-4 col-md-6 mb-3">
                           <div className="userStaticInfo">
                             <div className="title">Count</div>
