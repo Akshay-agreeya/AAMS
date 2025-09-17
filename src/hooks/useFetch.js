@@ -27,7 +27,8 @@ const useFetch = (url) => {
         }
     };
 
-    return { response, loading, error, setResponse };
+    // Expose refetch so parent can reload data
+    return { response, loading, error, setResponse, refetch: fetchData };
 }
 
 export default useFetch;

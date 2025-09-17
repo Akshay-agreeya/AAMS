@@ -46,21 +46,32 @@ const UserManagement = () => {
   const handleDeleteOrganization = async () => {
     const selectedOrg = organizations.filter(item => item.selected);
     const data = { org_ids: selectedOrg.map(item => item.org_id) };
+    let success = false;
     try {
-      const resp = await deleteData(`/org/delete`, data);
-      notification.success({
-        title: "Delete Organization",
-        message: resp.message
-      });
-      // Refresh current page data instead of full page reload
-      refetch();
-      setOpenOrgDeleteModal(false);
+      const resp = await deleteData(`/org/delete`,  data);
+      if (resp && (resp.message || resp.Message)) {
+        notification.success({
+          title: "Delete Organization",
+          message: resp.message || resp.Message
+        });
+        success = true;
+      } else {
+        notification.error({
+          title: 'Delete Organization',
+          message: resp?.message || resp?.Message || 'Delete unsuccessful.'
+        });
+      }
     } catch (error) {
       console.log(error);
       notification.error({
         title: 'Delete Organization',
-        message: error.data?.error
+        message: error?.data?.error || error?.message || 'Delete unsuccessful.'
       });
+    } finally {
+      // Always close modal after delete attempt
+      setOpenOrgDeleteModal(false);
+      // Refresh current page data if delete was successful
+      if (success) refetch();
     }
   };
 
