@@ -436,7 +436,7 @@ const AddProduct = () => {
                                     ]}
                                     requiredMark={true}
                                   >
-                                    <WCAGVersionSelect disabled={true} />
+                                    <WCAGVersionSelect disabled={false} />
                                   </FormItem>
                                 </div>
                                 <div className="col-lg-4">
@@ -452,7 +452,7 @@ const AddProduct = () => {
                                     ]}
                                     requiredMark={true}
                                   >
-                                    <WCAGComplianceLevelSelect disabled={true} />
+                                    <WCAGComplianceLevelSelect disabled={false} />
                                   </FormItem>
                                 </div>
                               </>
