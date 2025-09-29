@@ -105,10 +105,17 @@ const UserManagement = () => {
                         <i className="fa-regular fa-trash-can"></i> Delete
                       </a>
                     )}
+
                     {superAdmin && (
+                      <>
                       <a href="/user-management/addorg" className="add">
                         <i className="fa-solid fa-plus"></i> Add New Organization
                       </a>
+
+                      <a href="/pdfcrawler" className="add">
+                        <i className="fa-solid fa-plus"></i> PDF Crawler 
+                      </a>
+    </>
                     )}
                   </div>
                 </div>

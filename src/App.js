@@ -36,12 +36,14 @@ import AssessmentProgress from './component/AssessmentProgress';
 import MobileHome from "./pages/Mobile/MobileHome";
 import MobilePageIssue from "./pages/Mobile/MobilePageIssue";
 import MobileIssueDetail from "./pages/Mobile/MobileIssueDetail";
-
+import PdfCrawler from './PDF/Component/PDFcrawler';
 
 
 export const routesMap = [
     { path: "/", element: <Login /> },
     { path: "/login", element: <Login /> },
+    { path: "/pdfcrawler", element: <PdfCrawler /> },
+
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
     { path: "/changepassword", element: <ChangePassword /> },
