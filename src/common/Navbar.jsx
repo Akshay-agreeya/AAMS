@@ -19,6 +19,9 @@ const Navbar = () => {
     product_management: '/product-management',
     product_permission: '/product-permission',
     reports: '/reports',
+    pdf: '/PDFcrawler',
+    pdfcrawler:'/PDFcrawler',
+    
     my_product: '/myproduct'
   }
 
