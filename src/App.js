@@ -37,12 +37,18 @@ import MobileHome from "./pages/Mobile/MobileHome";
 import MobilePageIssue from "./pages/Mobile/MobilePageIssue";
 import MobileIssueDetail from "./pages/Mobile/MobileIssueDetail";
 import PdfCrawler from './PDF/Component/PDFcrawler';
+import UploadExcel from './PDF/Component/UploadExcle.js';
+import AccessibilityReport from './pages/AccessibilityReport.jsx';
+
 
 
 export const routesMap = [
     { path: "/", element: <Login /> },
     { path: "/login", element: <Login /> },
     { path: "/pdfcrawler", element: <PdfCrawler /> },
+        
+    { path: "/uploadexcle", element: <UploadExcel/> },
+
 
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
@@ -87,7 +93,8 @@ export const routesMap = [
     { path: "//reports/listing/mobile/summaryreport/issues/details/:mobile_rule_info_id", element: <PrivateRoute element={MobileIssueDetail} />, breadcrumb: "Issues Detail" },
     { path: "/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
-    { path: "/assessment-progress", element: <PrivateRoute element={AssessmentProgress} />, breadcrumb: "Assessment Progress" }
+    { path: "/assessment-progress", element: <PrivateRoute element={AssessmentProgress} />, breadcrumb: "Assessment Progress" },
+    { path: "/accessibility-report", element: <PrivateRoute element={AccessibilityReport} />, breadcrumb: "Accessibility Report" }
 ];
 
 function App() {

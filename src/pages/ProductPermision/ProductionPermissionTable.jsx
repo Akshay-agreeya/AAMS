@@ -196,6 +196,29 @@ const ProductionPermissionTable = ({ org_id, onChange }) => {
 
             )
         },
+
+        // {
+        //     title: 'PDF',
+        //     dataIndex: 'PDF',
+        //     scope: 'col',
+        //     width: '13%',
+        //     className: "tblDataOuter",
+        //     render: (_, record) => (
+        //         <div className="selectOptionRepeat">
+        //             <ul>
+        //                 {products?.map((item, index) => <li key={index}><div className="form-check custCheck">
+        //                     <input className="form-check-input" type="checkbox" id="inlineCheckbox20"
+        //                         checked={record.role_key !== 'User'
+        //                         ? true :permissionExist(item.service_id, record.user_id, 'Report_View')}
+        //                         value={item.service_id} onChange={(e) => { handlePermissionChanged(e, record, 'Report_View') }} 
+        //                         disabled={  record.role_key !== 'User' ||!operationExist(operations, 2)} />
+        //                     <label className="form-check-label" htmlFor="inlineCheckbox20">View</label>
+        //                 </div></li>)}
+        //             </ul>
+        //         </div>
+
+        //     )
+        // },
     ];
 
     const handlePermissionChanged = (e, record, menu_key) => {

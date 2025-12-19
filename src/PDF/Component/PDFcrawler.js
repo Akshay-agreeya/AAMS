@@ -21,8 +21,10 @@ const PdfCrawler = () => {
     setPage(1);
 
     try {
-      const response = await fetch("http://localhost:8080/api/crawl-pdfs", {
-        method: "POST",
+      // const response = await fetch("http://gdc-vm-adaclient:8080/api/crawl-pdfs", {
+            const response = await fetch("http://localhost:8090/api/crawl-pdfs", {
+  
+      method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, maxDepth: 3 }),
       });
