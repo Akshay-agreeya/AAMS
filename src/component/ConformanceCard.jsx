@@ -1,7 +1,7 @@
 import React from 'react';
-// import { ArrowRight } from 'lucide-react';
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-// import '../styles/ConformanceCard.css';
+import { ArrowRight } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import './styles/ConformanceCard.css';
 
 const data = [
   { name: 'Level A', value: 15 },

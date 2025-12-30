@@ -39,16 +39,23 @@ import MobileIssueDetail from "./pages/Mobile/MobileIssueDetail";
 import PdfCrawler from './PDF/Component/PDFcrawler';
 import UploadExcel from './PDF/Component/UploadExcle.js';
 import AccessibilityReport from './pages/AccessibilityReport.jsx';
-
+// import Test from './PDF/Component/Test.js';
 
 
 export const routesMap = [
     { path: "/", element: <Login /> },
     { path: "/login", element: <Login /> },
     { path: "/pdfcrawler", element: <PdfCrawler /> },
-        
-    { path: "/uploadexcle", element: <UploadExcel/> },
 
+    { path: "/uploadexcle", element: <UploadExcel /> },
+    // { path: "/accessibility-report", element: <AccessibilityReport />},
+    { path: "/accessibilityreport", element: <AccessibilityReport /> },
+    {
+        path: "/accessibility-report",
+        element: <PrivateRoute element={AccessibilityReport} />,
+        breadcrumb: "Accessibility Report"
+    },
+    // { path: "/test", element: <Test/> },
 
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
@@ -57,18 +64,18 @@ export const routesMap = [
     { path: "/notification", element: <Notification /> },
 
     { path: "/mobileissuedetail", element: <MobileIssueDetail /> },
-    { path: "/profile-setting", element: <ProfileSetting /> ,breadcrumb: "Profile Setting"},
-    { path: "/product-management/add-manual-report/:product_id", element: <ManualAssessment />,breadcrumb: "Add Manual Report" },
-    { path: "/product-management/edit-manual-report/:transaction_id", element: <EditManualAssessment/>, breadcrumb: "Edit Manual Report" },
+    { path: "/profile-setting", element: <ProfileSetting />, breadcrumb: "Profile Setting" },
+    { path: "/product-management/add-manual-report/:product_id", element: <ManualAssessment />, breadcrumb: "Add Manual Report" },
+    { path: "/product-management/edit-manual-report/:transaction_id", element: <EditManualAssessment />, breadcrumb: "Edit Manual Report" },
     { path: "/reports/listing/:org_id", element: <UserReportListing /> },
     { path: "/reports/listing/viewreport/:assessment_id", element: <ViewReport /> },
-    {path:"/reports/listing/summaryreport/:assessment_id", element:<SummaryReport/>},
-   
-    { path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
-    { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} /> ,breadcrumb: "Report"},
-    { path: "/reports/listing/manual-viewreport/:transaction_id", element: <PrivateRoute element={ManaualViewReport} /> ,breadcrumb: "View"},
-    { path: "/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} /> ,breadcrumb: "View"},
-    { path: "/reports/listing/summaryreport/:assessment_id", element: <PrivateRoute element={SummaryReport} /> ,breadcrumb: "Summaryreport"},
+    { path: "/reports/listing/summaryreport/:assessment_id", element: <SummaryReport /> },
+
+    //{ path: "/reports", element: <PrivateRoute element={ReportWrapper} /> ,breadcrumb: "Report"},
+    { path: "/reports/listing", element: <PrivateRoute element={UserReportListing} />, breadcrumb: "Report" },
+    { path: "/reports/listing/manual-viewreport/:transaction_id", element: <PrivateRoute element={ManaualViewReport} />, breadcrumb: "View" },
+    { path: "/reports/listing/viewreport/:assessment_id", element: <PrivateRoute element={ViewReport} />, breadcrumb: "View" },
+    { path: "/reports/listing/summaryreport/:assessment_id", element: <PrivateRoute element={SummaryReport} />, breadcrumb: "Summaryreport" },
     // { path: "/user/dashboard", element: <PrivateRoute element={UserDashboard} />, breadcrumb: "Dashboard" },
     { path: "/myproduct", element: <PrivateRoute element={MyProduct} />, breadcrumb: "My Product" },
     { path: "/dashboard", element: <PrivateRoute element={DashboardWrapper} />, breadcrumb: "Dashboard" },
@@ -94,7 +101,7 @@ export const routesMap = [
     { path: "/product-management/viewservice", element: <PrivateRoute element={ViewService} />, breadcrumb: "View Product" },
     { path: "/reports", element: <PrivateRoute element={Reports} />, breadcrumb: "Report" },
     { path: "/assessment-progress", element: <PrivateRoute element={AssessmentProgress} />, breadcrumb: "Assessment Progress" },
-    { path: "/accessibility-report", element: <PrivateRoute element={AccessibilityReport} />, breadcrumb: "Accessibility Report" }
+    // { path: "/accessibility-report", element: <PrivateRoute element={AccessibilityReport} />, breadcrumb: "Accessibility Report" }
 ];
 
 function App() {

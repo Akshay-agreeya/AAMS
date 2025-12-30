@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
-// import '../styles/IssuesFound.css';
+import { ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
+import './styles/IssuesFound.css';
 
 const topIssues = [
   'Role and state not defined',

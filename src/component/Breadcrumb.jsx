@@ -1,6 +1,6 @@
 import React from 'react';
-// import { ChevronRight } from 'lucide-react';
-// import '../styles/Breadcrumb.css';
+import { ChevronRight } from 'lucide-react';
+import './styles/Breadcrumb.css';
 
 export function Breadcrumb() {
   return (

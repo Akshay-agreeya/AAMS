@@ -1,6 +1,6 @@
 import React from 'react';
-// import { ArrowRight } from 'lucide-react';
-// import '../styles/ConformanceScoreCard.css';
+import { ArrowRight } from 'lucide-react';
+import './styles/ConformanceScoreCard.css';
 
 export function ConformanceScoreCard() {
   const score = 47;

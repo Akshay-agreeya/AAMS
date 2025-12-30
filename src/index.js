@@ -3,6 +3,7 @@ import App from './App';
 import "./assets/css/style/child-theme.css";
 import { ProfileProvider } from './common/ProfilerContext';
 // import reportWebVitals from './reportWebVitals';
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

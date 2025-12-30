@@ -1,7 +1,8 @@
 import React from 'react';
-// import { Globe } from 'lucide-react';
-// import sunnyvaleLogo from 'figma:asset/7c5e5a4e2fab2a0e176c6c9eed079ffd8b699590.png';
-// import '../styles/ReportInfo.css';
+import { Globe } from 'lucide-react';
+import sunnyvaleLogo from '../images/sunnyvaleLogo.png';
+import './styles/ReportInfo.css';
+
 
 export function ReportInfo() {
   return (

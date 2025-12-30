@@ -8,13 +8,14 @@ import { ConformanceScoreCard } from '../component/ConformanceScoreCard';
 import { SeverityCard } from '../component/SeverityCard';
 import { ReportTechnology } from '../component/ReportTechnology';
 import { IssuesFound } from '../component/IssuesFound';
-// import './styles/App.css';
+import '../component/styles/App.css';
 
 export default function AccessibilityReport() {
   return (
     <div className="app-container">
-      <Header />
-      <Navigation />
+      {/* <Header /> */}
+      {/* <Navbar /> */}
+      {/* <Navigation /> */}
       <div className="main-content">
         <Breadcrumb />
         <h1 className="page-title">WCAG 2.2 Accessibility Bug Report</h1>
@@ -31,7 +32,7 @@ export default function AccessibilityReport() {
                 <span className="count-large">105</span>
               </div>
               <p className="issues-label">Issue remaining</p>
-              <button className="btn-outline">View All Issues</button>
+              <button className="btn-outline">View                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  All Issues</button>
             </div>
           </div>
         </div>

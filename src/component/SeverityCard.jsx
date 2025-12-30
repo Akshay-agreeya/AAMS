@@ -1,7 +1,7 @@
 import React from 'react';
-// import { ArrowRight } from 'lucide-react';
-// import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-// import '../styles/SeverityCard.css';
+import { ArrowRight } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import './styles/SeverityCard.css';
 
 const data = [
   { name: 'Blocker', value: 0, color: '#000000' },

@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-container {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+.main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.page-title {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.grid-two-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.grid-three-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 1024px) {
+  .grid-two-cols {
+    grid-template-columns: 2fr 1fr;
+  }
+  
+  .grid-three-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .col-span-2 {
+    grid-column: span 1;
+  }
+}
+
+.issues-summary-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.issues-summary-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.issues-count {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.count-large {
+  font-size: 48px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.count-separator {
+  font-size: 24px;
+  color: #6b7280;
+  margin: 0 8px;
+}
+
+.issues-label {
+  color: #4b5563;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.btn-outline {
+  padding: 8px 24px;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  background: white;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-outline:hover {
+  background-color: #eff6ff;
+}
+
+.footer {
+  margin-top: 48px;
+  padding: 24px 0;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.collapsible-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.collapsible-header {
+  width: 100%;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 8px;
+}
+
+.collapsible-header:hover {
+  background-color: #f9fafb;
+}
+
+.collapsible-content {
+  padding: 0 24px 24px;
+}

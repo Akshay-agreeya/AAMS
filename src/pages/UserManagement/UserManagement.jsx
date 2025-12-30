@@ -116,6 +116,10 @@ const UserManagement = () => {
                         <i className="fa-solid fa-plus"></i>       Upload Excel File
 
                       </a>
+                       <a href="/accessibilityreport" className="add">
+                        <i className="fa-solid fa-plus"></i>       test
+
+                      </a>
     </>
                     )}
                   </div>

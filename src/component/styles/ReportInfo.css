@@ -1,0 +1,77 @@
+.report-info-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.report-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.report-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.report-icon {
+  width: 24px;
+  height: 24px;
+  color: #4b5563;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.report-details {
+  flex: 1;
+}
+
+.report-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .report-content {
+    flex-direction: column;
+  }
+}
+
+.report-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.field-value {
+  font-size: 15px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.report-logo {
+  height: 48px;
+  flex-shrink: 0;
+}

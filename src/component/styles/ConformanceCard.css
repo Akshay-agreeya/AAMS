@@ -1,0 +1,107 @@
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+}
+
+.conformance-total {
+  margin-bottom: 24px;
+}
+
+.total-display {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.total-number {
+  font-size: 48px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.total-label {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.conformance-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.stat-passed {
+  border-color: #2563eb;
+}
+
+.stat-failed {
+  border-color: #ef4444;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.stat-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.stat-indicator-blue {
+  background-color: #2563eb;
+}
+
+.stat-indicator-red {
+  background-color: #ef4444;
+}
+
+.stat-name {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.stat-value {
+  font-size: 32px;
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.stat-details {
+  font-size: 14px;
+  color: #4b5563;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-value {
+  color: #111827;
+  font-weight: 500;
+}
+
+.chart-container {
+  position: relative;
+}
+
+.chart-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+  color: #d1d5db;
+  line-height: 1.4;
+  text-align: right;
+}

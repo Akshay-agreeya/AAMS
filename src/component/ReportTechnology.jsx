@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { ChevronDown, ChevronUp } from 'lucide-react';
-// import '../styles/ReportTechnology.css';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import './styles/ReportTechnology.css';
 
 const technologies = {
   'Automated tools': ['A11yInspect'],
