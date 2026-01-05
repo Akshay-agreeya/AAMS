@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.aams-container {
+  background: #edf3fb;
+  min-height: 100vh;
+}
+
+/* =========================
+   Top Bar
+========================= */
+.top-bar {
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  padding: 12px 64px;
+}
+
+.logo {
+  font-weight: 700;
+  color: #003d68;
+  margin-right: 40px;
+}
+
+.nav-links a {
+  margin-right: 32px;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+}
+
+.nav-links .active {
+  color: #003d68;
+  font-weight: 700;
+  border-bottom: 3px solid #003d68;
+  padding-bottom: 8px;
+}
+
+/* =========================
+   Breadcrumb
+========================= */
+.breadcrumb {
+  padding: 14px 64px;
+  font-size: 12px;
+  color: #5e6977;
+}
+
+.breadcrumb a {
+  color: #0066cc;
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+/* =========================
+   Page Header
+========================= */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 64px;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.filter {
+  padding: 8px 12px;
+  border: 1px solid #c8d2de;
+  border-radius: 5px;
+  background: #fff;
+  color: #003d68;
+}
+
+/* =========================
+   Cards
+========================= */
+.cards {
+  padding: 0 64px 40px;
+}
+
+.issue-card {
+  background: #ffffff;
+  border-radius: 7px;
+  box-shadow: 0 4px 9px rgba(0,0,0,0.08);
+  display: grid;
+  grid-template-columns: 90px 1fr 2fr auto;
+  gap: 24px;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  width: 76px;
+  height: 76px;
+  background: #d9d9d9;
+  border: 1px solid #d1d1d1;
+}
+
+.page-info h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.page-info a {
+  font-size: 16px;
+  color: #003d68;
+  text-decoration: none;
+}
+
+.meta {
+  display: flex;
+  gap: 40px;
+}
+
+.label {
+  font-size: 14px;
+  color: #313131;
+}
+
+.meta strong {
+  display: block;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* =========================
+   Button
+========================= */
+.btn-outline {
+  background: #ffffff;
+  border: 1px solid #0e75a5;
+  color: #0e75a5;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background: #f2f9ff;
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+  border-top: 1px solid #c8d2de;
+  padding: 14px 64px;
+  font-size: 12px;
+  color: #5e6977;
+}
