@@ -55,6 +55,11 @@ export const routesMap = [
         element: <PrivateRoute element={AccessibilityReport} />,
         breadcrumb: "Accessibility Report"
     },
+        {
+            path: "/accessibility-report",
+            element: <PrivateRoute element={AccessibilityReport} />,
+            breadcrumb: "Accessibility Report"
+        },
     // { path: "/test", element: <Test/> },
 
     { path: "/forgotpassword", element: <ForgotPassword /> },
