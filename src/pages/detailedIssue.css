@@ -1,0 +1,395 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background: #EDF3FB;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ================= HEADER ================= */
+.top-header {
+  background: #003D68;
+  color: #FFFFFF;
+  padding: 12px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.15);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.check-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #00A3DF;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 19px;
+  font-weight: 300;
+  color: #FFFFFF;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.help-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.notif-icon {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 1px solid #206697;
+  padding-left: 20px;
+}
+
+.avatar {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: #A3CFEE;
+  border: 1px solid white;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #A3CFEE;
+}
+
+.dropdown-arrow {
+  font-size: 9px;
+  color: #A3CFEE;
+}
+
+/* ================= NAVIGATION ================= */
+.nav-bar {
+  background: #FFFFFF;
+  padding: 12px 64px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 42px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+  text-decoration: none;
+  padding-bottom: 12px;
+}
+
+.active-nav {
+  color: #003D68;
+  font-weight: 700;
+  border-bottom: 3px solid #003D68;
+}
+
+/* ================= BREADCRUMB ================= */
+.breadcrumb {
+  padding: 12px 64px;
+  font-size: 12px;
+  color: #5E6977;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-link {
+  color: #0066CC;
+  cursor: pointer;
+}
+
+.breadcrumb-separator {
+  color: #000000;
+}
+
+.breadcrumb-current {
+  color: #5E6977;
+}
+
+.divider {
+  height: 0.5px;
+  background: #C8D2DE;
+  margin: 0;
+}
+
+/* ================= PAGE TITLE ================= */
+.page-title {
+  padding: 20px 64px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title-text {
+  font-size: 26px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-size: 12px;
+  color: #5E6977;
+}
+
+.sort-select {
+  padding: 9px 40px 9px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #003D68;
+  border: 0.5px solid #C8D2DE;
+  border-radius: 5px;
+  background: #FFFFFF;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #003D68 50%), 
+                    linear-gradient(135deg, #003D68 50%, transparent 50%);
+  background-position: calc(100% - 15px) center, calc(100% - 10px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* ================= SUMMARY CARD ================= */
+.summary-card {
+  background: #003D68;
+  color: #FFFFFF;
+  margin: 16px 64px 20px;
+  padding: 16px 20px;
+  border-radius: 7px 7px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+}
+
+.thumbnail {
+  width: 75px;
+  height: 87px;
+  background: #D9D9D9;
+  border: 0.28px solid #D1D1D1;
+  flex-shrink: 0;
+}
+
+.summary-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+
+.summary-link {
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-label {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.summary-value {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.back-btn {
+  background: #FFFFFF;
+  border: none;
+  color: #0E75A5;
+  padding: 8px 18px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ================= ISSUE CARD ================= */
+.issue-card-container {
+  margin: 0 64px 28px;
+}
+
+.issue-meta-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 32px;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #313131;
+  margin-bottom: 0;
+}
+
+.issue-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 1.3;
+}
+
+.meta-value {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.3;
+}
+
+.severity-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.severity-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+}
+
+.issue-card {
+  padding: 20px 24px;
+  border-radius: 7px;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+}
+
+/* ================= DETAILS GRID ================= */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.block-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 2px;
+}
+
+.info-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.screenshot-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.screenshot-placeholder {
+  width: 100%;
+  max-width: 305px;
+  height: 140px;
+  background: #E0E0E0;
+  border-radius: 4px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  border-top: 0.5px solid #C8D2DE;
+  padding: 12px 64px;
+  font-size: 12px;
+  color: #5E6977;
+  margin-top: 30px;
+}

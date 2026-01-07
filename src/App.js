@@ -39,8 +39,12 @@ import MobileIssueDetail from "./pages/Mobile/MobileIssueDetail";
 import PdfCrawler from './PDF/Component/PDFcrawler';
 import UploadExcel from './PDF/Component/UploadExcle.js';
 import AccessibilityReport from './pages/AccessibilityReport.jsx';
+import { View } from 'lucide-react';
+// import AccessibilityReport from './pages/AccessibilityReport.jsx';
+// import Page2 from './pages/Page2.jsx';
 // import Test from './PDF/Component/Test.js';
-
+import ViewAllIssues from './pages/ViewAllIssues.jsx';
+import DetailedIssue from './pages/DetailedIssue.jsx';
 
 export const routesMap = [
     { path: "/", element: <Login /> },
@@ -61,6 +65,18 @@ export const routesMap = [
             breadcrumb: "Accessibility Report"
         },
     // { path: "/test", element: <Test/> },
+ {
+        path: "/viewallissues",
+        element: <ViewAllIssues/> ,
+        breadcrumb: "View All Issues"
+    },
+
+    {
+        path: "/detailedissue",
+        element: <DetailedIssue/> ,
+        breadcrumb: "Detailed Issue"
+    },
+
 
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },
