@@ -580,6 +580,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchDetailedIssues } from "../services/detailedIssueService";
+import Layout from "../component/Layout";
 
 export default function DetailedIssue() {
   const assessmentId = 34;       // 🔁 later from route param
@@ -611,6 +612,7 @@ export default function DetailedIssue() {
   }
 
   return (
+    <Layout>
     <div style={styles.container}>
       {/* Breadcrumb */}
       <div style={styles.breadcrumb}>
@@ -735,6 +737,7 @@ export default function DetailedIssue() {
         © 2025 ADA Central Management System.com All rights reserved.
       </footer>
     </div>
+    </Layout>
   );
 }
 function InfoBlock({ title, text, isInstances }) {

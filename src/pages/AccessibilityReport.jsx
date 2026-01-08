@@ -8,6 +8,7 @@ import { ReportTechnology } from "../component/ReportTechnology";
 import { IssuesFound } from "../component/IssuesFound";
 import { fetchTotalIssuesCount } from "../services/summaryService";
 import "../component/styles/App.css";
+import Layout from "../component/Layout";
 
 export default function AccessibilityReport() {
   const assessmentId = 34; // later from route param
@@ -27,9 +28,10 @@ export default function AccessibilityReport() {
   }, [assessmentId]);
 
   return (
+    <Layout>
     <div className="app-container">
       <div className="main-content">
-        <Breadcrumb />
+        {/* <Breadcrumb /> */}
         <h1 className="page-title">WCAG 2.2 Accessibility Bug Report</h1>
 
         <div className="grid-two-cols">
@@ -65,5 +67,7 @@ export default function AccessibilityReport() {
         </footer>
       </div>
     </div>
+
+    </Layout>
   );
 }

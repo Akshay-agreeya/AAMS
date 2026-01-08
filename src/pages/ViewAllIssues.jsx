@@ -89,6 +89,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchPageIssues } from "../services/viewAllIssuesService";
 import "./viewAllIssues.css";
+import Layout from "../component/Layout";
 
 export default function ViewAllIssues() {
   const assessmentId = 34; // later from route param
@@ -115,6 +116,7 @@ export default function ViewAllIssues() {
   }
 
   return (
+    <Layout>
     <div className="aams-container">
       {/* Breadcrumb */}
       <div className="breadcrumb">
@@ -139,6 +141,7 @@ export default function ViewAllIssues() {
       <main className="cards">
         {issuesData.map((item, index) => (
           <IssueCard key={index} data={item} />
+          
         ))}
       </main>
 
@@ -147,6 +150,7 @@ export default function ViewAllIssues() {
         © 2025 ADA Central Management System.com All rights reserved.
       </footer>
     </div>
+    </Layout>
   );
 }
 
@@ -155,6 +159,7 @@ export default function ViewAllIssues() {
 ========================= */
 function IssueCard({ data }) {
   return (
+    // <Layout>
     <div className="issue-card">
       <div className="thumbnail" />
 
@@ -181,5 +186,6 @@ function IssueCard({ data }) {
 
       <button className="btn-outline">View All Issues</button>
     </div>
+    //  </Layout>
   );
 }
