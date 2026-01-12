@@ -14,13 +14,39 @@ import Pagenation from "../../component/Pagenation";
 import Loading from "../../component/Loading";
 import AccesibilitySmallCircle from "./AccesibilitySmallCircle";
 import { ORG_ID } from "../../utils/Constants";
-
+import './reports.css'
 const Reports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagenation, setPagenation] = useState({});
   const [selectedOrg, setSelectedOrg] = useState("");
   const navigate = useNavigate();
+
+  const [metadata, setMetadata] = useState(null);
+
+// const [reports, setReports] = useState([]);
+const [metadataReport, setMetadataReport] = useState(null);
+
+const [loadingReports, setLoadingReports] = useState(false);
+const [loadingMeta, setLoadingMeta] = useState(false);
+
+
+const getExcelReportMetadata = async () => {
+  try {
+    setLoadingMeta(true);
+    const resp = await getData(`/assessment/34/report-metadata`);
+    setMetadataReport(resp.data);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoadingMeta(false);
+  }
+};
+
+useEffect(() => {
+  getExcelReportMetadata();
+}, []);
+
 
   const handleOrganizationChange = (e) => {
     setSelectedOrg(e.target.value);
@@ -85,8 +111,18 @@ const Reports = () => {
                                   <div className="siteIcon">
                                     <img src={blackSiteIcon} alt="Site logo" />
                                   </div>
+                                  {/* <div className="siteName">
+                                    {site.mobile_app_name &&
+                                    site.mobile_app_version
+                                      ? `${site.mobile_app_name} - ${site.mobile_app_version}`
+                                      : site.web_url}
+                                  </div> */}
+
                                   <div className="siteName">
-                                    {site.mobile_app_name && site.mobile_app_version
+                                    {site.prepared_for
+                                      ? site.prepared_for
+                                      : site.mobile_app_name &&
+                                        site.mobile_app_version
                                       ? `${site.mobile_app_name} - ${site.mobile_app_version}`
                                       : site.web_url}
                                   </div>
@@ -116,8 +152,48 @@ const Reports = () => {
                                     />
                                   </button>
                                 </div>
+                            
                               </div>
-                            ))}
+
+      ))}
+
+      {metadataReport && (
+  <div className="reportListingRepeat excel-report-card">
+    <div className="box">
+      <div className="siteIcon">
+        <img src={blackSiteIcon} alt="Excel Report" />
+      </div>
+
+      <div className="siteName">
+        {metadataReport.prepared_for}
+      </div>
+    </div>
+
+    <div className="box">
+      <div className="accessbilityDescription">
+        <div className="title">Excel Upload Report</div>
+        <div className="desc">
+          Report Date:{" "}
+          {new Date(metadataReport.report_date).toLocaleDateString()}
+        </div>
+      </div>
+    </div>
+
+    <div className="navigateICon">
+      <button
+        onClick={() =>
+          navigate(`/accessibility-report?assessmentId=${metadataReport.assessment_id}`)
+        }
+        className="btn btn-link"
+      >
+        <img src={iconMoveRight} alt="View Excel Report" />
+      </button>
+    </div>
+  </div>
+)}
+
+
+
                           </>
                         )}
                       </div>

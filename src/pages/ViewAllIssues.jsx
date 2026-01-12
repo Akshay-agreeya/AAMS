@@ -86,15 +86,21 @@
 //     </div>
 //   );
 // }
+
+
+
 import React, { useEffect, useState } from "react";
 import { fetchPageIssues } from "../services/viewAllIssuesService";
 import "./viewAllIssues.css";
 import Layout from "../component/Layout";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ViewAllIssues() {
   const assessmentId = 34; // later from route param
   const [issuesData, setIssuesData] = useState([]);
   const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
   useEffect(() => {
     const loadPages = async () => {
@@ -119,11 +125,11 @@ export default function ViewAllIssues() {
     <Layout>
     <div className="aams-container">
       {/* Breadcrumb */}
-      <div className="breadcrumb">
+      {/* <div className="breadcrumb">
         <a href="#">Home</a>
         <span>›</span>
         <span>WCAG 2.2 Accessibility Bug Report</span>
-      </div>
+      </div> */}
 
       {/* Page Header */}
       <div className="page-header">
@@ -158,6 +164,8 @@ export default function ViewAllIssues() {
    Issue Card Component
 ========================= */
 function IssueCard({ data }) {
+  const navigate = useNavigate();
+
   return (
     // <Layout>
     <div className="issue-card">
@@ -184,7 +192,7 @@ function IssueCard({ data }) {
         </div>
       </div>
 
-      <button className="btn-outline">View All Issues</button>
+      <button className="btn-outline" onClick={() => navigate("/detailedissue")}>View All Issues</button>
     </div>
     //  </Layout>
   );

@@ -581,11 +581,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchDetailedIssues } from "../services/detailedIssueService";
 import Layout from "../component/Layout";
-
+import { useNavigate } from "react-router-dom";
 export default function DetailedIssue() {
   const assessmentId = 34;       // 🔁 later from route param
   const pageName = "Header";     // 🔁 later from route param
 
+  const navigate = useNavigate();
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -643,7 +644,7 @@ export default function DetailedIssue() {
           <strong style={styles.summaryValue}>{issues.length}</strong>
         </div>
 
-        <button style={styles.backBtn}>← Back</button>
+        <button style={styles.backBtn} onClick={() => navigate("/viewallissues")}>← Back</button>
       </div>
 
       {/* Issue Cards */}

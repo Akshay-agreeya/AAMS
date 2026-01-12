@@ -1,0 +1,8 @@
+.tab-content {
+  margin-top: 16px;
+}
+
+.tab-pane {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}

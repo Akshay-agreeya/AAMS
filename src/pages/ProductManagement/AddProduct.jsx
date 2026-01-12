@@ -30,7 +30,7 @@ import AppType from "../../component/select/AppType";
 import Platform from "../../component/select/Platform";
 import Framework from "../../component/select/Framework";
 import ProductTypeSelector from "../../hooks/ProductTypeSelector";
-
+import "./addproduct.css";
 
 import TestAkshay from "../../component/select/TestAkshay.jsx";
 import FileUpload from "../../component/FileUpload/FileUpload.jsx";
@@ -338,6 +338,11 @@ const AddProduct = ({selected_tab = "1" }) => {
     formRef.current.setFieldsValue({ ...initialValues });
   }, [initialValues]);
 
+
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [selectedTab]);
+
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -352,7 +357,7 @@ const AddProduct = ({selected_tab = "1" }) => {
               <div className="col-12">
                 <div className="customerManagmentContainer">
                     <h3>Organization Details</h3>
-                    <div className="formContainer">
+                    <div >
                       <div className="row">
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
@@ -390,14 +395,18 @@ const AddProduct = ({selected_tab = "1" }) => {
                       </div>
                     </div>
 
+<div className="tab-content mt-4">
 
                     
                     {/* <h3>Product & Maintenance</h3> */}
-  <Form onSubmit={handleSubmit} ref={formRef} 
+  {/* <Form onSubmit={handleSubmit} ref={formRef} 
                   className={`tab-pane fade ${selectedTab === 1 ? "show active" : ""}`}
-                  >
+                  > */}
 
-                     <div class="d-flex justify-content-between align-items-center">
+ {selectedTab === 1 && (
+    <Form onSubmit={handleSubmit} ref={formRef}>
+
+                     <div className="d-flex justify-content-between align-items-center">
                                     <ul className="nav nav-tabs" id="nav-tab" role="tablist">
                                         <li className="nav-item" role="presentation">
                                             <button className={`nav-link ${selectedTab === 1 ? "active" : ""} py-3`} id="nav-lite-tab" data-bs-toggle="pill"
@@ -730,11 +739,12 @@ const AddProduct = ({selected_tab = "1" }) => {
 
 </div>
                   </Form>
+ )}
 
+  {selectedTab === 2 && (
 
-                   <div className={`tab-pane fade ${selectedTab === 2 ? "show active" : ""}`} id="nav-manual" role="tabpanel"
-                                      aria-labelledby="nav-manual-tab"
-                                      >
+                      <div className="tab-pane active">
+
                   
                                     
                                                 {/* <TestAkshay /> */}
@@ -742,6 +752,11 @@ const AddProduct = ({selected_tab = "1" }) => {
                                                 <FileUpload />
                                              
                    </div>
+
+  )}
+</div>
+
+
                 </div>
               </div>
             </div>

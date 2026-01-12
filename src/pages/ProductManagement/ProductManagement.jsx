@@ -6,6 +6,8 @@ import { OrganizationDetails } from './OrganizationDetails';
 import ProductTable from './ProductTable';
 import { getAllowedOperations, operationExist } from '../../utils/Helper';
 import { PRODUCT_MGMT } from '../../utils/Constants';
+import ThirdPartyReportTable from './ThirdPartyReportTable';
+
 
 const ProductManagement = () => {
 
@@ -80,6 +82,8 @@ const ProductManagement = () => {
                         >
                           <div className="accordion-body">
                             <ProductTable org_id={item.org_id} />
+                              <ThirdPartyReportTable org_id={item.org_id} />
+
                           </div>
                         </div>
                       </div>
