@@ -30,22 +30,25 @@ export default function AccessibilityReport() {
   }, [assessmentId]);
 
   return (
-    <Layout>
+
+  <Layout>
     <div className="aams-container">
-      {/* <div className="main-content"> */}
-        {/* <Breadcrumb /> */}
-        {/* <h1 className="page-title"> */}
+      
+      {/* Page title */}
       <div className="page-header">
-<h1>
-          WCAG 2.2 Accessibility Bug Report
-          </h1>
+        <div className="content-wrapper">
+          <h1>WCAG 2.2 Accessibility Bug Report</h1>
         </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="content-wrapper">
+
         <div className="grid-two-cols">
           <div className="col-span-2">
             <ReportInfo />
           </div>
 
-          {/* 🔹 ISSUES SUMMARY CARD */}
           <div className="issues-summary-card">
             <div className="issues-summary-content">
               <div className="issues-count">
@@ -54,7 +57,12 @@ export default function AccessibilityReport() {
                 <span className="count-large">{totalIssues}</span>
               </div>
               <p className="issues-label">Issues remaining</p>
-              <button className="btn-outline" onClick={() => navigate("/viewallissues")}>View All Issues</button>
+              <button
+                className="btn-outline"
+                onClick={() => navigate("/viewallissues")}
+              >
+                View All Issues
+              </button>
             </div>
           </div>
         </div>
@@ -68,10 +76,8 @@ export default function AccessibilityReport() {
         <ReportTechnology />
         <IssuesFound />
 
-       
       </div>
-    {/* </div> */}
-
-    </Layout>
-  );
+    </div>
+  </Layout>
+);
 }
