@@ -1,4 +1,4 @@
-.report-info-card {
+/* .report-info-card {
   background-color: white;
   border-radius: 8px;
   padding: 24px;
@@ -74,4 +74,91 @@
 .report-logo {
   height: 48px;
   flex-shrink: 0;
+} */
+
+
+/* Report Information Card */
+
+.report-info-card {
+  background: #ffffff;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+  border-radius: 7px;
+  padding: 20px 24px;
+  height: 100%;
+}
+
+/* Header */
+.report-info-header {
+  display: flex;
+  align-items: center;
+}
+
+.report-info-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-info-icon {
+  font-size: 22px;
+}
+
+.report-info-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* Divider */
+.report-info-divider {
+  height: 0.5px;
+  background: #e9e9e9;
+  margin: 12px 0 16px;
+}
+
+/* Body */
+.report-info-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Text */
+.report-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 16px;
+}
+
+/* Meta row */
+.report-meta {
+  display: flex;
+  gap: 40px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #313131;
+}
+
+.meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* Logo */
+.report-logo img {
+  width: 242px;
+  height: auto;
+  object-fit: contain;
 }
