@@ -57,7 +57,7 @@ export default function AccessibilityReport() {
           <SeverityCard />
         </div>
 
-        <ReportTechnology />
+        <ReportTechnology assessmentId={assessmentId} />
         <IssuesFound />
 
         <footer className="footer">
