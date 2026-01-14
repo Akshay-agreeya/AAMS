@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import { fetchPageIssues } from "../services/viewAllIssuesService";
 import "./viewAllIssues.css";
@@ -12,7 +9,7 @@ export default function ViewAllIssues() {
   const assessmentId = 34; // later from route param
   const [issuesData, setIssuesData] = useState([]);
   const [loading, setLoading] = useState(true);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPages = async () => {
@@ -104,7 +101,7 @@ function IssueCard({ data }) {
         </div>
       </div>
 
-      <button className="btn-outline" onClick={() => navigate("/detailedissue")}>View All Issues</button>
+      <button className="btn-outline" onClick={() => navigate(`/detailedissue/34/${data.pageId}`)}>View All Issues</button>
     </div>
     //  </Layout>
   );

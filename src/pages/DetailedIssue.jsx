@@ -582,9 +582,10 @@ import React, { useEffect, useState } from "react";
 import { fetchDetailedIssues } from "../services/detailedIssueService";
 import Layout from "../component/Layout";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 export default function DetailedIssue() {
-  const assessmentId = 34;       // 🔁 later from route param
-  const pageName = "Header";     // 🔁 later from route param
+  const { assessmentId, pageId } = useParams();
 
   const navigate = useNavigate();
   const [issues, setIssues] = useState([]);
@@ -595,7 +596,7 @@ export default function DetailedIssue() {
       try {
         const data = await fetchDetailedIssues(
           assessmentId,
-          pageName
+          pageId
         );
         setIssues(data);
       } catch (err) {
@@ -606,7 +607,7 @@ export default function DetailedIssue() {
     };
 
     loadIssues();
-  }, [assessmentId, pageName]);
+  }, [assessmentId, pageId]);
 
   if (loading) {
     return <div style={{ padding: 40 }}>Loading issues…</div>;
@@ -614,130 +615,136 @@ export default function DetailedIssue() {
 
   return (
     <Layout>
-    <div style={styles.container}>
-      {/* Breadcrumb */}
-      <div style={styles.breadcrumb}>
-        <span style={styles.breadcrumbLink}>Home</span>
-        <span style={styles.breadcrumbSeparator}>›</span>
-        <span style={styles.breadcrumbCurrent}>
-          WCAG 2.2 Accessibility Bug Report
-        </span>
-      </div>
-
-      <div style={styles.divider}></div>
-
-      {/* Page Title */}
-      <div style={styles.pageTitle}>
-        <h1 style={styles.pageTitleText}>{pageName}</h1>
-      </div>
-
-      {/* Summary Card */}
-      <div style={styles.summaryCard}>
-        <div style={styles.thumbnail}></div>
-
-        <div style={styles.summaryText}>
-          <h3 style={styles.summaryTitle}>{pageName}</h3>
+      <div style={styles.container}>
+        {/* Breadcrumb */}
+        <div style={styles.breadcrumb}>
+          <span style={styles.breadcrumbLink}>Home</span>
+          <span style={styles.breadcrumbSeparator}>›</span>
+          <span style={styles.breadcrumbCurrent}>
+            WCAG 2.2 Accessibility Bug Report
+          </span>
         </div>
 
-        <div style={styles.summaryInfo}>
-          <span style={styles.summaryLabel}>Issues Found</span>
-          <strong style={styles.summaryValue}>{issues.length}</strong>
+        <div style={styles.divider}></div>
+
+        {/* Page Title */}
+        <div style={styles.pageTitle}>
+          <h1 style={styles.pageTitleText}>
+            {issues[0]?.page_name || "Page Issues"}
+          </h1>
+
         </div>
 
-        <button style={styles.backBtn} onClick={() => navigate("/viewallissues")}>← Back</button>
-      </div>
+        {/* Summary Card */}
+        <div style={styles.summaryCard}>
+          <div style={styles.thumbnail}></div>
 
-      {/* Issue Cards */}
-      {issues.map((issue) => (
-        <div key={issue.id} style={styles.issueCardContainer}>
-          {/* Meta Row */}
-          <div style={styles.issueMetaRow}>
-            <div style={styles.metaItem}>
-              <span style={styles.metaLabel}>Issue Name</span>
-              <div style={styles.issueName}>{issue.name}</div>
-            </div>
-
-            <div style={styles.metaItem}>
-              <span style={styles.metaLabel}>Severity</span>
-              <div style={styles.severityContainer}>
-                <span
-                  style={{
-                    ...styles.dot,
-                    background: issue.severityColor,
-                  }}
-                />
-                <span style={styles.severityText}>
-                  {issue.severity}
-                </span>
-              </div>
-            </div>
-
-            <div style={styles.metaItem}>
-              <span style={styles.metaLabel}>
-                Environments Applicable
-              </span>
-              <div style={styles.metaValue}>
-                {issue.environments}
-              </div>
-            </div>
-
-            <div style={styles.metaItem}>
-              <span style={styles.metaLabel}>Section 508</span>
-              <div style={styles.metaValue}>
-                {issue.section508}
-              </div>
-            </div>
+          <div style={styles.summaryText}>
+            <h3 style={styles.summaryTitle}>
+              {issues[0]?.page_name || "Page Issues"}
+            </h3>
           </div>
 
-          {/* Issue Card */}
-          <div
-            style={{
-              ...styles.issueCard,
-              background: issue.bgColor,
-              border: `1px solid ${issue.borderColor}`,
-              borderLeft: `5px solid ${issue.borderColor}`,
-            }}
-          >
-            <div style={styles.detailsGrid}>
-              <div style={styles.column}>
-                <InfoBlock title="Template Name" text={issue.templateName} />
-                <InfoBlock title="Actual Result" text={issue.actualResult} />
-                <InfoBlock title="Recommendation" text={issue.recommendation} />
+
+          <div style={styles.summaryInfo}>
+            <span style={styles.summaryLabel}>Issues Found</span>
+            <strong style={styles.summaryValue}>{issues.length}</strong>
+          </div>
+
+          <button style={styles.backBtn} onClick={() => navigate("/viewallissues")}>← Back</button>
+        </div>
+
+        {/* Issue Cards */}
+        {issues.map((issue) => (
+          <div key={issue.id} style={styles.issueCardContainer}>
+            {/* Meta Row */}
+            <div style={styles.issueMetaRow}>
+              <div style={styles.metaItem}>
+                <span style={styles.metaLabel}>Issue Name</span>
+                <div style={styles.issueName}>{issue.name}</div>
               </div>
 
-              <div style={styles.column}>
-                <InfoBlock title="Template Issue" text={issue.templateIssue} />
-                <InfoBlock title="Expected Results" text={issue.expectedResult} />
-                <InfoBlock
-                  title="Instances"
-                  text={issue.instances}
-                  isInstances
-                />
+              <div style={styles.metaItem}>
+                <span style={styles.metaLabel}>Severity</span>
+                <div style={styles.severityContainer}>
+                  <span
+                    style={{
+                      ...styles.dot,
+                      background: issue.severityColor,
+                    }}
+                  />
+                  <span style={styles.severityText}>
+                    {issue.severity}
+                  </span>
+                </div>
               </div>
 
-              <div style={styles.column}>
-                <InfoBlock
-                  title="WCAG 2.1 Success Criteria"
-                  text={issue.wcagCriteria}
-                />
-                <InfoBlock
-                  title="WCAG 2.1 Conformance Levels"
-                  text={issue.wcagLevel}
-                />
-                <div style={styles.screenshotSection}>
-                  <span style={styles.blockLabel}>Screenshots</span>
-                  <div style={styles.screenshotPlaceholder}></div>
+              <div style={styles.metaItem}>
+                <span style={styles.metaLabel}>
+                  Environments Applicable
+                </span>
+                <div style={styles.metaValue}>
+                  {issue.environments}
+                </div>
+              </div>
+
+              <div style={styles.metaItem}>
+                <span style={styles.metaLabel}>Section 508</span>
+                <div style={styles.metaValue}>
+                  {issue.section508}
+                </div>
+              </div>
+            </div>
+
+            {/* Issue Card */}
+            <div
+              style={{
+                ...styles.issueCard,
+                background: issue.bgColor,
+                border: `1px solid ${issue.borderColor}`,
+                borderLeft: `5px solid ${issue.borderColor}`,
+              }}
+            >
+              <div style={styles.detailsGrid}>
+                <div style={styles.column}>
+                  <InfoBlock title="Template Name" text={issue.templateName} />
+                  <InfoBlock title="Actual Result" text={issue.actualResult} />
+                  <InfoBlock title="Recommendation" text={issue.recommendation} />
+                </div>
+
+                <div style={styles.column}>
+                  <InfoBlock title="Template Issue" text={issue.templateIssue} />
+                  <InfoBlock title="Expected Results" text={issue.expectedResult} />
+                  <InfoBlock
+                    title="Instances"
+                    text={issue.instances}
+                    isInstances
+                  />
+                </div>
+
+                <div style={styles.column}>
+                  <InfoBlock
+                    title="WCAG 2.1 Success Criteria"
+                    text={issue.wcagCriteria}
+                  />
+                  <InfoBlock
+                    title="WCAG 2.1 Conformance Levels"
+                    text={issue.wcagLevel}
+                  />
+                  <div style={styles.screenshotSection}>
+                    <span style={styles.blockLabel}>Screenshots</span>
+                    <div style={styles.screenshotPlaceholder}></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      <footer style={styles.footer}>
-        © 2025 ADA Central Management System.com All rights reserved.
-      </footer>
-    </div>
+        <footer style={styles.footer}>
+          © 2025 ADA Central Management System.com All rights reserved.
+        </footer>
+      </div>
     </Layout>
   );
 }

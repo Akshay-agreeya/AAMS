@@ -32,7 +32,7 @@ import Framework from "../../component/select/Framework";
 import ProductTypeSelector from "../../hooks/ProductTypeSelector";
 import "./addproduct.css";
 
-import TestAkshay from "../../component/select/TestAkshay.jsx";
+// import TestAkshay from "../../component/select/TestAkshay.jsx";
 import FileUpload from "../../component/FileUpload/FileUpload.jsx";
 const AddProduct = ({selected_tab = "1" }) => {
   const [serviceTypes, setServiceTypes] = useState([]);

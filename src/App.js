@@ -52,31 +52,10 @@ export const routesMap = [
     { path: "/pdfcrawler", element: <PdfCrawler /> },
 
     { path: "/uploadexcle", element: <UploadExcel /> },
-    // { path: "/accessibility-report", element: <AccessibilityReport />},
-    { path: "/accessibilityreport", element: <AccessibilityReport /> },
-    {
-        path: "/accessibility-report",
-        element: <PrivateRoute element={AccessibilityReport} />,
-        breadcrumb: "Accessibility Report"
-    },
-        {
-            path: "/accessibility-report",
-            element: <PrivateRoute element={AccessibilityReport} />,
-            breadcrumb: "Accessibility Report"
-        },
-    // { path: "/test", element: <Test/> },
- {
-        path: "/viewallissues",
-        element: <ViewAllIssues/> ,
-        breadcrumb: "View All Issues"
-    },
-
-    {
-        path: "/detailedissue",
-        element: <DetailedIssue/> ,
-        breadcrumb: "Detailed Issue"
-    },
-
+    
+    { path: "/accessibility-report", element: <PrivateRoute element={AccessibilityReport} />, breadcrumb: "Accessibility Report"},
+    { path: "/viewallissues", element: <ViewAllIssues/> , breadcrumb: "View All Issues"},
+    { path: "/detailedissue/:assessmentId/:pageId", element: <DetailedIssue/> , breadcrumb: "Detailed Issue"},
 
     { path: "/forgotpassword", element: <ForgotPassword /> },
     { path: "/resetpassword", element: <ResetPassword /> },

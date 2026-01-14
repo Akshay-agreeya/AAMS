@@ -24,28 +24,28 @@ const Reports = () => {
 
   const [metadata, setMetadata] = useState(null);
 
-// const [reports, setReports] = useState([]);
-const [metadataReport, setMetadataReport] = useState(null);
+  // const [reports, setReports] = useState([]);
+  const [metadataReport, setMetadataReport] = useState(null);
 
-const [loadingReports, setLoadingReports] = useState(false);
-const [loadingMeta, setLoadingMeta] = useState(false);
+  const [loadingReports, setLoadingReports] = useState(false);
+  const [loadingMeta, setLoadingMeta] = useState(false);
 
 
-const getExcelReportMetadata = async () => {
-  try {
-    setLoadingMeta(true);
-    const resp = await getData(`/assessment/34/report-metadata`);
-    setMetadataReport(resp.data);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoadingMeta(false);
-  }
-};
+  const getExcelReportMetadata = async () => {
+    try {
+      setLoadingMeta(true);
+      const resp = await getData(`/assessment/34/report-metadata`);
+      setMetadataReport(resp.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingMeta(false);
+    }
+  };
 
-useEffect(() => {
-  getExcelReportMetadata();
-}, []);
+  useEffect(() => {
+    getExcelReportMetadata();
+  }, []);
 
 
   const handleOrganizationChange = (e) => {
@@ -123,8 +123,8 @@ useEffect(() => {
                                       ? site.prepared_for
                                       : site.mobile_app_name &&
                                         site.mobile_app_version
-                                      ? `${site.mobile_app_name} - ${site.mobile_app_version}`
-                                      : site.web_url}
+                                        ? `${site.mobile_app_name} - ${site.mobile_app_version}`
+                                        : site.web_url}
                                   </div>
                                 </div>
                                 <div className="box">
@@ -152,17 +152,17 @@ useEffect(() => {
                                     />
                                   </button>
                                 </div>
-                            
+
                               </div>
 
-      ))}
+                            ))}
 
-      {metadataReport && (
-  <div className="reportListingRepeat excel-report-card">
-    <div className="box">
-      <div className="siteIcon">
-        <img src={blackSiteIcon} alt="Excel Report" />
-      </div>
+                            {metadataReport && (
+                              <div className="reportListingRepeat excel-report-card">
+                                <div className="box">
+                                  <div className="siteIcon">
+                                    <img src={blackSiteIcon} alt="Excel Report" />
+                                  </div>
 
       <div className="siteName">
         {metadataReport.prepared_for}
@@ -243,18 +243,18 @@ useEffect(() => {
  */}
 
 
-    <div className="navigateICon">
-      <button
-        onClick={() =>
-          navigate(`/accessibility-report?assessmentId=${metadataReport.assessment_id}`)
-        }
-        className="btn btn-link"
-      >
-        <img src={iconMoveRight} alt="View Excel Report" />
-      </button>
-    </div>
-  </div>
-)}
+                                <div className="navigateICon">
+                                  <button
+                                    onClick={() =>
+                                      navigate(`/accessibility-report?assessmentId=${metadataReport.assessment_id}`)
+                                    }
+                                    className="btn btn-link"
+                                  >
+                                    <img src={iconMoveRight} alt="View Excel Report" />
+                                  </button>
+                                </div>
+                              </div>
+                            )}
 
 
 
