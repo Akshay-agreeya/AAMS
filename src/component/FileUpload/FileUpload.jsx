@@ -95,34 +95,6 @@ const FileUpload = () => {
     setUploadedFiles(uploadedFiles.filter(file => file.id !== fileId));
   };
 
-//   // Handle submit
-//   const handleSubmit = async () => {
-//     if (uploadedFiles.length === 0) {
-//       setError('Please upload at least one file');
-//       return;
-//     }
-
-//      try {
-//       // STEP 1: upload files (if you already have this, keep it)
-//       // await uploadFilesAPI(uploadedFiles);
-
-//       // STEP 2: create report metadata
-//       await axios.post(
-//         "http://localhost:8080/api/assessment/34/report-metadata"
-//       );
-
-//       // STEP 3: redirect to reports page
-//       navigate("/reports");
-
-//     } catch (err) {
-//       console.error(err);
-//       setError("Upload failed");
-//     }
-//     // Here you would typically handle the file upload to your server
-//     console.log('Files to upload:', uploadedFiles);
-//     alert(`Successfully uploaded ${uploadedFiles.length} file(s)`);
-//   };
-
 
 const handleSubmit = async () => {
   if (uploadedFiles.length === 0) {
