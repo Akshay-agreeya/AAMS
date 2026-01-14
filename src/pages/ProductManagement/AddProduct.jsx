@@ -30,8 +30,11 @@ import AppType from "../../component/select/AppType";
 import Platform from "../../component/select/Platform";
 import Framework from "../../component/select/Framework";
 import ProductTypeSelector from "../../hooks/ProductTypeSelector";
+import "./addproduct.css";
 
-const AddProduct = () => {
+// import TestAkshay from "../../component/select/TestAkshay.jsx";
+import FileUpload from "../../component/FileUpload/FileUpload.jsx";
+const AddProduct = ({selected_tab = "1" }) => {
   const [serviceTypes, setServiceTypes] = useState([]);
 
   // Mobile accessibility specific states
@@ -42,6 +45,7 @@ const AddProduct = () => {
   const [platformOptions, setPlatformOptions] = useState([]);
   const [appTypeOptions, setAppTypeOptions] = useState([]);
   const [frameworkOptions, setFrameworkOptions] = useState([]);
+    const [selectedTab, setSelectedTab] = useState(parseInt(selected_tab));
 
 
   const productTypeOptions = useMemo(() => {
@@ -334,6 +338,11 @@ const AddProduct = () => {
     formRef.current.setFieldsValue({ ...initialValues });
   }, [initialValues]);
 
+
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [selectedTab]);
+
   return (
     <Layout>
       <div className="adaMainContainer">
@@ -347,9 +356,8 @@ const AddProduct = () => {
               </div>
               <div className="col-12">
                 <div className="customerManagmentContainer">
-                  <Form onSubmit={handleSubmit} ref={formRef}>
                     <h3>Organization Details</h3>
-                    <div className="formContainer">
+                    <div >
                       <div className="row">
                         <div className="col-12 col-lg-3">
                           <div className="userStaticInfo">
@@ -387,7 +395,41 @@ const AddProduct = () => {
                       </div>
                     </div>
 
-                    <h3>Product & Maintenance</h3>
+<div className="tab-content mt-4">
+
+                    
+                    {/* <h3>Product & Maintenance</h3> */}
+  {/* <Form onSubmit={handleSubmit} ref={formRef} 
+                  className={`tab-pane fade ${selectedTab === 1 ? "show active" : ""}`}
+                  > */}
+
+ {selectedTab === 1 && (
+    <Form onSubmit={handleSubmit} ref={formRef}>
+
+                     <div className="d-flex justify-content-between align-items-center">
+                                    <ul className="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <li className="nav-item" role="presentation">
+                                            <button className={`nav-link ${selectedTab === 1 ? "active" : ""} py-3`} id="nav-lite-tab" data-bs-toggle="pill"
+                                                data-bs-target="#nav-lite" type="button" role="tab"
+                                                aria-controls="nav-lite" aria-selected="true"
+                                                onClick={() => { setSelectedTab(1) }}>Product & Maintenance</button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button className={`nav-link py-3 ${selectedTab === 2 ? "active" : ""}`} id="nav-manual-tab" data-bs-toggle="pill"
+                                                data-bs-target="#nav-manual" type="button" role="tab"
+                                                aria-controls="nav-manual" aria-selected="false"
+                                                onClick={() => { setSelectedTab(2) }}>Third Party
+                                                Report</button>
+                                        </li>
+                    
+                                    </ul>
+                                   
+                                    
+                      </div>
+                <div className={`tab-pane fade ${selectedTab === 1 ? "show active" : ""}`} id="nav-lite" role="tabpanel"  aria-labelledby="nav-lite-tab">
+
+                
+
                     <div className="formContainer">
                       <div className="col-12 mb-4">
 
@@ -694,7 +736,27 @@ const AddProduct = () => {
                         {product_id ? "Update" : "Submit"}
                       </button>
                     </div>
+
+</div>
                   </Form>
+ )}
+
+  {selectedTab === 2 && (
+
+                      <div className="tab-pane active">
+
+                  
+                                    
+                                                {/* <TestAkshay /> */}
+
+                                                <FileUpload />
+                                             
+                   </div>
+
+  )}
+</div>
+
+
                 </div>
               </div>
             </div>

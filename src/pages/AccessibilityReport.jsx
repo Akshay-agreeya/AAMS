@@ -8,11 +8,14 @@ import { ReportTechnology } from "../component/ReportTechnology";
 import { IssuesFound } from "../component/IssuesFound";
 import { fetchTotalIssuesCount } from "../services/summaryService";
 import "../component/styles/App.css";
+import Layout from "../component/Layout";
+import { useNavigate } from "react-router-dom";
 
+import '../../src/component/styles/viewAllIssues.css';
 export default function AccessibilityReport() {
   const assessmentId = 34; // later from route param
   const [totalIssues, setTotalIssues] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const loadTotalIssues = async () => {
       try {
@@ -27,17 +30,25 @@ export default function AccessibilityReport() {
   }, [assessmentId]);
 
   return (
-    <div className="app-container">
-      <div className="main-content">
-        <Breadcrumb />
-        <h1 className="page-title">WCAG 2.2 Accessibility Bug Report</h1>
+
+  <Layout>
+    <div className="aams-container">
+      
+      {/* Page title */}
+      <div className="page-header">
+        <div className="content-wrapper">
+          <h1>WCAG 2.2 Accessibility Bug Report</h1>
+        </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="content-wrapper">
 
         <div className="grid-two-cols">
           <div className="col-span-2">
             <ReportInfo />
           </div>
 
-          {/* 🔹 ISSUES SUMMARY CARD */}
           <div className="issues-summary-card">
             <div className="issues-summary-content">
               <div className="issues-count">
@@ -46,7 +57,12 @@ export default function AccessibilityReport() {
                 <span className="count-large">{totalIssues}</span>
               </div>
               <p className="issues-label">Issues remaining</p>
-              <button className="btn-outline">View All Issues</button>
+              <button
+                className="btn-outline"
+                onClick={() => navigate("/viewallissues")}
+              >
+                View All Issues
+              </button>
             </div>
           </div>
         </div>
@@ -60,10 +76,8 @@ export default function AccessibilityReport() {
         <ReportTechnology assessmentId={assessmentId} />
         <IssuesFound />
 
-        <footer className="footer">
-          © 2025 ADA Central Management System.com All rights reserved.
-        </footer>
       </div>
     </div>
-  );
+  </Layout>
+);
 }

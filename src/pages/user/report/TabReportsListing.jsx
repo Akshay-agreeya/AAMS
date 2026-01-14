@@ -38,6 +38,8 @@ const TabReportsListing = ({ product_id, org_id = getOrganizationIdFromSession()
                 </button>
                 
             </div>
+
+            
             <div className="tab-content  px-4 pb-4 pt-2 border border-top-0 bg-white shadow"
                 id="nav-tabContent">
                 <div className={`tab-pane fade ${selectedTab === 1 ? "show active" : ""}`} id="nav-lite" role="tabpanel"

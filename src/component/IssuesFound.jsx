@@ -1,65 +1,10 @@
-// import React, { useState } from 'react';
-// import { ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
-// import './styles/IssuesFound.css';
-
-// const topIssues = [
-//   'Role and state not defined',
-//   'Focus not visible',
-//   'Data table not identified by screen reader',
-//   'No text alternative for flow chart',
-//   'Missing text transcript for the video',
-// ];
-
-// export function IssuesFound() {
-//   const [isExpanded, setIsExpanded] = useState(false);
-
-//   return (
-//     <div className="collapsible-card">
-//       <button
-//         onClick={() => setIsExpanded(!isExpanded)}
-//         className="collapsible-header"
-//       >
-//         <h2 className="card-title">Issues found</h2>
-//         {isExpanded ? (
-//           <ChevronUp className="chevron-icon" />
-//         ) : (
-//           <ChevronDown className="chevron-icon" />
-//         )}
-//       </button>
-
-//       {isExpanded && (
-//         <div className="collapsible-content">
-//           <div className="issues-content">
-//             <div className="issues-icon-wrapper">
-//               <div className="issues-icon-circle">
-//                 <AlertCircle className="issues-icon" />
-//               </div>
-//             </div>
-//             <div className="issues-details">
-//               <h3 className="issues-title">
-//                 Top 5 Accessibility Issues found in Sunnyvales Public Website
-//               </h3>
-//               <ol className="issues-ordered-list">
-//                 {topIssues.map((issue, index) => (
-//                   <li key={index} className="issue-item">
-//                     {issue}
-//                   </li>
-//                 ))}
-//               </ol>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { fetchTopIssues } from "../services/issuesService";
 import "./styles/IssuesFound.css";
 
 export function IssuesFound() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [topIssues, setTopIssues] = useState([]);
   const assessmentId = 34; // later from route param
 
@@ -77,37 +22,41 @@ export function IssuesFound() {
   }, [assessmentId]);
 
   return (
-    <div className="collapsible-card">
+    <div className="issues-card">
+      {/* Header */}
       <button
+        className="issues-header"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="collapsible-header"
       >
-        <h2 className="card-title">Issues found</h2>
-        {isExpanded ? (
-          <ChevronUp className="chevron-icon" />
-        ) : (
-          <ChevronDown className="chevron-icon" />
-        )}
+        <h2 className="issues-header-title">Issues found</h2>
+        {isExpanded ? <ChevronUp /> : <ChevronDown />}
       </button>
 
+      {/* Content */}
       {isExpanded && (
-        <div className="collapsible-content">
-          <div className="issues-content">
-            <div className="issues-icon-wrapper">
+        <div className="issues-body">
+          <div className="issues-layout">
+            {/* Icon */}
+            <div className="issues-icon-container">
               <div className="issues-icon-circle">
                 <AlertCircle className="issues-icon" />
               </div>
             </div>
 
-            <div className="issues-details">
+            {/* Title */}
+            <div className="issues-title-container">
               <h3 className="issues-title">
-                Top {topIssues.length} Accessibility Issues found
+                Top {topIssues.length} Accessibility Issues found in Sunnyvales
+                Public Website
               </h3>
+            </div>
 
+            {/* List */}
+            <div className="issues-list-container">
               {topIssues.length === 0 ? (
                 <p className="issue-item">No issues found</p>
               ) : (
-                <ol className="issues-ordered-list">
+                <ol className="issues-list">
                   {topIssues.map((issue, index) => (
                     <li key={index} className="issue-item">
                       {issue}

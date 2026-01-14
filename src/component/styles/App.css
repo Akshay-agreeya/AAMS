@@ -1,143 +1,186 @@
+
+
+
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.app-container {
+.aams-container {
+  background: #EDF3FB;
   min-height: 100vh;
-  background-color: #f3f4f6;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-.main-content {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 24px 16px;
+/* Breadcrumb */
+.breadcrumb {
+  padding: 14px 64px;
+  font-size: 12px;
+  color: #5E6977;
 }
 
-.page-title {
-  margin-top: 24px;
-  margin-bottom: 24px;
-  font-size: 28px;
+.breadcrumb a {
+  color: #0066CC;
+  text-decoration: none;
+  margin-right: 6px;
+}
+
+/* Page Header */
+.page-header {
+  padding: 20px 0;
+}
+
+.page-header h1 {
+  font-size: 26px;
   font-weight: 600;
-  color: #111827;
+  color: #000000;
+  margin: 0;
 }
 
+/* Report Content */
+/* Report Content */
+
+
+/* Grid Layouts */
 .grid-two-cols {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 24px;
   margin-bottom: 24px;
 }
 
 .grid-three-cols {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 24px;
   margin-bottom: 24px;
 }
 
-@media (min-width: 1024px) {
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
   .grid-two-cols {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
   }
   
   .grid-three-cols {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-two-cols,
+  .grid-three-cols {
+    grid-template-columns: 1fr;
   }
   
-  .col-span-2 {
-    grid-column: span 1;
+  .breadcrumb,
+  .page-header,
+  .report-content,
+  .footer {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
-.issues-summary-card {
-  background-color: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  height: 100%;
-}
-
-.issues-summary-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.issues-count {
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.count-large {
-  font-size: 48px;
-  color: #111827;
-  font-weight: 600;
-}
-
-.count-separator {
-  font-size: 24px;
-  color: #6b7280;
-  margin: 0 8px;
-}
-
-.issues-label {
-  color: #4b5563;
-  margin-bottom: 16px;
-  font-size: 16px;
-}
-
-.btn-outline {
-  padding: 8px 24px;
-  border: 2px solid #2563eb;
-  color: #2563eb;
-  background: white;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-outline:hover {
-  background-color: #eff6ff;
-}
-
-.footer {
-  margin-top: 48px;
-  padding: 24px 0;
-  color: #6b7280;
-  font-size: 14px;
-  text-align: center;
-}
-
+/* Card Styling */
 .card {
-  background-color: white;
-  border-radius: 8px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+  border-radius: 7px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 0.5px solid #E9E9E9;
 }
 
 .card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #111827;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
 }
 
+/* Issues Summary Card */
+.issues-summary-card {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+  border-radius: 7px;
+  padding: 40px 24px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.issues-summary-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.issues-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+
+.count-large {
+  font-weight: 700;
+  font-size: 37px;
+  line-height: 23px;
+  color: #000000;
+}
+
+.count-separator {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #777777;
+}
+
+.issues-label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23px;
+  color: #777777;
+  margin-bottom: 16px;
+}
+
+/* Buttons */
+.btn-outline {
+  padding: 8px 24px;
+  background: #FFFFFF;
+  border: 1px solid #0E75A5;
+  color: #0E75A5;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-outline:hover {
+  background: #F2F9FF;
+}
+
+/* Collapsible Cards */
 .collapsible-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.08);
+  border-radius: 7px;
   margin-bottom: 24px;
 }
 
@@ -151,13 +194,27 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  border-radius: 8px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  border-bottom: 0.5px solid #E9E9E9;
 }
 
 .collapsible-header:hover {
-  background-color: #f9fafb;
+  background: #F9FAFB;
 }
 
 .collapsible-content {
-  padding: 0 24px 24px;
+  padding: 24px;
+}
+
+/* Footer */
+.footer {
+  border-top: 0.5px solid #C8D2DE;
+  padding: 14px 64px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #5E6977;
 }

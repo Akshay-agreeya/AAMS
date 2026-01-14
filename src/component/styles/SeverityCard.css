@@ -1,68 +1,92 @@
+.severity-card {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 4px 9px rgba(0,0,0,0.08);
+  padding: 16px 20px;
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid #E9E9E9;
+  padding-bottom: 12px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Top section */
+.severity-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+}
+
 .severity-chart {
+  position: relative;
+}
+
+.chart-labels {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-}
-
-.severity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.severity-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.severity-list-header span {
-  color: #4b5563;
-  font-size: 14px;
+  gap: 16px;
+  font-size: 12px;
   font-weight: 500;
 }
 
-.severity-item {
+/* Summary */
+.severity-summary {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 0;
-}
-
-.severity-name-col {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.severity-name-col span {
-  color: #374151;
-  font-size: 15px;
-}
-
-.severity-values-col {
-  display: flex;
-  align-items: center;
   gap: 24px;
 }
 
-.severity-values-col span {
-  color: #111827;
-  font-size: 15px;
-  font-weight: 500;
+.severity-summary div {
+  text-align: center;
 }
 
-.defect-col {
-  width: 48px;
-  text-align: right;
+.severity-summary strong {
+  display: block;
+  font-size: 16px;
 }
 
-.severity-dot {
-  width: 12px;
-  height: 12px;
+.severity-summary span {
+  font-size: 12px;
+  color: #313131;
+}
+
+/* Table */
+.severity-table {
+  margin-top: 12px;
+}
+
+.severity-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.6fr 0.6fr;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.severity-row.header {
+  font-weight: 600;
+  color: #313131;
+}
+
+.severity-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.severity-name i {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  flex-shrink: 0;
 }
