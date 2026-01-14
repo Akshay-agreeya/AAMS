@@ -55,7 +55,9 @@ const FileUpload = () => {
           file: file,
           name: file.name,
           size: (file.size / 1024).toFixed(2) + ' KB',
-          uploadDate: new Date().toLocaleString()
+          // uploadDate: new Date().toLocaleString()
+          uploadDate: new Date().toISOString()
+
         });
       }
     });

@@ -61,7 +61,7 @@ const ThirdPartyReportTable = ({ org_id }) => {
     },
     {
       title: "Created Time",
-      dataIndex: "report_date",
+      dataIndex: "uploaded_at",
       width: "30%",
       render: (text) =>
         text ? formattedDate(new Date(text), "DD MMM YYYY HH:mm") : "—"
@@ -102,7 +102,7 @@ const ThirdPartyReportTable = ({ org_id }) => {
 
   return (
     <div className="mt-4">
-      <h5 className="mb-3">Third-Party (Excel) Reports</h5>
+      <h5 className="mb-3">Agreeya Reports</h5>
       <Table
         columns={columns}
         dataSource={reports}

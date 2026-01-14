@@ -168,16 +168,80 @@ useEffect(() => {
         {metadataReport.prepared_for}
       </div>
     </div>
-
+{/* 
     <div className="box">
       <div className="accessbilityDescription">
-        <div className="title">Excel Upload Report</div>
+        <div className="title">Agreeya Report</div>
         <div className="desc">
           Report Date:{" "}
-          {new Date(metadataReport.report_date).toLocaleDateString()}
+          {new Date(metadataReport.uploaded_at).toLocaleDateString()}
         </div>
       </div>
+    </div> */}
+
+{/* 
+<div className="box">
+  <div className="accessbilityDescription">
+    <div className="title">Agreeya Report</div>
+    <div className="desc">
+      Report Date:{" "}
+      {metadataReport?.uploaded_at
+        ? formattedDate(
+            new Date(metadataReport.uploaded_at).toLocaleString(
+  "en-US",
+  {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  }
+)
+
+          )
+        : "—"}
     </div>
+  </div>
+</div> */}
+
+
+<div className="box">
+  <div className="accessbilityDescription">
+    <div className="title">Agreeya Report</div>
+    <div className="desc">
+      Report Date:{" "}
+      {metadataReport?.uploaded_at
+        ? new Date(metadataReport.uploaded_at).toLocaleString()
+        : "—"}
+    </div>
+  </div>
+</div>
+{/* 
+
+<div className="box">
+  <div className="accessbilityDescription">
+    <div className="title">Agreeya Report</div>
+    <div className="desc">
+      Report Date:{" "}
+      {metadataReport?.uploaded_at
+        ? new Date(metadataReport.uploaded_at).toLocaleString(
+            "en-US",
+            {
+              timeZone: "America/New_York",
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit"
+            }
+          )
+        : "—"}
+    </div>
+  </div>
+</div>
+ */}
+
 
     <div className="navigateICon">
       <button
