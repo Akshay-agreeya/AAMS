@@ -82,7 +82,8 @@ const ProductManagement = () => {
                         >
                           <div className="accordion-body">
                             <ProductTable org_id={item.org_id} />
-                              <ThirdPartyReportTable org_id={item.org_id} />
+                           
+                            <ThirdPartyReportTable org_id={item.org_id} />
 
                           </div>
                         </div>

@@ -5,7 +5,7 @@ import Loading from "../../component/Loading";
 import editicon from "../../assets/images/iconEdit.svg";
 import deleteicon from "../../assets/images/iconDelete.svg";
 import notification from "../../component/notification/Notification";
-import { formattedDate } from "../../component/input/DatePicker";
+import { getFormattedDateWithTime } from "../../component/input/DatePicker"; // ✅ CHANGED: Import the correct function
 
 const ThirdPartyReportTable = ({ org_id }) => {
   const [reports, setReports] = useState([]);
@@ -15,31 +15,28 @@ const ThirdPartyReportTable = ({ org_id }) => {
     if (org_id) fetchReports();
   }, [org_id]);
 
- 
   const fetchReports = async () => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // TEMP: hardcoded or stored assessment_id
-    const assessmentId = 34;
+      // Use the new API endpoint to get all assessments for this org
+      const resp = await getData(`/accessibility/org/${org_id}/assessments`);
 
-    const resp = await getData(
-      `/assessment/${assessmentId}/report-metadata`
-    );
+      // The API returns an array of assessments
+      setReports(resp?.data || []);
 
-    setReports(resp?.data ? [resp.data] : []);
-
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-
+    } catch (err) {
+      console.error(err);
+      // If no assessments found, show empty state
+      setReports([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async (assessment_id) => {
     try {
-      await deleteData(`/assessment/${assessment_id}`);
+      await deleteData(`/accessibility/assessment/${assessment_id}`);
       notification.success({
         title: "Report Deleted",
         message: "Excel report deleted successfully"
@@ -57,14 +54,25 @@ const ThirdPartyReportTable = ({ org_id }) => {
     {
       title: "Report Name",
       dataIndex: "prepared_for",
-      width: "50%"
+      width: "50%",
+      render: (text) => text || "Unnamed Report"
     },
     {
-      title: "Created Time",
-      dataIndex: "uploaded_at",
+      title: "Uploaded Date & Time",
+      dataIndex: "assessment_timestamp",
       width: "30%",
-      render: (text) =>
-        text ? formattedDate(new Date(text), "DD MMM YYYY HH:mm") : "—"
+      render: (text) => {
+        if (!text) return "—";
+        
+        try {
+          const date = new Date(text);
+          // ✅ CHANGED: Use getFormattedDateWithTime with the correct format
+          return getFormattedDateWithTime(date, "dd MMM yyyy HH:mm");
+        } catch (err) {
+          console.error("Date formatting error:", err);
+          return "—";
+        }
+      }
     },
     {
       title: "Action",
@@ -113,3 +121,247 @@ const ThirdPartyReportTable = ({ org_id }) => {
 };
 
 export default ThirdPartyReportTable;
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import Table from "../../component/table/Table";
+// import { getData, deleteData } from "../../utils/CommonApi";
+// import Loading from "../../component/Loading";
+// import editicon from "../../assets/images/iconEdit.svg";
+// import deleteicon from "../../assets/images/iconDelete.svg";
+// import notification from "../../component/notification/Notification";
+// import { formattedDate } from "../../component/input/DatePicker";
+
+// const ThirdPartyReportTable = ({ org_id }) => {
+//   const [reports, setReports] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     if (org_id) fetchReports();
+//   }, [org_id]);
+
+//   const fetchReports = async () => {
+//     try {
+//       setLoading(true);
+
+//       // Use the new API endpoint to get all assessments for this org
+//       const resp = await getData(`/accessibility/org/${org_id}/assessments`);
+
+//       // The API returns an array of assessments
+//       setReports(resp?.data || []);
+
+//     } catch (err) {
+//       console.error(err);
+//       // If no assessments found, show empty state
+//       setReports([]);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleDelete = async (assessment_id) => {
+//     try {
+//       await deleteData(`/accessibility/assessment/${assessment_id}`);
+//       notification.success({
+//         title: "Report Deleted",
+//         message: "Excel report deleted successfully"
+//       });
+//       fetchReports();
+//     } catch (err) {
+//       notification.error({
+//         title: "Delete Failed",
+//         message: "Unable to delete report"
+//       });
+//     }
+//   };
+
+//   const columns = [
+//     {
+//       title: "Report Name",
+//       dataIndex: "prepared_for",
+//       width: "50%",
+//       render: (text) => text || "Unnamed Report"
+//     },
+//     {
+//       title: "Uploaded Date & Time",
+//       dataIndex: "assessment_timestamp",  // ✅ This is the correct field
+//       width: "30%",
+//       render: (text) => {
+//         if (!text) return "—";
+        
+//         // ✅ Format the date properly
+//         try {
+//           const date = new Date(text);
+//           return formattedDate(date, "DD MMM YYYY HH:mm");
+//         } catch (err) {
+//           console.error("Date formatting error:", err);
+//           return "—";
+//         }
+//       }
+//     },
+//     {
+//       title: "Action",
+//       width: "20%",
+//       className: "text-center",
+//       render: (_, record) => (
+//         <>
+//           <a
+//             href={`/reports/excel/${record.assessment_id}`}
+//             title="Edit Report"
+//             className="me-3"
+//           >
+//             <img src={editicon} alt="Edit" />
+//           </a>
+//           <a
+          
+//             href="#"
+//             title="Delete Report"
+//             onClick={(e) => {
+//               e.preventDefault();
+//               handleDelete(record.assessment_id);
+//             }}
+//           >
+//             <img src={deleteicon} alt="Delete" />
+//           </a>
+//         </>
+//       )
+//     }
+//   ];
+
+//   if (loading) return <Loading />;
+
+//   if (!reports.length)
+//     return <div className="text-muted mt-3">No third-party reports found</div>;
+
+//   return (
+//     <div className="mt-4">
+//       <h5 className="mb-3">Agreeya Reports</h5>
+//       <Table
+//         columns={columns}
+//         dataSource={reports}
+//         rowKey="assessment_id"
+//       />
+//     </div>
+//   );
+// };
+
+// export default ThirdPartyReportTable;
+
+// import React, { useEffect, useState } from "react";
+// import Table from "../../component/table/Table";
+// import { getData, deleteData } from "../../utils/CommonApi";
+// import Loading from "../../component/Loading";
+// import editicon from "../../assets/images/iconEdit.svg";
+// import deleteicon from "../../assets/images/iconDelete.svg";
+// import notification from "../../component/notification/Notification";
+// import { formattedDate } from "../../component/input/DatePicker";
+
+// const ThirdPartyReportTable = ({ org_id }) => {
+//   const [reports, setReports] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     if (org_id) fetchReports();
+//   }, [org_id]);
+
+ 
+//   const fetchReports = async () => {
+//   try {
+//     setLoading(true);
+
+//     // TEMP: hardcoded or stored assessment_id
+//     const assessmentId = 34;
+
+//     const resp = await getData(
+//       `/assessment/${assessmentId}/report-metadata`
+//     );
+
+//     setReports(resp?.data ? [resp.data] : []);
+
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+
+//   const handleDelete = async (assessment_id) => {
+//     try {
+//       await deleteData(`/assessment/${assessment_id}`);
+//       notification.success({
+//         title: "Report Deleted",
+//         message: "Excel report deleted successfully"
+//       });
+//       fetchReports();
+//     } catch (err) {
+//       notification.error({
+//         title: "Delete Failed",
+//         message: "Unable to delete report"
+//       });
+//     }
+//   };
+
+//   const columns = [
+//     {
+//       title: "Report Name",
+//       dataIndex: "prepared_for",
+//       width: "50%"
+//     },
+//     {
+//       title: "Created Time",
+//       dataIndex: "uploaded_at",
+//       width: "30%",
+//       render: (text) =>
+//         text ? formattedDate(new Date(text), "DD MMM YYYY HH:mm") : "—"
+//     },
+//     {
+//       title: "Action",
+//       width: "20%",
+//       className: "text-center",
+//       render: (_, record) => (
+//         <>
+//           <a
+//             href={`/reports/excel/${record.assessment_id}`}
+//             title="Edit Report"
+//             className="me-3"
+//           >
+//             <img src={editicon} alt="Edit" />
+//           </a>
+
+//           <a
+//             href="#"
+//             title="Delete Report"
+//             onClick={(e) => {
+//               e.preventDefault();
+//               handleDelete(record.assessment_id);
+//             }}
+//           >
+//             <img src={deleteicon} alt="Delete" />
+//           </a>
+//         </>
+//       )
+//     }
+//   ];
+
+//   if (loading) return <Loading />;
+
+//   if (!reports.length)
+//     return <div className="text-muted mt-3">No third-party reports found</div>;
+
+//   return (
+//     <div className="mt-4">
+//       <h5 className="mb-3">Agreeya Reports</h5>
+//       <Table
+//         columns={columns}
+//         dataSource={reports}
+//         rowKey="assessment_id"
+//       />
+//     </div>
+//   );
+// };
+
+// export default ThirdPartyReportTable;

@@ -663,7 +663,14 @@ const paginatedIssues = issues.slice(startIndex, endIndex);
             <strong style={styles.summaryValue}>{issues.length}</strong>
           </div>
 
-          <button style={styles.backBtn} onClick={() => navigate("/viewallissues")}>← Back</button>
+          {/* <button style={styles.backBtn} onClick={() => navigate("/viewallissues")}>← Back</button> */}
+        
+        <button 
+  style={styles.backBtn} 
+  onClick={() => navigate(`/viewallissues?assessmentId=${assessmentId}`)} 
+>
+  ← Back
+</button>
         </div>
 
         {/* Issue Cards */}
