@@ -583,9 +583,14 @@ import { fetchDetailedIssues } from "../services/detailedIssueService";
 import Layout from "../component/Layout";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Pagenation from "../component/Pagenation";
+
+
 
 export default function DetailedIssue() {
   const { assessmentId, pageId } = useParams();
+const ITEMS_PER_PAGE = 5; // you can change to 7, 10, etc.
+const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
   const [issues, setIssues] = useState([]);
@@ -612,6 +617,13 @@ export default function DetailedIssue() {
   if (loading) {
     return <div style={{ padding: 40 }}>Loading issues…</div>;
   }
+
+  const totalPages = Math.ceil(issues.length / ITEMS_PER_PAGE);
+
+const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+const endIndex = startIndex + ITEMS_PER_PAGE;
+
+const paginatedIssues = issues.slice(startIndex, endIndex);
 
   return (
     <Layout>
@@ -655,8 +667,12 @@ export default function DetailedIssue() {
         </div>
 
         {/* Issue Cards */}
-        {issues.map((issue) => (
-          <div key={issue.id} style={styles.issueCardContainer}>
+        {/* {issues.map((issue) => (
+          <div key={issue.id} style={styles.issueCardContainer}> */}
+
+          {paginatedIssues.map((issue) => (
+  <div key={issue.id} style={styles.issueCardContainer}>
+
             {/* Meta Row */}
             <div style={styles.issueMetaRow}>
               <div style={styles.metaItem}>
@@ -740,6 +756,15 @@ export default function DetailedIssue() {
             </div>
           </div>
         ))}
+
+
+<Pagenation
+  totalPages={totalPages}
+  page={currentPage}
+  onChange={(pageNum) => setCurrentPage(pageNum)}
+  hideOnSingle={true}
+/>
+
 
         <footer style={styles.footer}>
           © 2025 ADA Central Management System.com All rights reserved.
