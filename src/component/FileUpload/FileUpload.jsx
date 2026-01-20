@@ -1,47 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Upload, X, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getData } from '../../utils/CommonApi';
 
 const FileUpload = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState('');
-  const [serviceId, setServiceId] = useState(null); // ✅ NEW: Dynamic service_id
-  const [loading, setLoading] = useState(true); // ✅ NEW: Loading state
   
   const navigate = useNavigate();
-  const { org_id } = useParams(); // ✅ Get org_id from URL params
-
-  // ✅ NEW: Fetch service_id when component mounts
-  useEffect(() => {
-    const fetchServiceId = async () => {
-      try {
-        setLoading(true);
-        const resp = await getData(`/accessibility/org/${org_id}/service`);
-        
-        if (resp?.data?.service_id) {
-          setServiceId(resp.data.service_id);
-          console.log('Service ID fetched:', resp.data.service_id);
-        } else {
-          setError('Service information not available for this organization');
-        }
-      } catch (err) {
-        console.error('Error fetching service ID:', err);
-        setError('Unable to fetch service information. Please ensure a product exists for this organization.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (org_id) {
-      fetchServiceId();
-    } else {
-      setError('Organization ID not found in URL');
-      setLoading(false);
-    }
-  }, [org_id]);
+  const { org_id } = useParams(); // Get org_id from URL
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -119,29 +87,27 @@ const FileUpload = () => {
     setUploadedFiles(uploadedFiles.filter(file => file.id !== fileId));
   };
 
-  // ✅ UPDATED: Handle submit with dynamic service_id
   const handleSubmit = async () => {
     if (uploadedFiles.length === 0) {
       setError("Please upload at least one file");
       return;
     }
 
-    // ✅ Check if service_id is available
-    if (!serviceId) {
-      setError("Service information not available. Please ensure a product exists for this organization.");
+    if (!org_id) {
+      setError("Organization ID not found. Please go back and try again.");
       return;
     }
 
     try {
-      setError(''); // Clear any previous errors
+      setError('');
       
       const uploadPromises = uploadedFiles.map((item) => {
         const formData = new FormData();
         formData.append("file", item.file);
 
-        // ✅ UPDATED: Use dynamic serviceId from state
+        // Use org_id directly from URL params
         return axios.post(
-          `http://localhost:8080/api/accessibility/upload/${serviceId}`,
+          `http://localhost:8080/api/accessibility/upload/${org_id}`,
           formData,
           {
             headers: {
@@ -153,7 +119,7 @@ const FileUpload = () => {
 
       await Promise.all(uploadPromises);
 
-      // ✅ SUCCESS: Navigate back to product management or reports
+      // SUCCESS: Navigate back to product management
       navigate("/product-management");
 
     } catch (err) {
@@ -161,60 +127,6 @@ const FileUpload = () => {
       setError(err.response?.data?.message || "Upload failed. Please try again.");
     }
   };
-
-  // ✅ NEW: Show loading state while fetching service_id
-  if (loading) {
-    return (
-      <div className="adaMainContainer">
-        <section className="adminControlContainer">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="customerManagmentContainer">
-                  <div className="text-center py-5">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                    <p className="mt-3">Loading service information...</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // ✅ NEW: Show error if service_id couldn't be fetched
-  if (!serviceId && !loading) {
-    return (
-      <div className="adaMainContainer">
-        <section className="adminControlContainer">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="customerManagmentContainer">
-                  <div className="alert alert-danger" role="alert">
-                    <AlertCircle size={20} style={{ marginRight: '10px', display: 'inline' }} />
-                    Unable to load service information. Please ensure a product/service exists for this organization.
-                    <div className="mt-3">
-                      <button 
-                        className="btn btn-primary"
-                        onClick={() => navigate('/product-management')}
-                      >
-                        Go Back to Product Management
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
 
   return (
     <div className="adaMainContainer">
@@ -224,11 +136,6 @@ const FileUpload = () => {
             <div className="col-12">
               <div className="customerManagmentContainer">
                 <h3>Third Party Report Upload</h3>
-                
-                {/* ✅ NEW: Show service info */}
-                <div className="alert alert-info mb-3" role="alert">
-                  <small>Uploading to Service ID: <strong>{serviceId}</strong></small>
-                </div>
                 
                 <div className="formContainer">
                   {/* Upload Area */}
@@ -430,19 +337,52 @@ export default FileUpload;
 
 
 
-// import React, { useState } from 'react';
+
+// import React, { useState, useEffect } from 'react';
 // import { Upload, X, FileSpreadsheet, AlertCircle } from 'lucide-react';
 // import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import { useParams } from "react-router-dom";
-
-
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getData } from '../../utils/CommonApi';
 
 // const FileUpload = () => {
 //   const [uploadedFiles, setUploadedFiles] = useState([]);
 //   const [dragActive, setDragActive] = useState(false);
 //   const [error, setError] = useState('');
+//   const [serviceId, setServiceId] = useState(null); // ✅ NEW: Dynamic service_id
+//   const [loading, setLoading] = useState(true); // ✅ NEW: Loading state
+  
 //   const navigate = useNavigate();
+//   const { org_id } = useParams(); // ✅ Get org_id from URL params
+
+//   // ✅ NEW: Fetch service_id when component mounts
+//   // useEffect(() => {
+//   //   const fetchServiceId = async () => {
+//   //     try {
+//   //       setLoading(true);
+//   //       const resp = await getData(`/accessibility/org/${org_id}/service`);
+        
+//   //       if (resp?.data?.service_id) {
+//   //         setServiceId(resp.data.service_id);
+//   //         console.log('Service ID fetched:', resp.data.service_id);
+//   //       } else {
+//   //         setError('Service information not available for this organization');
+//   //       }
+//   //     } catch (err) {
+//   //       console.error('Error fetching service ID:', err);
+//   //       setError('Unable to fetch service information. Please ensure a product exists for this organization.');
+//   //     } finally {
+//   //       setLoading(false);
+//   //     }
+//   //   };
+
+//   //   if (org_id) {
+//   //     fetchServiceId();
+//   //   } else {
+//   //     setError('Organization ID not found in URL');
+//   //     setLoading(false);
+//   //   }
+//   // }, [org_id]);
+
 //   // Handle file selection
 //   const handleFileChange = (e) => {
 //     const files = Array.from(e.target.files);
@@ -481,9 +421,7 @@ export default FileUpload;
 //           file: file,
 //           name: file.name,
 //           size: (file.size / 1024).toFixed(2) + ' KB',
-//           // uploadDate: new Date().toLocaleString()
 //           uploadDate: new Date().toISOString()
-
 //         });
 //       }
 //     });
@@ -521,52 +459,110 @@ export default FileUpload;
 //     setUploadedFiles(uploadedFiles.filter(file => file.id !== fileId));
 //   };
 
+ 
 
-// const handleSubmit = async () => {
+//   const handleSubmit = async () => {
 //   if (uploadedFiles.length === 0) {
 //     setError("Please upload at least one file");
 //     return;
 //   }
 
 //   try {
-//     const serviceId = 41;
-
+//     setError('');
+    
 //     const uploadPromises = uploadedFiles.map((item) => {
 //       const formData = new FormData();
 //       formData.append("file", item.file);
 
+//       // ✅ CHANGED: Use org_id directly from URL params
 //       return axios.post(
-//         `http://localhost:8080/api/accessibility/upload/${serviceId}`,
-//         formData
+//         `http://localhost:8080/api/accessibility/upload/${org_id}`,
+//         formData,
+//         {
+//           headers: {
+//             'Content-Type': 'multipart/form-data'
+//           }
+//         }
 //       );
 //     });
 
 //     await Promise.all(uploadPromises);
 
-//     // ✅ AFTER SUCCESS → GO TO REPORTS
-//     navigate("/reports");
+//     navigate("/product-management");
 
 //   } catch (err) {
-//     console.error(err);
-//     setError("Upload failed");
+//     console.error('Upload error:', err);
+//     setError(err.response?.data?.message || "Upload failed. Please try again.");
 //   }
 // };
 
+//   // ✅ NEW: Show loading state while fetching service_id
+//   if (loading) {
+//     return (
+//       <div className="adaMainContainer">
+//         <section className="adminControlContainer">
+//           <div className="container">
+//             <div className="row">
+//               <div className="col-12">
+//                 <div className="customerManagmentContainer">
+//                   <div className="text-center py-5">
+//                     <div className="spinner-border text-primary" role="status">
+//                       <span className="visually-hidden">Loading...</span>
+//                     </div>
+//                     <p className="mt-3">Loading service information...</p>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </section>
+//       </div>
+//     );
+//   }
+
+//   // ✅ NEW: Show error if service_id couldn't be fetched
+//   if (!serviceId && !loading) {
+//     return (
+//       <div className="adaMainContainer">
+//         <section className="adminControlContainer">
+//           <div className="container">
+//             <div className="row">
+//               <div className="col-12">
+//                 <div className="customerManagmentContainer">
+//                   <div className="alert alert-danger" role="alert">
+//                     <AlertCircle size={20} style={{ marginRight: '10px', display: 'inline' }} />
+//                     Unable to load service information. Please ensure a product/service exists for this organization.
+//                     <div className="mt-3">
+//                       <button 
+//                         className="btn btn-primary"
+//                         onClick={() => navigate('/product-management')}
+//                       >
+//                         Go Back to Product Management
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </section>
+//       </div>
+//     );
+//   }
 
 //   return (
 //     <div className="adaMainContainer">
 //       <section className="adminControlContainer">
 //         <div className="container">
 //           <div className="row">
-//             {/* <div className="col-12">
-//               <div className="pageTitle">
-//                 <h1>Upload Excel Files</h1>
-//               </div>
-//             </div> */}
-
 //             <div className="col-12">
 //               <div className="customerManagmentContainer">
 //                 <h3>Third Party Report Upload</h3>
+                
+//                 {/* ✅ NEW: Show service info */}
+//                 <div className="alert alert-info mb-3" role="alert">
+//                   <small>Uploading to Service ID: <strong>{serviceId}</strong></small>
+//                 </div>
                 
 //                 <div className="formContainer">
 //                   {/* Upload Area */}
@@ -673,7 +669,9 @@ export default FileUpload;
 //                                     </div>
 //                                   </td>
 //                                   <td style={{ verticalAlign: 'middle' }}>{file.size}</td>
-//                                   <td style={{ verticalAlign: 'middle' }}>{file.uploadDate}</td>
+//                                   <td style={{ verticalAlign: 'middle' }}>
+//                                     {new Date(file.uploadDate).toLocaleString()}
+//                                   </td>
 //                                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
 //                                     <button
 //                                       onClick={() => removeFile(file.id)}
@@ -704,14 +702,32 @@ export default FileUpload;
 //                   <button
 //                     type="button"
 //                     className="btnCancel"
-//                     onClick={() => setUploadedFiles([])}
+//                     onClick={() => navigate('/product-management')}
 //                     style={{
 //                       padding: '10px 30px',
 //                       marginRight: '10px',
 //                       border: '1px solid #dd5d49e2',
 //                       backgroundColor: '#dd5d49e2',
 //                       borderRadius: '4px',
-//                       cursor: 'pointer'
+//                       cursor: 'pointer',
+//                       color: 'white'
+//                     }}
+//                   >
+//                     Cancel
+//                   </button>
+//                   <button
+//                     type="button"
+//                     className="btnCancel"
+//                     onClick={() => setUploadedFiles([])}
+//                     disabled={uploadedFiles.length === 0}
+//                     style={{
+//                       padding: '10px 30px',
+//                       marginRight: '10px',
+//                       border: '1px solid #6c757d',
+//                       backgroundColor: uploadedFiles.length > 0 ? '#6c757d' : '#ccc',
+//                       borderRadius: '4px',
+//                       cursor: uploadedFiles.length > 0 ? 'pointer' : 'not-allowed',
+//                       color: 'white'
 //                     }}
 //                   >
 //                     Clear All
@@ -743,3 +759,11 @@ export default FileUpload;
 // };
 
 // export default FileUpload;
+
+
+
+
+
+
+
+
