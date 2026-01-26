@@ -469,10 +469,10 @@ const styles = {
     boxShadow: '0px 4px 9px rgba(0, 0, 0, 0.08)'
   },
   thumbnail: {
-    width: '75px',
-    height: '87px',
-    background: '#D9D9D9',
-    border: '0.28px solid #D1D1D1',
+    width: '0px',
+    height: '0px',
+    // background: '#D9D9D9',
+    // border: '0.28px solid #D1D1D1',
     flexShrink: 0
   },
   summaryText: {

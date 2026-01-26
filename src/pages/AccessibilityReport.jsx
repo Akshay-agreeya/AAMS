@@ -67,7 +67,7 @@ export default function AccessibilityReport() {
 
           <div className="grid-two-cols">
             <div className="col-span-2">
-              <ReportInfo assessmentId={assessmentId} /> ✅ Pass assessmentId
+              <ReportInfo assessmentId={assessmentId} /> 
             </div>
 
             <div className="issues-summary-card">
@@ -89,13 +89,13 @@ export default function AccessibilityReport() {
           </div>
 
           <div className="grid-three-cols">
-            <ConformanceCard assessmentId={assessmentId} /> {/* ✅ Pass if needed */}
-            <ConformanceScoreCard assessmentId={assessmentId} /> {/* ✅ Pass if needed */}
-            <SeverityCard assessmentId={assessmentId} /> {/* ✅ Pass if needed */}
+            <ConformanceCard assessmentId={assessmentId} /> 
+            <ConformanceScoreCard assessmentId={assessmentId} /> 
+            <SeverityCard assessmentId={assessmentId} /> 
           </div>
 
           <ReportTechnology assessmentId={assessmentId} />
-          <IssuesFound assessmentId={assessmentId} /> {/* ✅ Pass if needed */}
+          <IssuesFound assessmentId={assessmentId} /> 
 
         </div>
       </div>
