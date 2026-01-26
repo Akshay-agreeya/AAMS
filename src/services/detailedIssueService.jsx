@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8080/api/accessibility";
 
+
 export const fetchDetailedIssues = async (assessmentId, pageId) => {
   const res = await axios.get(
     `${API_BASE_URL}/report/${assessmentId}`
@@ -29,6 +30,12 @@ export const fetchDetailedIssues = async (assessmentId, pageId) => {
       wcagLevel: item.wcag_conformance_level,
       environments: item.environments_applicable,
       section508: item.section_508,
+      screenshot: item.screenshot || null, // ✅ ADD THIS LINE
     }));
 };
+
 const getSeverityColor = (severity) => { switch (severity) { case "Blocker": return "#000000"; case "Critical": return "#C61512"; case "Major": return "#C55A11"; case "Minor": return "#3B82F6"; default: return "#6B7280"; } }; const getSeverityBg = (severity) => { switch (severity) { case "Critical": return "#FFF2F2"; case "Major": return "#FFFDFB"; case "Minor": return "#F0F7FF"; default: return "#F9FAFB"; } };
+
+
+
+ 

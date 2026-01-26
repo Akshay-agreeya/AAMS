@@ -16,3 +16,5 @@ export const fetchPageIssues = async (assessmentId) => {
     environments: page.environments,
   }));
 };
+
+

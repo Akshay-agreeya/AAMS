@@ -150,6 +150,9 @@ export  function SeverityCard() {
         ))}
       </div>
 
+
+
+
       <style>{`
         .severity-card {
           background: #fff;
