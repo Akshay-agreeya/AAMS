@@ -111,7 +111,7 @@ const UserManagement = () => {
                       <a href="/user-management/addorg" className="add">
                         <i className="fa-solid fa-plus"></i> Add New Organization
                       </a>
-
+{/* 
                       <a href="/uploadexcle" className="add">
                         <i className="fa-solid fa-plus"></i>       Upload Excel File
 
@@ -119,7 +119,7 @@ const UserManagement = () => {
                        <a href="/accessibilityreport" className="add">
                         <i className="fa-solid fa-plus"></i>       test
 
-                      </a>
+                      </a> */}
     </>
                     )}
                   </div>

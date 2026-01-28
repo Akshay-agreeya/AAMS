@@ -168,7 +168,7 @@ function IssueCard({ data, issueCount, assessmentId }) { // ✅ Accept assessmen
 
   return (
     <div className="issue-card">
-      <div className="thumbnail" />
+      {/* <div className="thumbnail" /> */}
 
       <div className="page-info">
         <h3>{data.title}</h3>

@@ -90,13 +90,13 @@ const paginatedIssues = issues.slice(startIndex, endIndex);
     <Layout>
       <div style={styles.container}>
         {/* Breadcrumb */}
-        <div style={styles.breadcrumb}>
+        {/* <div style={styles.breadcrumb}>
           <span style={styles.breadcrumbLink}>Home</span>
           <span style={styles.breadcrumbSeparator}>›</span>
           <span style={styles.breadcrumbCurrent}>
             WCAG 2.2 Accessibility Bug Report
           </span>
-        </div>
+        </div> */}
 
         <div style={styles.divider}></div>
 
@@ -195,7 +195,23 @@ const paginatedIssues = issues.slice(startIndex, endIndex);
                   <InfoBlock title="Actual Result" text={issue.actualResult} />
                   <InfoBlock title="Recommendation" text={issue.recommendation} />
                 </div>
+                 <div style={styles.column}>
 
+
+ <InfoBlock
+    title="Screenshots"
+    screenshotPath={issue.screenshot}  
+  />
+
+  <InfoBlock
+    title="WCAG 2.1 Success Criteria"
+    text={issue.wcagCriteria}
+  />
+  <InfoBlock
+    title="WCAG 2.1 Conformance Levels"
+    text={issue.wcagLevel}
+  />
+       </div>
                 <div style={styles.column}>
                   <InfoBlock title="Template Issue" text={issue.templateIssue} />
                   <InfoBlock title="Expected Results" text={issue.expectedResult} />
@@ -222,20 +238,20 @@ const paginatedIssues = issues.slice(startIndex, endIndex);
                 </div> */}
 
 
-                <div style={styles.column}>
-  <InfoBlock
+                {/* <div style={styles.column}> */}
+  {/* <InfoBlock
     title="WCAG 2.1 Success Criteria"
     text={issue.wcagCriteria}
   />
   <InfoBlock
     title="WCAG 2.1 Conformance Levels"
     text={issue.wcagLevel}
-  />
-  <InfoBlock
+  /> */}
+  {/* <InfoBlock
     title="Screenshots"
     screenshotPath={issue.screenshot}  
-  />
-</div>
+  /> */}
+{/* </div> */}
 
               </div>
             </div>

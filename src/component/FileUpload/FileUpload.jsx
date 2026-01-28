@@ -135,7 +135,7 @@ const FileUpload = () => {
           <div className="row">
             <div className="col-12">
               <div className="customerManagmentContainer">
-                <h3>Third Party Report Upload</h3>
+                <h3>Agreeya Report Upload</h3>
                 
                 <div className="formContainer">
                   {/* Upload Area */}

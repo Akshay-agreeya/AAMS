@@ -1,13 +1,52 @@
-.chevron-icon {
-  width: 20px;
-  height: 20px;
-  color: #9ca3af;
+/* /* Card */
+.report-tech-card {
+  background: #ffffff;
+  border-radius: 7px;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.08);
+  margin-top: 24px;
 }
 
+/* Header */
+.report-tech-header {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.report-tech-header:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.report-tech-header-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #000000;
+}
+
+
+/* Body */
+.report-tech-body {
+  border-top: 0.5px solid #e9e9e9;
+  padding: 24px 20px;
+}
+
+/* Tech Grid */
 .tech-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 24px;
+}
+
+@media (max-width: 1200px) {
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (max-width: 1024px) {
@@ -28,6 +67,7 @@
   }
 }
 
+/* Tech Category */
 .tech-category {
   display: flex;
   flex-direction: column;
@@ -38,16 +78,35 @@
   font-weight: 600;
   color: #111827;
   margin-bottom: 12px;
+  margin-top: 0;
 }
 
+/* Tech List */
 .tech-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin: 0;
+  padding: 0;
 }
 
 .tech-item {
   color: #374151;
   font-size: 14px;
+  line-height: 20px;
+}
+
+/* Error Message */
+.error-message {
+  color: #dc2626;
+  font-size: 14px;
+  margin: 0;
+}
+
+.chevron-icon {
+  width: 24px;
+  height: 24px;
+  color: black;
+  flex-shrink: 0;
 }

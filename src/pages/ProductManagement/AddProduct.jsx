@@ -418,7 +418,7 @@ const AddProduct = ({selected_tab = "1" }) => {
                                             <button className={`nav-link py-3 ${selectedTab === 2 ? "active" : ""}`} id="nav-manual-tab" data-bs-toggle="pill"
                                                 data-bs-target="#nav-manual" type="button" role="tab"
                                                 aria-controls="nav-manual" aria-selected="false"
-                                                onClick={() => { setSelectedTab(2) }}>Third Party
+                                                onClick={() => { setSelectedTab(2) }}>Agreeya
                                                 Report</button>
                                         </li>
                     

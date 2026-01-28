@@ -4,7 +4,7 @@ import { fetchTopIssues } from "../services/issuesService";
 import "./styles/IssuesFound.css";
 
 export function IssuesFound({ assessmentId }) { // ✅ Accept assessmentId as prop
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [topIssues, setTopIssues] = useState([]);
 
   useEffect(() => {
