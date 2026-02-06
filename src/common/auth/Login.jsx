@@ -45,26 +45,65 @@ const LoginForm = () => {
     const { login } = useAuth();
 
 
-    const handleSubmit = async (formData) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await postData('/login', formData);
-            login();
-            sessionStorage.setItem(TOKEN, response.token);
-            sessionStorage.setItem(USER, JSON.stringify({...response,email:formData.email}));
-            const roleResp = await getData(`/role/get/${response.role_id}`);
-            localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
-            const resp = await getData("/lookup/permissions");
-            localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
-            goto(response.role_key, navigate);
-        }
-        catch (error) {
-            console.log(error);
-            setError(error.data?.message || 'Login failed.');
-            setLoading(false);
-        }
-    }
+//     const handleSubmit = async (formData) => {
+//         setLoading(true);
+//         setError(null);
+//         try {
+// sessionStorage.setItem("token", response.token);
+
+//             const response = await postData('/login', formData);
+//             login();
+//             sessionStorage.setItem(TOKEN, response.token);
+//             sessionStorage.setItem(USER, JSON.stringify({...response,email:formData.email}));
+//             const roleResp = await getData(`/role/get/${response.role_id}`);
+//             localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
+//             const resp = await getData("/lookup/permissions");
+//             localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
+//             goto(response.role_key, navigate);
+//         }
+//         catch (error) {
+//             console.log(error);
+//             setError(error.data?.message || 'Login failed.');
+//             setLoading(false);
+//         }
+//     }
+
+
+const handleSubmit = async (formData) => {
+  setLoading(true);
+  setError(null);
+
+  try {
+    // Clear old token BEFORE login
+    sessionStorage.removeItem(TOKEN);
+
+    // ✅ Declare response FIRST
+    const response = await postData("/login", formData);
+
+    // ✅ Use response ONLY after this line
+    login();
+
+    sessionStorage.setItem(TOKEN, response.token);
+    sessionStorage.setItem(
+      USER,
+      JSON.stringify({ ...response, email: formData.email })
+    );
+
+    const roleResp = await getData(`/role/get/${response.role_id}`);
+    localStorage.setItem(USER_ROLE, JSON.stringify(roleResp.details));
+
+    const resp = await getData("/lookup/permissions");
+    localStorage.setItem(MENU_PERMISSION, JSON.stringify(resp.contents || []));
+
+    goto(response.role_key, navigate);
+  } catch (error) {
+    console.error(error);
+    setError(error?.data?.message || "Login failed.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     return (
         <div className="formLogin">
